@@ -1,0 +1,26 @@
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+:root {
+	color-scheme: dark;
+}
+
+html, body {
+	height: 100%;
+}
+
+body {
+	font-size: 16px;
+
+	color: #fffc;
+	background: #111;
+	font-family: sans-serif;
+
+	scrollbar-gutter: stable;
+	scrollbar-width: thin;
+}
+

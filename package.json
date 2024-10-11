@@ -1,0 +1,41 @@
+{
+	"private": true,
+	"name": "authduo",
+	"version": "0.0.0-0",
+	"description": "decentralized local clientside user-centric auth",
+	"main": "x/index.js",
+	"type": "module",
+	"files": [
+		"x",
+		"s"
+	],
+	"scripts": {
+		"build": "rm -rf x && run-s build-code build-ssg links",
+		"build-code": "turtle build --out=x",
+		"build-ssg": "turtle ssg --in=s,x --out=x",
+		"start": "run-p start-http start-turtle",
+		"start-http": "http-server x",
+		"start-turtle": "turtle watch --in=s,x --out=x -v",
+		"links": "run-s links-s",
+		"links-s": "ln -s \"$(realpath s)\" x/s",
+		"test": "exit 0"
+	},
+	"dependencies": {
+		"@benev/slate": "^0.2.5"
+	},
+	"devDependencies": {
+		"@benev/turtle": "^0.6.2",
+		"http-server": "^14.1.1",
+		"npm-run-all": "^4.1.5",
+		"typescript": "^5.6.2"
+	},
+	"license": "MIT",
+	"author": "Chase Moskal <chasemoskal@gmail.com>",
+	"keywords": [
+		"auth",
+		"decentralized",
+		"local",
+		"clientside",
+		"user-centric"
+	]
+}
