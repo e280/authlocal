@@ -1,9 +1,10 @@
 
 import {hex} from "../tools/hex.js"
 import {hash} from "../tools/hash.js"
-import {AuthKeys, Identity} from "./types.js"
+import {Identity, Keypair} from "./types.js"
 import {storageSignal} from "../tools/json-storage.js"
 
+const version = 0
 const toHex = hex.from.buffer
 
 export class Authcore {
@@ -14,26 +15,14 @@ export class Authcore {
 			["sign", "verify"],
 		) as CryptoKeyPair
 
-		const cryption = await crypto.subtle.generateKey(
-			{name: "X25519"},
-			true,
-			["deriveKey", "deriveBits"],
-		) as CryptoKeyPair
-
-		const keys: AuthKeys = {
-			signature: {
-				public: toHex(await crypto.subtle.exportKey("spki", signature.publicKey)),
-				private: toHex(await crypto.subtle.exportKey("pkcs8", signature.privateKey)),
-			},
-			cryption: {
-				public: toHex(await crypto.subtle.exportKey("spki", cryption.publicKey)),
-				private: toHex(await crypto.subtle.exportKey("pkcs8", cryption.privateKey)),
-			},
+		const keys: Keypair = {
+			public: toHex(await crypto.subtle.exportKey("spki", signature.publicKey)),
+			private: toHex(await crypto.subtle.exportKey("pkcs8", signature.privateKey)),
 		}
 
-		const id = await hash(keys.signature.public)
+		const id = await hash(keys.public)
 
-		return {version: 0, name, id, keys}
+		return {version, name, id, keys}
 	}
 
 	#identities = storageSignal<Identity[]>("identities")
@@ -42,7 +31,7 @@ export class Authcore {
 		return this.#identities.signal.value ?? []
 	}
 
-	get() {
+	#getMap() {
 		const map = new Map<string, Identity>()
 		for (const identity of this.list())
 			map.set(identity.id, identity)
@@ -50,7 +39,7 @@ export class Authcore {
 	}
 
 	add(...additions: Identity[]) {
-		const identities = this.get()
+		const identities = this.#getMap()
 		for (const identity of additions)
 			identities.set(identity.id, identity)
 		this.#identities.set([...identities.values()])
@@ -58,7 +47,7 @@ export class Authcore {
 	}
 
 	delete(...deletions: Identity[]) {
-		const identities = this.get()
+		const identities = this.#getMap()
 		for (const identity of deletions)
 			identities.delete(identity.id)
 		this.#identities.set([...identities.values()])
