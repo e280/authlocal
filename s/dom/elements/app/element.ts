@@ -1,47 +1,64 @@
 
-import {html, loading, Op, opSignal} from "@benev/slate"
+import {loading} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../nexus.js"
+import {Situation} from "../../situation.js"
 import {Authcore} from "../../../auth/core.js"
 import {Identity} from "../../../auth/types.js"
+import {ListView} from "../../views/list/view.js"
+import {CreateView} from "../../views/create/view.js"
+import {DeleteView} from "../../views/delete/view.js"
 import {syllabicName} from "../../../tools/random-names.js"
 
 export const AuthApp = nexus.shadowComponent(use => {
 	use.styles(styles)
 
 	const authcore = use.once(() => new Authcore())
-	const identities = authcore.list()
+	const situationOp = use.op<Situation.Any>()
 
-	const op = use.once(() => opSignal(Op.ready(undefined)))
-
-	function clickNew() {
-		op.load(async() => {
-			const name = syllabicName()
-			const identity = await Authcore.generateIdentity(name)
-			authcore.add(identity)
-		})
+	function gotoList() {
+		situationOp.load(async() => ({
+			kind: "list",
+			authcore,
+			onCreate: gotoCreate,
+			onDelete: gotoDelete,
+		}))
 	}
 
-	function deleteIdentity(identity: Identity) {
-		return () => authcore.delete(identity)
+	async function gotoCreate() {
+		const name = syllabicName()
+		const identity = await Authcore.generateIdentity(name)
+		situationOp.load(async() => ({
+			kind: "create",
+			identity,
+			onCancel: gotoList,
+			onComplete: identity => {
+				authcore.add(identity)
+				gotoList()
+			},
+		}))
 	}
 
-	return html`
-		${loading.braille(op, () => html`
-			<ul>
-				${identities.map(identity => html`
-					<li>
-						<strong>${identity.name}</strong>
-						<span title="${identity.id}">${identity.id.slice(0, 8)}</span>
-						<button class="based flashy angry" @click="${deleteIdentity(identity)}">delete</button>
-					</li>
-				`)}
-			</ul>
-			<button class="based flashy" @click="${clickNew}">
-				New Identity
-			</button>
-		`)}
-	`
+	function gotoDelete(identity: Identity) {
+		situationOp.load(async() => ({
+			kind: "delete",
+			identity,
+			onCancel: gotoList,
+			onComplete: identity => {
+				authcore.delete(identity)
+				gotoList()
+			},
+		}))
+	}
+
+	use.once(gotoList)
+
+	return loading.braille(situationOp, situation => {switch (situation.kind) {
+		case "list": return ListView([situation])
+		case "create": return CreateView([situation])
+		case "delete": return DeleteView([situation])
+		default: throw new Error("unknown situation")
+	}})
 })
 
