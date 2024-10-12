@@ -9,18 +9,48 @@
 	color-scheme: dark;
 }
 
-html, body {
+html {
 	height: 100%;
 }
 
 body {
+	min-height: 100%;
 	font-size: 16px;
 
 	color: #fffc;
-	background: #111;
+	background: linear-gradient(to bottom, #2e243c, #16111e);
 	font-family: sans-serif;
 
 	scrollbar-gutter: stable;
 	scrollbar-width: thin;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2em;
+
+	> * {
+		display: block;
+		justify-content: center;
+	}
+}
+
+.title {
+	opacity: 0.5;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0;
+
+	margin-top: 10vh;
+
+	> svg {
+		width: 2em;
+		height: 2em;
+		stroke-width: 2;
+	}
 }
 

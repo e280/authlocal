@@ -61,7 +61,7 @@ button.based {
 	font: inherit;
 	text-shadow: .1em .2em .1em #0004;
 
-	font-variant: small-caps;
+	xxx-font-variant: small-caps;
 	font-weight: bold;
 
 	display: block;

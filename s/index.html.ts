@@ -11,7 +11,7 @@ export default template(async basic => {
 		path,
 		dark: true,
 		css: "index.css",
-		title: "authduo",
+		title: "Authduo",
 		head: html`
 			<link rel="icon" href="/assets/graphics/favicon.png"/>
 			<link rel="stylesheet" href="${path.version.root("index.css")}"/>
@@ -25,8 +25,8 @@ export default template(async basic => {
 			})}
 		`,
 		body: html`
-			<h1>
-				<span>${shieldLockSvg.turtle()}</span>
+			<h1 class=title>
+				${shieldLockSvg.turtle()}
 				<span>Authduo</span>
 			</h1>
 			<auth-app></auth-app>
