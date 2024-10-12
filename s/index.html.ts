@@ -1,7 +1,7 @@
 
 import "@benev/slate/x/node.js"
 import shieldLockSvg from "./dom/icons/tabler/shield-lock.svg.js"
-import {template, html, easypage, headScripts, git_commit_hash, read_file} from "@benev/turtle"
+import {template, html, easypage, headScripts, git_commit_hash, read_file, unsanitized} from "@benev/turtle"
 
 export default template(async basic => {
 	const path = basic.path(import.meta.url)
@@ -14,7 +14,10 @@ export default template(async basic => {
 		title: "Authduo",
 		head: html`
 			<link rel="icon" href="/assets/graphics/favicon.png"/>
-			<link rel="stylesheet" href="${path.version.root("index.css")}"/>
+
+			<style>
+				${unsanitized(await read_file("x/index.css"))}
+			</style>
 
 			<meta data-commit-hash="${hash}"/>
 
