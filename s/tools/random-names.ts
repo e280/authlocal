@@ -1,5 +1,5 @@
 
-const vowels = [..."aeiouy"]
+const vowels = [..."aeiou"]
 const consonants = [..."bcdfghjklmnpqrstvwxyz"]
 
 const patterns = {
