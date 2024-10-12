@@ -1,5 +1,4 @@
 {
-	"private": true,
 	"name": "authduo",
 	"version": "0.0.0-0",
 	"description": "decentralized local clientside user-centric auth",
