@@ -1,10 +1,10 @@
 
-import {html, Signal} from "@benev/slate"
+import {html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../nexus.js"
 import {Situation} from "../../situation.js"
-import { signalInput } from "../../../tools/signal-input.js"
+import {signalInput} from "../../../tools/signal-input.js"
 
 export const CreateView = nexus.shadowView(use => (
 		situation: Situation.Create
@@ -41,8 +41,8 @@ export const CreateView = nexus.shadowView(use => (
 			<input type=text readonly value="${identity.keys.public}"/>
 		</label>
 
-		<button class="based flashy" @click="${situation.onCancel}">Cancel</button>
-		<button class="based flashy" @click="${done}">Complete</button>
+		<button @click="${situation.onCancel}">Cancel</button>
+		<button class=happy @click="${done}">Create Identity</button>
 	`
 })
 

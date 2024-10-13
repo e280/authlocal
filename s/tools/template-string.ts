@@ -7,3 +7,16 @@ export function templateString(strings: TemplateStringsArray, ...values: any[]) 
 			+ strings[lastIndex]
 }
 
+export type TemplateParts = {
+	strings: TemplateStringsArray
+	values: any[]
+}
+
+export function templateParts(
+		strings: TemplateStringsArray,
+		...values: any[]
+	): TemplateParts {
+
+	return {strings, values}
+}
+

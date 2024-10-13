@@ -1,6 +1,7 @@
 
 import "@benev/slate/x/node.js"
-import shieldLockSvg from "./dom/icons/tabler/shield-lock.svg.js"
+import {svgTurtle} from "./tools/svg-turtle.js"
+import shieldLockIcon from "./dom/icons/tabler/shield-lock.icon.js"
 import {template, html, easypage, headScripts, git_commit_hash, read_file, unsanitized} from "@benev/turtle"
 
 export default template(async basic => {
@@ -29,7 +30,7 @@ export default template(async basic => {
 		`,
 		body: html`
 			<h1 class=title>
-				${shieldLockSvg.turtle()}
+				${svgTurtle(shieldLockIcon)}
 				<span>Authduo</span>
 			</h1>
 			<auth-app></auth-app>

@@ -7,7 +7,7 @@ export namespace Situation {
 		kind: "list"
 		authcore: Authcore
 		onCreate: () => void
-		onDelete: (identity: Identity) => void
+		onEdit: (identity: Identity) => void
 	}
 
 	export type Create = {
@@ -16,6 +16,15 @@ export namespace Situation {
 		onCancel: () => void
 		onComplete: (identity: Identity) => void
 	}
+
+	export type Edit = {
+		kind: "edit"
+		identity: Identity
+		onCancel: () => void
+		onDelete: (identity: Identity) => void
+		onComplete: (identity: Identity) => void
+	}
+
 
 	export type Delete = {
 		kind: "delete"
@@ -26,6 +35,6 @@ export namespace Situation {
 
 	////////////////////////////////
 
-	export type Any = List | Create | Delete
+	export type Any = List | Create | Edit | Delete
 }
 

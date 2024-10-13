@@ -1,11 +1,11 @@
 
 
-import {html, Signal} from "@benev/slate"
+import {html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../nexus.js"
 import {Situation} from "../../situation.js"
-import { signalInput } from "../../../tools/signal-input.js"
+import {signalInput} from "../../../tools/signal-input.js"
 
 export const DeleteView = nexus.shadowView(use => (situation: Situation.Delete) => {
 	use.styles(styles)
@@ -26,11 +26,11 @@ export const DeleteView = nexus.shadowView(use => (situation: Situation.Delete) 
 			<input type=text value="${confirmation}" @input="${signalInput(confirmation)}"/>
 		</label>
 		<div>
-			<button class="based flashy" @click="${() => situation.onCancel()}">
+			<button @click="${() => situation.onCancel()}">
 				Cancel
 			</button>
 			<button
-				class="based flashy"
+				class=angry
 				?disabled="${!confirmationAccepted.value}"
 				@click="${deleteForever}"
 				>

@@ -34,51 +34,36 @@ a {
 	}
 }
 
-button.naked {
+button {
 	color: inherit;
 	background: none;
 	border: none;
-	outline: 0;
-	font-family: inherit;
+	font: inherit;
+	user-select: none;
 }
 
-button.flashy {
-	&:not([disabled]) {
-		&:hover { filter: brightness(120%); }
-		&:active { filter: brightness(90%); }
-	}
-}
-
-button.based {
+button, a.button {
+	color: #aaa;
+	font-weight: bold;
+	text-shadow: .1em .2em .1em #0004;
 	cursor: pointer;
 
-	border: none;
-	border-radius: .3em;
-	box-shadow: .1em .2em .2em #0004;
-
-	background: #8888;
-	color: #fffc;
-	font: inherit;
-	text-shadow: .1em .2em .1em #0004;
-
-	xxx-font-variant: small-caps;
-	font-weight: bold;
-
-	display: block;
-	max-width: 100%;
-	padding: 0.5em 1em;
-
-	&.fx {
-		&:hover { filter: brightness(110%); }
-		&:active { filter: brightness(95%); }
+	&[disabled] {
+		cursor: default;
+		color: #444;
+		opacity: 0.5;
+		text-decoration: line-through;
 	}
 
-	&.play {
-		padding: 1em 2em;
-		background: #43ca43ab;
-		background: linear-gradient(#8dff8dab, #138813ab);
-		font-weight: bold;
-		text-transform: uppercase;
+	&:not([disabled]) {
+		cursor: pointer;
+
+		&.happy { color: #26db26; }
+		&.angry { color: #d00000; }
+		&.special { color: #994de6; }
+
+		&:hover { filter: brightness(120%); text-decoration: underline; }
+		&:active { filter: brightness(90%); }
 	}
 }
 

@@ -1,11 +1,5 @@
 
-import {svg as slateSvg} from "@benev/slate"
-import {html as turtleSvg} from "@benev/turtle"
+import {templateParts} from "./template-string.js"
 
-export function icon(strings: TemplateStringsArray, ...values: any[]) {
-	return {
-		lit: () => slateSvg(strings, ...values),
-		turtle: () => turtleSvg(strings, ...values),
-	}
-}
+export const icon = templateParts
 

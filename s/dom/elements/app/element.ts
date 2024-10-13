@@ -7,6 +7,7 @@ import {Situation} from "../../situation.js"
 import {Authcore} from "../../../auth/core.js"
 import {Identity} from "../../../auth/types.js"
 import {ListView} from "../../views/list/view.js"
+import {EditView} from "../../views/edit/view.js"
 import {CreateView} from "../../views/create/view.js"
 import {DeleteView} from "../../views/delete/view.js"
 import {syllabicName} from "../../../tools/random-names.js"
@@ -21,8 +22,8 @@ export const AuthApp = nexus.shadowComponent(use => {
 		situationOp.load(async() => ({
 			kind: "list",
 			authcore,
+			onEdit: gotoEdit,
 			onCreate: gotoCreate,
-			onDelete: gotoDelete,
 		}))
 	}
 
@@ -33,6 +34,19 @@ export const AuthApp = nexus.shadowComponent(use => {
 			kind: "create",
 			identity,
 			onCancel: gotoList,
+			onComplete: identity => {
+				authcore.add(identity)
+				gotoList()
+			},
+		}))
+	}
+
+	function gotoEdit(identity: Identity) {
+		situationOp.load(async() => ({
+			kind: "edit",
+			identity,
+			onCancel: gotoList,
+			onDelete: gotoDelete,
 			onComplete: identity => {
 				authcore.add(identity)
 				gotoList()
@@ -57,6 +71,7 @@ export const AuthApp = nexus.shadowComponent(use => {
 	return loading.braille(situationOp, situation => {switch (situation.kind) {
 		case "list": return ListView([situation])
 		case "create": return CreateView([situation])
+		case "edit": return EditView([situation])
 		case "delete": return DeleteView([situation])
 		default: throw new Error("unknown situation")
 	}})
