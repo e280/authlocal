@@ -20,23 +20,26 @@ export const DeleteView = nexus.shadowView(use => (situation: Situation.Delete) 
 	}
 
 	return html`
-		<p>Are you absolutely super sure you want to <strong>permanently delete the identity "${identity.name}"</strong></p>
+		<p>Are you absolutely super-duper sure you want to <strong>delete</strong> the identity "${identity.name}"?</p>
+		<p>It will be <strong>gone forever</strong>, unless you have it saved elsewhere.</p>
+
 		<label>
-			<span>To confirm, you must type "${thumb}" exactly:</span>
-			<input type=text value="${confirmation}" @input="${signalInput(confirmation)}"/>
+			<span>If you're certain, confirm by typing "<code>${thumb}</code>" exactly:</span>
+			<input type=text .value="${confirmation}" @input="${signalInput(confirmation)}"/>
 		</label>
-		<div>
+
+		<footer>
 			<button @click="${() => situation.onCancel()}">
 				Cancel
 			</button>
+
 			<button
 				class=angry
 				?disabled="${!confirmationAccepted.value}"
-				@click="${deleteForever}"
-				>
+				@click="${deleteForever}">
 				Delete Forever
 			</button>
-		</div>
+		</footer>
 	`
 })
 

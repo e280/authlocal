@@ -76,10 +76,6 @@ nav.controls {
 	flex-direction: row;
 	justify-content: center;
 	gap: 1em;
-
-	> :is(button, a.button):not(.happy) {
-		opacity: 0.6;
-	}
 }
 
 `

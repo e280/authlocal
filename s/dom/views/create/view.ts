@@ -4,15 +4,13 @@ import {html} from "@benev/slate"
 import styles from "./styles.js"
 import {nexus} from "../../nexus.js"
 import {Situation} from "../../logic/situation.js"
-import {signalInput} from "../../../tools/signal-input.js"
+import {renderEditableName} from "./parts/render-editable-name.js"
 
-export const CreateView = nexus.shadowView(use => (
-		situation: Situation.Create
-	) => {
-
+export const CreateView = nexus.shadowView(use => (situation: Situation.Create) => {
+	use.name("create")
 	use.styles(styles)
-	const {identity} = situation
 
+	const {identity} = situation
 	const name = use.signal(identity.name)
 
 	function done() {
@@ -21,28 +19,14 @@ export const CreateView = nexus.shadowView(use => (
 	}
 
 	return html`
-		<label>
-			<span>thumbprint</span>
-			<input type=text readonly value="${identity.thumbprint}"/>
-		</label>
+		<section class=form>
+			${renderEditableName(identity, name)}
+		</section>
 
-		<label>
-			<span>name</span>
-			<input type=text value="${name}" @input="${signalInput(name)}"/>
-		</label>
-
-		<label>
-			<span>public key</span>
-			<input type=text readonly value="${identity.keys.public}"/>
-		</label>
-
-		<label>
-			<span>private key</span>
-			<input type=text readonly value="${identity.keys.public}"/>
-		</label>
-
-		<button @click="${situation.onCancel}">Cancel</button>
-		<button class=happy @click="${done}">Create Identity</button>
+		<footer>
+			<button @click="${situation.onCancel}">Cancel</button>
+			<button class=happy @click="${done}">Create Identity</button>
+		</footer>
 	`
 })
 

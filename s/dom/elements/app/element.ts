@@ -84,7 +84,8 @@ export const AuthApp = nexus.shadowComponent(use => {
 		case "delete":
 			return DeleteView([situation])
 
-		default: throw new Error("unknown situation")
+		default:
+			throw new Error("unknown situation")
 	}})
 })
 

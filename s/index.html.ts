@@ -36,7 +36,7 @@ export default template(async basic => {
 			<auth-app></auth-app>
 			<footer>
 				<p>Authduo powers logins without servers.</p>
-				<p>Free open-source clientside decentralized user-sovereign federated auth.</p>
+				<p>Clientside decentralized user-sovereign federated auth. Free and open source.</p>
 				<p>See Authduo on <a href="https://github.com/authduo/authduo" target=_blank>GitHub</a> to learn more.</p>
 				<p>Own your identity.</p>
 			</footer>

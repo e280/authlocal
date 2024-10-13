@@ -19,18 +19,19 @@ export const ListView = nexus.shadowView(use => (situation: Situation.List, purp
 
 	return html`
 		${(() => {switch (purpose.kind) {
-			case "login": return html`
-				<header class=intro>
-					${none
-						? html`<h2>Create or upload an identity to login</h2>`
-						: html`<h2>Choose your login identity</h2>`}
-				</header>
-			`
-			case "manage": return html`
-				<header class=intro>
-					<h2>Manage your identities</h2>
-				</header>
-			`
+
+			case "login":
+				return html`
+					<header class=intro>
+						${none
+							? html`<h2>Create or upload an identity to login</h2>`
+							: html`<h2>Choose your login identity</h2>`}
+					</header>
+				`
+
+			case "manage":
+				return null
+
 		}})()}
 
 		${none ? null : html`

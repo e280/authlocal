@@ -1,12 +1,11 @@
 
-
 import {html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../nexus.js"
 import {Situation} from "../../logic/situation.js"
-import {signalInput} from "../../../tools/signal-input.js"
 import {validName} from "../../../auth/utils/validation.js"
+import {renderEditableName} from "../create/parts/render-editable-name.js"
 
 export const EditView = nexus.shadowView(use => (situation: Situation.Edit) => {
 	use.styles(styles)
@@ -32,20 +31,23 @@ export const EditView = nexus.shadowView(use => (situation: Situation.Edit) => {
 	}
 
 	return html`
-		<div>
-			<input type="text" .value="${name.value}" @input="${signalInput(name)}"/>
-		</div>
-		<div>
+		<section class=form>
+			${renderEditableName(identity, name)}
+		</section>
+
+		<footer>
 			<button class=angry @click="${() => situation.onDelete(identity)}">
 				Delete
 			</button>
+
 			<button @click="${() => situation.onCancel()}">
 				Cancel
 			</button>
+
 			<button class=happy ?disabled="${!valid.value}" @click="${save}">
 				Save Changes
 			</button>
-		</div>
+		</footer>
 	`
 })
 
