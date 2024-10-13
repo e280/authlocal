@@ -11,7 +11,7 @@ export class Authcore {
 	#identities = storageSignal<Identity[]>("identities")
 
 	list() {
-		return this.#identities.signal.value ?? []
+		return this.#identities.signal.value.toReversed() ?? []
 	}
 
 	#getMap() {
