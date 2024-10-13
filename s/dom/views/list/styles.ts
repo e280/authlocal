@@ -54,7 +54,6 @@ nav.identities > article {
 			display: flex;
 			justify-content: end;
 			gap: 1em;
-			padding-left: 0.5em;
 
 			> :is(button, a.button):not(.happy) {
 				opacity: 0.6;
@@ -65,6 +64,7 @@ nav.identities > article {
 	> section.details {
 		display: flex;
 		flex-direction: column;
+		align-items: end;
 
 		opacity: 0.6;
 		font-family: monospace;

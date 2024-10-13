@@ -62,13 +62,10 @@ auth-app {
 	display: block;
 	width: 42em;
 	max-width: 99%;
-	padding: 1em;
 	border-radius: 0.5em;
 }
 
 footer {
-	margin-top: 2em;
-
 	font-size: 0.8em;
 	width: 42em;
 	max-width: 99%;
