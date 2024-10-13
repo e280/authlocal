@@ -20,10 +20,10 @@ export class Authcore {
 			private: toHex(await crypto.subtle.exportKey("pkcs8", signature.privateKey)),
 		}
 
-		const id = await hash(keys.public)
+		const thumbprint = await hash(keys.public)
 		const created = Date.now()
 
-		return {version, created, name, thumbprint: id, keys}
+		return {version, created, name, thumbprint, keys}
 	}
 
 	#identities = storageSignal<Identity[]>("identities")
