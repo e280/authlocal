@@ -7,6 +7,7 @@ import {Purpose} from "../../logic/purpose.js"
 import {whence} from "../../../tools/whence.js"
 import {Situation} from "../../logic/situation.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
+import {downloadable} from "../../logic/downloadable.js"
 import circleKeyIcon from "../../icons/tabler/circle-key.icon.js"
 
 export const ListView = nexus.shadowView(use => (situation: Situation.List, purpose: Purpose.Any) => {
@@ -34,35 +35,35 @@ export const ListView = nexus.shadowView(use => (situation: Situation.List, purp
 
 		}})()}
 
-		${none ? null : html`
-			<nav class=identities>
-				${identities.map(identity => html`
-					<article>
-						${svgSlate(circleKeyIcon)}
+		<nav class=identities ?hidden="${none}">
+			${identities.map(identity => html`
+				<article>
+					${svgSlate(circleKeyIcon)}
 
-						<section class=nameplate>
-							<h2>${identity.name}</h2>
-							<footer>
-								${purpose.kind === "login" ? html`
-									<button class=happy @click="${() => purpose.onLogin(identity)}">Login</button>
-								` : null}
-								<button @click="${() => situation.onEdit(identity)}">Edit</button>
-								<button disabled @click="${() => {}}">Download</button>
-							</footer>
-						</section>
+					<section class=nameplate>
+						<h2>${identity.name}</h2>
+						<footer>
+							${purpose.kind === "login" ? html`
+								<button class=happy @click="${() => purpose.onLogin(identity)}">Login</button>
+							` : null}
+							<button @click="${() => situation.onEdit(identity)}">Edit</button>
+							${downloadable([identity], (filename, href) => html`
+								<a class=button download="${filename}" href="${href}">Download</a>
+							`)}
+						</footer>
+					</section>
 
-						<section class=details>
-							<span>
-								${whence(identity.created)}
-							</span>
-							<span class=thumbprint title="${identity.thumbprint}">
-								${identity.thumbprint.slice(0, 8)}
-							</span>
-						</section>
-					</article>
-				`)}
-			</nav>
-		`}
+					<section class=details>
+						<span>
+							${whence(identity.created)}
+						</span>
+						<span class=thumbprint title="${identity.thumbprint}">
+							${identity.thumbprint.slice(0, 8)}
+						</span>
+					</section>
+				</article>
+			`)}
+		</nav>
 
 		<nav class="controls stdbuttons">
 			<button class="${none ? "happy" : ""}" @click="${() => situation.onCreate()}">
@@ -73,9 +74,9 @@ export const ListView = nexus.shadowView(use => (situation: Situation.List, purp
 				Upload
 			</button>
 
-			<a disabled class=button target="_blank" ?hidden="${none}">
-				Download
-			</a>
+			${none ? null : downloadable(identities, (filename, href) => html`
+				<a class=button download="${filename}" href="${href}">Download</a>
+			`)}
 		</nav>
 	`
 })

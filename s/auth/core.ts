@@ -1,31 +1,13 @@
 
 import {hex} from "../tools/hex.js"
 import {hash} from "../tools/hash.js"
+import {versions} from "./versions.js"
 import {Identity, Keypair} from "./types.js"
 import {storageSignal} from "../tools/json-storage.js"
 
-const version = 0
 const toHex = hex.from.buffer
 
 export class Authcore {
-	static async generateIdentity(name: string): Promise<Identity> {
-		const signature = await crypto.subtle.generateKey(
-			{name: "Ed25519"},
-			true,
-			["sign", "verify"],
-		) as CryptoKeyPair
-
-		const keys: Keypair = {
-			public: toHex(await crypto.subtle.exportKey("spki", signature.publicKey)),
-			private: toHex(await crypto.subtle.exportKey("pkcs8", signature.privateKey)),
-		}
-
-		const thumbprint = await hash(keys.public)
-		const created = Date.now()
-
-		return {version, created, name, thumbprint, keys}
-	}
-
 	#identities = storageSignal<Identity[]>("identities")
 
 	list() {
@@ -53,6 +35,24 @@ export class Authcore {
 			identities.delete(identity.thumbprint)
 		this.#identities.set([...identities.values()])
 		return identities
+	}
+
+	static async generateIdentity(name: string): Promise<Identity> {
+		const signature = await crypto.subtle.generateKey(
+			{name: "Ed25519"},
+			true,
+			["sign", "verify"],
+		) as CryptoKeyPair
+
+		const keys: Keypair = {
+			public: toHex(await crypto.subtle.exportKey("spki", signature.publicKey)),
+			private: toHex(await crypto.subtle.exportKey("pkcs8", signature.privateKey)),
+		}
+
+		const thumbprint = await hash(keys.public)
+		const created = Date.now()
+
+		return {version: versions.identity, created, name, thumbprint, keys}
 	}
 }
 

@@ -3,16 +3,26 @@ import {css} from "@benev/slate"
 
 export default css`
 
-:host > * {
-	display: block;
-}
+footer {
+	margin-top: 2em;
+	display: flex;
+	justify-content: center;
 
-:host > * + * {
-	margin-top: 1em;
-}
+	.persistence {
+		opacity: 0.5;
+		font-size: 0.8em;
 
-ul, ol {
-	list-style: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5em;
+
+		svg {
+			width: 1.5em;
+			height: 1.5em;
+			stroke-width: 2;
+		}
+	}
 }
 
 `

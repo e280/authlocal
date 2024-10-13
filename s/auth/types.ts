@@ -1,13 +1,14 @@
 
 export type Identity = {
 	version: number
-	created: number
+	keys: Keypair
 	thumbprint: string
 	name: string
-	keys: Keypair
+	created: number
 }
 
 export type IdentityFile = {
+	version: number
 	identities: Identity[]
 }
 
