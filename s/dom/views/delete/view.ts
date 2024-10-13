@@ -4,14 +4,14 @@ import {html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../nexus.js"
-import {Situation} from "../../situation.js"
+import {Situation} from "../../logic/situation.js"
 import {signalInput} from "../../../tools/signal-input.js"
 
 export const DeleteView = nexus.shadowView(use => (situation: Situation.Delete) => {
 	use.styles(styles)
 
 	const {identity} = situation
-	const thumb = use.once(() => identity.id.slice(0, 5))
+	const thumb = use.once(() => identity.thumbprint.slice(0, 5))
 	const confirmation = use.signal("")
 	const confirmationAccepted = use.computed(() => confirmation.value.toLowerCase() === thumb.toLowerCase())
 

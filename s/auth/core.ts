@@ -21,8 +21,9 @@ export class Authcore {
 		}
 
 		const id = await hash(keys.public)
+		const created = Date.now()
 
-		return {version, name, id, keys}
+		return {version, created, name, thumbprint: id, keys}
 	}
 
 	#identities = storageSignal<Identity[]>("identities")
@@ -34,14 +35,14 @@ export class Authcore {
 	#getMap() {
 		const map = new Map<string, Identity>()
 		for (const identity of this.list())
-			map.set(identity.id, identity)
+			map.set(identity.thumbprint, identity)
 		return map
 	}
 
 	add(...additions: Identity[]) {
 		const identities = this.#getMap()
 		for (const identity of additions)
-			identities.set(identity.id, identity)
+			identities.set(identity.thumbprint, identity)
 		this.#identities.set([...identities.values()])
 		return identities
 	}
@@ -49,7 +50,7 @@ export class Authcore {
 	delete(...deletions: Identity[]) {
 		const identities = this.#getMap()
 		for (const identity of deletions)
-			identities.delete(identity.id)
+			identities.delete(identity.thumbprint)
 		this.#identities.set([...identities.values()])
 		return identities
 	}

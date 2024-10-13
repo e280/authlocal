@@ -4,7 +4,7 @@ import {html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../nexus.js"
-import {Situation} from "../../situation.js"
+import {Situation} from "../../logic/situation.js"
 import {signalInput} from "../../../tools/signal-input.js"
 import {validName} from "../../../auth/utils/validation.js"
 

@@ -1,7 +1,8 @@
 
 export type Identity = {
 	version: number
-	id: string
+	created: number
+	thumbprint: string
 	name: string
 	keys: Keypair
 }

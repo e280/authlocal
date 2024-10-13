@@ -3,11 +3,13 @@ import {html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../nexus.js"
-import {Situation} from "../../situation.js"
+import {Purpose} from "../../logic/purpose.js"
+import {whence} from "../../../tools/whence.js"
+import {Situation} from "../../logic/situation.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
 import circleKeyIcon from "../../icons/tabler/circle-key.icon.js"
 
-export const ListView = nexus.shadowView(use => (situation: Situation.List) => {
+export const ListView = nexus.shadowView(use => (situation: Situation.List, purpose: Purpose.Any) => {
 	use.name("list")
 	use.styles(styles)
 
@@ -15,19 +17,21 @@ export const ListView = nexus.shadowView(use => (situation: Situation.List) => {
 	const identities = authcore.list()
 	const none = identities.length === 0
 
-	const inner = (fn: () => void) => (event: Event) => {
-		event.stopPropagation()
-		fn()
-	}
-
 	return html`
-		<header class=intro>
-			${none ? html`
-				<h2>Create or upload an identity to login</h2>
-			` : html`
-				<h2>Choose your login identity</h2>
-			`}
-		</header>
+		${(() => {switch (purpose.kind) {
+			case "login": return html`
+				<header class=intro>
+					${none
+						? html`<h2>Create or upload an identity to login</h2>`
+						: html`<h2>Choose your login identity</h2>`}
+				</header>
+			`
+			case "manage": return html`
+				<header class=intro>
+					<h2>Manage your identities</h2>
+				</header>
+			`
+		}})()}
 
 		${none ? null : html`
 			<nav class=identities>
@@ -38,18 +42,20 @@ export const ListView = nexus.shadowView(use => (situation: Situation.List) => {
 						<section class=nameplate>
 							<h2>${identity.name}</h2>
 							<footer>
-								<button class=happy @click="${inner(() => console.log("LOGIN!"))}">Login</button>
-								<button @click="${inner(() => situation.onEdit(identity))}">Edit</button>
-								<button disabled @click="${inner(() => {})}">Download</button>
+								${purpose.kind === "login" ? html`
+									<button class=happy @click="${() => purpose.onLogin(identity)}">Login</button>
+								` : null}
+								<button @click="${() => situation.onEdit(identity)}">Edit</button>
+								<button disabled @click="${() => {}}">Download</button>
 							</footer>
 						</section>
 
 						<section class=details>
-							<span class=thumbprint title="${identity.id}">
-								${identity.id.slice(0, 8)}
-							</span>
 							<span>
-								2024-10-12
+								${whence(identity.created)}
+							</span>
+							<span class=thumbprint title="${identity.thumbprint}">
+								${identity.thumbprint.slice(0, 8)}
 							</span>
 						</section>
 					</article>
@@ -61,8 +67,14 @@ export const ListView = nexus.shadowView(use => (situation: Situation.List) => {
 			<button class="${none ? "happy" : ""}" @click="${() => situation.onCreate()}">
 				New Identity
 			</button>
-			<button disabled>Upload</button>
-			<a disabled class=button target="_blank" ?hidden="${none}">Download</a>
+
+			<button disabled>
+				Upload
+			</button>
+
+			<a disabled class=button target="_blank" ?hidden="${none}">
+				Download
+			</a>
 		</nav>
 	`
 })

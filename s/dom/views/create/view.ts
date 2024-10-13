@@ -3,7 +3,7 @@ import {html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../nexus.js"
-import {Situation} from "../../situation.js"
+import {Situation} from "../../logic/situation.js"
 import {signalInput} from "../../../tools/signal-input.js"
 
 export const CreateView = nexus.shadowView(use => (
@@ -23,7 +23,7 @@ export const CreateView = nexus.shadowView(use => (
 	return html`
 		<label>
 			<span>thumbprint</span>
-			<input type=text readonly value="${identity.id}"/>
+			<input type=text readonly value="${identity.thumbprint}"/>
 		</label>
 
 		<label>

@@ -1,6 +1,6 @@
 
-import {Authcore} from "../auth/core.js"
-import {Identity} from "../auth/types.js"
+import {Authcore} from "../../auth/core.js"
+import {Identity} from "../../auth/types.js"
 
 export namespace Situation {
 	export type List = {
