@@ -43,7 +43,7 @@ button {
 }
 
 button, a.button {
-	color: #7cf9ff;
+	color: #a3b1ff;
 	font-weight: bold;
 	text-shadow: .04em .08em .1em #0008;
 	cursor: pointer;
