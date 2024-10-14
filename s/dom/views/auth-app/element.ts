@@ -8,10 +8,10 @@ import {Identity} from "../../../auth/types.js"
 import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
-import {ListView} from "../../views/pages/list/view.js"
-import {EditView} from "../../views/pages/edit/view.js"
-import {CreateView} from "../../views/pages/create/view.js"
-import {DeleteView} from "../../views/pages/delete/view.js"
+import {ListPage} from "../../views/pages/list/view.js"
+import {EditPage} from "../../views/pages/edit/view.js"
+import {CreatePage} from "../../views/pages/create/view.js"
+import {DeletePage} from "../../views/pages/delete/view.js"
 import {syllabicName} from "../../../tools/random-names.js"
 import {determinePurpose} from "../../logic/determine-purpose.js"
 
@@ -91,16 +91,16 @@ export const AuthApp = nexus.shadowComponent(use => {
 	const page = loading.braille(situationOp, situation => {switch (situation.kind) {
 
 		case "list":
-			return ListView([situation, purpose])
+			return ListPage([situation, purpose])
 
 		case "create":
-			return CreateView([situation])
+			return CreatePage([situation])
 
 		case "edit":
-			return EditView([situation])
+			return EditPage([situation])
 
 		case "delete":
-			return DeleteView([situation])
+			return DeletePage([situation])
 
 		case "egress":
 			return EgressPage([situation])

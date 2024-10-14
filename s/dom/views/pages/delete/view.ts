@@ -7,7 +7,7 @@ import {nexus} from "../../../nexus.js"
 import {Situation} from "../../../logic/situation.js"
 import {signalInput} from "../../../../tools/signal-input.js"
 
-export const DeleteView = nexus.shadowView(use => (situation: Situation.Delete) => {
+export const DeletePage = nexus.shadowView(use => (situation: Situation.Delete) => {
 	use.styles(styles)
 
 	const {identity} = situation

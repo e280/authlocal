@@ -7,7 +7,7 @@ import {Identity} from "../../../../auth/types.js"
 import {Situation} from "../../../logic/situation.js"
 import {IdentityEditor} from "../../common/identity-editor/view.js"
 
-export const EditView = nexus.shadowView(use => (situation: Situation.Edit) => {
+export const EditPage = nexus.shadowView(use => (situation: Situation.Edit) => {
 	use.styles(styles)
 
 	const identity = use.signal<Identity | null>(situation.identity)

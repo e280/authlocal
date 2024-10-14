@@ -9,18 +9,7 @@ import {Situation} from "../../../logic/situation.js"
 import {svgSlate} from "../../../../tools/svg-slate.js"
 import circleKeyIcon from "../../../icons/tabler/circle-key.icon.js"
 
-							// ${downloadable([identity], (filename, href) => html`
-							// 	<a class=button download="${filename}" href="${href}">Download</a>
-							// `)}
-
-
-			// ${none ? null : downloadable(identities, (filename, href) => html`
-			// 	<a class=button download="${filename}" href="${href}">Download</a>
-			// `)}
-
-
-export const ListView = nexus.shadowView(use => (situation: Situation.List, purpose: Purpose.Any) => {
-	use.name("list")
+export const ListPage = nexus.shadowView(use => (situation: Situation.List, purpose: Purpose.Any) => {
 	use.styles(styles)
 
 	const {authcore} = situation
