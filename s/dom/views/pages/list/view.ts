@@ -7,8 +7,17 @@ import {Purpose} from "../../../logic/purpose.js"
 import {whence} from "../../../../tools/whence.js"
 import {Situation} from "../../../logic/situation.js"
 import {svgSlate} from "../../../../tools/svg-slate.js"
-import {downloadable} from "../../../logic/downloadable.js"
 import circleKeyIcon from "../../../icons/tabler/circle-key.icon.js"
+
+							// ${downloadable([identity], (filename, href) => html`
+							// 	<a class=button download="${filename}" href="${href}">Download</a>
+							// `)}
+
+
+			// ${none ? null : downloadable(identities, (filename, href) => html`
+			// 	<a class=button download="${filename}" href="${href}">Download</a>
+			// `)}
+
 
 export const ListView = nexus.shadowView(use => (situation: Situation.List, purpose: Purpose.Any) => {
 	use.name("list")
@@ -47,9 +56,7 @@ export const ListView = nexus.shadowView(use => (situation: Situation.List, purp
 								<button class=happy @click="${() => purpose.onLogin(identity)}">Login</button>
 							` : null}
 							<button @click="${() => situation.onEdit(identity)}">Edit</button>
-							${downloadable([identity], (filename, href) => html`
-								<a class=button download="${filename}" href="${href}">Download</a>
-							`)}
+							<button @click="${() => situation.onEgress([identity])}">Download</button>
 						</footer>
 					</section>
 
@@ -74,10 +81,11 @@ export const ListView = nexus.shadowView(use => (situation: Situation.List, purp
 				Upload
 			</button>
 
-			${none ? null : downloadable(identities, (filename, href) => html`
-				<a class=button download="${filename}" href="${href}">Download</a>
-			`)}
+			<button ?disabled="${none}" @click="${() => situation.onEgress(identities)}">
+				Download All
+			</button>
 		</nav>
 	`
 })
+
 

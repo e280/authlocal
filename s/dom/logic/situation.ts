@@ -8,6 +8,7 @@ export namespace Situation {
 		authcore: Authcore
 		onCreate: () => void
 		onEdit: (identity: Identity) => void
+		onEgress: (identities: Identity[]) => void
 	}
 
 	export type Create = {
@@ -25,7 +26,6 @@ export namespace Situation {
 		onComplete: (identity: Identity) => void
 	}
 
-
 	export type Delete = {
 		kind: "delete"
 		identity: Identity
@@ -33,8 +33,20 @@ export namespace Situation {
 		onComplete: (identity: Identity) => void
 	}
 
+	export type Egress = {
+		kind: "egress"
+		identities: Identity[]
+		onBack: () => void
+	}
+
+	export type Ingress = {
+		kind: "ingress"
+		onBack: () => void
+		onAddIdentities: (identities: Identity[]) => void
+	}
+
 	////////////////////////////////
 
-	export type Any = List | Create | Edit | Delete
+	export type Any = List | Create | Edit | Delete | Egress | Ingress
 }
 

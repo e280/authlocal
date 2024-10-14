@@ -43,14 +43,14 @@ button {
 }
 
 button, a.button {
-	color: #aaa;
+	color: #7cf9ff;
 	font-weight: bold;
-	text-shadow: .1em .2em .1em #0004;
+	text-shadow: .04em .08em .1em #0008;
 	cursor: pointer;
 
 	&[disabled] {
 		cursor: default;
-		color: #444;
+		color: #666;
 		opacity: 0.5;
 		text-decoration: line-through;
 	}

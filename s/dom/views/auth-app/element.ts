@@ -1,11 +1,12 @@
 
 import {html, loading} from "@benev/slate"
 
-import styles from "./styles.js"
 import {nexus} from "../../nexus.js"
+import stylesCss from "./styles.css.js"
 import {Authcore} from "../../../auth/core.js"
 import {Identity} from "../../../auth/types.js"
 import {Situation} from "../../logic/situation.js"
+import {EgressPage} from "../pages/egress/view.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
 import {ListView} from "../../views/pages/list/view.js"
 import {EditView} from "../../views/pages/edit/view.js"
@@ -18,7 +19,7 @@ import shieldOffIcon from "../../icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../icons/tabler/shield-check-filled.icon.js"
 
 export const AuthApp = nexus.shadowComponent(use => {
-	use.styles(styles)
+	use.styles(stylesCss)
 
 	const {authcore, storagePersistence} = use.context
 	const purpose = use.once(determinePurpose)
@@ -31,6 +32,7 @@ export const AuthApp = nexus.shadowComponent(use => {
 			authcore,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
+			onEgress: identities => gotoEgress(identities, gotoList),
 		}))
 	}
 
@@ -76,6 +78,14 @@ export const AuthApp = nexus.shadowComponent(use => {
 		}))
 	}
 
+	function gotoEgress(identities: Identity[], onBack: () => void) {
+		situationOp.load(async() => ({
+			kind: "egress",
+			identities,
+			onBack,
+		}))
+	}
+
 	use.once(gotoList)
 
 	const page = loading.braille(situationOp, situation => {switch (situation.kind) {
@@ -91,6 +101,9 @@ export const AuthApp = nexus.shadowComponent(use => {
 
 		case "delete":
 			return DeleteView([situation])
+
+		case "egress":
+			return EgressPage([situation])
 
 		default:
 			throw new Error("unknown situation")

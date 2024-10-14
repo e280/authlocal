@@ -44,6 +44,15 @@ export class Authfile {
 	static href(file: IdentityFile) {
 		return `data:application/json;base64,${btoa(Authfile.encode(file))}`
 	}
+
+	static downloadable(identities: Identity[]) {
+		const file = Authfile.fromIdentities(identities)
+		return {
+			file,
+			name: Authfile.name(file),
+			href: Authfile.href(file),
+		}
+	}
 }
 
 function sanitizeUsername(username: string, maxLength = 24): string {
