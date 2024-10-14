@@ -1,18 +1,23 @@
 
-export function validName(name: string) {
-	return (
-		typeof name === "string" &&
-		name.length >= 1 &&
-		name.length <= 24 &&
+export function validName(name: string): boolean {
+	if (name !== name.trim())
+		return false
 
-		// allowing all ordinary characters
-		/^[\p{L}\p{N}\p{P}\p{S}\p{Zs}]+$/u.test(name) &&
+	const spaceless = name.replaceAll(" ", "")
 
-		// disallow control/invisible characters
-		!/[\p{C}]/u.test(name) &&
+	return [
+		typeof name === "string",
+		name.length >= 1,
+		name.length <= 24,
 
-		// disallow leading/trailing whitespace
-		!/^\s|\s$/u.test(name)
-	)
+		// no consecutive spaces
+		!/[ ]{2,}/u.test(name),
+
+		// no whitespace except ordinary spaces
+		!/\s/.test(spaceless),
+
+		// no control chars
+		!/\p{Z}\p{C}/u.test(spaceless),
+	].every(v => v)
 }
 

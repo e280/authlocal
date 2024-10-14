@@ -1,5 +1,6 @@
 
 import {versions} from "./versions.js"
+import {base64} from "../tools/base64.js"
 import {whence} from "../tools/whence.js"
 import {Identity, IdentityFile} from "./types.js"
 
@@ -19,13 +20,13 @@ export class Authfile {
 	}
 
 	static encode(file: IdentityFile): string {
-		const content = btoa(JSON.stringify(file))
+		const content = base64.from.text(JSON.stringify(file))
 		return [Authfile.generateComment(file), content].join(Authfile.splitter)
 	}
 
 	static decode(data: string): IdentityFile {
 		const [,base64Content] = data.split(Authfile.splitter)
-		return JSON.parse(atob(base64Content))
+		return JSON.parse(base64.to.text(base64Content))
 	}
 
 	static fromIdentities(identities: Identity[]): IdentityFile {
@@ -37,12 +38,12 @@ export class Authfile {
 
 	static name(file: IdentityFile) {
 		return file.identities.length === 1
-			? `${sanitizeUsername(file.identities.at(0)!.name)}.authduo`
+			? `${crushUsernameForFilename(file.identities.at(0)!.name)}.authduo`
 			: `identities.authduo`
 	}
 
 	static href(file: IdentityFile) {
-		return `data:application/json;base64,${btoa(Authfile.encode(file))}`
+		return `data:application/json;base64,${base64.from.text(Authfile.encode(file))}`
 	}
 
 	static downloadable(identities: Identity[]) {
@@ -55,7 +56,7 @@ export class Authfile {
 	}
 }
 
-function sanitizeUsername(username: string, maxLength = 24): string {
+function crushUsernameForFilename(username: string, maxLength = 24): string {
 	const sanitized = username
 		.toLowerCase()
 		.replace(/[^a-z0-9]/gi, "_")

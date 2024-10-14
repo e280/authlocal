@@ -67,6 +67,12 @@ button, a.button {
 	}
 }
 
+input[type="text"] {
+	padding: 0.3em 0.5em;
+	border-radius: 0.2em;
+	border-style: solid;
+}
+
 .spin {
 	display: block;
 	animation: spin 2s linear infinite;
