@@ -20,10 +20,11 @@ section {
 		align-items: center;
 		flex-wrap: wrap;
 		gap: 0.5em;
-		font-size: 1.5em;
+		font-size: 1.1em;
 
 		span {
-			font-family: "monospace";
+			font-family: monospace;
+			font-weight: bold;
 		}
 
 		a {
