@@ -1,10 +1,10 @@
 
 import {css} from "@benev/slate"
-import styles from "../create/styles.js"
+import buttonbarCss from "../../common/styling/buttonbar.css.js"
 
 export default css`
 
-${styles}
+${buttonbarCss}
 
 `
 

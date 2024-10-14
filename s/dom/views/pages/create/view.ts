@@ -3,29 +3,29 @@ import {html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../../nexus.js"
+import {Identity} from "../../../../auth/types.js"
 import {Situation} from "../../../logic/situation.js"
-import {renderEditableName} from "./parts/render-editable-name.js"
+import {IdentityEditor} from "../../common/identity-editor/view.js"
 
 export const CreateView = nexus.shadowView(use => (situation: Situation.Create) => {
-	use.name("create")
 	use.styles(styles)
 
-	const {identity} = situation
-	const name = use.signal(identity.name)
+	const identity = use.signal<Identity | null>(situation.identity)
 
-	function done() {
-		identity.name = name.value
-		situation.onComplete(identity)
+	function save() {
+		if (identity.value)
+			situation.onComplete(identity.value)
 	}
 
 	return html`
-		<section class=form>
-			${renderEditableName(identity, name)}
-		</section>
+		${IdentityEditor([{
+			identity: situation.identity,
+			onUpdate: updated => identity.value = updated,
+		}])}
 
-		<footer>
+		<footer class=buttonbar>
 			<button @click="${situation.onCancel}">Cancel</button>
-			<button class=happy @click="${done}">Create Identity</button>
+			<button class=happy ?disabled="${!identity.value}" @click="${save}">Create Identity</button>
 		</footer>
 	`
 })

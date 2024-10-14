@@ -3,40 +3,28 @@ import {html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../../nexus.js"
+import {Identity} from "../../../../auth/types.js"
 import {Situation} from "../../../logic/situation.js"
-import {validName} from "../../../../auth/utils/validation.js"
-import {renderEditableName} from "../create/parts/render-editable-name.js"
+import {IdentityEditor} from "../../common/identity-editor/view.js"
 
 export const EditView = nexus.shadowView(use => (situation: Situation.Edit) => {
 	use.styles(styles)
 
-	const {identity} = situation
-	const name = use.signal(identity.name)
-
-	function isValid() {
-		const n = name.value
-		return (
-			n !== identity.name &&
-			validName(name.value)
-		)
-	}
-
-	const valid = use.computed(isValid)
+	const identity = use.signal<Identity | null>(situation.identity)
 
 	function save() {
-		if (isValid()) {
-			identity.name = name.value
-			situation.onComplete(identity)
-		}
+		if (identity.value)
+			situation.onComplete(identity.value)
 	}
 
 	return html`
-		<section class=form>
-			${renderEditableName(identity, name)}
-		</section>
+		${IdentityEditor([{
+			identity: situation.identity,
+			onUpdate: updated => identity.value = updated,
+		}])}
 
-		<footer>
-			<button class=angry @click="${() => situation.onDelete(identity)}">
+		<footer class=buttonbar>
+			<button class=angry @click="${() => situation.onDelete(situation.identity)}">
 				Delete
 			</button>
 
@@ -44,7 +32,7 @@ export const EditView = nexus.shadowView(use => (situation: Situation.Edit) => {
 				Cancel
 			</button>
 
-			<button class=happy ?disabled="${!valid.value}" @click="${save}">
+			<button class=happy ?disabled="${!identity.value}" @click="${save}">
 				Save Changes
 			</button>
 		</footer>
