@@ -6,6 +6,7 @@ import styles from "./styles.js"
 import {nexus} from "../../../nexus.js"
 import {Situation} from "../../../logic/situation.js"
 import {signalInput} from "../../../../tools/signal-input.js"
+import { Breakdown } from "../../common/breakdown/view.js"
 
 export const DeletePage = nexus.shadowView(use => (situation: Situation.Delete) => {
 	use.styles(styles)
@@ -20,7 +21,11 @@ export const DeletePage = nexus.shadowView(use => (situation: Situation.Delete) 
 	}
 
 	return html`
-		<p>Are you absolutely super-duper sure you want to <strong>delete</strong> the identity "${identity.name}"?</p>
+		<h2>Delete Identity</h2>
+		<p>Are you absolutely super-duper sure you want to delete this identity?</p>
+
+		${Breakdown([[identity]])}
+
 		<p>It will be <strong>gone forever</strong>, unless you have it saved elsewhere.</p>
 
 		<label>
