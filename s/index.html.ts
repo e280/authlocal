@@ -12,7 +12,7 @@ export default template(async basic => {
 		path,
 		dark: true,
 		css: "index.css",
-		title: "Authduo",
+		title: "Authduo.org",
 		head: html`
 			<link rel="icon" href="/assets/graphics/favicon.png"/>
 
@@ -31,7 +31,7 @@ export default template(async basic => {
 		body: html`
 			<h1 class=title>
 				${svgTurtle(shieldLockIcon)}
-				<span>Authduo</span>
+				<span>Authduo.org</span>
 			</h1>
 			<auth-app></auth-app>
 			<footer>
