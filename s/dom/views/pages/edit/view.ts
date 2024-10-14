@@ -2,9 +2,9 @@
 import {html} from "@benev/slate"
 
 import styles from "./styles.js"
-import {nexus} from "../../nexus.js"
-import {Situation} from "../../logic/situation.js"
-import {validName} from "../../../auth/utils/validation.js"
+import {nexus} from "../../../nexus.js"
+import {Situation} from "../../../logic/situation.js"
+import {validName} from "../../../../auth/utils/validation.js"
 import {renderEditableName} from "../create/parts/render-editable-name.js"
 
 export const EditView = nexus.shadowView(use => (situation: Situation.Edit) => {

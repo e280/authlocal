@@ -2,13 +2,13 @@
 import {html} from "@benev/slate"
 
 import styles from "./styles.js"
-import {nexus} from "../../nexus.js"
-import {Purpose} from "../../logic/purpose.js"
-import {whence} from "../../../tools/whence.js"
-import {Situation} from "../../logic/situation.js"
-import {svgSlate} from "../../../tools/svg-slate.js"
-import {downloadable} from "../../logic/downloadable.js"
-import circleKeyIcon from "../../icons/tabler/circle-key.icon.js"
+import {nexus} from "../../../nexus.js"
+import {Purpose} from "../../../logic/purpose.js"
+import {whence} from "../../../../tools/whence.js"
+import {Situation} from "../../../logic/situation.js"
+import {svgSlate} from "../../../../tools/svg-slate.js"
+import {downloadable} from "../../../logic/downloadable.js"
+import circleKeyIcon from "../../../icons/tabler/circle-key.icon.js"
 
 export const ListView = nexus.shadowView(use => (situation: Situation.List, purpose: Purpose.Any) => {
 	use.name("list")

@@ -2,8 +2,8 @@
 import {html} from "@benev/slate"
 
 import styles from "./styles.js"
-import {nexus} from "../../nexus.js"
-import {Situation} from "../../logic/situation.js"
+import {nexus} from "../../../nexus.js"
+import {Situation} from "../../../logic/situation.js"
 import {renderEditableName} from "./parts/render-editable-name.js"
 
 export const CreateView = nexus.shadowView(use => (situation: Situation.Create) => {

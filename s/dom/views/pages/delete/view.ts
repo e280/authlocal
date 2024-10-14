@@ -3,9 +3,9 @@
 import {html} from "@benev/slate"
 
 import styles from "./styles.js"
-import {nexus} from "../../nexus.js"
-import {Situation} from "../../logic/situation.js"
-import {signalInput} from "../../../tools/signal-input.js"
+import {nexus} from "../../../nexus.js"
+import {Situation} from "../../../logic/situation.js"
+import {signalInput} from "../../../../tools/signal-input.js"
 
 export const DeleteView = nexus.shadowView(use => (situation: Situation.Delete) => {
 	use.styles(styles)
