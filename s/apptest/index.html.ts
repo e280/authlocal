@@ -1,7 +1,5 @@
 
 import "@benev/slate/x/node.js"
-import {svgTurtle} from "./tools/svg-turtle.js"
-import shieldLockIcon from "./dom/icons/tabler/shield-lock.icon.js"
 import {template, html, easypage, headScripts, git_commit_hash, read_file, unsanitized} from "@benev/turtle"
 
 export default template(async basic => {
@@ -17,20 +15,20 @@ export default template(async basic => {
 
 			<style>
 				${unsanitized(await read_file("x/index.css"))}
+				${unsanitized(await read_file("x/apptest/apptest.css"))}
 			</style>
 
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("testing/apptest.bundle.js"),
-				prodModulePath: await path.version.root("testing/apptest.bundle.min.js"),
+				devModulePath: await path.version.root("apptest/apptest.bundle.js"),
+				prodModulePath: await path.version.root("apptest/apptest.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
 		body: html`
 			<h1 class=title>
-				${svgTurtle(shieldLockIcon)}
-				<span>Authduo.org</span>
+				Apptest for Authduo
 			</h1>
 			<footer>
 				<p>This page is for testing purposes.</p>
