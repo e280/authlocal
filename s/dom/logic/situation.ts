@@ -1,6 +1,6 @@
 
 import {Authcore} from "../../auth/core.js"
-import {Identity} from "../../auth/types.js"
+import {Identity, IdentityFile} from "../../auth/types.js"
 
 export namespace Situation {
 	export type List = {
@@ -9,6 +9,7 @@ export namespace Situation {
 		onCreate: () => void
 		onEdit: (identity: Identity) => void
 		onEgress: (identities: Identity[]) => void
+		onIngress: (file: IdentityFile | undefined) => void
 	}
 
 	export type Create = {
@@ -41,6 +42,7 @@ export namespace Situation {
 
 	export type Ingress = {
 		kind: "ingress"
+		file: IdentityFile | undefined
 		onBack: () => void
 		onAddIdentities: (identities: Identity[]) => void
 	}

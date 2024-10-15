@@ -1,5 +1,6 @@
 
 import {versions} from "./versions.js"
+import {ensure} from "./utils/ensure.js"
 import {base64} from "../tools/base64.js"
 import {whence} from "../tools/whence.js"
 import {Identity, IdentityFile} from "./types.js"
@@ -26,7 +27,20 @@ export class Authfile {
 
 	static decode(data: string): IdentityFile {
 		const [,base64Content] = data.split(Authfile.splitter)
-		return JSON.parse(base64.to.text(base64Content))
+		const json = JSON.parse(base64.to.text(base64Content)) as IdentityFile
+		return {
+			version: ensure.number("file version", json.version),
+			identities: ensure.array("array", json.identities.map(id => ({
+				version: ensure.number("version", id.version),
+				name: ensure.string("name", id.name),
+				created: ensure.number("created", id.created),
+				thumbprint: ensure.string("thumbprint", id.thumbprint),
+				keys: {
+					public: ensure.string("public", id.keys.public),
+					private: ensure.string("private", id.keys.private),
+				},
+			})))
+		}
 	}
 
 	static fromIdentities(identities: Identity[]): IdentityFile {

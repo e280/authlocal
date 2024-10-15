@@ -66,7 +66,7 @@ export const ListPage = nexus.shadowView(use => (situation: Situation.List, purp
 				New Identity
 			</button>
 
-			<button disabled>
+			<button @click="${() => situation.onIngress(undefined)}">
 				Upload
 			</button>
 

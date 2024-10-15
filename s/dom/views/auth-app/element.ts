@@ -4,7 +4,6 @@ import {html, loading} from "@benev/slate"
 import {nexus} from "../../nexus.js"
 import stylesCss from "./styles.css.js"
 import {Authcore} from "../../../auth/core.js"
-import {Identity} from "../../../auth/types.js"
 import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
@@ -13,10 +12,12 @@ import {EditPage} from "../../views/pages/edit/view.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
 import {syllabicName} from "../../../tools/random-names.js"
+import {Identity, IdentityFile} from "../../../auth/types.js"
 import {determinePurpose} from "../../logic/determine-purpose.js"
 
 import shieldOffIcon from "../../icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../icons/tabler/shield-check-filled.icon.js"
+import { IngressPage } from "../pages/ingress/view.js"
 
 export const AuthApp = nexus.shadowComponent(use => {
 	use.styles(stylesCss)
@@ -33,6 +34,7 @@ export const AuthApp = nexus.shadowComponent(use => {
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
 			onEgress: identities => gotoEgress(identities, gotoList),
+			onIngress: () => gotoIngress(undefined, gotoList),
 		}))
 	}
 
@@ -86,6 +88,14 @@ export const AuthApp = nexus.shadowComponent(use => {
 		}))
 	}
 
+	function gotoIngress(file: IdentityFile | undefined, onBack: () => void) {
+		situationOp.load(async() => ({
+			kind: "ingress",
+			file,
+			onBack,
+			onAddIdentities: identities => authcore.add(...identities),
+		}))
+	}
 	use.once(gotoList)
 
 	const page = loading.braille(situationOp, situation => {switch (situation.kind) {
@@ -104,6 +114,9 @@ export const AuthApp = nexus.shadowComponent(use => {
 
 		case "egress":
 			return EgressPage([situation])
+
+		case "ingress":
+			return IngressPage([situation])
 
 		default:
 			throw new Error("unknown situation")
