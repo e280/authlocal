@@ -7,6 +7,7 @@ import {Authcore} from "../../../auth/core.js"
 import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
+import {IngressPage} from "../pages/ingress/view.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {CreatePage} from "../../views/pages/create/view.js"
@@ -17,7 +18,6 @@ import {determinePurpose} from "../../logic/determine-purpose.js"
 
 import shieldOffIcon from "../../icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../icons/tabler/shield-check-filled.icon.js"
-import { IngressPage } from "../pages/ingress/view.js"
 
 export const AuthApp = nexus.shadowComponent(use => {
 	use.styles(stylesCss)
