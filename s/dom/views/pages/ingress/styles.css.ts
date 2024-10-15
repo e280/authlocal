@@ -12,6 +12,12 @@ section {
 	> * + * {
 		margin-top: 1em;
 	}
+
+	input {
+		border: 1px solid #fff2;
+		border-radius: 0.5em;
+		padding: 0.5em;
+	}
 }
 
 `

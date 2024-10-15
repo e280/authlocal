@@ -7,6 +7,8 @@ export default css`
 ${buttonbarCss}
 
 section {
+	text-align: center;
+
 	> * + * { margin-top: 1em; }
 
 	.special {

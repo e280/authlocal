@@ -36,9 +36,11 @@ export const IngressPage = nexus.shadowView(use => (situation: Situation.Ingress
 
 	return html`
 		<section>
-			<h2>Upload your identities</h2>
+			<h2>Import identities from your device.</h2>
 			<input type="file" multiple accept=".authduo" @change="${handleUpload}"/>
-			${Breakdown([[...stage.value.values()]])}
+			${stage.value.size > 0 ? html`
+				${Breakdown([[...stage.value.values()]])}
+			` : null}
 		</section>
 
 		<footer class=buttonbar>

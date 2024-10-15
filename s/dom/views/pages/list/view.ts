@@ -23,7 +23,7 @@ export const ListPage = nexus.shadowView(use => (situation: Situation.List, purp
 				return html`
 					<header class=intro>
 						${none
-							? html`<h2>Create or upload an identity to login</h2>`
+							? html`<h2>Create or import an identity to login</h2>`
 							: html`<h2>Choose your login identity</h2>`}
 					</header>
 				`
@@ -45,7 +45,7 @@ export const ListPage = nexus.shadowView(use => (situation: Situation.List, purp
 								<button class=happy @click="${() => purpose.onLogin(identity)}">Login</button>
 							` : null}
 							<button @click="${() => situation.onEdit(identity)}">Edit</button>
-							<button @click="${() => situation.onEgress([identity])}">Download</button>
+							<button @click="${() => situation.onEgress([identity])}">Export</button>
 						</footer>
 					</section>
 
@@ -67,11 +67,11 @@ export const ListPage = nexus.shadowView(use => (situation: Situation.List, purp
 			</button>
 
 			<button @click="${() => situation.onIngress(undefined)}">
-				Upload
+				Import
 			</button>
 
 			<button ?disabled="${none}" @click="${() => situation.onEgress(identities)}">
-				Download All
+				Export All
 			</button>
 		</nav>
 	`

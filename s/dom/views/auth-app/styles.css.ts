@@ -4,7 +4,7 @@ import {css} from "@benev/slate"
 export default css`
 
 footer {
-	margin-top: 2em;
+	margin-top: 4em;
 	display: flex;
 	justify-content: center;
 
