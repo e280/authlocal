@@ -42,6 +42,7 @@ jobs:
       run: |
         mv node_modules x/node_modules
         mv s x/s
+        mv assets x/assets
 
     - name: 📤 upload pages artifact
       uses: actions/upload-pages-artifact@v2

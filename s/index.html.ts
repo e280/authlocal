@@ -14,7 +14,7 @@ export default template(async basic => {
 		css: "index.css",
 		title: "Authduo.org",
 		head: html`
-			<link rel="icon" href="/assets/graphics/favicon.png"/>
+			<link rel="icon" href="/assets/favicon.png"/>
 
 			<style>
 				${unsanitized(await read_file("x/index.css"))}

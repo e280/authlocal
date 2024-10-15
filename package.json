@@ -15,8 +15,9 @@
 		"start": "run-p start-http start-turtle",
 		"start-http": "http-server x",
 		"start-turtle": "turtle watch --in=s,x --out=x -v",
-		"links": "run-s links-s",
+		"links": "run-s links-s links-assets",
 		"links-s": "ln -s \"$(realpath s)\" x/s",
+		"links-assets": "ln -s \"$(realpath assets)\" x/assets",
 		"test": "exit 0"
 	},
 	"dependencies": {
