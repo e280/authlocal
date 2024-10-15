@@ -34,6 +34,7 @@ jobs:
       run: |
         rm x/node_modules
         rm x/s
+        rm x/assets
 
     - name: 🗃️ reconstitute node_modules for production
       run: npm ci --omit=dev
