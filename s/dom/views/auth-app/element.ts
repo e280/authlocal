@@ -129,12 +129,12 @@ export const AuthApp = nexus.shadowComponent(use => {
 			${storagePersistence.persisted.value ? html`
 				<div class=persistence data-is-persisted>
 					${svgSlate(shieldCheckFilledIcon)}
-					<span>Persistence enabled</span>
+					<span>Browser storage persistence enabled</span>
 				</div>
 			` : html`
 				<button class=persistence @click="${() => storagePersistence.request()}">
 					${svgSlate(shieldOffIcon)}
-					<span>Persistence disabled</span>
+					<span>Browser storage persistence disabled</span>
 				</button>
 			`}
 		</footer>
