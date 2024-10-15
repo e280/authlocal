@@ -6,5 +6,10 @@ export default css`
 
 ${buttonbarCss}
 
+section {
+	margin: 1em;
+	text-align: center;
+}
+
 `
 

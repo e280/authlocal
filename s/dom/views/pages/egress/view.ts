@@ -13,7 +13,7 @@ export const EgressPage = nexus.shadowView(use => (situation: Situation.Egress) 
 	return html`
 		<section>
 			<h3>Export your identity files, and put them in a secure place.</h3>
-			<p>Authduo does not have any servers, and puts you in direct control over your identity files. Authduo stores your identities locally in your device's web browser, but this storage may not be reliable.</p>
+			<p>Authduo does not have any servers, and puts you in direct control over your identity files. Your identities are automatically stored locally in your device's web browser, but this storage may not be reliable.</p>
 
 			<div class=special>
 				${Breakdown([situation.identities])}
@@ -26,6 +26,7 @@ export const EgressPage = nexus.shadowView(use => (situation: Situation.Egress) 
 			</div>
 
 			<p>You can import your identities on multiple devices. Never lose your identity files, and never share them with others. Once lost or compromised, identities are <strong>impossible</strong> to recover.</p>
+			<p class=angry>If lost or compromised, identities are impossible to recover.</p>
 		</section>
 
 		<footer class=buttonbar>

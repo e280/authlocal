@@ -38,6 +38,12 @@ section {
 		}
 	}
 
+	> :is(p, h3) {
+		max-width: 24rem;
+		text-align: left;
+		margin: 1em auto;
+	}
+
 	.includes {
 		ul {
 			padding-left: 1em;
