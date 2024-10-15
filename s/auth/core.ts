@@ -3,6 +3,7 @@ import {hex} from "../tools/hex.js"
 import {hash} from "../tools/hash.js"
 import {versions} from "./versions.js"
 import {Identity, Keypair} from "./types.js"
+import {attempts} from "../tools/attempts.js"
 import {storageSignal} from "../tools/json-storage.js"
 
 const toHex = hex.from.buffer
@@ -38,11 +39,19 @@ export class Authcore {
 	}
 
 	static async generateIdentity(name: string): Promise<Identity> {
-		const signature = await crypto.subtle.generateKey(
-			{name: "Ed25519"},
-			true,
-			["sign", "verify"],
-		) as CryptoKeyPair
+		const signature = await attempts(
+			async() => await crypto.subtle.generateKey(
+				{name: "Ed25519"},
+				true,
+				["sign", "verify"],
+			) as CryptoKeyPair,
+
+			async() => await crypto.subtle.generateKey(
+				{name: "ECDSA", namedCurve: "P-256"},
+				true,
+				["sign", "verify"],
+			) as CryptoKeyPair,
+		)
 
 		const keys: Keypair = {
 			public: toHex(await crypto.subtle.exportKey("spki", signature.publicKey)),

@@ -11,7 +11,7 @@ export default template(async basic => {
 	return easypage({
 		path,
 		dark: true,
-		title: "Authduo.org",
+		title: "Apptest",
 		head: html`
 			<link rel="icon" href="/assets/favicon.png"/>
 
@@ -22,8 +22,8 @@ export default template(async basic => {
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("index.bundle.js"),
-				prodModulePath: await path.version.root("index.bundle.min.js"),
+				devModulePath: await path.version.root("testing/apptest.bundle.js"),
+				prodModulePath: await path.version.root("testing/apptest.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
@@ -32,12 +32,8 @@ export default template(async basic => {
 				${svgTurtle(shieldLockIcon)}
 				<span>Authduo.org</span>
 			</h1>
-			<auth-app></auth-app>
 			<footer>
-				<p>Authduo powers logins without servers.</p>
-				<p>Clientside decentralized user-sovereign federated auth. Free and open source.</p>
-				<p>See Authduo on <a href="https://github.com/authduo/authduo" target=_blank>GitHub</a> to learn more.</p>
-				<p>Own your identity.</p>
+				<p>This page is for testing purposes.</p>
 			</footer>
 		`,
 	})
