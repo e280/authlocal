@@ -1,6 +1,6 @@
 
 export const versions = {
-	identity: 0,
+	identity: 1,
 	identityFile: 0,
 }
 

@@ -3,7 +3,6 @@ import {hex} from "../tools/hex.js"
 import {hash} from "../tools/hash.js"
 import {versions} from "./versions.js"
 import {Identity, Keypair} from "./types.js"
-import {attempts} from "../tools/attempts.js"
 import {storageSignal} from "../tools/json-storage.js"
 
 const toHex = hex.from.buffer
@@ -11,8 +10,17 @@ const toHex = hex.from.buffer
 export class Authcore {
 	#identities = storageSignal<Identity[]>("identities")
 
+	#allowableVersion = (identity: Identity) => {
+		return identity.version === versions.identity
+	}
+
 	list() {
-		return (this.#identities.signal.value ?? []).toReversed()
+		return (this.#identities.signal.value ?? [])
+			.toReversed()
+
+			// TODO implement proper versioning strategy
+			// instead of dropping outdated identities
+			.filter(this.#allowableVersion)
 	}
 
 	#getMap() {
@@ -39,19 +47,11 @@ export class Authcore {
 	}
 
 	static async generateIdentity(name: string): Promise<Identity> {
-		const signature = await attempts(
-			async() => await crypto.subtle.generateKey(
-				{name: "Ed25519"},
-				true,
-				["sign", "verify"],
-			) as CryptoKeyPair,
-
-			async() => await crypto.subtle.generateKey(
-				{name: "ECDSA", namedCurve: "P-256"},
-				true,
-				["sign", "verify"],
-			) as CryptoKeyPair,
-		)
+		const signature = await crypto.subtle.generateKey(
+			{name: "ECDSA", namedCurve: "P-256"},
+			true,
+			["sign", "verify"],
+		) as CryptoKeyPair
 
 		const keys: Keypair = {
 			public: toHex(await crypto.subtle.exportKey("spki", signature.publicKey)),
