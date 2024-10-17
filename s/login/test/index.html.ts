@@ -14,15 +14,15 @@ export default template(async basic => {
 			<link rel="icon" href="/assets/favicon.png"/>
 
 			<style>
-				${unsanitized(await read_file("x/index.css"))}
-				${unsanitized(await read_file("x/apptest/apptest.css"))}
+				${unsanitized(await read_file("x/manager/manager.css"))}
+				${unsanitized(await read_file("x/login/test/test.css"))}
 			</style>
 
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("apptest/apptest.bundle.js"),
-				prodModulePath: await path.version.root("apptest/apptest.bundle.min.js"),
+				devModulePath: await path.version.root("login/test/test.bundle.js"),
+				prodModulePath: await path.version.root("login/test/test.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
