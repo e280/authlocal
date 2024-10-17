@@ -30,6 +30,7 @@ export default template(async basic => {
 			<h1 class=title>
 				Apptest for Authduo
 			</h1>
+			<authduo-login></authduo-login>
 			<footer>
 				<p>This page is for testing purposes.</p>
 			</footer>
