@@ -1,7 +1,7 @@
 
 import "@benev/slate/x/node.js"
 import {svgTurtle} from "./tools/svg-turtle.js"
-import shieldLockIcon from "./dom/icons/tabler/shield-lock.icon.js"
+import shieldLockIcon from "./common/icons/tabler/shield-lock.icon.js"
 import {template, html, easypage, headScripts, git_commit_hash, read_file, unsanitized} from "@benev/turtle"
 
 export default template(async basic => {
