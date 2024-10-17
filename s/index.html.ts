@@ -32,7 +32,9 @@ export default template(async basic => {
 				${svgTurtle(shieldLockIcon)}
 				<span>Authduo.org</span>
 			</h1>
+
 			<auth-manager></auth-manager>
+
 			<footer>
 				<p>Authduo powers logins without servers.</p>
 				<p>Clientside decentralized user-sovereign federated auth. Free and open source.</p>
