@@ -5,10 +5,9 @@ export type KeypairJson = {
 }
 
 export type IdentityJson = {
+	keypair: KeypairJson
 	name: string
 	created: number
-	thumbprint: string
-	keypair: KeypairJson
 }
 
 export type IdentitiesJson = {

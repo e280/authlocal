@@ -3,21 +3,20 @@ import {html, loading} from "@benev/slate"
 
 import {nexus} from "../../nexus.js"
 import stylesCss from "./styles.css.js"
-import {Authcore} from "../../auth/core.js"
 import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
 import {IngressPage} from "../pages/ingress/view.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {EditPage} from "../../views/pages/edit/view.js"
-import {Identity, IdentityFile} from "../../auth/types.js"
+import {Identity} from "../../../common/auth/identity.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
-import {syllabicName} from "../../../tools/random-names.js"
 import {determinePurpose} from "../../logic/determine-purpose.js"
 
 import shieldOffIcon from "../../../common/icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-filled.icon.js"
+import { Identities } from "../../../common/auth/identities.js"
 
 export const AuthManager = nexus.shadowComponent(use => {
 	use.styles(stylesCss)
@@ -39,8 +38,7 @@ export const AuthManager = nexus.shadowComponent(use => {
 	}
 
 	async function gotoCreate() {
-		const name = syllabicName()
-		const identity = await Authcore.generateIdentity(name)
+		const identity = await Identity.generate()
 		situationOp.load(async() => ({
 			kind: "create",
 			identity,
@@ -88,10 +86,10 @@ export const AuthManager = nexus.shadowComponent(use => {
 		}))
 	}
 
-	function gotoIngress(file: IdentityFile | undefined, onBack: () => void) {
+	function gotoIngress(identities: Identities | undefined, onBack: () => void) {
 		situationOp.load(async() => ({
 			kind: "ingress",
-			file,
+			identities,
 			onBack,
 			onAddIdentities: identities => authcore.add(...identities),
 		}))

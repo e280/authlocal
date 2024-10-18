@@ -1,6 +1,9 @@
 
 import {Identity} from "./identity.js"
-import {IdentitiesJson} from "./types.js"
+import {ensure} from "./utils/ensure.js"
+import {base64} from "../../tools/base64.js"
+import {crushUsername} from "./utils/crush-username.js"
+import {IdentitiesJson, IdentityJson} from "./types.js"
 
 export class Identities {
 	static readonly format = "authduo.org ids"
@@ -44,7 +47,7 @@ export class Identities {
 		}
 	}
 
-	static ingest(raw: any): IdentitiesJson {
+	static ingestJson(raw: any): IdentitiesJson {
 		let json: IdentitiesJson | null = null
 
 		if (
@@ -62,16 +65,40 @@ export class Identities {
 		if (!json)
 			throw new Error(`unknown version ${raw.version}`)
 
-		return json
+		return {
+			format: ensure.string("format", json.format),
+			version: ensure.number("version", json.version),
+			identities: ensure.array("array", json.identities.map((id): IdentityJson => ({
+				name: ensure.string("name", id.name),
+				created: ensure.number("created", id.created),
+				keypair: {
+					public: ensure.string("public", id.keypair.public),
+					private: ensure.string("private", id.keypair.private),
+				},
+			})))
+		}
 	}
 
 	static async fromJson(raw: any) {
-		const json = Identities.ingest(raw)
+		const json = Identities.ingestJson(raw)
 		const identities = new this()
 		identities.add(...await Promise.all(
 			json.identities.map(id => Identity.fromJson(id))
 		))
 		return identities
+	}
+
+	filename() {
+		const ids = this.list()
+		return ids.length === 1
+			? `${crushUsername(ids.at(0)!.name)}.id`
+			: `identities.id`
+	}
+
+	href() {
+		const text = JSON.stringify(this.toJson(), undefined, "\t")
+		const encoded = base64.from.text(text)
+		return `data:application/json;base64,${encoded}`
 	}
 }
 

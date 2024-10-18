@@ -7,7 +7,7 @@ export const AuthduoLogin = nexus.shadowComponent(use => {
 	use.styles(stylesCss)
 
 	return html`
-		<h1>login</h1>
+		<button>login</button>
 	`
 })
 

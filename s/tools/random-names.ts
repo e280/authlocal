@@ -58,15 +58,15 @@ function generateName(patterns: string[]) {
 		.join("")
 }
 
-export function syllabicFirstName() {
+export function randomFirstName() {
 	return generateName(patterns.firstName)
 }
 
-export function syllabicLastName() {
+export function randomLastName() {
 	return generateName(patterns.lastName)
 }
 
-export function syllabicName() {
-	return `${syllabicFirstName()} ${syllabicLastName()}`
+export function randomFullName() {
+	return `${randomFirstName()} ${randomLastName()}`
 }
 

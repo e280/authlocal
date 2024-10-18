@@ -33,7 +33,6 @@ export class Identity {
 		return deep.clone({
 			version: versions.identity,
 			keypair: this.keypair.toJson(),
-			thumbprint: this.thumbprint,
 			name: this.name,
 			created: this.created,
 		})
