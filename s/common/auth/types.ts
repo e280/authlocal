@@ -1,7 +1,11 @@
 
 export type KeypairJson = {
-	public: string
-	private: string
+	privateKey: string
+} & PubkeyJson
+
+export type PubkeyJson = {
+	thumbprint: string
+	publicKey: string
 }
 
 export type IdentityJson = {
@@ -14,5 +18,10 @@ export type IdentitiesJson = {
 	format: string
 	version: number
 	identities: IdentityJson[]
+}
+
+export type Signed = {
+	data: string
+	signature: string
 }
 

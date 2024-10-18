@@ -40,7 +40,7 @@ export class Identities {
 
 	toJson(): IdentitiesJson {
 		return {
-			format: "authduop",
+			format: Identities.format,
 			version: Identities.version,
 			identities: [...this.#map.values()]
 				.map(id => id.toJson()),
@@ -72,8 +72,9 @@ export class Identities {
 				name: ensure.string("name", id.name),
 				created: ensure.number("created", id.created),
 				keypair: {
-					public: ensure.string("public", id.keypair.public),
-					private: ensure.string("private", id.keypair.private),
+					thumbprint: ensure.string("thumbprint", id.keypair.thumbprint),
+					publicKey: ensure.string("public", id.keypair.publicKey),
+					privateKey: ensure.string("private", id.keypair.privateKey),
 				},
 			})))
 		}
@@ -83,7 +84,7 @@ export class Identities {
 		const json = Identities.ingestJson(raw)
 		const identities = new this()
 		identities.add(...await Promise.all(
-			json.identities.map(id => Identity.fromJson(id))
+			json.identities.map(async idjson => Identity.fromJson(idjson))
 		))
 		return identities
 	}

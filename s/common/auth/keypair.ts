@@ -1,71 +1,69 @@
 
-import {deep} from "@benev/slate"
+import {Pubkey} from "./pubkey.js"
 import {hex} from "../../tools/hex.js"
-import {KeypairJson} from "./types.js"
+import {base64} from "../../tools/base64.js"
+import {KeypairJson, Signed} from "./types.js"
+import {CryptoConstants} from "./crypto-constants.js"
 
-export class Keypair {
-	static thumbalgo = "SHA-256" as const
-	static algo = {name: "ECDSA", namedCurve: "P-256"}
-	static format = {public: "spki" as const, private: "pkcs8" as const}
-
+export class Keypair extends Pubkey {
 	constructor(
-		public readonly keys: CryptoKeyPair,
-		public readonly thumbprint: string,
-		private readonly json: KeypairJson,
-	) {}
+			thumbprint: string,
+			publicKey: CryptoKey,
+			public readonly privateKey: CryptoKey,
+		) {
+		super(thumbprint, publicKey)
+	}
 
 	static async generate() {
 		const keys = await crypto.subtle
-			.generateKey(this.algo, true, ["sign", "verify"])
+			.generateKey(CryptoConstants.algo, true, ["sign", "verify"])
 
 		const publicBuffer = await crypto.subtle
-			.exportKey(Keypair.format.public, keys.publicKey)
-
-		const privateBuffer = await crypto.subtle
-			.exportKey(Keypair.format.private, keys.privateKey)
+			.exportKey(CryptoConstants.format.public, keys.publicKey)
 
 		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(Keypair.thumbalgo, publicBuffer)
+			await crypto.subtle.digest(CryptoConstants.thumbalgo, publicBuffer)
 		)
 
-		const hexkeys: KeypairJson = {
-			public: hex.from.buffer(publicBuffer),
-			private: hex.from.buffer(privateBuffer),
-		}
-
-		return new this(keys, thumbprint, hexkeys)
+		return new this(thumbprint, keys.publicKey, keys.privateKey)
 	}
 
 	static async fromJson(json: KeypairJson) {
+		const pubkey = await Pubkey.fromJson(json)
 		const extractable = true
-		const publicBuffer = hex.to.buffer(json.public)
-		const privateBuffer = hex.to.buffer(json.private)
-
-		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(Keypair.thumbalgo, publicBuffer)
-		)
-
-		const publicKey = await crypto.subtle.importKey(
-			this.format.public,
-			publicBuffer,
-			this.algo,
-			extractable,
-			["verify"],
-		)
+		const privateBuffer = hex.to.buffer(json.privateKey)
 
 		const privateKey = await crypto.subtle.importKey(
-			this.format.private,
+			CryptoConstants.format.private,
 			privateBuffer,
-			this.algo,
+			CryptoConstants.algo,
 			extractable,
 			["sign"],
 		)
 
-		return new Keypair({publicKey, privateKey}, thumbprint, json)
+		return new this(pubkey.thumbprint, pubkey.publicKey, privateKey)
 	}
 
-	toJson() {
-		return deep.clone(this.json)
+	async toJson(): Promise<KeypairJson> {
+		const pubkey = await super.toJson()
+
+		const privateBuffer = await crypto.subtle
+			.exportKey(CryptoConstants.format.private, this.privateKey)
+
+		return {
+			thumbprint: pubkey.thumbprint,
+			publicKey: pubkey.publicKey,
+			privateKey: hex.from.buffer(privateBuffer),
+		}
+	}
+
+	async sign<P>(payload: P): Promise<Signed> {
+		const data = new TextEncoder().encode(JSON.stringify(payload)).buffer
+		const signature = await crypto.subtle.sign(CryptoConstants.algo, this.privateKey, data)
+		return {
+			data: base64.from.buffer(data),
+			signature: base64.from.buffer(signature),
+		}
 	}
 }
 
