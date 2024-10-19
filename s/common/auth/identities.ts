@@ -27,14 +27,8 @@ export class Identities {
 		return this
 	}
 
-	clear() {
+	deleteAll() {
 		this.#map.clear()
-		return this
-	}
-
-	overwrite(identities: Identity[]) {
-		this.#map.clear()
-		this.add(...identities)
 		return this
 	}
 
@@ -80,12 +74,10 @@ export class Identities {
 		}
 	}
 
-	static async fromJson(raw: any) {
+	static fromJson(raw: any) {
 		const json = Identities.ingestJson(raw)
 		const identities = new this()
-		identities.add(...await Promise.all(
-			json.identities.map(async idjson => Identity.fromJson(idjson))
-		))
+		identities.add(...json.identities.map(idjson => Identity.fromJson(idjson)))
 		return identities
 	}
 

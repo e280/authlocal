@@ -1,12 +1,12 @@
 
-export type KeypairJson = {
-	privateKey: string
-} & PubkeyJson
-
 export type PubkeyJson = {
 	thumbprint: string
 	publicKey: string
 }
+
+export type KeypairJson = {
+	privateKey: string
+} & PubkeyJson
 
 export type IdentityJson = {
 	keypair: KeypairJson
