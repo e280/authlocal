@@ -7,6 +7,7 @@ import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
 import {IngressPage} from "../pages/ingress/view.js"
+import {Idfile} from "../../../common/auth/idfile.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {Identity} from "../../../common/auth/identity.js"
@@ -16,20 +17,20 @@ import {determinePurpose} from "../../logic/determine-purpose.js"
 
 import shieldOffIcon from "../../../common/icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-filled.icon.js"
-import { Identities } from "../../../common/auth/identities.js"
 
 export const AuthManager = nexus.shadowComponent(use => {
 	use.styles(stylesCss)
 
-	const {authcore, storagePersistence} = use.context
+	const {idstore, storagePersistence} = use.context
 	const purpose = use.once(determinePurpose)
 	const situationOp = use.op<Situation.Any>()
+
 	use.once(() => storagePersistence.check())
 
 	function gotoList() {
 		situationOp.load(async() => ({
 			kind: "list",
-			authcore,
+			idstore,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
 			onEgress: identities => gotoEgress(identities, gotoList),
@@ -44,7 +45,7 @@ export const AuthManager = nexus.shadowComponent(use => {
 			identity,
 			onCancel: gotoList,
 			onComplete: identity => {
-				authcore.add(identity)
+				idstore.add(identity)
 				storagePersistence.request()
 				gotoList()
 			},
@@ -58,7 +59,7 @@ export const AuthManager = nexus.shadowComponent(use => {
 			onCancel: gotoList,
 			onDelete: gotoDelete,
 			onComplete: identity => {
-				authcore.add(identity)
+				idstore.add(identity)
 				storagePersistence.request()
 				gotoList()
 			},
@@ -71,7 +72,7 @@ export const AuthManager = nexus.shadowComponent(use => {
 			identity,
 			onCancel: gotoList,
 			onComplete: identity => {
-				authcore.delete(identity)
+				idstore.delete(identity)
 				storagePersistence.request()
 				gotoList()
 			},
@@ -86,18 +87,18 @@ export const AuthManager = nexus.shadowComponent(use => {
 		}))
 	}
 
-	function gotoIngress(identities: Identities | undefined, onBack: () => void) {
+	function gotoIngress(identities: Idfile | undefined, onBack: () => void) {
 		situationOp.load(async() => ({
 			kind: "ingress",
 			identities,
 			onBack,
-			onAddIdentities: identities => authcore.add(...identities),
+			onAddIdentities: identities => idstore.add(...identities),
 		}))
 	}
+
 	use.once(gotoList)
 
 	const page = loading.braille(situationOp, situation => {switch (situation.kind) {
-
 		case "list":
 			return ListPage([situation, purpose])
 

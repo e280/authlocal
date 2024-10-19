@@ -3,10 +3,10 @@ import {deep, html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../../nexus.js"
-import {Identity} from "../../../auth/types.js"
 import {whence} from "../../../../tools/whence.js"
-import {validName} from "../../../auth/utils/validation.js"
+import {Identity} from "../../../../common/auth/identity.js"
 import {inputString} from "../../../../tools/input-string.js"
+import {validName} from "../../../../common/auth/utils/validation.js"
 
 export const IdentityEditor = nexus.shadowView(use => ({identity, onUpdate}: {
 		identity: Identity
@@ -40,16 +40,19 @@ export const IdentityEditor = nexus.shadowView(use => ({identity, onUpdate}: {
 		<section class=form>
 			<label>
 				<span>Name</span>
+
 				<input
 					type=text
 					.value="${name.value}"
 					@input="${inputString(updateName)}"
 					?data-angry="${!validName(name.value)}"
 					/>
+
 				<small>
 					<span>${whence(identity.created)}</span>
 					<span>${identity.thumbprint.slice(0, 8)}</span>
 				</small>
+
 				${!validName(name.value) ? html`
 					<small class=angry>invalid name</small>
 				` : null}

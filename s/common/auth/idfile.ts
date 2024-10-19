@@ -2,10 +2,10 @@
 import {Identity} from "./identity.js"
 import {ensure} from "./utils/ensure.js"
 import {base64} from "../../tools/base64.js"
+import {IdfileJson, IdentityJson} from "./types.js"
 import {crushUsername} from "./utils/crush-username.js"
-import {IdentitiesJson, IdentityJson} from "./types.js"
 
-export class Identities {
+export class Idfile {
 	static readonly format = "authduo.org ids"
 	static readonly version = 2
 
@@ -32,22 +32,22 @@ export class Identities {
 		return this
 	}
 
-	toJson(): IdentitiesJson {
+	toJson(): IdfileJson {
 		return {
-			format: Identities.format,
-			version: Identities.version,
+			format: Idfile.format,
+			version: Idfile.version,
 			identities: [...this.#map.values()]
 				.map(id => id.toJson()),
 		}
 	}
 
-	static ingestJson(raw: any): IdentitiesJson {
-		let json: IdentitiesJson | null = null
+	static ingestJson(raw: any): IdfileJson {
+		let json: IdfileJson | null = null
 
 		if (
 			!("format" in raw) ||
 			!("version" in raw) ||
-			raw.format !== Identities.format)
+			raw.format !== Idfile.format)
 				throw new Error(`invalid format`)
 
 		switch (raw.version) {
@@ -75,7 +75,7 @@ export class Identities {
 	}
 
 	static fromJson(raw: any) {
-		const json = Identities.ingestJson(raw)
+		const json = Idfile.ingestJson(raw)
 		const identities = new this()
 		identities.add(...json.identities.map(idjson => Identity.fromJson(idjson)))
 		return identities

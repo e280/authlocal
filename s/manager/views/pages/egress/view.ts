@@ -2,13 +2,13 @@
 import {html} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import {nexus} from "../../../nexus.js"
-import {Authfile} from "../../../auth/file.js"
 import {Situation} from "../../../logic/situation.js"
 import {Breakdown} from "../../common/breakdown/view.js"
+import {Idfile} from "../../../../common/auth/idfile.js"
 
 export const EgressPage = nexus.shadowView(use => (situation: Situation.Egress) => {
 	use.styles(stylesCss)
-	const {name, href} = Authfile.downloadable(situation.identities)
+	const idfile = new Idfile().add(...situation.identities)
 
 	return html`
 		<section>
@@ -18,7 +18,7 @@ export const EgressPage = nexus.shadowView(use => (situation: Situation.Egress) 
 			<div class=special>
 				${Breakdown([situation.identities])}
 				<div class=download>
-					<a class=button download="${name}" href="${href}">
+					<a class=button download="${idfile.filename()}" href="${idfile.href()}">
 						Export
 					</a>
 					<span>${name}</span>

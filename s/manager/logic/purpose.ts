@@ -1,5 +1,5 @@
 
-import {Identity} from "../auth/types.js"
+import {Identity} from "../../common/auth/identity.js"
 
 export namespace Purpose {
 	export type Manage = {

@@ -1,12 +1,16 @@
 
+import {Idstore} from "./authstore.js"
+import {Idfile} from "../../common/auth/idfile.js"
+import {Identity} from "../../common/auth/identity.js"
+
 export namespace Situation {
 	export type List = {
 		kind: "list"
-		authcore: Authcore
+		idstore: Idstore
 		onCreate: () => void
 		onEdit: (identity: Identity) => void
 		onEgress: (identities: Identity[]) => void
-		onIngress: (file: IdentityFile | undefined) => void
+		onIngress: (identities: Idfile | undefined) => void
 	}
 
 	export type Create = {
@@ -39,7 +43,7 @@ export namespace Situation {
 
 	export type Ingress = {
 		kind: "ingress"
-		file: IdentityFile | undefined
+		identities: Idfile | undefined
 		onBack: () => void
 		onAddIdentities: (identities: Identity[]) => void
 	}

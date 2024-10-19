@@ -3,8 +3,8 @@ import {html} from "@benev/slate"
 
 import styles from "./styles.js"
 import {nexus} from "../../../nexus.js"
-import {Identity} from "../../../auth/types.js"
 import {Situation} from "../../../logic/situation.js"
+import {Identity} from "../../../../common/auth/identity.js"
 import {IdentityEditor} from "../../common/identity-editor/view.js"
 
 export const EditPage = nexus.shadowView(use => (situation: Situation.Edit) => {

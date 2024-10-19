@@ -4,8 +4,8 @@ import {html} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import {nexus} from "../../../nexus.js"
 import {whence} from "../../../../tools/whence.js"
-import {Identity} from "../../../auth/types.js"
 import {svgSlate} from "../../../../tools/svg-slate.js"
+import {Identity} from "../../../../common/auth/identity.js"
 import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
 
 export const Breakdown = nexus.shadowView(use => (identities: Identity[]) => {

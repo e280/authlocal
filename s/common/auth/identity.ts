@@ -2,7 +2,6 @@
 import {deep} from "@benev/slate"
 import {Keypair} from "./keypair.js"
 import {IdentityJson, KeypairJson} from "./types.js"
-import {versions} from "../../manager/auth/versions.js"
 import {randomFullName} from "../../tools/random-names.js"
 
 export class Identity {
@@ -31,7 +30,6 @@ export class Identity {
 
 	toJson(): IdentityJson {
 		return deep.clone({
-			version: versions.identity,
 			keypair: this.keypairJson,
 			name: this.name,
 			created: this.created,

@@ -14,7 +14,7 @@ export type IdentityJson = {
 	created: number
 }
 
-export type IdentitiesJson = {
+export type IdfileJson = {
 	format: string
 	version: number
 	identities: IdentityJson[]

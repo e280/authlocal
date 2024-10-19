@@ -2,50 +2,54 @@
 import {html} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import {nexus} from "../../../nexus.js"
-import {Authfile} from "../../../auth/file.js"
-import {Identity} from "../../../auth/types.js"
 import {Situation} from "../../../logic/situation.js"
+import {Idfile} from "../../../../common/auth/idfile.js"
 import {Breakdown} from "../../common/breakdown/view.js"
+import {Identity} from "../../../../common/auth/identity.js"
 
 export const IngressPage = nexus.shadowView(use => (situation: Situation.Ingress) => {
 	use.styles(stylesCss)
 
-	const stage = use.signal(new Map<string, Identity>())
+	const identities = use.signal<Identity[]>([])
 
 	async function handleUpload(event: InputEvent) {
 		const input = event.currentTarget as HTMLInputElement
 		const files = Array.from(input.files ?? [])
 
-		stage.value.clear()
-		stage.publish()
+		identities.value = []
 
 		for (const file of files) {
-			const text = await file.text()
-			const idfile = Authfile.decode(text)
-			for (const identity of idfile.identities)
-				stage.value.set(identity.thumbprint, identity)
+			try {
+				const text = await file.text()
+				const idfile = Idfile.fromJson(JSON.parse(text))
+				identities.value = [...identities.value, ...idfile.list()]
+			}
+			catch {}
 		}
-
-		stage.publish()
 	}
 
 	function accept() {
-		situation.onAddIdentities([...stage.value.values()])
+		situation.onAddIdentities(identities.value)
 		situation.onBack()
 	}
 
 	return html`
 		<section>
 			<h2>Import identities from your device.</h2>
-			<input type="file" multiple accept=".authduo" @change="${handleUpload}"/>
-			${stage.value.size > 0 ? html`
-				${Breakdown([[...stage.value.values()]])}
+			<input type="file" multiple accept=".id" @change="${handleUpload}"/>
+			${identities.value.length > 0 ? html`
+				${Breakdown([identities.value])}
 			` : null}
 		</section>
 
 		<footer class=buttonbar>
 			<button @click="${situation.onBack}">Cancel</button>
-			<button class=happy ?disabled="${stage.value.size === 0}" @click="${accept}">Import Identities</button>
+			<button
+				class=happy
+				?disabled="${identities.value.length === 0}"
+				@click="${accept}">
+					Import Identities
+			</button>
 		</footer>
 	`
 })

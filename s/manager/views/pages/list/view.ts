@@ -9,11 +9,15 @@ import {Situation} from "../../../logic/situation.js"
 import {svgSlate} from "../../../../tools/svg-slate.js"
 import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
 
-export const ListPage = nexus.shadowView(use => (situation: Situation.List, purpose: Purpose.Any) => {
+export const ListPage = nexus.shadowView(use => (
+		situation: Situation.List,
+		purpose: Purpose.Any,
+	) => {
+
 	use.styles(styles)
 
-	const {authcore} = situation
-	const identities = authcore.list()
+	const {idstore} = situation
+	const identities = idstore.list()
 	const none = identities.length === 0
 
 	return html`
