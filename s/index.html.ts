@@ -1,7 +1,7 @@
 
 import "@benev/slate/x/node.js"
 import {svgTurtle} from "./tools/svg-turtle.js"
-import shieldLockIcon from "./dom/icons/tabler/shield-lock.icon.js"
+import shieldLockIcon from "./common/icons/tabler/shield-lock.icon.js"
 import {template, html, easypage, headScripts, git_commit_hash, read_file, unsanitized} from "@benev/turtle"
 
 export default template(async basic => {
@@ -16,14 +16,14 @@ export default template(async basic => {
 			<link rel="icon" href="/assets/favicon.png"/>
 
 			<style>
-				${unsanitized(await read_file("x/index.css"))}
+				${unsanitized(await read_file("x/manager/manager.css"))}
 			</style>
 
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("index.bundle.js"),
-				prodModulePath: await path.version.root("index.bundle.min.js"),
+				devModulePath: await path.version.root("manager/manager.bundle.js"),
+				prodModulePath: await path.version.root("manager/manager.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
@@ -32,7 +32,9 @@ export default template(async basic => {
 				${svgTurtle(shieldLockIcon)}
 				<span>Authduo.org</span>
 			</h1>
-			<auth-app></auth-app>
+
+			<auth-manager></auth-manager>
+
 			<footer>
 				<p>Authduo powers logins without servers.</p>
 				<p>Clientside decentralized user-sovereign federated auth. Free and open source.</p>

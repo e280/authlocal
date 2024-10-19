@@ -2,22 +2,22 @@
 import {signal} from "@benev/slate"
 
 export function storageSignal<T>(key: string) {
-	function get(): T {
+	function load(): T {
 		const value = localStorage.getItem(key)
 		return value ? JSON.parse(value) : null
 	}
 
-	const readable = signal(get())
+	const readable = signal(load())
 
-	function set(value: T) {
+	function save(value: T) {
 		localStorage.setItem(key, JSON.stringify(value))
 		readable.value = value
 	}
 
 	window.addEventListener("storage", () => {
-		readable.value = get()
+		readable.value = load()
 	})
 
-	return {signal: readable, set, get}
+	return {signal: readable, save, load}
 }
 
