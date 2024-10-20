@@ -1,7 +1,7 @@
 {
-	"name": "authduo",
+	"name": "@authduo/authduo",
 	"version": "0.0.0-0",
-	"description": "decentralized local clientside user-centric auth",
+	"description": "Free User-sovereign Authentication for the World",
 	"main": "x/index.js",
 	"type": "module",
 	"files": [
@@ -33,9 +33,15 @@
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
 	"keywords": [
 		"auth",
-		"decentralized",
-		"local",
+		"zero-cost",
+		"privacy-focused",
+		"user-sovereign",
 		"clientside",
-		"user-centric"
+		"federated",
+		"decentralized",
+		"protocol",
+		"free",
+		"open-source",
+		"foss"
 	]
 }
