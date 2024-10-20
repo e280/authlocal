@@ -57,6 +57,10 @@ export class Keypair extends Pubkey {
 		}
 	}
 
+	toPubkey() {
+		return new Pubkey(this.thumbprint, this.publicKey)
+	}
+
 	async sign<P>(payload: P): Promise<Signed> {
 		const data = new TextEncoder().encode(JSON.stringify(payload)).buffer
 		const signature = await crypto.subtle.sign(CryptoConstants.algo, this.privateKey, data)

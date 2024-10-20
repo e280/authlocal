@@ -1,4 +1,5 @@
 
+/** this is a public key */
 export type PubkeyJson = {
 	thumbprint: string
 	publicKey: string
@@ -23,5 +24,15 @@ export type IdfileJson = {
 export type Signed = {
 	data: string
 	signature: string
+}
+
+export type PersonaJson = {
+	name: string
+	pubkey: PubkeyJson
+}
+
+export type ViceroyJson = {
+	name: string
+	keypair: KeypairJson
 }
 
