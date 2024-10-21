@@ -1,7 +1,7 @@
 
 # 🛡️ [Authduo.org](https://authduo.org/)
 
-*Authduo makes it free and easy for you to setup user logins onto your website or web app.*
+*Login system for your website or web app.*
 
 🥞 **Easy as pancakes** – paste in a tiny amount of code to get auth for free  
 🔑 **Passwordless** – users have cryptographic identity keypairs  
@@ -33,29 +33,24 @@
       })
     </script>
     ```
-    - customize that second script to handle logins/logouts your way
-    - when the user logs in, the `login` object looks like this:
+    - Customize that second script to handle logins/logouts your way
+    - When the user logs in, the `login` object looks like this:
       ```js
       login.name // Kaylim Bojrumaj
       login.thumbprint // "4e77bccf..."
       login.expiresAt // 1729381451374
       login.token // <raw data that can be crypto-verified>
       ```
-    - when the user logs out, `login` is `null`
+    - When the user logs out, `login` is `null`
 1. **Put this button in your `<body>`:**
     ```html
     <auth-login></auth-login>
     ```
-    - this provides a nice little status/button ui for users to login or logout
-1. 🎉 **You're done!**
-    - Do whatever you want with that `login` object.
-    - Display `login.name` in your UI.
-    - Use the `login.thumbprint` as a unique user ID.
-    - If you're getting advanced, you can send the `login.token` to your api server and verify it there.
+    - This provides a nice little status/button ui for users to login or logout
 
 <br/>
 
-## 🧐 Sophisticated Authduo Installation
+## 🧐 Sophisticated Installation for App Devs
 
 *Choose this installation method if you're familiar with npm, package.json, and typescript.*
 
@@ -173,6 +168,6 @@
 
 ## 💖 Authduo is free and open source
 - I built Authduo because I wanted free user-centric auth for my apps.
-- Got questions or feedback? don't hesitate to open a github issue or discussion anytime.
+- Got questions or feedback? Don't hesitate to open a github issue or discussion anytime.
 - My name is Chase Moskal, ping me on discord: https://discord.gg/BnZx2utdev
 
