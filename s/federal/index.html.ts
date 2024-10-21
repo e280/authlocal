@@ -15,14 +15,14 @@ export default template(async basic => {
 
 			<style>
 				${unsanitized(await read_file("x/manager/manager.css"))}
-				${unsanitized(await read_file("x/federated/index.css"))}
+				${unsanitized(await read_file("x/federal/index.css"))}
 			</style>
 
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("federated/index.bundle.js"),
-				prodModulePath: await path.version.root("federated/index.bundle.min.js"),
+				devModulePath: await path.version.root("federal/index.bundle.js"),
+				prodModulePath: await path.version.root("federal/index.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
