@@ -1,20 +1,20 @@
 
-import {html} from "@benev/slate"
+import {html, shadowView} from "@benev/slate"
 
-import styles from "./styles.js"
-import {nexus} from "../../../nexus.js"
+import stylesCss from "./styles.css.js"
+import {theme} from "../../../../common/theme.js"
 import {Purpose} from "../../../logic/purpose.js"
 import {whence} from "../../../../tools/whence.js"
 import {Situation} from "../../../logic/situation.js"
 import {svgSlate} from "../../../../tools/svg-slate.js"
 import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
 
-export const ListPage = nexus.shadowView(use => (
+export const ListPage = shadowView(use => (
 		situation: Situation.List,
 		purpose: Purpose.Any,
 	) => {
 
-	use.styles(styles)
+	use.styles([theme, stylesCss])
 
 	const {idstore} = situation
 	const identities = idstore.list()

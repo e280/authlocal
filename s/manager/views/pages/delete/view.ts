@@ -1,15 +1,15 @@
 
 
-import {html} from "@benev/slate"
+import {html, shadowView} from "@benev/slate"
 
-import styles from "./styles.js"
-import {nexus} from "../../../nexus.js"
+import stylesCss from "./styles.css.js"
+import {theme} from "../../../../common/theme.js"
 import {Situation} from "../../../logic/situation.js"
 import {Breakdown} from "../../common/breakdown/view.js"
 import {signalInput} from "../../../../tools/signal-input.js"
 
-export const DeletePage = nexus.shadowView(use => (situation: Situation.Delete) => {
-	use.styles(styles)
+export const DeletePage = shadowView(use => (situation: Situation.Delete) => {
+	use.styles([theme, stylesCss])
 
 	const {identity} = situation
 	const thumb = use.once(() => identity.thumbprint.slice(0, 5))

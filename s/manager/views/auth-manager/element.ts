@@ -1,8 +1,9 @@
 
-import {html, loading} from "@benev/slate"
+import {shadowComponent, html, loading} from "@benev/slate"
 
-import {nexus} from "../../nexus.js"
 import stylesCss from "./styles.css.js"
+import {manager} from "../../context.js"
+import {theme} from "../../../common/theme.js"
 import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
@@ -18,10 +19,10 @@ import {determinePurpose} from "../../logic/determine-purpose.js"
 import shieldOffIcon from "../../../common/icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-filled.icon.js"
 
-export const AuthManager = nexus.shadowComponent(use => {
-	use.styles(stylesCss)
+export const AuthManager = shadowComponent(use => {
+	use.styles([theme, stylesCss])
 
-	const {idstore, storagePersistence} = use.context
+	const {idstore, storagePersistence} = manager
 	const purpose = use.once(determinePurpose)
 	const situationOp = use.op<Situation.Any>()
 

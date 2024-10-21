@@ -14,16 +14,13 @@ export default template(async basic => {
 		title: "Authduo.org",
 		head: html`
 			<link rel="icon" href="/assets/favicon.png"/>
-
-			<style>
-				${unsanitized(await read_file("x/manager/manager.css"))}
-			</style>
+			<style>${unsanitized(await read_file("x/manager/index.css"))}</style>
 
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("manager/manager.bundle.js"),
-				prodModulePath: await path.version.root("manager/manager.bundle.min.js"),
+				devModulePath: await path.version.root("manager/index.bundle.js"),
+				prodModulePath: await path.version.root("manager/index.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,

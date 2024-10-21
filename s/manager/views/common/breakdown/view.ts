@@ -1,15 +1,15 @@
 
-import {html} from "@benev/slate"
+import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import {nexus} from "../../../nexus.js"
+import {theme} from "../../../../common/theme.js"
 import {whence} from "../../../../tools/whence.js"
 import {svgSlate} from "../../../../tools/svg-slate.js"
 import {Identity} from "../../../../common/auth/identity.js"
 import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
 
-export const Breakdown = nexus.shadowView(use => (identities: Identity[]) => {
-	use.styles(stylesCss)
+export const Breakdown = shadowView(use => (identities: Identity[]) => {
+	use.styles([theme, stylesCss])
 
 	return html`
 		<ul>

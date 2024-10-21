@@ -24,7 +24,7 @@
 
 1. **Insert this in your `<head>`:**
     ```html
-    <script type="module" src="https://authduo.org/install.js"></script>
+    <script type="module" src="https://authduo.org/install.bundle.min.js"></script>
 
     <script type="module">
       document.querySelector("auth-login").auth.onChange(login => {

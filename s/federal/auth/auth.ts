@@ -22,7 +22,10 @@ export class Auth {
 
 	set login(login: Login | null) {
 		this.#login.save(login)
-		this.onChange.publish(login)
+	}
+
+	constructor() {
+		this.#login.signal.on(login => this.onChange.publish(login))
 	}
 
 	async popup(url: string = Auth.url) {

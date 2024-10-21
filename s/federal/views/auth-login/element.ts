@@ -1,13 +1,13 @@
 
-import {attributes, GoldElement, html} from "@benev/slate"
+import {attributes, GoldElement, html, mixin} from "@benev/slate"
 
-import {auth} from "../../nexus.js"
+import {auth} from "../../context.js"
 import {Auth} from "../../auth/auth.js"
 import stylesCss from "./styles.css.js"
+import {theme} from "../../../common/theme.js"
 
+@mixin.setup(theme, stylesCss)
 export class AuthLogin extends GoldElement {
-	static get styles() { return stylesCss }
-
 	auth = auth
 	#attrs = attributes(this as GoldElement, {src: String})
 

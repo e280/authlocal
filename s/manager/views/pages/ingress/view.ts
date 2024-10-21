@@ -1,14 +1,14 @@
 
-import {html} from "@benev/slate"
+import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
-import {nexus} from "../../../nexus.js"
+import {theme} from "../../../../common/theme.js"
 import {Situation} from "../../../logic/situation.js"
 import {Idfile} from "../../../../common/auth/idfile.js"
 import {Breakdown} from "../../common/breakdown/view.js"
 import {Identity} from "../../../../common/auth/identity.js"
 
-export const IngressPage = nexus.shadowView(use => (situation: Situation.Ingress) => {
-	use.styles(stylesCss)
+export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
+	use.styles([theme, stylesCss])
 
 	const identities = use.signal<Identity[]>([])
 
