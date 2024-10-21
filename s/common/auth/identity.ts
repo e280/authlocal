@@ -1,8 +1,9 @@
 
 import {deep} from "@benev/slate"
 import {Keypair} from "./keypair.js"
-import {IdentityJson, KeypairJson} from "./types.js"
+import {JsonWebToken} from "./utils/json-web-token.js"
 import {randomFullName} from "../../tools/random-names.js"
+import {AccessJwtPayload, IdentityJson, KeypairJson} from "./types.js"
 
 export class Identity {
 	constructor(
@@ -38,6 +39,16 @@ export class Identity {
 
 	async getKeypair() {
 		return await Keypair.fromJson(this.keypairJson)
+	}
+
+	async signAccessToken(o: {expiry: number, audience: string}) {
+		const keypair = await this.getKeypair()
+		return await keypair.sign<AccessJwtPayload>({
+			exp: JsonWebToken.fromJsTime(o.expiry),
+			aud: o.audience,
+			sub: this.thumbprint,
+			data: {name: this.name, publicKey: this.keypairJson.publicKey},
+		})
 	}
 }
 

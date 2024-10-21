@@ -1,8 +1,8 @@
 
+import {PubkeyJson} from "./types.js"
 import {hex} from "../../tools/hex.js"
-import {base64} from "../../tools/base64.js"
-import {PubkeyJson, Signed} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
+import {JsonWebToken, Payload} from "./utils/json-web-token.js"
 
 export class Pubkey {
 	constructor(
@@ -15,16 +15,16 @@ export class Pubkey {
 		const publicBuffer = hex.to.buffer(json.publicKey)
 
 		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(CryptoConstants.thumbalgo, publicBuffer)
+			await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
 		)
 
 		if (json.thumbprint !== thumbprint)
 			throw new Error("incorrect thumbprint")
 
 		const publicKey = await crypto.subtle.importKey(
-			CryptoConstants.format.public,
+			CryptoConstants.formats.public,
 			publicBuffer,
-			CryptoConstants.algo,
+			CryptoConstants.algos.generate,
 			extractable,
 			["verify"],
 		)
@@ -34,10 +34,10 @@ export class Pubkey {
 
 	async toJson(): Promise<PubkeyJson> {
 		const publicBuffer = await crypto.subtle
-			.exportKey(CryptoConstants.format.public, this.publicKey)
+			.exportKey(CryptoConstants.formats.public, this.publicKey)
 
 		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(CryptoConstants.thumbalgo, publicBuffer)
+			await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
 		)
 
 		return {
@@ -46,14 +46,8 @@ export class Pubkey {
 		}
 	}
 
-	async verify<P>(signed: Signed) {
-		const data = base64.to.buffer(signed.data)
-		const signature = base64.to.buffer(signed.signature)
-		const valid = await crypto.subtle.verify(CryptoConstants.algo, this.publicKey, signature, data)
-		if (valid)
-			return JSON.parse(new TextDecoder().decode(data)) as P
-		else
-			throw new Error("invalid signature")
+	async verify<P extends Payload>(token: string) {
+		return await JsonWebToken.verify<P>(this.publicKey, token)
 	}
 }
 

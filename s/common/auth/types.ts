@@ -20,8 +20,18 @@ export type IdfileJson = {
 	identities: IdentityJson[]
 }
 
-export type Signed = {
-	data: string
-	signature: string
+export type Access = {
+	name: string
+	thumbprint: string
+	publicKey: string
+	expiry: number
+	audience: string
+}
+
+export type AccessJwtPayload = {
+	sub: string
+	aud: string
+	exp: number
+	data: {name: string, publicKey: string}
 }
 
