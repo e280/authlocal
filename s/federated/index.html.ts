@@ -15,14 +15,14 @@ export default template(async basic => {
 
 			<style>
 				${unsanitized(await read_file("x/manager/manager.css"))}
-				${unsanitized(await read_file("x/login/test/test.css"))}
+				${unsanitized(await read_file("x/federated/index.css"))}
 			</style>
 
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("login/test/test.bundle.js"),
-				prodModulePath: await path.version.root("login/test/test.bundle.min.js"),
+				devModulePath: await path.version.root("federated/index.bundle.js"),
+				prodModulePath: await path.version.root("federated/index.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
@@ -30,7 +30,7 @@ export default template(async basic => {
 			<h1 class=title>
 				Apptest for Authduo
 			</h1>
-			<authduo-login></authduo-login>
+			<auth-login></auth-login>
 			<footer>
 				<p>This page is for testing purposes.</p>
 			</footer>

@@ -1,9 +1,5 @@
 
-export type Login = {
-	token: string
+import {Access} from "../../common/auth/types.js"
 
-	name: string
-	thumbprint: string
-	publicKey: CryptoKey
-}
+export type Login = {token: string} & Access
 

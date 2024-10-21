@@ -21,9 +21,9 @@ export type IdfileJson = {
 }
 
 export type Access = {
+	name: string
 	thumbprint: string
 	publicKey: string
-	name: string
 	expiry: number
 	audience: string
 }
