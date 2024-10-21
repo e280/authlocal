@@ -1,5 +1,4 @@
 
-/** this is a public key */
 export type PubkeyJson = {
 	thumbprint: string
 	publicKey: string
@@ -21,18 +20,18 @@ export type IdfileJson = {
 	identities: IdentityJson[]
 }
 
-export type Signed = {
-	data: string
-	signature: string
+export type Access = {
+	thumbprint: string
+	publicKey: string
+	name: string
+	expiry: number
+	audience: string
 }
 
-export type PersonaJson = {
-	name: string
-	pubkey: PubkeyJson
-}
-
-export type ViceroyJson = {
-	name: string
-	keypair: KeypairJson
+export type AccessJwtPayload = {
+	sub: string
+	aud: string
+	exp: number
+	data: {name: string, publicKey: string}
 }
 
