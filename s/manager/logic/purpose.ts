@@ -8,7 +8,7 @@ export namespace Purpose {
 
 	export type Login = {
 		kind: "login"
-		onLogin: (identity: Identity) => void
+		onLogin: (identity: Identity) => Promise<void>
 	}
 
 	////////////////////////////////

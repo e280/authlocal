@@ -14,10 +14,11 @@ export function storageSignal<T>(key: string) {
 		readable.value = value
 	}
 
-	window.addEventListener("storage", () => {
+	function refresh() {
 		readable.value = load()
-	})
+	}
 
-	return {signal: readable, save, load}
+	window.addEventListener("storage", refresh)
+	return {signal: readable, save, refresh}
 }
 

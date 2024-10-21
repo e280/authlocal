@@ -1,13 +1,37 @@
 
-import {html} from "@benev/slate"
-import {nexus} from "../../nexus.js"
+import {attributes, GoldElement, html} from "@benev/slate"
+
+import {auth} from "../../nexus.js"
+import {Auth} from "../../auth/auth.js"
 import stylesCss from "./styles.css.js"
 
-export const AuthLogin = nexus.shadowComponent(use => {
-	use.styles(stylesCss)
+export class AuthLogin extends GoldElement {
+	static get styles() { return stylesCss }
 
-	return html`
-		<button>login</button>
-	`
-})
+	auth = auth
+	#attrs = attributes(this as GoldElement, {src: String})
+
+	get src() {
+		return this.#attrs.src ?? Auth.url
+	}
+
+	set src(src: string) {
+		this.#attrs.src = src
+	}
+
+	render() {
+		const {auth} = this
+		const {login} = auth
+		const popup = () => auth.popup(this.#attrs.src)
+		const logout = () => { auth.login = null }
+
+		return html`
+			<p>${login ? login.name : "logged out"}</p>
+
+			${login
+				? html`<button @click="${logout}">logout</button>`
+				: html`<button @click="${popup}">login</button>`}
+		`
+	}
+}
 

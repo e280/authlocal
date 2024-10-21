@@ -1,8 +1,8 @@
 
 import {register_to_dom} from "@benev/slate"
-import {AuthLogin} from "./views/auth-login/element.js"
+import {components} from "./views/components.js"
 
-register_to_dom({AuthLogin})
+register_to_dom(components)
 
 console.log("🛡️ authduo federal")
 

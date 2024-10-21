@@ -34,7 +34,6 @@ export const ListPage = nexus.shadowView(use => (
 
 			case "manage":
 				return null
-
 		}})()}
 
 		<nav class=identities ?hidden="${none}">
