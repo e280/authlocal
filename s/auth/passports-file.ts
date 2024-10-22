@@ -16,14 +16,14 @@ export class PassportsFile {
 	}
 
 	add(...additions: Passport[]) {
-		for (const id of additions)
-			this.#map.set(id.thumbprint, id)
+		for (const passport of additions)
+			this.#map.set(passport.thumbprint, passport)
 		return this
 	}
 
 	delete(...deletions: Passport[]) {
-		for (const id of deletions)
-			this.#map.delete(id.thumbprint)
+		for (const passport of deletions)
+			this.#map.delete(passport.thumbprint)
 		return this
 	}
 
@@ -37,7 +37,7 @@ export class PassportsFile {
 			format: PassportsFile.format,
 			version: PassportsFile.version,
 			passports: [...this.#map.values()]
-				.map(id => id.toJson()),
+				.map(passport => passport.toJson()),
 		}
 	}
 
@@ -63,13 +63,13 @@ export class PassportsFile {
 		return {
 			format: ensure.string("format", json.format),
 			version: ensure.number("version", json.version),
-			passports: ensure.array("array", json.passports.map((id): PassportJson => ({
-				name: ensure.string("name", id.name),
-				created: ensure.number("created", id.created),
+			passports: ensure.array("array", json.passports.map((p): PassportJson => ({
+				name: ensure.string("name", p.name),
+				created: ensure.number("created", p.created),
 				keypair: {
-					thumbprint: ensure.string("thumbprint", id.keypair.thumbprint),
-					publicKey: ensure.string("public", id.keypair.publicKey),
-					privateKey: ensure.string("private", id.keypair.privateKey),
+					thumbprint: ensure.string("thumbprint", p.keypair.thumbprint),
+					publicKey: ensure.string("public", p.keypair.publicKey),
+					privateKey: ensure.string("private", p.keypair.privateKey),
 				},
 			})))
 		}
@@ -78,7 +78,7 @@ export class PassportsFile {
 	static fromJson(raw: any) {
 		const json = PassportsFile.#ingestJson(raw)
 		const passports = new this()
-		passports.add(...json.passports.map(idjson => Passport.fromJson(idjson)))
+		passports.add(...json.passports.map(json => Passport.fromJson(json)))
 		return passports
 	}
 

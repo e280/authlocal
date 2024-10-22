@@ -22,7 +22,7 @@ import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-fil
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
 
-	const {passportStore: idstore, storagePersistence} = manager
+	const {passportStore, storagePersistence} = manager
 	const purpose = use.once(determinePurpose)
 	const situationOp = use.op<Situation.Any>()
 
@@ -31,7 +31,7 @@ export const AuthManager = shadowComponent(use => {
 	function gotoList() {
 		situationOp.load(async() => ({
 			kind: "list",
-			passportStore: idstore,
+			passportStore,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
 			onEgress: passports => gotoEgress(passports, gotoList),
@@ -46,7 +46,7 @@ export const AuthManager = shadowComponent(use => {
 			passport,
 			onCancel: gotoList,
 			onComplete: passport => {
-				idstore.add(passport)
+				passportStore.add(passport)
 				storagePersistence.request()
 				gotoList()
 			},
@@ -60,7 +60,7 @@ export const AuthManager = shadowComponent(use => {
 			onCancel: gotoList,
 			onDelete: gotoDelete,
 			onComplete: passport => {
-				idstore.add(passport)
+				passportStore.add(passport)
 				storagePersistence.request()
 				gotoList()
 			},
@@ -73,7 +73,7 @@ export const AuthManager = shadowComponent(use => {
 			passport,
 			onCancel: gotoList,
 			onComplete: passport => {
-				idstore.delete(passport)
+				passportStore.delete(passport)
 				storagePersistence.request()
 				gotoList()
 			},
@@ -93,7 +93,7 @@ export const AuthManager = shadowComponent(use => {
 			kind: "ingress",
 			passports,
 			onBack,
-			onAddPassports: passports => idstore.add(...passports),
+			onAddPassports: passports => passportStore.add(...passports),
 		}))
 	}
 
