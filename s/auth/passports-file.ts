@@ -93,7 +93,7 @@ export class PassportsFile {
 	href() {
 		const text = JSON.stringify(this.toJson(), undefined, "\t")
 		const encoded = base64.from.text(text)
-		return `data:application/json;base64,${encoded}`
+		return `data:application/octet-stream;base64,${encoded}`
 	}
 }
 
