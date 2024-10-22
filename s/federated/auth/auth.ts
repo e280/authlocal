@@ -15,9 +15,9 @@ export class Auth {
 	get login() {
 		const login = this.#login.signal.value
 		const valid = login && (Date.now() < login.expiry)
-		return valid
-			? login
-			: null
+		if (!valid)
+			this.#login.signal.value = null
+		return this.#login.signal.value
 	}
 
 	set login(login: Login | null) {

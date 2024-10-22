@@ -144,7 +144,7 @@
   import {auth} from "@authduo/authduo"
 
   myButton.onclick = async() => {
-    const login = await auth.login("https://authduo.org/")
+    const login = await auth.popup("https://authduo.org/")
     if (login) console.log("logged in", login)
   }
   ```
