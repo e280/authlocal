@@ -23,7 +23,7 @@ You can add a *"Login with Authduo"* button to your website, allowing users to l
 
 <br/>
 
-## 🆒 [Authduo.org](https://authduo.org/) Login Button
+## 🪪 [Authduo.org](https://authduo.org/) Login Button
 
 ### Easy HTML Installation
 
@@ -59,26 +59,22 @@ You can add a *"Login with Authduo"* button to your website, allowing users to l
 
 *Choose this installation method if you're familiar with npm, package.json, and typescript.*
 
-1. **Install the npm package into your package.json**
+1. **Install the npm package**
     ```sh
     npm i @authduo/authduo
     ```
-1. **Register the web components.** `main.ts`
+1. **Register components and listen for auth changes.** `main.ts`
     ```ts
-    import {register_to_dom, components} from "@authduo/authduo"
+    import {register_to_dom, components, auth} from "@authduo/authduo"
 
     register_to_dom(components)
-    ```
-1. **Listen for auth changes.** `main.ts`
-    ```ts
-    import {auth} from "@authduo/authduo"
 
     auth.onChange(login => {
       if (login) console.log("logged in", login)
       else console.log("logged out")
     })
     ```
-1. **Place some login buttons.** `index.html`
+1. **Throw down some login buttons.** `index.html`
     ```html
     <auth-login></auth-login>
     ```
@@ -97,9 +93,6 @@ You can add a *"Login with Authduo"* button to your website, allowing users to l
 <br/>
 
 ## 🌠 The More You Know About [Authduo.org](https://authduo.org/)
-
-### How can users login across multiple devices?
-- Users can export passports and import them on other devices.
 
 ### What if my users lose their passports?
 - They'll just generate new passports.
