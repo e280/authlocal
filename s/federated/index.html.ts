@@ -13,7 +13,7 @@ export default template(async basic => {
 		head: html`
 			<link rel="icon" href="/assets/favicon.png"/>
 			<style>${unsanitized(await read_file("x/manager/index.css"))}</style>
-			<style>${unsanitized(await read_file("x/federal/index.css"))}</style>
+			<style>${unsanitized(await read_file("x/federated/index.css"))}</style>
 
 			<meta data-commit-hash="${hash}"/>
 
