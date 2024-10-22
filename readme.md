@@ -132,7 +132,7 @@ You can add a *"Login with Authduo"* button to your website, allowing users to l
     ```
   - receive and verify it cryptographically on your server. `server.js`
     ```js
-    import {verify} from "@authduo/authduo/x/node.js"
+    import {verify} from "@authduo/authduo/x/server.js"
 
     myServerReceive(async token => {
       const login = await verify(token)
@@ -140,6 +140,7 @@ You can add a *"Login with Authduo"* button to your website, allowing users to l
       else console.error("invalid token", token)
     })
     ```
+    - notice that on the server we import from a different entrypoint
 
 <br/>
 
