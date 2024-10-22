@@ -1,7 +1,7 @@
 
 ![Authduo.org](https://i.imgur.com/Pr6ILnz.png)
 
-# 🗽 Free Passports for Everybody at [Authduo.org](https://authduo.org/)
+# 🗽 Free Auth for Everybody at [Authduo.org](https://authduo.org/)
 
 [Authduo.org](https://authduo.org/) is an app where users can create and manage digital login passports.
 
@@ -24,6 +24,8 @@ You can add a *"Login with Authduo"* button to your website, allowing users to l
 <br/>
 
 ## 🪪 [Authduo.org](https://authduo.org/) Login Button
+
+Try out the login button at the [Federated Test Page](https://authduo.org/federated/)
 
 ### Easy HTML Installation
 
