@@ -2,10 +2,10 @@
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import {theme} from "../../../../common/theme.js"
 import {Purpose} from "../../../logic/purpose.js"
 import {whence} from "../../../../tools/whence.js"
 import {Situation} from "../../../logic/situation.js"
+import themeCss from "../../../../common/theme.css.js"
 import {svgSlate} from "../../../../tools/svg-slate.js"
 import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
 
@@ -14,7 +14,7 @@ export const ListPage = shadowView(use => (
 		purpose: Purpose.Any,
 	) => {
 
-	use.styles([theme, stylesCss])
+	use.styles([themeCss, stylesCss])
 
 	const {idstore} = situation
 	const identities = idstore.list()

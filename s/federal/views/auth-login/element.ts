@@ -4,9 +4,9 @@ import {ShadowElement, attributes, html, mixin} from "@benev/slate"
 import {auth} from "../../context.js"
 import {Auth} from "../../auth/auth.js"
 import stylesCss from "./styles.css.js"
-import {theme} from "../../../common/theme.js"
+import themeCss from "../../../common/theme.css.js"
 
-@mixin.css(theme, stylesCss)
+@mixin.css(themeCss, stylesCss)
 @mixin.reactive()
 export class AuthLogin extends ShadowElement {
 	auth = auth

@@ -1,13 +1,13 @@
 
 import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
-import {theme} from "../../../../common/theme.js"
 import {Situation} from "../../../logic/situation.js"
+import themeCss from "../../../../common/theme.css.js"
 import {Breakdown} from "../../common/breakdown/view.js"
 import {Idfile} from "../../../../common/auth/idfile.js"
 
 export const EgressPage = shadowView(use => (situation: Situation.Egress) => {
-	use.styles([theme, stylesCss])
+	use.styles([themeCss, stylesCss])
 	const idfile = new Idfile().add(...situation.identities)
 
 	return html`

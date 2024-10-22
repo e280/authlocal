@@ -3,9 +3,9 @@ import {shadowComponent, html, loading} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {manager} from "../../context.js"
-import {theme} from "../../../common/theme.js"
 import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
+import themeCss from "../../../common/theme.css.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
 import {IngressPage} from "../pages/ingress/view.js"
 import {Idfile} from "../../../common/auth/idfile.js"
@@ -20,7 +20,7 @@ import shieldOffIcon from "../../../common/icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-filled.icon.js"
 
 export const AuthManager = shadowComponent(use => {
-	use.styles([theme, stylesCss])
+	use.styles([themeCss, stylesCss])
 
 	const {idstore, storagePersistence} = manager
 	const purpose = use.once(determinePurpose)

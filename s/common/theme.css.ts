@@ -1,6 +1,6 @@
 
 import {css} from "@benev/slate"
-export const theme = css`
+export default css`
 
 * {
 	margin: 0;

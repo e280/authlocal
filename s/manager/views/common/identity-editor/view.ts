@@ -2,8 +2,8 @@
 import {deep, html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import {theme} from "../../../../common/theme.js"
 import {whence} from "../../../../tools/whence.js"
+import themeCss from "../../../../common/theme.css.js"
 import {Identity} from "../../../../common/auth/identity.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {validName} from "../../../../common/auth/utils/validation.js"
@@ -13,7 +13,7 @@ export const IdentityEditor = shadowView(use => ({identity, onUpdate}: {
 		onUpdate: (identity: Identity | null) => void
 	}) => {
 
-	use.styles([theme, stylesCss])
+	use.styles([themeCss, stylesCss])
 
 	const name = use.signal(identity.name)
 	const valid = use.signal(true)

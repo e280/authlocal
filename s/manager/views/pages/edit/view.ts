@@ -2,13 +2,13 @@
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import {theme} from "../../../../common/theme.js"
 import {Situation} from "../../../logic/situation.js"
+import themeCss from "../../../../common/theme.css.js"
 import {Identity} from "../../../../common/auth/identity.js"
 import {IdentityEditor} from "../../common/identity-editor/view.js"
 
 export const EditPage = shadowView(use => (situation: Situation.Edit) => {
-	use.styles([theme, stylesCss])
+	use.styles([themeCss, stylesCss])
 
 	const identity = use.signal<Identity | null>(situation.identity)
 
