@@ -36,7 +36,13 @@ export const ListPage = shadowView(use => (
 							<button class=happy @click="${() => purpose.onLogin(passport)}">Login</button>
 						` : null}
 						<button @click="${() => situation.onEdit(passport)}">Edit</button>
-						<a class=button download="${file.filename()}" href="${file.href()}">Export</a>
+						<a
+							class=button
+							title="${file.filename()}"
+							download="${file.filename()}"
+							href="${file.href()}">
+							Export
+						</a>
 					</footer>
 				</section>
 
@@ -82,7 +88,11 @@ export const ListPage = shadowView(use => (
 			</button>
 
 			${passports.length > 1 ? html`
-				<a class=button ?disabled="${none}" download="${passportsFile.filename()}" href="${passportsFile.href()}">
+				<a
+					class=button
+					title="${passportsFile.filename()}"
+					download="${passportsFile.filename()}"
+					href="${passportsFile.href()}">
 					Export All
 				</a>
 			` : null}
