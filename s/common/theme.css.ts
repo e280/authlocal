@@ -2,6 +2,10 @@
 import {css} from "@benev/slate"
 export default css`
 
+:root {
+	color-scheme: dark;
+}
+
 * {
 	margin: 0;
 	padding: 0;
