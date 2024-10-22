@@ -1,14 +1,14 @@
 
-name: 🛠️ build
+name: 📦 publish to npm
 on:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    tags:
+    - 'v*'
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+    if: "! github.event.pull_request.head.repo.fork"
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -18,4 +18,9 @@ jobs:
     - run: npm ci
     - run: npm run build -s
     - run: npm test
+
+    - uses: JS-DevTools/npm-publish@v3
+      with:
+        token: ${{ secrets.NPM_TOKEN }}
+        access: public
 
