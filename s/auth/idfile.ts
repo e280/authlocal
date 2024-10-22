@@ -1,7 +1,7 @@
 
 import {Identity} from "./identity.js"
 import {ensure} from "./utils/ensure.js"
-import {base64} from "../../tools/base64.js"
+import {base64} from "../tools/base64.js"
 import {IdfileJson, IdentityJson} from "./types.js"
 import {crushUsername} from "./utils/crush-username.js"
 

@@ -1,9 +1,9 @@
 
 import {ev, pubsub} from "@benev/slate"
 
-import {Login} from "../common/auth/types.js"
+import {Login} from "../auth/types.js"
 import {openPopup} from "./utils/open-popup.js"
-import {verify} from "../common/auth/verify.js"
+import {verify} from "../auth/verify.js"
 import {storageSignal} from "../tools/json-storage.js"
 
 export class Auth {

@@ -2,7 +2,7 @@
 import {deep} from "@benev/slate"
 import {Keypair} from "./keypair.js"
 import {JsonWebToken} from "./utils/json-web-token.js"
-import {randomFullName} from "../../tools/random-names.js"
+import {randomFullName} from "../tools/random-names.js"
 import {AccessJwtPayload, IdentityJson, KeypairJson} from "./types.js"
 
 export class Identity {

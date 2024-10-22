@@ -1,7 +1,7 @@
 
 import {Idstore} from "./authstore.js"
-import {Idfile} from "../../common/auth/idfile.js"
-import {Identity} from "../../common/auth/identity.js"
+import {Idfile} from "../../auth/idfile.js"
+import {Identity} from "../../auth/identity.js"
 
 export namespace Situation {
 	export type List = {

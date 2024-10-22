@@ -4,7 +4,7 @@ import stylesCss from "./styles.css.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
 import {Breakdown} from "../../common/breakdown/view.js"
-import {Idfile} from "../../../../common/auth/idfile.js"
+import {Idfile} from "../../../../auth/idfile.js"
 
 export const EgressPage = shadowView(use => (situation: Situation.Egress) => {
 	use.styles([themeCss, stylesCss])

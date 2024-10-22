@@ -1,5 +1,5 @@
 
-export * from "./node.js"
+export * from "./server.js"
 
 export {register_to_dom, apply, mixin, nexus} from "@benev/slate"
 

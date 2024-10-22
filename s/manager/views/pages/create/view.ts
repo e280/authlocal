@@ -4,7 +4,7 @@ import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
-import {Identity} from "../../../../common/auth/identity.js"
+import {Identity} from "../../../../auth/identity.js"
 import {IdentityEditor} from "../../common/identity-editor/view.js"
 
 export const CreatePage = shadowView(use => (situation: Situation.Create) => {

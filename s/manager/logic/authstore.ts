@@ -1,7 +1,7 @@
 
-import {Idfile} from "../../common/auth/idfile.js"
-import {IdfileJson} from "../../common/auth/types.js"
-import {Identity} from "../../common/auth/identity.js"
+import {Idfile} from "../../auth/idfile.js"
+import {IdfileJson} from "../../auth/types.js"
+import {Identity} from "../../auth/identity.js"
 import {storageSignal} from "../../tools/json-storage.js"
 
 export class Idstore {

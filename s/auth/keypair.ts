@@ -1,6 +1,6 @@
 
 import {Pubkey} from "./pubkey.js"
-import {hex} from "../../tools/hex.js"
+import {hex} from "../tools/hex.js"
 import {KeypairJson} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
 import {JsonWebToken, Payload} from "./utils/json-web-token.js"

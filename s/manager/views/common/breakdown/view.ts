@@ -5,7 +5,7 @@ import stylesCss from "./styles.css.js"
 import {whence} from "../../../../tools/whence.js"
 import themeCss from "../../../../common/theme.css.js"
 import {svgSlate} from "../../../../tools/svg-slate.js"
-import {Identity} from "../../../../common/auth/identity.js"
+import {Identity} from "../../../../auth/identity.js"
 import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
 
 export const Breakdown = shadowView(use => (identities: Identity[]) => {

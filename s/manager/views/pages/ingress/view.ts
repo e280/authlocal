@@ -3,9 +3,9 @@ import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
-import {Idfile} from "../../../../common/auth/idfile.js"
+import {Idfile} from "../../../../auth/idfile.js"
 import {Breakdown} from "../../common/breakdown/view.js"
-import {Identity} from "../../../../common/auth/identity.js"
+import {Identity} from "../../../../auth/identity.js"
 
 export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 	use.styles([themeCss, stylesCss])
