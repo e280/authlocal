@@ -41,7 +41,7 @@ export class PassportsFile {
 		}
 	}
 
-	static ingestJson(raw: any): PassportsFileJson {
+	static #ingestJson(raw: any): PassportsFileJson {
 		let json: PassportsFileJson | null = null
 
 		if (
@@ -52,8 +52,9 @@ export class PassportsFile {
 
 		switch (raw.version) {
 			case 0:
-			case 1: throw new Error(`invalid version ${raw.version}`)
-			case 2: json = raw
+			case 1:
+			case 2: throw new Error(`invalid version ${raw.version}`)
+			case 3: json = raw
 		}
 
 		if (!json)
@@ -75,7 +76,7 @@ export class PassportsFile {
 	}
 
 	static fromJson(raw: any) {
-		const json = PassportsFile.ingestJson(raw)
+		const json = PassportsFile.#ingestJson(raw)
 		const passports = new this()
 		passports.add(...json.passports.map(idjson => Passport.fromJson(idjson)))
 		return passports

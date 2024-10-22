@@ -11,27 +11,32 @@ export class PassportStore {
 		this.#storage.save(passports.toJson())
 	}
 
-	get idfile() {
+	get passportsFile() {
 		const json = this.#storage.signal.value
-		return json
-			? PassportsFile.fromJson(json)
-			: new PassportsFile()
+		try {
+			return json
+				? PassportsFile.fromJson(json)
+				: new PassportsFile()
+		}
+		catch {
+			return new PassportsFile()
+		}
 	}
 
 	list() {
-		return this.idfile.list()
+		return this.passportsFile.list()
 	}
 
 	add(...additions: Passport[]) {
-		this.#save(this.idfile.add(...additions))
+		this.#save(this.passportsFile.add(...additions))
 	}
 
 	delete(...deletions: Passport[]) {
-		this.#save(this.idfile.delete(...deletions))
+		this.#save(this.passportsFile.delete(...deletions))
 	}
 
 	deleteAll() {
-		this.#save(this.idfile.deleteAll())
+		this.#save(this.passportsFile.deleteAll())
 	}
 }
 
