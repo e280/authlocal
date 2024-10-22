@@ -1,15 +1,17 @@
 
-import {attributes, GoldElement, html, mixin} from "@benev/slate"
+import {ShadowElement, attributes, html, mixin} from "@benev/slate"
 
 import {auth} from "../../context.js"
 import {Auth} from "../../auth/auth.js"
 import stylesCss from "./styles.css.js"
 import {theme} from "../../../common/theme.js"
 
-@mixin.setup(theme, stylesCss)
-export class AuthLogin extends GoldElement {
+@mixin.css(theme, stylesCss)
+@mixin.reactive()
+export class AuthLogin extends ShadowElement {
 	auth = auth
-	#attrs = attributes(this as GoldElement, {src: String})
+
+	#attrs = attributes(this, {src: String})
 
 	get src() {
 		return this.#attrs.src ?? Auth.url
