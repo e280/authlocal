@@ -9,7 +9,7 @@ export default template(async basic => {
 	return easypage({
 		path,
 		dark: true,
-		title: "Apptest",
+		title: "Authduo Federated Test",
 		head: html`
 			<link rel="icon" href="/assets/favicon.png"/>
 			<style>${unsanitized(await read_file("x/manager/index.css"))}</style>
@@ -25,11 +25,11 @@ export default template(async basic => {
 		`,
 		body: html`
 			<h1 class=title>
-				Authduo Integration Test
+				Authduo Federated Test
 			</h1>
 			<auth-login src="/"></auth-login>
 			<footer>
-				<p>This page is for testing a typical Authduo integration for federated logins.</p>
+				<p>This page is a test for a typical federated identity integration with <a href="https://authduo.org/">Authduo.org</a></p>
 			</footer>
 		`,
 	})
