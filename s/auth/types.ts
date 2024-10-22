@@ -17,7 +17,7 @@ export type PassportJson = {
 export type PassportsFileJson = {
 	format: string
 	version: number
-	identities: PassportJson[]
+	passports: PassportJson[]
 }
 
 export type AccessJwtPayload = {

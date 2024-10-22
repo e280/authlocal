@@ -5,10 +5,10 @@ import {storageSignal} from "../../tools/json-storage.js"
 import {PassportsFile} from "../../auth/passports-file.js"
 
 export class PassportStore {
-	#storage = storageSignal<PassportsFileJson>("authduo_identities")
+	#storage = storageSignal<PassportsFileJson>("authduo_passports")
 
-	#save(identities: PassportsFile) {
-		this.#storage.save(identities.toJson())
+	#save(passports: PassportsFile) {
+		this.#storage.save(passports.toJson())
 	}
 
 	get idfile() {

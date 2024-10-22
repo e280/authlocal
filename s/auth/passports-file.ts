@@ -6,8 +6,8 @@ import {crushUsername} from "./utils/crush-username.js"
 import {PassportsFileJson, PassportJson} from "./types.js"
 
 export class PassportsFile {
-	static readonly format = "authduo.org ids"
-	static readonly version = 2
+	static readonly format = "authduo.org passports"
+	static readonly version = 3
 
 	#map = new Map<string, Passport>()
 
@@ -36,7 +36,7 @@ export class PassportsFile {
 		return {
 			format: PassportsFile.format,
 			version: PassportsFile.version,
-			identities: [...this.#map.values()]
+			passports: [...this.#map.values()]
 				.map(id => id.toJson()),
 		}
 	}
@@ -62,7 +62,7 @@ export class PassportsFile {
 		return {
 			format: ensure.string("format", json.format),
 			version: ensure.number("version", json.version),
-			identities: ensure.array("array", json.identities.map((id): PassportJson => ({
+			passports: ensure.array("array", json.passports.map((id): PassportJson => ({
 				name: ensure.string("name", id.name),
 				created: ensure.number("created", id.created),
 				keypair: {
@@ -76,9 +76,9 @@ export class PassportsFile {
 
 	static fromJson(raw: any) {
 		const json = PassportsFile.ingestJson(raw)
-		const identities = new this()
-		identities.add(...json.identities.map(idjson => Passport.fromJson(idjson)))
-		return identities
+		const passports = new this()
+		passports.add(...json.passports.map(idjson => Passport.fromJson(idjson)))
+		return passports
 	}
 
 	filename() {

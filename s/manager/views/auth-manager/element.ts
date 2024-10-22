@@ -34,7 +34,7 @@ export const AuthManager = shadowComponent(use => {
 			passportStore: idstore,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
-			onEgress: identities => gotoEgress(identities, gotoList),
+			onEgress: passports => gotoEgress(passports, gotoList),
 			onIngress: () => gotoIngress(undefined, gotoList),
 		}))
 	}
@@ -80,20 +80,20 @@ export const AuthManager = shadowComponent(use => {
 		}))
 	}
 
-	function gotoEgress(identities: Passport[], onBack: () => void) {
+	function gotoEgress(passports: Passport[], onBack: () => void) {
 		situationOp.load(async() => ({
 			kind: "egress",
-			identities,
+			passports,
 			onBack,
 		}))
 	}
 
-	function gotoIngress(identities: PassportsFile | undefined, onBack: () => void) {
+	function gotoIngress(passports: PassportsFile | undefined, onBack: () => void) {
 		situationOp.load(async() => ({
 			kind: "ingress",
-			identities,
+			passports,
 			onBack,
-			onAddIdentities: identities => idstore.add(...identities),
+			onAddPassports: passports => idstore.add(...passports),
 		}))
 	}
 

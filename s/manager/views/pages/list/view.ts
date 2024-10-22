@@ -36,7 +36,7 @@ export const ListPage = shadowView(use => (
 				return null
 		}})()}
 
-		<nav class=identities ?hidden="${none}">
+		<nav class=passports ?hidden="${none}">
 			${passports.map(passport => html`
 				<article>
 					${svgSlate(circleKeyIcon)}

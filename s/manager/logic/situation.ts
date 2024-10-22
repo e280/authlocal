@@ -37,15 +37,15 @@ export namespace Situation {
 
 	export type Egress = {
 		kind: "egress"
-		identities: Passport[]
+		passports: Passport[]
 		onBack: () => void
 	}
 
 	export type Ingress = {
 		kind: "ingress"
-		identities: PassportsFile | undefined
+		passports: PassportsFile | undefined
 		onBack: () => void
-		onAddIdentities: (identities: Passport[]) => void
+		onAddPassports: (passports: Passport[]) => void
 	}
 
 	////////////////////////////////

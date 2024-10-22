@@ -103,13 +103,13 @@ You can add a *"Login with Authduo"* button to your website, allowing users to l
 
 ### What if my users lose their passports?
 - They'll just generate new passports.
-- If you associate important services to your users' passports, you should provide a recovery mechanism so users can re-associate those services with new identities.
+- If you associate important services to your users' passports, you should provide a recovery mechanism so users can re-associate those services with new passports.
 
 ### Opt-in services for casual user experience
 - While Authduo's core must stay lean to retain user-sovereignty and privacy, we can still build optional services which allow users to trade a little sovereignty for some conveniences:
   - Username and password logins
   - Email-based recovery
-  - OTP/QR codes to easily transfer identities across devices
+  - OTP/QR codes to easily transfer passports across devices
   - Two-factor auth
 
 <br/>
