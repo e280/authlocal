@@ -1,6 +1,6 @@
 
-import {PassportStore} from "./authstore.js"
 import {Passport} from "../../auth/passport.js"
+import {PassportStore} from "./passport-store.js"
 import {PassportsFile} from "../../auth/passports-file.js"
 
 export namespace Situation {

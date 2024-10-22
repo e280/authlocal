@@ -1,5 +1,5 @@
 
-import {PassportStore} from "./authstore.js"
+import {PassportStore} from "./passport-store.js"
 import {StoragePersistence} from "./storage-persistence.js"
 
 export class Manager {

@@ -10,38 +10,6 @@ export class PassportsFile {
 	static readonly extension = "passport"
 	static readonly version = 3
 
-	#map = new Map<string, Passport>()
-
-	list() {
-		return [...this.#map.values()]
-	}
-
-	add(...additions: Passport[]) {
-		for (const passport of additions)
-			this.#map.set(passport.thumbprint, passport)
-		return this
-	}
-
-	delete(...deletions: Passport[]) {
-		for (const passport of deletions)
-			this.#map.delete(passport.thumbprint)
-		return this
-	}
-
-	deleteAll() {
-		this.#map.clear()
-		return this
-	}
-
-	toJson(): PassportsFileJson {
-		return {
-			format: PassportsFile.format,
-			version: PassportsFile.version,
-			passports: [...this.#map.values()]
-				.map(passport => passport.toJson()),
-		}
-	}
-
 	static #ingestJson(raw: any): PassportsFileJson {
 		let json: PassportsFileJson | null = null
 
@@ -81,6 +49,38 @@ export class PassportsFile {
 		const passports = new this()
 		passports.add(...json.passports.map(json => Passport.fromJson(json)))
 		return passports
+	}
+
+	#map = new Map<string, Passport>()
+
+	list() {
+		return [...this.#map.values()]
+	}
+
+	add(...additions: Passport[]) {
+		for (const passport of additions)
+			this.#map.set(passport.thumbprint, passport)
+		return this
+	}
+
+	delete(...deletions: Passport[]) {
+		for (const passport of deletions)
+			this.#map.delete(passport.thumbprint)
+		return this
+	}
+
+	deleteAll() {
+		this.#map.clear()
+		return this
+	}
+
+	toJson(): PassportsFileJson {
+		return {
+			format: PassportsFile.format,
+			version: PassportsFile.version,
+			passports: [...this.#map.values()]
+				.map(passport => passport.toJson()),
+		}
 	}
 
 	filename() {
