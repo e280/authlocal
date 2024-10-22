@@ -36,7 +36,7 @@ export const ListPage = shadowView(use => (
 							<button class=happy @click="${() => purpose.onLogin(passport)}">Login</button>
 						` : null}
 						<button @click="${() => situation.onEdit(passport)}">Edit</button>
-						<a class=button download="${file.filename()}" href="${file.href()}">Export</button>
+						<a class=button download="${file.filename()}" href="${file.href()}">Export</a>
 					</footer>
 				</section>
 
