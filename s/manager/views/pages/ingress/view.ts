@@ -11,12 +11,14 @@ export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 	use.styles([themeCss, stylesCss])
 
 	const passports = use.signal<Passport[]>([])
+	const problems = use.signal<string[]>([])
 
 	async function handleUpload(event: InputEvent) {
 		const input = event.currentTarget as HTMLInputElement
 		const files = Array.from(input.files ?? [])
 
 		passports.value = []
+		problems.value = []
 
 		for (const file of files) {
 			try {
@@ -24,7 +26,9 @@ export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 				const passportsFile = PassportsFile.fromJson(JSON.parse(text))
 				passports.value = [...passports.value, ...passportsFile.list()]
 			}
-			catch {}
+			catch {
+				problems.value = [...problems.value, `error with file "${file.name}"`]
+			}
 		}
 	}
 
@@ -36,7 +40,22 @@ export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 	return html`
 		<section>
 			<h2>Import passports from your device.</h2>
-			<input type="file" multiple accept=".id" @change="${handleUpload}"/>
+
+			<input
+				type="file"
+				multiple
+				accept=".${PassportsFile.extension}"
+				@change="${handleUpload}"
+				/>
+
+			${problems.value.length > 0 ? html`
+				<ol class=problems>
+					${problems.value.map(problem => html`
+						<li>${problem}</li>
+					`)}
+				</ol>
+			` : null}
+
 			${passports.value.length > 0 ? html`
 				${Breakdown([passports.value])}
 			` : null}

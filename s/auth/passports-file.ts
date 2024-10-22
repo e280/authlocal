@@ -7,6 +7,7 @@ import {PassportsFileJson, PassportJson} from "./types.js"
 
 export class PassportsFile {
 	static readonly format = "authduo.org passports"
+	static readonly extension = "passport"
 	static readonly version = 3
 
 	#map = new Map<string, Passport>()
@@ -85,8 +86,8 @@ export class PassportsFile {
 	filename() {
 		const passports = this.list()
 		return passports.length === 1
-			? `${crushUsername(passports.at(0)!.name)}.passport`
-			: `passports.passport`
+			? `${crushUsername(passports.at(0)!.name)}.${PassportsFile.extension}`
+			: `passports.${PassportsFile.extension}`
 	}
 
 	href() {
