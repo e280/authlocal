@@ -1,20 +1,28 @@
 
 # 🛡️ [Authduo.org](https://authduo.org/)
 
-*Login system for your website or web app.*
+***User login system for your website or web app.***
 
 🥞 **Easy as pancakes** – paste in a tiny amount of code to get auth for free  
+💖 **Free and open source** – zero cost at worldwide scale  
 🔑 **Passwordless** – users have cryptographic identity keypairs  
-🦸 **User-sovereign** – users can download their keys and take them anywhere  
+
+🗽 **User-sovereign** – users can download their keys and take them anywhere  
 🥷 **Privacy-focused** – user can be anonymous: no emails, phone numbers, or tracking  
 📱 **Clientside** – no api servers, 100% statically hosted on github pages  
-🏛️ **Federated** – get access tokens from the authduo.org popup flow  
+
+🏛️ **Federated** – get login tokens from the authduo.org popup flow  
 🌐 **Decentralized** – fork and self-host if you'd rather  
 📜 **Protocol** – permissionless integration, you can do it your way  
-💖 **Free and open source** – zero cost at worldwide scale  
 
 > ***Pre-release warning***  
 > Authduo is an unfinished and unstable prototype, use at your own risk.  
+
+<br/>
+
+[Authduo.org](https://authduo.org/) is an app where users can create and manage identities.
+
+Follow the instructions below to install a *"Login with Authduo"* button on your website, which allows users to login using their Authduo identity. This is called "federated authentication", and Authduo provides it for free.
 
 <br/>
 
@@ -97,14 +105,14 @@
 - Your own API microservices can verify the tokens cryptographically
 - Zero-cost for you and your users
 
-### [Authduo.org](https://authduo.org/) is for convenience, not vendor lock-in!
+### [Authduo.org](https://authduo.org/) is for convenience, not vendor lock-in
 - You can fork Authduo to make your own identity management app, and users can take their identity files there instead
 - You can point the login button to your own fork:
   ```html
   <auth-login src="https://authduo.org/"></auth-login>
   ```
   - Just swap `https://authduo.org/` with your own url
-  - This is what "decentralized", "user-soveriegn", and "protocol" is all about
+  - This is what "decentralized", "user-sovereign", and "protocol" is all about
 
 <br/>
 
@@ -113,9 +121,12 @@
 ### How can users login across multiple devices?
 - Users can export identity files from one device, and import them onto another
 
-### What if users lose their keys?
-- Lose your keys, lose your account
-- Okay, that is too hardcore for casual users — so let's build some softer opt-in services for users
+### What if users lose their identity?
+- Identity isn't everything. Users can make new ones. They're throwaways.
+- What matters is how you will associate goods and services to specific identities. That's *authorization.*
+-
+
+- The best practice is to build a recovery mechanism for any service that is important to users
 
 ### Opt-in services for casual user experience
 - Authduo's core must stay hardcore and simple to enable user-sovereignty and privacy
