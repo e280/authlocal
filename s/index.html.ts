@@ -14,16 +14,13 @@ export default template(async basic => {
 		title: "Authduo.org",
 		head: html`
 			<link rel="icon" href="/assets/favicon.png"/>
-
-			<style>
-				${unsanitized(await read_file("x/manager/manager.css"))}
-			</style>
+			<style>${unsanitized(await read_file("x/manager/index.css"))}</style>
 
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("manager/manager.bundle.js"),
-				prodModulePath: await path.version.root("manager/manager.bundle.min.js"),
+				devModulePath: await path.version.root("manager/index.bundle.js"),
+				prodModulePath: await path.version.root("manager/index.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
@@ -36,10 +33,8 @@ export default template(async basic => {
 			<auth-manager></auth-manager>
 
 			<footer>
-				<p>Authduo powers logins without servers.</p>
-				<p>Clientside decentralized user-sovereign federated auth. Free and open source.</p>
-				<p>See Authduo on <a href="https://github.com/authduo/authduo" target=_blank>GitHub</a> to learn more.</p>
-				<p>Own your identity.</p>
+				<p>Authduo is a free and open source user-sovereign login system.</p>
+				<p>See <a href="https://github.com/authduo/authduo" target=_blank>Authduo on GitHub</a> to learn more.</p>
 			</footer>
 		`,
 	})

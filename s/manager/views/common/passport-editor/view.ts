@@ -1,28 +1,27 @@
 
-import {deep, html} from "@benev/slate"
+import {deep, html, shadowView} from "@benev/slate"
 
-import styles from "./styles.js"
-import {nexus} from "../../../nexus.js"
+import stylesCss from "./styles.css.js"
 import {whence} from "../../../../tools/whence.js"
-import {Identity} from "../../../../common/auth/identity.js"
+import {Passport} from "../../../../auth/passport.js"
+import themeCss from "../../../../common/theme.css.js"
 import {inputString} from "../../../../tools/input-string.js"
-import {validName} from "../../../../common/auth/utils/validation.js"
+import {validName} from "../../../../auth/utils/validation.js"
 
-export const IdentityEditor = nexus.shadowView(use => ({identity, onUpdate}: {
-		identity: Identity
-		onUpdate: (identity: Identity | null) => void
+export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
+		passport: Passport
+		onUpdate: (passport: Passport | null) => void
 	}) => {
 
-	use.name("identity-editor")
-	use.styles(styles)
+	use.styles([themeCss, stylesCss])
 
-	const name = use.signal(identity.name)
+	const name = use.signal(passport.name)
 	const valid = use.signal(true)
 
 	function validate() {
 		valid.value = validName(name.value)
 		if (valid.value) {
-			const draft = deep.clone(identity)
+			const draft = deep.clone(passport)
 			draft.name = name.value
 			onUpdate(draft)
 		}
@@ -49,8 +48,8 @@ export const IdentityEditor = nexus.shadowView(use => ({identity, onUpdate}: {
 					/>
 
 				<small>
-					<span>${whence(identity.created)}</span>
-					<span>${identity.thumbprint.slice(0, 8)}</span>
+					<span>${whence(passport.created)}</span>
+					<span>${passport.thumbprint.slice(0, 8)}</span>
 				</small>
 
 				${!validName(name.value) ? html`

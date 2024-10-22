@@ -1,6 +1,10 @@
 
 import {css} from "@benev/slate"
-export const theme = css`
+export default css`
+
+:root {
+	color-scheme: dark;
+}
 
 * {
 	margin: 0;

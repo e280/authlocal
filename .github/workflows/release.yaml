@@ -21,13 +21,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v3
+    - uses: actions/configure-pages@v5
+    - uses: actions/setup-node@v4
       with:
         node-version: '22'
-    - uses: actions/configure-pages@v3
 
     - run: npm ci
-    - run: npm run build
+    - run: npm run build -s
     - run: npm test
 
     - name: 🗑️ delete dev symlinks
@@ -46,11 +46,11 @@ jobs:
         mv assets x/assets
 
     - name: 📤 upload pages artifact
-      uses: actions/upload-pages-artifact@v2
+      uses: actions/upload-pages-artifact@v3
       with:
         path: 'x'
 
     - name: 🚀 deploy to github pages
       id: deployment
-      uses: actions/deploy-pages@v2
+      uses: actions/deploy-pages@v4
 

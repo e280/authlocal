@@ -1,44 +1,63 @@
 
-import {html} from "@benev/slate"
+import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
-import {nexus} from "../../../nexus.js"
+import {Passport} from "../../../../auth/passport.js"
 import {Situation} from "../../../logic/situation.js"
-import {Idfile} from "../../../../common/auth/idfile.js"
+import themeCss from "../../../../common/theme.css.js"
 import {Breakdown} from "../../common/breakdown/view.js"
-import {Identity} from "../../../../common/auth/identity.js"
+import {PassportsFile} from "../../../../auth/passports-file.js"
 
-export const IngressPage = nexus.shadowView(use => (situation: Situation.Ingress) => {
-	use.styles(stylesCss)
+export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
+	use.styles([themeCss, stylesCss])
 
-	const identities = use.signal<Identity[]>([])
+	const passports = use.signal<Passport[]>([])
+	const problems = use.signal<string[]>([])
 
 	async function handleUpload(event: InputEvent) {
 		const input = event.currentTarget as HTMLInputElement
 		const files = Array.from(input.files ?? [])
 
-		identities.value = []
+		passports.value = []
+		problems.value = []
 
 		for (const file of files) {
 			try {
 				const text = await file.text()
-				const idfile = Idfile.fromJson(JSON.parse(text))
-				identities.value = [...identities.value, ...idfile.list()]
+				const passportsFile = PassportsFile.fromJson(JSON.parse(text))
+				passports.value = [...passports.value, ...passportsFile.list()]
 			}
-			catch {}
+			catch {
+				problems.value = [...problems.value, `error with file "${file.name}"`]
+			}
 		}
 	}
 
 	function accept() {
-		situation.onAddIdentities(identities.value)
+		situation.onAddPassports(passports.value)
 		situation.onBack()
 	}
 
 	return html`
 		<section>
-			<h2>Import identities from your device.</h2>
-			<input type="file" multiple accept=".id" @change="${handleUpload}"/>
-			${identities.value.length > 0 ? html`
-				${Breakdown([identities.value])}
+			<h2>Import passports from your device.</h2>
+
+			<input
+				type="file"
+				multiple
+				accept=".${PassportsFile.extension}"
+				@change="${handleUpload}"
+				/>
+
+			${problems.value.length > 0 ? html`
+				<ol class=problems>
+					${problems.value.map(problem => html`
+						<li>${problem}</li>
+					`)}
+				</ol>
+			` : null}
+
+			${passports.value.length > 0 ? html`
+				${Breakdown([passports.value])}
 			` : null}
 		</section>
 
@@ -46,9 +65,9 @@ export const IngressPage = nexus.shadowView(use => (situation: Situation.Ingress
 			<button @click="${situation.onBack}">Cancel</button>
 			<button
 				class=happy
-				?disabled="${identities.value.length === 0}"
+				?disabled="${passports.value.length === 0}"
 				@click="${accept}">
-					Import Identities
+					Import Passports
 			</button>
 		</footer>
 	`

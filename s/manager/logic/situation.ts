@@ -1,51 +1,51 @@
 
-import {Idstore} from "./authstore.js"
-import {Idfile} from "../../common/auth/idfile.js"
-import {Identity} from "../../common/auth/identity.js"
+import {Passport} from "../../auth/passport.js"
+import {PassportStore} from "./passport-store.js"
+import {PassportsFile} from "../../auth/passports-file.js"
 
 export namespace Situation {
 	export type List = {
 		kind: "list"
-		idstore: Idstore
+		passportStore: PassportStore
 		onCreate: () => void
-		onEdit: (identity: Identity) => void
-		onEgress: (identities: Identity[]) => void
-		onIngress: (identities: Idfile | undefined) => void
+		onEdit: (passport: Passport) => void
+		onEgress: (passports: Passport[]) => void
+		onIngress: (passportsFile: PassportsFile | undefined) => void
 	}
 
 	export type Create = {
 		kind: "create"
-		identity: Identity
+		passport: Passport
 		onCancel: () => void
-		onComplete: (identity: Identity) => void
+		onComplete: (passport: Passport) => void
 	}
 
 	export type Edit = {
 		kind: "edit"
-		identity: Identity
+		passport: Passport
 		onCancel: () => void
-		onDelete: (identity: Identity) => void
-		onComplete: (identity: Identity) => void
+		onDelete: (passport: Passport) => void
+		onComplete: (passport: Passport) => void
 	}
 
 	export type Delete = {
 		kind: "delete"
-		identity: Identity
+		passport: Passport
 		onCancel: () => void
-		onComplete: (identity: Identity) => void
+		onComplete: (passport: Passport) => void
 	}
 
 	export type Egress = {
 		kind: "egress"
-		identities: Identity[]
+		passports: Passport[]
 		onBack: () => void
 	}
 
 	export type Ingress = {
 		kind: "ingress"
-		identities: Idfile | undefined
+		passports: PassportsFile | undefined
 		onBack: () => void
-		onAddIdentities: (identities: Identity[]) => void
+		onAddPassports: (passports: Passport[]) => void
 	}
 
 	////////////////////////////////

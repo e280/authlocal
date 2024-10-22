@@ -1,35 +1,31 @@
 
-import {html} from "@benev/slate"
+import {html, shadowView} from "@benev/slate"
 
-import styles from "./styles.js"
-import {nexus} from "../../../nexus.js"
+import stylesCss from "./styles.css.js"
+import {Passport} from "../../../../auth/passport.js"
 import {Situation} from "../../../logic/situation.js"
-import {Identity} from "../../../../common/auth/identity.js"
-import {IdentityEditor} from "../../common/identity-editor/view.js"
+import themeCss from "../../../../common/theme.css.js"
+import {PassportEditor} from "../../common/passport-editor/view.js"
 
-export const CreatePage = nexus.shadowView(use => (situation: Situation.Create) => {
-	use.styles(styles)
+export const CreatePage = shadowView(use => (situation: Situation.Create) => {
+	use.styles([themeCss, stylesCss])
 
-	const identity = use.signal<Identity | null>(situation.identity)
+	const passport = use.signal<Passport | null>(situation.passport)
 
 	function save() {
-		if (identity.value)
-			situation.onComplete(identity.value)
+		if (passport.value)
+			situation.onComplete(passport.value)
 	}
 
 	return html`
-		${IdentityEditor([{
-			identity: situation.identity,
-			onUpdate: updated => identity.value = updated,
+		${PassportEditor([{
+			passport: situation.passport,
+			onUpdate: updated => passport.value = updated,
 		}])}
-
-		<section>
-			<p>After you've created an identity, you should export it to your computer as a backup.</p>
-		</section>
 
 		<footer class=buttonbar>
 			<button @click="${situation.onCancel}">Cancel</button>
-			<button class=happy ?disabled="${!identity.value}" @click="${save}">Create Identity</button>
+			<button class=happy ?disabled="${!passport.value}" @click="${save}">Create Passport</button>
 		</footer>
 	`
 })

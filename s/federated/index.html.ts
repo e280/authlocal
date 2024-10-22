@@ -9,30 +9,27 @@ export default template(async basic => {
 	return easypage({
 		path,
 		dark: true,
-		title: "Apptest",
+		title: "Authduo Federated Test",
 		head: html`
 			<link rel="icon" href="/assets/favicon.png"/>
-
-			<style>
-				${unsanitized(await read_file("x/manager/manager.css"))}
-				${unsanitized(await read_file("x/federal/index.css"))}
-			</style>
+			<style>${unsanitized(await read_file("x/manager/index.css"))}</style>
+			<style>${unsanitized(await read_file("x/federated/index.css"))}</style>
 
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("federal/index.bundle.js"),
-				prodModulePath: await path.version.root("federal/index.bundle.min.js"),
+				devModulePath: await path.version.root("install.bundle.js"),
+				prodModulePath: await path.version.root("install.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
 		body: html`
 			<h1 class=title>
-				Apptest for Authduo
+				Authduo Federated Test
 			</h1>
 			<auth-login src="/"></auth-login>
 			<footer>
-				<p>This page is for testing purposes.</p>
+				<p>This page is a test for a typical federated auth integration with <a href="/">Authduo.org</a></p>
 			</footer>
 		`,
 	})

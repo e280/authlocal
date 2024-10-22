@@ -1,27 +1,29 @@
 
-import {html, loading} from "@benev/slate"
+import {shadowComponent, html, loading} from "@benev/slate"
 
-import {nexus} from "../../nexus.js"
-import stylesCss from "./styles.css.js"
+import {manager} from "../../context.js"
+import {Passport} from "../../../auth/passport.js"
 import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
 import {IngressPage} from "../pages/ingress/view.js"
-import {Idfile} from "../../../common/auth/idfile.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {EditPage} from "../../views/pages/edit/view.js"
-import {Identity} from "../../../common/auth/identity.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
+import {PassportsFile} from "../../../auth/passports-file.js"
 import {determinePurpose} from "../../logic/determine-purpose.js"
+
+import stylesCss from "./styles.css.js"
+import themeCss from "../../../common/theme.css.js"
 
 import shieldOffIcon from "../../../common/icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-filled.icon.js"
 
-export const AuthManager = nexus.shadowComponent(use => {
-	use.styles(stylesCss)
+export const AuthManager = shadowComponent(use => {
+	use.styles([themeCss, stylesCss])
 
-	const {idstore, storagePersistence} = use.context
+	const {passportStore, storagePersistence} = manager
 	const purpose = use.once(determinePurpose)
 	const situationOp = use.op<Situation.Any>()
 
@@ -30,69 +32,69 @@ export const AuthManager = nexus.shadowComponent(use => {
 	function gotoList() {
 		situationOp.load(async() => ({
 			kind: "list",
-			idstore,
+			passportStore,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
-			onEgress: identities => gotoEgress(identities, gotoList),
+			onEgress: passports => gotoEgress(passports, gotoList),
 			onIngress: () => gotoIngress(undefined, gotoList),
 		}))
 	}
 
 	async function gotoCreate() {
-		const identity = await Identity.generate()
+		const passport = await Passport.generate()
 		situationOp.load(async() => ({
 			kind: "create",
-			identity,
+			passport,
 			onCancel: gotoList,
-			onComplete: identity => {
-				idstore.add(identity)
+			onComplete: passport => {
+				passportStore.add(passport)
 				storagePersistence.request()
 				gotoList()
 			},
 		}))
 	}
 
-	function gotoEdit(identity: Identity) {
+	function gotoEdit(passport: Passport) {
 		situationOp.load(async() => ({
 			kind: "edit",
-			identity,
+			passport,
 			onCancel: gotoList,
 			onDelete: gotoDelete,
-			onComplete: identity => {
-				idstore.add(identity)
+			onComplete: passport => {
+				passportStore.add(passport)
 				storagePersistence.request()
 				gotoList()
 			},
 		}))
 	}
 
-	function gotoDelete(identity: Identity) {
+	function gotoDelete(passport: Passport) {
 		situationOp.load(async() => ({
 			kind: "delete",
-			identity,
+			passport,
 			onCancel: gotoList,
-			onComplete: identity => {
-				idstore.delete(identity)
+			onComplete: passport => {
+				passportStore.delete(passport)
 				storagePersistence.request()
 				gotoList()
 			},
 		}))
 	}
 
-	function gotoEgress(identities: Identity[], onBack: () => void) {
+	function gotoEgress(passports: Passport[], onBack: () => void) {
 		situationOp.load(async() => ({
 			kind: "egress",
-			identities,
+			passports,
 			onBack,
 		}))
 	}
 
-	function gotoIngress(identities: Idfile | undefined, onBack: () => void) {
+	function gotoIngress(passports: PassportsFile | undefined, onBack: () => void) {
 		situationOp.load(async() => ({
 			kind: "ingress",
-			identities,
+			passports,
 			onBack,
-			onAddIdentities: identities => idstore.add(...identities),
+			onAddPassports: passports => passportStore.add(...passports),
 		}))
 	}
 

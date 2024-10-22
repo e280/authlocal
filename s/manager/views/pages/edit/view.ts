@@ -1,30 +1,30 @@
 
-import {html} from "@benev/slate"
+import {html, shadowView} from "@benev/slate"
 
-import styles from "./styles.js"
-import {nexus} from "../../../nexus.js"
+import stylesCss from "./styles.css.js"
+import {Passport} from "../../../../auth/passport.js"
 import {Situation} from "../../../logic/situation.js"
-import {Identity} from "../../../../common/auth/identity.js"
-import {IdentityEditor} from "../../common/identity-editor/view.js"
+import themeCss from "../../../../common/theme.css.js"
+import {PassportEditor} from "../../common/passport-editor/view.js"
 
-export const EditPage = nexus.shadowView(use => (situation: Situation.Edit) => {
-	use.styles(styles)
+export const EditPage = shadowView(use => (situation: Situation.Edit) => {
+	use.styles([themeCss, stylesCss])
 
-	const identity = use.signal<Identity | null>(situation.identity)
+	const passport = use.signal<Passport | null>(situation.passport)
 
 	function save() {
-		if (identity.value)
-			situation.onComplete(identity.value)
+		if (passport.value)
+			situation.onComplete(passport.value)
 	}
 
 	return html`
-		${IdentityEditor([{
-			identity: situation.identity,
-			onUpdate: updated => identity.value = updated,
+		${PassportEditor([{
+			passport: situation.passport,
+			onUpdate: updated => passport.value = updated,
 		}])}
 
 		<footer class=buttonbar>
-			<button class=angry @click="${() => situation.onDelete(situation.identity)}">
+			<button class=angry @click="${() => situation.onDelete(situation.passport)}">
 				Delete
 			</button>
 
@@ -32,7 +32,7 @@ export const EditPage = nexus.shadowView(use => (situation: Situation.Edit) => {
 				Cancel
 			</button>
 
-			<button class=happy ?disabled="${!identity.value}" @click="${save}">
+			<button class=happy ?disabled="${!passport.value}" @click="${save}">
 				Save Changes
 			</button>
 		</footer>

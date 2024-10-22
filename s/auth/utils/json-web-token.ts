@@ -1,5 +1,5 @@
 
-import {base64} from "../../../tools/base64.js"
+import {base64} from "../../tools/base64.js"
 import {CryptoConstants} from "../crypto-constants.js"
 
 export type Header = {

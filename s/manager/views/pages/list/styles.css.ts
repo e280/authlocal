@@ -15,13 +15,13 @@ header.intro {
 	}
 }
 
-nav.identities {
+nav.passports {
 	display: flex;
 	flex-direction: column;
 	gap: 1em;
 }
 
-nav.identities > article {
+nav.passports > article {
 	display: flex;
 	align-items: center;
 	padding: 0.5em 2em;

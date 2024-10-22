@@ -17,6 +17,12 @@ section {
 		border-radius: 0.5em;
 		padding: 0.5em;
 	}
+
+	.problems {
+		color: red;
+		padding-left: 1.5em;
+		text-align: left;
+	}
 }
 
 `

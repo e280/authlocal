@@ -2,10 +2,10 @@
 import {deep} from "@benev/slate"
 import {Keypair} from "./keypair.js"
 import {JsonWebToken} from "./utils/json-web-token.js"
-import {randomFullName} from "../../tools/random-names.js"
-import {AccessJwtPayload, IdentityJson, KeypairJson} from "./types.js"
+import {randomFullName} from "../tools/random-names.js"
+import {AccessJwtPayload, PassportJson, KeypairJson} from "./types.js"
 
-export class Identity {
+export class Passport {
 	constructor(
 		public readonly keypairJson: KeypairJson,
 		public name: string,
@@ -24,12 +24,12 @@ export class Identity {
 		return new this(keypairJson, name, created)
 	}
 
-	static fromJson(json: IdentityJson) {
+	static fromJson(json: PassportJson) {
 		const {keypair, name, created} = json
 		return new this(keypair, name, created)
 	}
 
-	toJson(): IdentityJson {
+	toJson(): PassportJson {
 		return deep.clone({
 			keypair: this.keypairJson,
 			name: this.name,
