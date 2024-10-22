@@ -1,20 +1,21 @@
 
 import {shadowComponent, html, loading} from "@benev/slate"
 
-import stylesCss from "./styles.css.js"
 import {manager} from "../../context.js"
 import {Passport} from "../../../auth/passport.js"
 import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
-import themeCss from "../../../common/theme.css.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
 import {IngressPage} from "../pages/ingress/view.js"
-import {PassportsFile} from "../../../auth/passports-file.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
+import {PassportsFile} from "../../../auth/passports-file.js"
 import {determinePurpose} from "../../logic/determine-purpose.js"
+
+import stylesCss from "./styles.css.js"
+import themeCss from "../../../common/theme.css.js"
 
 import shieldOffIcon from "../../../common/icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-filled.icon.js"
@@ -56,7 +57,7 @@ export const AuthManager = shadowComponent(use => {
 	function gotoEdit(passport: Passport) {
 		situationOp.load(async() => ({
 			kind: "edit",
-			passport: passport,
+			passport,
 			onCancel: gotoList,
 			onDelete: gotoDelete,
 			onComplete: passport => {

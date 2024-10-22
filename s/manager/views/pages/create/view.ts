@@ -23,10 +23,6 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			onUpdate: updated => passport.value = updated,
 		}])}
 
-		<section>
-			<p>After you've created a passport, you should export it to your computer as a backup.</p>
-		</section>
-
 		<footer class=buttonbar>
 			<button @click="${situation.onCancel}">Cancel</button>
 			<button class=happy ?disabled="${!passport.value}" @click="${save}">Create Passport</button>

@@ -33,10 +33,8 @@ export default template(async basic => {
 			<auth-manager></auth-manager>
 
 			<footer>
-				<p>Authduo powers logins without servers.</p>
-				<p>Clientside decentralized user-sovereign federated auth. Free and open source.</p>
-				<p>See Authduo on <a href="https://github.com/authduo/authduo" target=_blank>GitHub</a> to learn more.</p>
-				<p>Own your identity.</p>
+				<p>Authduo is a free and open source user-sovereign login system.</p>
+				<p>See <a href="https://github.com/authduo/authduo" target=_blank>Authduo on GitHub</a> to learn more.</p>
 			</footer>
 		`,
 	})

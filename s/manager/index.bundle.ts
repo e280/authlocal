@@ -4,5 +4,5 @@ import {AuthManager} from "./views/auth-manager/element.js"
 
 register_to_dom({AuthManager})
 
-console.log("🛡️ authduo")
+console.log("🗽 Authduo")
 
