@@ -3,14 +3,14 @@ import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
-import {Idfile} from "../../../../auth/idfile.js"
+import {PassportsFile} from "../../../../auth/idfile.js"
 import {Breakdown} from "../../common/breakdown/view.js"
-import {Identity} from "../../../../auth/identity.js"
+import {Passport} from "../../../../auth/identity.js"
 
 export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 	use.styles([themeCss, stylesCss])
 
-	const identities = use.signal<Identity[]>([])
+	const identities = use.signal<Passport[]>([])
 
 	async function handleUpload(event: InputEvent) {
 		const input = event.currentTarget as HTMLInputElement
@@ -21,7 +21,7 @@ export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 		for (const file of files) {
 			try {
 				const text = await file.text()
-				const idfile = Idfile.fromJson(JSON.parse(text))
+				const idfile = PassportsFile.fromJson(JSON.parse(text))
 				identities.value = [...identities.value, ...idfile.list()]
 			}
 			catch {}

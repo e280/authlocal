@@ -29,7 +29,7 @@ export default template(async basic => {
 			</h1>
 			<auth-login src="/"></auth-login>
 			<footer>
-				<p>This page is a test for a typical federated identity integration with <a href="https://authduo.org/">Authduo.org</a></p>
+				<p>This page is a test for a typical federated auth integration with <a href="https://authduo.org/">Authduo.org</a></p>
 			</footer>
 		`,
 	})

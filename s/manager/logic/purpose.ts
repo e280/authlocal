@@ -1,5 +1,5 @@
 
-import {Identity} from "../../auth/identity.js"
+import {Passport} from "../../auth/identity.js"
 
 export namespace Purpose {
 	export type Manage = {
@@ -8,7 +8,7 @@ export namespace Purpose {
 
 	export type Login = {
 		kind: "login"
-		onLogin: (identity: Identity) => Promise<void>
+		onLogin: (passport: Passport) => Promise<void>
 	}
 
 	////////////////////////////////

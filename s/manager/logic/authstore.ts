@@ -1,32 +1,32 @@
 
-import {Idfile} from "../../auth/idfile.js"
-import {IdfileJson} from "../../auth/types.js"
-import {Identity} from "../../auth/identity.js"
+import {PassportsFile} from "../../auth/idfile.js"
+import {PassportsFileJson} from "../../auth/types.js"
+import {Passport} from "../../auth/identity.js"
 import {storageSignal} from "../../tools/json-storage.js"
 
 export class Idstore {
-	#storage = storageSignal<IdfileJson>("authduo_identities")
+	#storage = storageSignal<PassportsFileJson>("authduo_identities")
 
-	#save(identities: Idfile) {
+	#save(identities: PassportsFile) {
 		this.#storage.save(identities.toJson())
 	}
 
 	get idfile() {
 		const json = this.#storage.signal.value
 		return json
-			? Idfile.fromJson(json)
-			: new Idfile()
+			? PassportsFile.fromJson(json)
+			: new PassportsFile()
 	}
 
 	list() {
 		return this.idfile.list()
 	}
 
-	add(...additions: Identity[]) {
+	add(...additions: Passport[]) {
 		this.#save(this.idfile.add(...additions))
 	}
 
-	delete(...deletions: Identity[]) {
+	delete(...deletions: Passport[]) {
 		this.#save(this.idfile.delete(...deletions))
 	}
 

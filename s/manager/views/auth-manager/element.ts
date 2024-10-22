@@ -3,15 +3,15 @@ import {shadowComponent, html, loading} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {manager} from "../../context.js"
+import {Passport} from "../../../auth/identity.js"
 import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
 import themeCss from "../../../common/theme.css.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
 import {IngressPage} from "../pages/ingress/view.js"
-import {Idfile} from "../../../auth/idfile.js"
+import {PassportsFile} from "../../../auth/idfile.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {EditPage} from "../../views/pages/edit/view.js"
-import {Identity} from "../../../auth/identity.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
 import {determinePurpose} from "../../logic/determine-purpose.js"
@@ -40,47 +40,47 @@ export const AuthManager = shadowComponent(use => {
 	}
 
 	async function gotoCreate() {
-		const identity = await Identity.generate()
+		const passport = await Passport.generate()
 		situationOp.load(async() => ({
 			kind: "create",
-			identity,
+			passport,
 			onCancel: gotoList,
-			onComplete: identity => {
-				idstore.add(identity)
+			onComplete: passport => {
+				idstore.add(passport)
 				storagePersistence.request()
 				gotoList()
 			},
 		}))
 	}
 
-	function gotoEdit(identity: Identity) {
+	function gotoEdit(passport: Passport) {
 		situationOp.load(async() => ({
 			kind: "edit",
-			identity,
+			passport: passport,
 			onCancel: gotoList,
 			onDelete: gotoDelete,
-			onComplete: identity => {
-				idstore.add(identity)
+			onComplete: passport => {
+				idstore.add(passport)
 				storagePersistence.request()
 				gotoList()
 			},
 		}))
 	}
 
-	function gotoDelete(identity: Identity) {
+	function gotoDelete(passport: Passport) {
 		situationOp.load(async() => ({
 			kind: "delete",
-			identity,
+			passport,
 			onCancel: gotoList,
-			onComplete: identity => {
-				idstore.delete(identity)
+			onComplete: passport => {
+				idstore.delete(passport)
 				storagePersistence.request()
 				gotoList()
 			},
 		}))
 	}
 
-	function gotoEgress(identities: Identity[], onBack: () => void) {
+	function gotoEgress(identities: Passport[], onBack: () => void) {
 		situationOp.load(async() => ({
 			kind: "egress",
 			identities,
@@ -88,7 +88,7 @@ export const AuthManager = shadowComponent(use => {
 		}))
 	}
 
-	function gotoIngress(identities: Idfile | undefined, onBack: () => void) {
+	function gotoIngress(identities: PassportsFile | undefined, onBack: () => void) {
 		situationOp.load(async() => ({
 			kind: "ingress",
 			identities,

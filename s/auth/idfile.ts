@@ -1,27 +1,27 @@
 
-import {Identity} from "./identity.js"
+import {Passport} from "./identity.js"
 import {ensure} from "./utils/ensure.js"
 import {base64} from "../tools/base64.js"
-import {IdfileJson, IdentityJson} from "./types.js"
 import {crushUsername} from "./utils/crush-username.js"
+import {PassportsFileJson, PassportJson} from "./types.js"
 
-export class Idfile {
+export class PassportsFile {
 	static readonly format = "authduo.org ids"
 	static readonly version = 2
 
-	#map = new Map<string, Identity>()
+	#map = new Map<string, Passport>()
 
 	list() {
 		return [...this.#map.values()]
 	}
 
-	add(...additions: Identity[]) {
+	add(...additions: Passport[]) {
 		for (const id of additions)
 			this.#map.set(id.thumbprint, id)
 		return this
 	}
 
-	delete(...deletions: Identity[]) {
+	delete(...deletions: Passport[]) {
 		for (const id of deletions)
 			this.#map.delete(id.thumbprint)
 		return this
@@ -32,22 +32,22 @@ export class Idfile {
 		return this
 	}
 
-	toJson(): IdfileJson {
+	toJson(): PassportsFileJson {
 		return {
-			format: Idfile.format,
-			version: Idfile.version,
+			format: PassportsFile.format,
+			version: PassportsFile.version,
 			identities: [...this.#map.values()]
 				.map(id => id.toJson()),
 		}
 	}
 
-	static ingestJson(raw: any): IdfileJson {
-		let json: IdfileJson | null = null
+	static ingestJson(raw: any): PassportsFileJson {
+		let json: PassportsFileJson | null = null
 
 		if (
 			!("format" in raw) ||
 			!("version" in raw) ||
-			raw.format !== Idfile.format)
+			raw.format !== PassportsFile.format)
 				throw new Error(`invalid format`)
 
 		switch (raw.version) {
@@ -62,7 +62,7 @@ export class Idfile {
 		return {
 			format: ensure.string("format", json.format),
 			version: ensure.number("version", json.version),
-			identities: ensure.array("array", json.identities.map((id): IdentityJson => ({
+			identities: ensure.array("array", json.identities.map((id): PassportJson => ({
 				name: ensure.string("name", id.name),
 				created: ensure.number("created", id.created),
 				keypair: {
@@ -75,9 +75,9 @@ export class Idfile {
 	}
 
 	static fromJson(raw: any) {
-		const json = Idfile.ingestJson(raw)
+		const json = PassportsFile.ingestJson(raw)
 		const identities = new this()
-		identities.add(...json.identities.map(idjson => Identity.fromJson(idjson)))
+		identities.add(...json.identities.map(idjson => Passport.fromJson(idjson)))
 		return identities
 	}
 

@@ -27,8 +27,8 @@ export const ListPage = shadowView(use => (
 				return html`
 					<header class=intro>
 						${none
-							? html`<h2>Create or import an identity to login</h2>`
-							: html`<h2>Choose your login identity</h2>`}
+							? html`<h2>Create a passport to login</h2>`
+							: html`<h2>Choose a passport to login with</h2>`}
 					</header>
 				`
 
@@ -37,27 +37,27 @@ export const ListPage = shadowView(use => (
 		}})()}
 
 		<nav class=identities ?hidden="${none}">
-			${identities.map(identity => html`
+			${identities.map(passport => html`
 				<article>
 					${svgSlate(circleKeyIcon)}
 
 					<section class=nameplate>
-						<h2>${identity.name}</h2>
+						<h2>${passport.name}</h2>
 						<footer>
 							${purpose.kind === "login" ? html`
-								<button class=happy @click="${() => purpose.onLogin(identity)}">Login</button>
+								<button class=happy @click="${() => purpose.onLogin(passport)}">Login</button>
 							` : null}
-							<button @click="${() => situation.onEdit(identity)}">Edit</button>
-							<button @click="${() => situation.onEgress([identity])}">Export</button>
+							<button @click="${() => situation.onEdit(passport)}">Edit</button>
+							<button @click="${() => situation.onEgress([passport])}">Export</button>
 						</footer>
 					</section>
 
 					<section class=details>
 						<span>
-							${whence(identity.created)}
+							${whence(passport.created)}
 						</span>
-						<span class=thumbprint title="${identity.thumbprint}">
-							${identity.thumbprint.slice(0, 8)}
+						<span class=thumbprint title="${passport.thumbprint}">
+							${passport.thumbprint.slice(0, 8)}
 						</span>
 					</section>
 				</article>
@@ -66,7 +66,7 @@ export const ListPage = shadowView(use => (
 
 		<nav class="controls stdbuttons">
 			<button class="${none ? "happy" : ""}" @click="${() => situation.onCreate()}">
-				New Identity
+				New Passport
 			</button>
 
 			<button @click="${() => situation.onIngress(undefined)}">

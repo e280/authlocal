@@ -8,16 +8,16 @@ export type KeypairJson = {
 	privateKey: string
 } & PubkeyJson
 
-export type IdentityJson = {
+export type PassportJson = {
 	keypair: KeypairJson
 	name: string
 	created: number
 }
 
-export type IdfileJson = {
+export type PassportsFileJson = {
 	format: string
 	version: number
-	identities: IdentityJson[]
+	identities: PassportJson[]
 }
 
 export type AccessJwtPayload = {
