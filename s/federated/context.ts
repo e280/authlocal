@@ -1,5 +1,5 @@
 
-import {Auth} from "./auth/auth.js"
+import {Auth} from "./auth.js"
 
 export const auth = new Auth()
 

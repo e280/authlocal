@@ -94,7 +94,7 @@
 - On your app, the login button opens an *authduo.org* popup for users to select/create an identity
 - Your app gets back an access token via postmessage — boom, they're logged in
 - Your app never touches the user's cryptographic keys, keeping things secure
-- Your own API microservices can verify the acecss tokens cryptographically
+- Your own API microservices can verify the tokens cryptographically
 - Zero-cost for you and your users
 
 ### [Authduo.org](https://authduo.org/) is for convenience, not vendor lock-in!
@@ -155,7 +155,7 @@
     ```
   - receive and verify it cryptographically on your server. `server.js`
     ```js
-    import {verify} from "@authduo/authduo"
+    import {verify} from "@authduo/authduo/x/node.js"
 
     myServerReceive(async token => {
       const login = await verify(token)

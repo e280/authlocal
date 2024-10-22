@@ -1,10 +1,10 @@
 
 import {ev, pubsub} from "@benev/slate"
 
-import {Login} from "./types.js"
-import {openPopup} from "../utils/open-popup.js"
-import {verify} from "../../common/auth/verify.js"
-import {storageSignal} from "../../tools/json-storage.js"
+import {Login} from "../common/auth/types.js"
+import {openPopup} from "./utils/open-popup.js"
+import {verify} from "../common/auth/verify.js"
+import {storageSignal} from "../tools/json-storage.js"
 
 export class Auth {
 	static url = "https://authduo.org/"
@@ -40,10 +40,8 @@ export class Auth {
 			ev(window, {
 				message: async(event: MessageEvent) => {
 					if (event.origin === expectedOrigin && "token" in event.data && typeof event.data.token === "string") {
-						const token = event.data.token as string
-						const access = await verify(event.data.token)
-						this.login = {...access, token}
 						popup.close()
+						this.login = await verify(event.data.token)
 						resolve(this.login)
 					}
 				},

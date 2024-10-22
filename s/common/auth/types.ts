@@ -20,6 +20,13 @@ export type IdfileJson = {
 	identities: IdentityJson[]
 }
 
+export type AccessJwtPayload = {
+	sub: string
+	aud: string
+	exp: number
+	data: {name: string, publicKey: string}
+}
+
 export type Access = {
 	name: string
 	thumbprint: string
@@ -28,10 +35,5 @@ export type Access = {
 	audience: string
 }
 
-export type AccessJwtPayload = {
-	sub: string
-	aud: string
-	exp: number
-	data: {name: string, publicKey: string}
-}
+export type Login = {token: string} & Access
 

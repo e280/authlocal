@@ -1,8 +1,8 @@
 
 import {ShadowElement, attributes, html, mixin} from "@benev/slate"
 
+import {Auth} from "../../auth.js"
 import {auth} from "../../context.js"
-import {Auth} from "../../auth/auth.js"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../common/theme.css.js"
 
