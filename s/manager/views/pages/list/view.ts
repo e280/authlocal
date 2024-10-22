@@ -16,9 +16,9 @@ export const ListPage = shadowView(use => (
 
 	use.styles([themeCss, stylesCss])
 
-	const {idstore} = situation
-	const identities = idstore.list()
-	const none = identities.length === 0
+	const {passportStore} = situation
+	const passports = passportStore.list()
+	const none = passports.length === 0
 
 	return html`
 		${(() => {switch (purpose.kind) {
@@ -37,7 +37,7 @@ export const ListPage = shadowView(use => (
 		}})()}
 
 		<nav class=identities ?hidden="${none}">
-			${identities.map(passport => html`
+			${passports.map(passport => html`
 				<article>
 					${svgSlate(circleKeyIcon)}
 
@@ -73,7 +73,7 @@ export const ListPage = shadowView(use => (
 				Import
 			</button>
 
-			<button ?disabled="${none}" @click="${() => situation.onEgress(identities)}">
+			<button ?disabled="${none}" @click="${() => situation.onEgress(passports)}">
 				Export All
 			</button>
 		</nav>

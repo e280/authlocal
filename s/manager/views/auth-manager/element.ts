@@ -3,13 +3,13 @@ import {shadowComponent, html, loading} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {manager} from "../../context.js"
-import {Passport} from "../../../auth/identity.js"
+import {Passport} from "../../../auth/passport.js"
 import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
 import themeCss from "../../../common/theme.css.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
 import {IngressPage} from "../pages/ingress/view.js"
-import {PassportsFile} from "../../../auth/idfile.js"
+import {PassportsFile} from "../../../auth/passports-file.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {CreatePage} from "../../views/pages/create/view.js"
@@ -22,7 +22,7 @@ import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-fil
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
 
-	const {idstore, storagePersistence} = manager
+	const {passportStore: idstore, storagePersistence} = manager
 	const purpose = use.once(determinePurpose)
 	const situationOp = use.op<Situation.Any>()
 
@@ -31,7 +31,7 @@ export const AuthManager = shadowComponent(use => {
 	function gotoList() {
 		situationOp.load(async() => ({
 			kind: "list",
-			idstore,
+			passportStore: idstore,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
 			onEgress: identities => gotoEgress(identities, gotoList),

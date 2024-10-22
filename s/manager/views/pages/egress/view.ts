@@ -4,11 +4,12 @@ import stylesCss from "./styles.css.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
 import {Breakdown} from "../../common/breakdown/view.js"
-import {PassportsFile} from "../../../../auth/idfile.js"
+import {PassportsFile} from "../../../../auth/passports-file.js"
 
 export const EgressPage = shadowView(use => (situation: Situation.Egress) => {
 	use.styles([themeCss, stylesCss])
-	const idfile = new PassportsFile().add(...situation.identities)
+	const passportsFile = new PassportsFile().add(...situation.identities)
+	const name = passportsFile.filename()
 
 	return html`
 		<section>
@@ -18,7 +19,7 @@ export const EgressPage = shadowView(use => (situation: Situation.Egress) => {
 			<div class=special>
 				${Breakdown([situation.identities])}
 				<div class=download>
-					<a class=button download="${idfile.filename()}" href="${idfile.href()}">
+					<a class=button download="${name}" href="${passportsFile.href()}">
 						Export
 					</a>
 					<span>${name}</span>

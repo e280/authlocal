@@ -1,12 +1,12 @@
 
-import {Idstore} from "./authstore.js"
-import {Passport} from "../../auth/identity.js"
-import {PassportsFile} from "../../auth/idfile.js"
+import {PassportStore} from "./authstore.js"
+import {Passport} from "../../auth/passport.js"
+import {PassportsFile} from "../../auth/passports-file.js"
 
 export namespace Situation {
 	export type List = {
 		kind: "list"
-		idstore: Idstore
+		passportStore: PassportStore
 		onCreate: () => void
 		onEdit: (passport: Passport) => void
 		onEgress: (passports: Passport[]) => void

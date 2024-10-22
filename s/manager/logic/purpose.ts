@@ -1,5 +1,5 @@
 
-import {Passport} from "../../auth/identity.js"
+import {Passport} from "../../auth/passport.js"
 
 export namespace Purpose {
 	export type Manage = {

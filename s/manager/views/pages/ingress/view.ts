@@ -1,11 +1,11 @@
 
 import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
+import {Passport} from "../../../../auth/passport.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
-import {PassportsFile} from "../../../../auth/idfile.js"
 import {Breakdown} from "../../common/breakdown/view.js"
-import {Passport} from "../../../../auth/identity.js"
+import {PassportsFile} from "../../../../auth/passports-file.js"
 
 export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 	use.styles([themeCss, stylesCss])

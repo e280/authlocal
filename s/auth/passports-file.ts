@@ -1,5 +1,5 @@
 
-import {Passport} from "./identity.js"
+import {Passport} from "./passport.js"
 import {ensure} from "./utils/ensure.js"
 import {base64} from "../tools/base64.js"
 import {crushUsername} from "./utils/crush-username.js"
@@ -82,10 +82,10 @@ export class PassportsFile {
 	}
 
 	filename() {
-		const ids = this.list()
-		return ids.length === 1
-			? `${crushUsername(ids.at(0)!.name)}.id`
-			: `identities.id`
+		const passports = this.list()
+		return passports.length === 1
+			? `${crushUsername(passports.at(0)!.name)}.passport`
+			: `passports.passport`
 	}
 
 	href() {

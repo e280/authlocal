@@ -3,7 +3,7 @@ import {deep, html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {whence} from "../../../../tools/whence.js"
-import {Passport} from "../../../../auth/identity.js"
+import {Passport} from "../../../../auth/passport.js"
 import themeCss from "../../../../common/theme.css.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {validName} from "../../../../auth/utils/validation.js"

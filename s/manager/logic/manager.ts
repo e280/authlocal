@@ -1,9 +1,9 @@
 
-import {Idstore} from "./authstore.js"
+import {PassportStore} from "./authstore.js"
 import {StoragePersistence} from "./storage-persistence.js"
 
 export class Manager {
-	idstore = new Idstore()
+	passportStore = new PassportStore()
 	storagePersistence = new StoragePersistence()
 }
 
