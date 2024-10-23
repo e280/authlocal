@@ -18,13 +18,14 @@
 		"links": "run-s links-s links-assets",
 		"links-s": "ln -s \"$(realpath s)\" x/s",
 		"links-assets": "ln -s \"$(realpath assets)\" x/assets",
-		"test": "exit 0"
+		"test": "cynic node x/tests.test.js"
 	},
 	"dependencies": {
 		"@benev/slate": "^0.2.8"
 	},
 	"devDependencies": {
 		"@benev/turtle": "^0.6.3",
+		"cynic": "^0.2.1",
 		"http-server": "^14.1.1",
 		"npm-run-all": "^4.1.5",
 		"typescript": "^5.6.2"

@@ -41,7 +41,7 @@ export class Passport {
 		return await Keypair.fromJson(this.keypairJson)
 	}
 
-	async signAccessToken(o: {expiry: number, audience: string}) {
+	async signLoginToken(o: {expiry: number, audience: string}) {
 		const keypair = await this.getKeypair()
 		return await keypair.sign<AccessJwtPayload>({
 			exp: JsonWebToken.fromJsTime(o.expiry),
@@ -50,5 +50,8 @@ export class Passport {
 			data: {name: this.name, publicKey: this.keypairJson.publicKey},
 		})
 	}
+
+	/** @deprecated renamed to `signLoginToken` */
+	signAccessToken = this.signLoginToken.bind(this)
 }
 

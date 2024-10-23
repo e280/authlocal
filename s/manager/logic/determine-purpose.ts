@@ -9,7 +9,7 @@ export function determinePurpose(): Purpose.Any {
 			kind: "login",
 			onLogin: async id => {
 				const day = (1000 * 60 * 60 * 24)
-				const token = await id.signAccessToken({
+				const token = await id.signLoginToken({
 					audience: window.origin,
 					expiry: Date.now() + (1 * day),
 				})
