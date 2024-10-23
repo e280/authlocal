@@ -1,7 +1,7 @@
 
 ![Authduo.org](https://i.imgur.com/Pr6ILnz.png)
 
-# 🗽 Free Auth for Everybody at [Authduo.org](https://authduo.org/)
+# 🗽 [Authduo.org](https://authduo.org/) – Free Auth for Everybody
 
 [Authduo.org](https://authduo.org/) is an app where users can create and manage digital login passports.
 
@@ -94,7 +94,7 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 
 <br/>
 
-## 🌠 The More You Know About [Authduo.org](https://authduo.org/)
+## 🌠 The More You Know, about [Authduo.org](https://authduo.org/)
 
 ### What if my users lose their passports?
 - They'll just generate new passports.
