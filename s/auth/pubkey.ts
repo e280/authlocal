@@ -1,6 +1,7 @@
 
 import {hex} from "../tools/hex.js"
 import {PubkeyJson} from "./types.js"
+import {getCrypto} from "./utils/get-crypto.js"
 import {CryptoConstants} from "./crypto-constants.js"
 import {JsonWebToken, Payload} from "./utils/json-web-token.js"
 
@@ -11,6 +12,8 @@ export class Pubkey {
 	) {}
 
 	static async fromJson(json: PubkeyJson) {
+		const crypto = await getCrypto()
+
 		const extractable = true
 		const publicBuffer = hex.to.buffer(json.publicKey)
 
@@ -33,6 +36,8 @@ export class Pubkey {
 	}
 
 	async toJson(): Promise<PubkeyJson> {
+		const crypto = await getCrypto()
+
 		const publicBuffer = await crypto.subtle
 			.exportKey(CryptoConstants.formats.public, this.publicKey)
 
