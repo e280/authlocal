@@ -2,8 +2,8 @@
 import {ev, pubsub} from "@benev/slate"
 
 import {Login} from "../auth/types.js"
-import {openPopup} from "./utils/open-popup.js"
 import {verify} from "../auth/verify.js"
+import {openPopup} from "./utils/open-popup.js"
 import {storageSignal} from "../tools/json-storage.js"
 
 export class Auth {
@@ -15,7 +15,7 @@ export class Auth {
 	get login() {
 		const login = this.#login.signal.value
 		const valid = login && (Date.now() < login.expiry)
-		if (!valid)
+		if (!valid && login)
 			this.#login.signal.value = null
 		return this.#login.signal.value
 	}
