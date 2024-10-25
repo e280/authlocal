@@ -3,7 +3,7 @@ import {hex} from "../tools/hex.js"
 import {PubkeyJson} from "./types.js"
 import {getCrypto} from "./utils/get-crypto.js"
 import {CryptoConstants} from "./crypto-constants.js"
-import {JsonWebToken, Payload} from "./utils/json-web-token.js"
+import {JsonWebToken, Payload, VerificationOptions, VerifyError} from "./utils/json-web-token.js"
 
 export class Pubkey {
 	constructor(
@@ -22,7 +22,7 @@ export class Pubkey {
 		)
 
 		if (json.thumbprint !== thumbprint)
-			throw new Error("incorrect thumbprint")
+			throw new VerifyError("incorrect thumbprint")
 
 		const publicKey = await crypto.subtle.importKey(
 			CryptoConstants.formats.public,
@@ -42,7 +42,10 @@ export class Pubkey {
 			.exportKey(CryptoConstants.formats.public, this.publicKey)
 
 		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
+			await crypto.subtle.digest(
+				CryptoConstants.algos.thumbprint,
+				publicBuffer,
+			)
 		)
 
 		return {
@@ -51,8 +54,11 @@ export class Pubkey {
 		}
 	}
 
-	async verify<P extends Payload>(token: string) {
-		return await JsonWebToken.verify<P>(this.publicKey, token)
+	async verify<P extends Payload>(
+			token: string,
+			options: VerificationOptions = {},
+		) {
+		return await JsonWebToken.verify<P>(this.publicKey, token, options)
 	}
 }
 

@@ -26,6 +26,15 @@ export type Jwt<P extends Payload = any> = {
 	signature: Signature
 }
 
+export type VerificationOptions = {
+	allowedIssuers?: string[]
+	allowedAudiences?: string[]
+}
+
+export class VerifyError extends Error {
+	name = this.constructor.name
+}
+
 export class JsonWebToken {
 	static header: Header = Object.freeze({typ: "JWT", alg: "ES256"})
 	static toJsTime = (t: number) => t * 1000
@@ -57,9 +66,13 @@ export class JsonWebToken {
 		return {header, payload, signature}
 	}
 
-	static async verify<P extends Payload>(publicKey: CryptoKey, token: string): Promise<P> {
-		const crypto = await getCrypto()
+	static async verify<P extends Payload>(
+			publicKey: CryptoKey,
+			token: string,
+			options: VerificationOptions = {},
+		): Promise<P> {
 
+		const crypto = await getCrypto()
 		const [headerText, payloadText] = token.split(".")
 		const {payload, signature} = JsonWebToken.decode<P>(token)
 		const signingInput = `${headerText}.${payloadText}`
@@ -73,18 +86,32 @@ export class JsonWebToken {
 		)
 
 		if (!isValid)
-			throw new Error("token signature invalid")
+			throw new VerifyError("token signature invalid")
 
 		if (payload.exp) {
 			const expiry = JsonWebToken.toJsTime(payload.exp)
 			if (Date.now() > expiry)
-				throw new Error("token expired")
+				throw new VerifyError("token expired")
 		}
 
 		if (payload.nbf) {
 			const notBefore = JsonWebToken.toJsTime(payload.nbf)
 			if (Date.now() < notBefore)
-				throw new Error("token not ready")
+				throw new VerifyError("token not ready")
+		}
+
+		if (options.allowedIssuers) {
+			if (!payload.iss)
+				throw new VerifyError(`required iss (issuer) is missing`)
+			if (!options.allowedIssuers.includes(payload.iss))
+				throw new VerifyError(`invalid iss (issuer) "${payload.iss}"`)
+		}
+
+		if (options.allowedAudiences) {
+			if (!payload.aud)
+				throw new VerifyError(`required aud (audience) is missing`)
+			if (!options.allowedAudiences.includes(payload.aud))
+				throw new VerifyError(`invalid aud (audience) "${payload.aud}"`)
 		}
 
 		return payload

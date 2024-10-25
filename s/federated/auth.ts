@@ -30,6 +30,7 @@ export class Auth {
 	}
 
 	async popup(url: string = Auth.url) {
+		const appWindow = window
 		const popupWindow = openPopup(url)
 
 		if (!popupWindow)
@@ -39,20 +40,16 @@ export class Auth {
 
 		return new Promise<Login | null>((resolve, reject) => {
 			const {dispose} = setupInApp(
-				window,
+				appWindow,
 				popupWindow,
 				popupOrigin,
 				async token => {
 					popupWindow.close()
 					try {
-						const login = await verify(token)
-						if (login) {
-							if (login.audience !== window.origin)
-								throw new Error(`invalid audience, got "${login.audience}", expected "${window.origin}"`)
-							if (login.issuer !== popupOrigin)
-								throw new Error(`invalid issuer, got "${login.issuer}", expected "${popupOrigin}"`)
-						}
-						this.login = login
+						this.login = await verify(token, {
+							allowedIssuers: [popupOrigin],
+							allowedAudiences: [appWindow.origin],
+						})
 						dispose()
 						resolve(this.login)
 					}

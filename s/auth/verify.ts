@@ -1,16 +1,20 @@
 
 import {Pubkey} from "./pubkey.js"
 import {AccessJwtPayload, Login} from "./types.js"
-import {JsonWebToken} from "./utils/json-web-token.js"
+import {JsonWebToken, VerificationOptions} from "./utils/json-web-token.js"
 
-export async function verify(token: string): Promise<Login | null> {
+export async function verify(
+		token: string,
+		options: VerificationOptions = {},
+	): Promise<Login | null> {
+
 	try {
 		const {payload} = JsonWebToken.decode<AccessJwtPayload>(token)
 		const thumbprint = payload.sub
 		const {name, publicKey} = payload.data
 
 		const pubkey = await Pubkey.fromJson({thumbprint, publicKey})
-		await pubkey.verify(token)
+		await pubkey.verify(token, options)
 
 		return {
 			token,
