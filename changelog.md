@@ -11,6 +11,14 @@
 
 ## v0.0
 
+### v0.0.3
+- 🔶 add: required param `issuer` to `passport.signLoginToken(params)`
+- 🍏 fix: bug with cross-domain logins
+- 🍏 add: login token verification options `allowedAudiences` and `allowIssuers`
+
+### v0.0.2
+- 🍏 fix: the login signal firing in a loop
+
 ### v0.0.1
 - 🔶 deprecate: `passport.signAccessToken`, use `passport.signLoginToken` instead
 - 🍏 fix: nodejs and deno compat for auth functions
