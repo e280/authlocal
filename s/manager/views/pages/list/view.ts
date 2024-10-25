@@ -1,8 +1,8 @@
 
-import {html, shadowView, Signal} from "@benev/slate"
+import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import {Purpose} from "../../../logic/purpose.js"
+import {manager} from "../../../context.js"
 import {whence} from "../../../../tools/whence.js"
 import {Passport} from "../../../../auth/passport.js"
 import {Situation} from "../../../logic/situation.js"
@@ -13,7 +13,6 @@ import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
-		purposeSignal: Signal<Purpose.Any>,
 	) => {
 
 	use.styles([themeCss, stylesCss])
@@ -22,8 +21,7 @@ export const ListPage = shadowView(use => (
 	const passports = passportStore.list()
 	const passportsFile = new PassportsFile().add(...passports)
 	const none = passports.length === 0
-
-	const purpose = purposeSignal.value
+	const purpose = manager.purpose.value
 
 	function renderPassport(passport: Passport) {
 		const file = new PassportsFile().add(passport)

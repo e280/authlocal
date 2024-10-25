@@ -1,5 +1,4 @@
 
-import {Signal} from "@benev/slate"
 import {AppFns} from "./app-fns.js"
 import {Purpose} from "../logic/purpose.js"
 
@@ -14,8 +13,8 @@ export type PopupFns = {
 export const makePopupFns = (
 		event: MessageEvent,
 		state: PopupState,
-		purpose: Signal<Purpose.Any>,
 		app: AppFns,
+		setLoginPurpose: (login: Purpose.Login) => void,
 	): PopupFns => {
 	return {
 
@@ -25,13 +24,13 @@ export const makePopupFns = (
 			const day = (1000 * 60 * 60 * 24)
 			const expiry = Date.now() + (1 * day)
 			const issuer = window.origin
-			purpose.value = {
+			setLoginPurpose({
 				kind: "login",
 				onLogin: async id => {
 					const token = await id.signLoginToken({issuer, audience, expiry})
 					await app.login(token)
 				},
-			}
+			})
 		},
 	}
 }

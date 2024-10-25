@@ -3,7 +3,6 @@ import {shadowComponent, html, loading} from "@benev/slate"
 
 import {manager} from "../../context.js"
 import {Passport} from "../../../auth/passport.js"
-import {Situation} from "../../logic/situation.js"
 import {EgressPage} from "../pages/egress/view.js"
 import {svgSlate} from "../../../tools/svg-slate.js"
 import {IngressPage} from "../pages/ingress/view.js"
@@ -12,7 +11,6 @@ import {EditPage} from "../../views/pages/edit/view.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
 import {PassportsFile} from "../../../auth/passports-file.js"
-import {determinePurpose} from "../../logic/determine-purpose.js"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../common/theme.css.js"
@@ -23,9 +21,7 @@ import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-fil
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
 
-	const {passportStore, storagePersistence} = manager
-	const purpose = use.once(determinePurpose)
-	const situationOp = use.op<Situation.Any>()
+	const {passportStore, storagePersistence, situationOp} = manager
 
 	use.once(() => storagePersistence.check())
 
@@ -102,7 +98,7 @@ export const AuthManager = shadowComponent(use => {
 
 	const page = loading.braille(situationOp, situation => {switch (situation.kind) {
 		case "list":
-			return ListPage([situation, purpose])
+			return ListPage([situation])
 
 		case "create":
 			return CreatePage([situation])

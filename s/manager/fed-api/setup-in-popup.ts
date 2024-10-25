@@ -1,5 +1,4 @@
 
-import {Signal} from "@benev/slate"
 import {PostMessenger} from "renraku"
 
 import {AppFns} from "./app-fns.js"
@@ -9,7 +8,7 @@ import {makePopupFns, PopupState} from "./popup-fns.js"
 export function setupInPopup(
 		appWindow: WindowProxy,
 		popupWindow: Window,
-		purpose: Signal<Purpose.Any>,
+		setLoginPurpose: (purpose: Purpose.Login) => void
 	) {
 
 	const state: PopupState = {parentOrigin: "*"}
@@ -17,7 +16,7 @@ export function setupInPopup(
 	const peer = new PostMessenger<AppFns>({
 		local: {
 			window: popupWindow,
-			getFns: (event, app) => makePopupFns(event, state, purpose, app),
+			getFns: (event, app) => makePopupFns(event, state, app, setLoginPurpose),
 		},
 		remote: {
 			window: appWindow,
