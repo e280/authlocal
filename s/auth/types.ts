@@ -22,6 +22,7 @@ export type PassportsFileJson = {
 
 export type AccessJwtPayload = {
 	sub: string
+	iss: string
 	aud: string
 	exp: number
 	data: {name: string, publicKey: string}
@@ -33,6 +34,7 @@ export type Access = {
 	publicKey: string
 	expiry: number
 	audience: string
+	issuer: string
 }
 
 export type Login = {token: string} & Access

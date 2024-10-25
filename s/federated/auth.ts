@@ -1,10 +1,11 @@
 
-import {ev, pubsub} from "@benev/slate"
+import {pubsub} from "@benev/slate"
 
 import {Login} from "../auth/types.js"
 import {verify} from "../auth/verify.js"
 import {openPopup} from "./utils/open-popup.js"
 import {storageSignal} from "../tools/json-storage.js"
+import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
 export class Auth {
 	static url = "https://authduo.org/"
@@ -29,24 +30,41 @@ export class Auth {
 	}
 
 	async popup(url: string = Auth.url) {
-		const popup = openPopup(url)
+		const popupWindow = openPopup(url)
 
-		if (!popup)
+		if (!popupWindow)
 			return null
 
-		const expectedOrigin = new URL(url, window.location.href).origin
+		const popupOrigin = new URL(url, window.location.href).origin
 
-		return new Promise<Login | null>(resolve => {
-			ev(window, {
-				message: async(event: MessageEvent) => {
-					if (event.origin === expectedOrigin && "token" in event.data && typeof event.data.token === "string") {
-						popup.close()
-						this.login = await verify(event.data.token)
+		return new Promise<Login | null>((resolve, reject) => {
+			const {dispose} = setupInApp(
+				window,
+				popupWindow,
+				popupOrigin,
+				async token => {
+					popupWindow.close()
+					try {
+						const login = await verify(token)
+						if (login) {
+							if (login.audience !== window.origin)
+								throw new Error(`invalid audience, got "${login.audience}", expected "${window.origin}"`)
+							if (login.issuer !== popupOrigin)
+								throw new Error(`invalid issuer, got "${login.issuer}", expected "${popupOrigin}"`)
+						}
+						this.login = login
+						dispose()
 						resolve(this.login)
 					}
+					catch (err) {
+						dispose()
+						reject(err)
+					}
 				},
-			})
-			popup.onclose = () => {
+			)
+
+			popupWindow.onclose = () => {
+				dispose()
 				resolve(this.login)
 			}
 		})

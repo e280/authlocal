@@ -41,12 +41,13 @@ export class Passport {
 		return await Keypair.fromJson(this.keypairJson)
 	}
 
-	async signLoginToken(o: {expiry: number, audience: string}) {
+	async signLoginToken(o: {expiry: number, audience: string, issuer: string}) {
 		const keypair = await this.getKeypair()
 		return await keypair.sign<AccessJwtPayload>({
-			exp: JsonWebToken.fromJsTime(o.expiry),
-			aud: o.audience,
 			sub: this.thumbprint,
+			exp: JsonWebToken.fromJsTime(o.expiry),
+			iss: o.issuer,
+			aud: o.audience,
 			data: {name: this.name, publicKey: this.keypairJson.publicKey},
 		})
 	}

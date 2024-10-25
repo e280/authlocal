@@ -8,7 +8,8 @@ export default <Suite>{
 	async "generate a passport, sign a login token, and verify it"() {
 		const passport = await Passport.generate()
 		const loginToken = await passport.signLoginToken({
-			audience: "test",
+			issuer: "testissuer",
+			audience: "testaudience",
 			expiry: Date.now() + 60_000,
 		})
 		const login = await verify(loginToken)

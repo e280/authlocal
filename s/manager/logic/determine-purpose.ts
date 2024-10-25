@@ -1,24 +1,28 @@
 
-import {Purpose} from "./purpose.js"
+import {Signal, signal} from "@benev/slate"
 
-export function determinePurpose(): Purpose.Any {
+import {Purpose} from "./purpose.js"
+import {setupInPopup} from "../fed-api/setup-in-popup.js"
+
+export function determinePurpose(): Signal<Purpose.Any> {
+	const purpose = signal<Purpose.Any>({kind: "manage"})
 	const loginRequested = location.search.includes("login") || window.opener
 
-	if (loginRequested)
-		return {
+	if (loginRequested) {
+		purpose.value = {
 			kind: "login",
-			onLogin: async id => {
-				const day = (1000 * 60 * 60 * 24)
-				const token = await id.signLoginToken({
-					audience: window.origin,
-					expiry: Date.now() + (1 * day),
-				})
-				window.opener.postMessage({token}, window.opener.origin)
-			},
+			onLogin: async passport => console.log("LOGIN", passport.thumbprint),
 		}
-	else
-		return {
-			kind: "manage",
-		}
+		const {appFns} = setupInPopup(
+			window.opener,
+			window,
+			purpose,
+		)
+		appFns.ready()
+		return purpose
+	}
+	else {
+		return purpose
+	}
 }
 

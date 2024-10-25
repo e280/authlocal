@@ -6,7 +6,7 @@ import {JsonWebToken} from "./utils/json-web-token.js"
 export async function verify(token: string): Promise<Login | null> {
 	try {
 		const {payload} = JsonWebToken.decode<AccessJwtPayload>(token)
-		const {exp, sub: thumbprint} = payload
+		const thumbprint = payload.sub
 		const {name, publicKey} = payload.data
 
 		const pubkey = await Pubkey.fromJson({thumbprint, publicKey})
@@ -17,8 +17,9 @@ export async function verify(token: string): Promise<Login | null> {
 			name,
 			publicKey,
 			thumbprint,
+			issuer: payload.iss,
 			audience: payload.aud,
-			expiry: JsonWebToken.toJsTime(exp),
+			expiry: JsonWebToken.toJsTime(payload.exp),
 		}
 	}
 	catch {
