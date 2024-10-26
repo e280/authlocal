@@ -12,11 +12,16 @@
 ## v0.1
 
 ### v0.1.0
-- 🟥 rewrite: tokens
-  - now we discourage passing login tokens around, that's basically like passing the user's identity around, and anybody holding that token can impersonate the user
-  - now each login token contains an ephemeral keypair relevant to that specific login
-  - this means a login is capable of signing data arbitrarily on behalf of the passport
+- 🟥 tokens rewrite
+  - introducing `Login`, `Proof`, and `Challenge` tokens
+  - each login now contains an ephemeral keypair relevant to that specific login
+  - logins are now capable of signing arbitrary challenge data on behalf of the passport
+  - each successful login comes with a proof, which is used to verify all logins and challenges
   - so, now, it's recommended that apps should use `login.signChallengeToken` to produce their own access tokens
+- 🟥 auth storage mechanisms rewritten
+  - auth data is now stored in localstorage under key `authduo`
+- 🍏 new package.json `exports` mapping
+  - should mean node and deno can just import from `@authduo/authduo` and it'll work
 
 <br/>
 
