@@ -120,30 +120,28 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
     if (login) console.log("logged in", login)
   }
   ```
-- **Do stuff on your own servers.**
-  - Use the successful login to create and sign a challenge token, then send it to your server. `main.js`
+- **Access tokens for authorizing microservices and such.**
+  - Use the login to sign an access token, then send it to your server. `main.js`
     ```js
-    // also send along the proof token,
-    // which is used to verify challenges
-    const proofToken = login.proof.token
+    import {FromNow} from "@authduo/authduo"
 
-    // use the login to sign a fresh challenge token,
-    // provide anything you want as "data"
-    const challengeToken = await login.signChallengeToken({
+    const accessToken = await login.signAccessToken({
+      expiry: FromNow.minutes(10),
+
+      // you can pack arbitrary data into access tokens
       data: {name: login.name, scopes: "ecommerce"},
-      expiry: Date.now() + (10 * 60_000),
     })
 
-    await sendToMyServer({proofToken, challengeToken})
+    await sendToMyServer(accessToken)
     ```
-  - Receive and verify the challenge cryptographically on your server. `server.js`
+  - Receive and verify the access token cryptographically on your server. `server.js`
     ```js
-    import {Proof, Challenge} from "@authduo/authduo/x/server.js"
+    import {Access} from "@authduo/authduo/x/server.js"
 
-    myServerReceive(async({proofToken, challengeToken}) => {
-      const proof = await Proof.verify(proofToken)
-      const challenge = await Challenge.verify(challengeToken)
-      console.log("challenge", challenge.data)
+    myServerReceive(async accessToken => {
+      const access = await Access.verify(accessToken)
+      console.log("verified passport thumbprint", access.thumbprint)
+      console.log("verified access data", access.data)
     })
     ```
     - Notice that on the server we import from a different entrypoint.

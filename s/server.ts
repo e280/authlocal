@@ -1,4 +1,5 @@
 
+export * from "./auth/tokens/access.js"
 export * from "./auth/tokens/challenge.js"
 export * from "./auth/tokens/login.js"
 export * from "./auth/tokens/proof.js"
@@ -13,4 +14,11 @@ export * from "./auth/passport.js"
 export * from "./auth/passports-file.js"
 export * from "./auth/pubkey.js"
 export * from "./auth/types.js"
+
+export * from "./tools/base64.js"
+export * from "./tools/from-now.js"
+export * from "./tools/hash.js"
+export * from "./tools/hex.js"
+export * from "./tools/random-names.js"
+export * from "./tools/whence.js"
 

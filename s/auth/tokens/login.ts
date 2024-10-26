@@ -2,7 +2,7 @@
 import {Proof} from "./proof.js"
 import {Pubkey} from "../pubkey.js"
 import {Keypair} from "../keypair.js"
-import {ChallengePayload, LoginPayload} from "../types.js"
+import {AccessPayload, ChallengePayload, LoginPayload} from "../types.js"
 import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
 
 export class Login {
@@ -37,6 +37,19 @@ export class Login {
 		await pubkey.verify(token, options)
 		await pubkey.verify(login.proofToken, options)
 		return login
+	}
+
+	async signAccessToken<C>({data: challenge, expiry}: {
+			data: C
+			expiry: number
+		}) {
+		const {proofToken} = this
+		const exp = JsonWebToken.fromJsTime(expiry)
+		const loginKeypair = await Keypair.fromJson(this.payload.data.loginKeypair)
+		return await loginKeypair.sign<AccessPayload<C>>({
+			exp,
+			data: {challenge, proofToken},
+		})
 	}
 
 	async signChallengeToken<C>({data, expiry}: {

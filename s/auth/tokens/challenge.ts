@@ -10,7 +10,12 @@ export class Challenge<C> {
 		public readonly payload: ChallengePayload<C>,
 	) {}
 
+	get expiry() { return JsonWebToken.toJsTime(this.payload.exp) }
 	get data() { return this.payload.data }
+
+	isExpired() {
+		return Date.now() > this.expiry
+	}
 
 	static decode<C>(token: string) {
 		return new this(

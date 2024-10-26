@@ -52,3 +52,12 @@ export type ChallengePayload<C> = {
 	data: C
 }
 
+/** a challenge signed by the login keypair */
+export type AccessPayload<C> = {
+	exp: number
+	data: {
+		challenge: C
+		proofToken: string
+	}
+}
+
