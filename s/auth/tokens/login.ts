@@ -32,28 +32,20 @@ export class Login {
 	}
 
 	static async verify(token: string, options: VerificationOptions = {}) {
-		try {
-			const login = this.decode(token)
-			const pubkey = await Pubkey.fromJson(login.payload.data.passportPubkey)
-			await pubkey.verify(token, options)
-			await pubkey.verify(login.proofToken, options)
-			return login
-		}
-		catch {
-			return null
-		}
+		const login = this.decode(token)
+		const pubkey = await Pubkey.fromJson(login.payload.data.passportPubkey)
+		await pubkey.verify(token, options)
+		await pubkey.verify(login.proofToken, options)
+		return login
 	}
 
-	async signChallengeToken<C>(o: {
+	async signChallengeToken<C>({data, expiry}: {
 			data: C
 			expiry: number
 		}) {
-		const exp = JsonWebToken.fromJsTime(o.expiry)
+		const exp = JsonWebToken.fromJsTime(expiry)
 		const loginKeypair = await Keypair.fromJson(this.payload.data.loginKeypair)
-		return await loginKeypair.sign<ChallengePayload<C>>({
-			exp,
-			data: o.data,
-		})
+		return await loginKeypair.sign<ChallengePayload<C>>({exp, data})
 	}
 }
 

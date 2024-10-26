@@ -14,8 +14,6 @@ async function makeAndValidateLoginToken() {
 		expiry: Date.now() + 60_000,
 	})
 	const login = await Login.verify(loginToken)
-	if (!login)
-		throw new Error("invalid login token")
 	expect(login.thumbprint).equals(passport.thumbprint)
 	return login
 }
@@ -24,15 +22,16 @@ export default <Suite>{
 	async "generate a passport, sign a login token, and verify it"() {
 		await makeAndValidateLoginToken()
 	},
+
 	async "sign and verify a challenge token"() {
 		const login = await makeAndValidateLoginToken()
 		const challengeToken = await login.signChallengeToken({
 			data: "hello",
 			expiry: Date.now() + 60_000,
 		})
-		await Proof.verify(login.proof.token)
-		const challenge = await Challenge.verify<string>(login.proof, challengeToken)
+		const proof = await Proof.verify(login.proof.token)
+		const challenge = await Challenge.verify<string>(proof, challengeToken)
 		expect(challenge!.data).equals("hello")
-	}
+	},
 }
 

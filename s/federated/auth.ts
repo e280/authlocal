@@ -3,6 +3,7 @@ import {pubsub} from "@benev/slate"
 
 import {Login} from "../auth/tokens/login.js"
 import {openPopup} from "./utils/open-popup.js"
+import {nullcatch} from "../auth/utils/nullcatch.js"
 import {storageSignal} from "../tools/json-storage.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
@@ -45,10 +46,10 @@ export class Auth {
 				async token => {
 					popupWindow.close()
 					try {
-						this.login = await Login.verify(token, {
+						this.login = await nullcatch(() => Login.verify(token, {
 							allowedIssuers: [popupOrigin],
 							allowedAudiences: [appWindow.origin],
-						})
+						}))
 						dispose()
 						resolve(this.login)
 					}

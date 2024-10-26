@@ -24,15 +24,10 @@ export class Challenge<C> {
 			token: string,
 			options: VerificationOptions = {},
 		) {
-		try {
-			const challenge = this.decode<C>(token)
-			const pubkey = await Pubkey.fromJson(proof.payload.data.loginPubkey)
-			await pubkey.verify(token, options)
-			return challenge
-		}
-		catch {
-			return null
-		}
+		const challenge = this.decode<C>(token)
+		const pubkey = await Pubkey.fromJson(proof.payload.data.loginPubkey)
+		await pubkey.verify(token, options)
+		return challenge
 	}
 }
 

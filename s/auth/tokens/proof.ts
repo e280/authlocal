@@ -24,15 +24,10 @@ export class Proof {
 	}
 
 	static async verify(token: string, options: VerificationOptions = {}) {
-		try {
-			const proof = this.decode(token)
-			const pubkey = await Pubkey.fromJson(proof.payload.data.passportPubkey)
-			await pubkey.verify(token, options)
-			return proof
-		}
-		catch {
-			return null
-		}
+		const proof = this.decode(token)
+		const pubkey = await Pubkey.fromJson(proof.payload.data.passportPubkey)
+		await pubkey.verify(token, options)
+		return proof
 	}
 }
 
