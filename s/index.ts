@@ -10,5 +10,5 @@ export * from "./federated/context.js"
 export * from "./federated/views/components.js"
 export * from "./federated/views/auth-login/element.js"
 
-export * from "./tools/json-storage.js"
+export * from "./tools/storage-signal.js"
 
