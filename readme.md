@@ -123,6 +123,9 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
   ```
 
 ### Understanding the Authduo flow and tokens
+
+![](https://i.imgur.com/eLa130k.png)
+
 - When your user logs in, you receive a *Login* object (a verified *login token*).
   - Don't pass this around, anybody with the login token can impersonate your user.
   - Instead of passing the login token around, you can use the login object to *sign* your own *challenge tokens*.
