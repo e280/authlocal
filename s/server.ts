@@ -1,5 +1,4 @@
 
-export * from "./auth/tokens/access.js"
 export * from "./auth/tokens/challenge.js"
 export * from "./auth/tokens/login.js"
 export * from "./auth/tokens/proof.js"

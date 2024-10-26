@@ -1,6 +1,6 @@
 
 import {Pubkey} from "../pubkey.js"
-import {ProofPayload} from "../types.js"
+import {ProofPayload} from "./types.js"
 import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
 
 export class Proof {

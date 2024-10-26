@@ -1,9 +1,11 @@
 
 import {deep} from "@benev/slate"
 import {Keypair} from "./keypair.js"
+import {randomId} from "./utils/random-id.js"
+import {PassportJson, KeypairJson} from "./types.js"
 import {JsonWebToken} from "./utils/json-web-token.js"
 import {randomFullName} from "../tools/random-names.js"
-import {LoginPayload, PassportJson, KeypairJson, ProofPayload} from "./types.js"
+import {LoginPayload, ProofPayload} from "./tokens/types.js"
 
 export class Passport {
 	constructor(
@@ -53,11 +55,13 @@ export class Passport {
 		const name = this.name
 		const iss = o.issuer
 		const aud = o.audience
+		const jti = await randomId()
 
 		const proofToken = await passportKeypair.sign<ProofPayload>({
 			exp,
 			iss,
 			aud,
+			jti,
 			data: {
 				loginPubkey: await loginKeypair.toPubkey().toJson(),
 				passportPubkey: await passportKeypair.toPubkey().toJson(),
@@ -68,6 +72,7 @@ export class Passport {
 			exp,
 			iss,
 			aud,
+			jti,
 			data: {
 				name,
 				proofToken: proofToken,

@@ -1,7 +1,7 @@
 
 import {Proof} from "./proof.js"
 import {Pubkey} from "../pubkey.js"
-import {ChallengePayload} from "../types.js"
+import {ChallengePayload} from "./types.js"
 import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
 
 export class Challenge<C> {
@@ -10,6 +10,7 @@ export class Challenge<C> {
 		public readonly payload: ChallengePayload<C>,
 	) {}
 
+	get thumbprint() { return this.payload.sub }
 	get expiry() { return JsonWebToken.toJsTime(this.payload.exp) }
 	get data() { return this.payload.data }
 
@@ -30,6 +31,8 @@ export class Challenge<C> {
 			options: VerificationOptions = {},
 		) {
 		const challenge = this.decode<C>(token)
+		if (challenge.thumbprint !== proof.thumbprint)
+			throw new Error(`thumbprint mismatch between challenge and proof`)
 		const pubkey = await Pubkey.fromJson(proof.payload.data.loginPubkey)
 		await pubkey.verify(token, options)
 		return challenge
