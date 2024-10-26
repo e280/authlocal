@@ -42,20 +42,20 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
       })
     </script>
     ```
-    - Customize that second script to handle logins/logouts your way
+    - Customize that second script to handle logins/logouts your way.
     - When the user logs in, the `login` object looks like this:
       ```js
       login.name // Kaylim Bojrumaj
       login.thumbprint // "4e77bccf..."
       login.expiry // 1729381451374
-      login.token // <raw data that can be crypto-verified>
       ```
-    - When the user logs out, `login` is `null`
+    - When the user logs out, `login` is `null`.
 1. **Put this button in your `<body>`:**
     ```html
     <auth-login></auth-login>
     ```
-    - This provides a nice little status/button ui for users to login or logout
+    - This provides a nice little status/button ui for users to login or logout.
+    - The login state is automatically stored in `localStorage`.
 
 ### 🧐 Sophisticated Installation for App Devs
 
@@ -67,7 +67,7 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
     ```
 1. **Register components and listen for auth changes.** `main.ts`
     ```ts
-    import {register_to_dom, components, auth} from "@authduo/authduo"
+    import {auth, components, register_to_dom} from "@authduo/authduo"
 
     register_to_dom(components)
 
