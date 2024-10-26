@@ -19,7 +19,7 @@ You can add a *"Login with Authduo"* button to your website, allowing users to l
 🌐 **Decentralized** – fork and self-host if you'd rather  
 📜 **Protocol** – permissionless integration, you can do it your way  
 
-> ***Pre-release:*** Authduo is an unfinished prototype, use at your own risk.
+> ***Pre-release:** Authduo is an unfinished prototype, use at your own risk.*
 
 <br/>
 
@@ -27,7 +27,7 @@ You can add a *"Login with Authduo"* button to your website, allowing users to l
 
 Try out the login button at the [Federated Test Page](https://authduo.org/federated/)
 
-### Easy HTML Installation
+### 😎 Easy HTML Installation
 
 *Choose this installation method if you don't know any better.*
 
@@ -42,24 +42,24 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
       })
     </script>
     ```
-    - Customize that second script to handle logins/logouts your way
+    - Customize that second script to handle logins/logouts your way.
     - When the user logs in, the `login` object looks like this:
       ```js
       login.name // Kaylim Bojrumaj
       login.thumbprint // "4e77bccf..."
-      login.expiresAt // 1729381451374
-      login.token // <raw data that can be crypto-verified>
+      login.expiry // 1729381451374
       ```
-    - When the user logs out, `login` is `null`
+    - When the user logs out, `login` is `null`.
 1. **Put this button in your `<body>`:**
     ```html
     <auth-login></auth-login>
     ```
-    - This provides a nice little status/button ui for users to login or logout
+    - This provides a nice little status/button ui for users to login or logout.
+    - The login state is automatically stored in `localStorage`.
 
-### Sophisticated Installation for App Devs
+### 🧐 Sophisticated Installation for App Devs
 
-*Choose this installation method if you're familiar with npm, package.json, and typescript.*
+*Choose this installation method if you're familiar with npm, package.json, typescript – stuff like that.*
 
 1. **Install the npm package**
     ```sh
@@ -67,7 +67,7 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
     ```
 1. **Register components and listen for auth changes.** `main.ts`
     ```ts
-    import {register_to_dom, components, auth} from "@authduo/authduo"
+    import {auth, components, register_to_dom} from "@authduo/authduo"
 
     register_to_dom(components)
 
@@ -109,9 +109,10 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 
 <br/>
 
-## 🧐 More advanced integration examples
+## 🛠️ More advanced integration examples
 
-- **Programmatically trigger a login.** `main.js`
+### Programmatically trigger a login
+- You can use `auth.popup` to trigger a login, but you should do this in reaction to a user input event, otherwise the browser will block the popup.
   ```js
   import {auth} from "@authduo/authduo"
 
@@ -120,22 +121,65 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
     if (login) console.log("logged in", login)
   }
   ```
-- **Do stuff on your own servers.**
-  - send the login token to your serverside. `main.js`
-    ```js
-    await sendToMyServer(login.token)
-    ```
-  - receive and verify it cryptographically on your server. `server.js`
-    ```js
-    import {verify} from "@authduo/authduo/x/server.js"
 
-    myServerReceive(async token => {
-      const login = await verify(token)
-      if (login) console.log("verified", login)
-      else console.error("invalid token", token)
-    })
-    ```
-    - notice that on the server we import from a different entrypoint
+### Understanding the Authduo flow and tokens
+
+![](https://i.imgur.com/eLa130k.png)
+
+- When your user logs in, you receive a *Login* object (a verified *login token*).
+  - Don't pass this around, anybody with the login token can impersonate your user.
+  - Instead of passing the login token around, you can use the login object to *sign* your own *challenge tokens*.
+- Let's consider an example: you're making a player-hosted multiplayer game.
+  - Your user logs in, and you get a *Login* object.
+  - You want to send your user's identity to the host of the game, so they can verify it, and nobody can impersonate your user.
+  - So you use your *Login* object to sign a fresh *challenge token* containing your user's name and other info.
+  - You send this *challenge token* along with your *login.proof.token* to the game host.
+  - The game host receives your `challengeToken` and `proofToken`, and now can verify that your challenge was authentically signed on behalf of the user's passport.
+
+### `Login`, `Proof`, and `Challenge` tokens
+- **Sign a fresh challenge token.**
+  ```js
+  import {FromNow} from "@authduo/authduo"
+
+  const challengeToken = await login.signChallengeToken({
+    expiry: FromNow.hours(24),
+
+    // you can pack any abitrary data you want into this token
+    data: {
+      username: "Rec Doamge",
+
+      // we've scoped this token to this game session,
+      // so that it cannot be stolen and reused in other game sessions.
+      gameSessionId: "9c22b17e",
+    },
+  })
+  ```
+- **Send the *challengeToken* along with a *proofToken.***
+  ```js
+  await sendElsewhere({
+    proofToken: login.proof.token,
+    challengeToken,
+  })
+  ```
+  - Each `login` object comes with a `proofToken` that is required to verify a challenge token.
+- **Verify the proof and challenge**
+  ```js
+  import {Proof, Challenge} from "@authduo/authduo"
+
+  receiveElsewhere(async(proofToken, challengeToken) => {
+    const proof = await Proof.verify(proofToken)
+    const challenge = await Challenge.verify(proof, challengeToken)
+
+    // here's that data you packed into the challenge
+    console.log(challenge.data.username) // "Rec Doamge"
+    console.log(challenge.data.gameSessionId) // "9c22b17e"
+
+    // user passport public thumbprint, the true user identifier
+    console.log(challenge.thumbprint) // "a32e638e..."
+    console.log(proof.thumbprint) // "a32e638e..."
+  })
+  ```
+  - The same proof can be used to verify multiple challenges from the same login.
 
 <br/>
 

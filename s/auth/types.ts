@@ -20,22 +20,3 @@ export type PassportsFileJson = {
 	passports: PassportJson[]
 }
 
-export type AccessJwtPayload = {
-	sub: string
-	iss: string
-	aud: string
-	exp: number
-	data: {name: string, publicKey: string}
-}
-
-export type Access = {
-	name: string
-	thumbprint: string
-	publicKey: string
-	expiry: number
-	audience: string
-	issuer: string
-}
-
-export type Login = {token: string} & Access
-

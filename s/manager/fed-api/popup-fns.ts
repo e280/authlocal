@@ -22,13 +22,13 @@ export const makePopupFns = (
 			const audience = event.origin
 			state.parentOrigin = audience
 			const day = (1000 * 60 * 60 * 24)
-			const expiry = Date.now() + (1 * day)
+			const expiry = Date.now() + (7 * day)
 			const issuer = window.origin
 			setLoginPurpose({
 				kind: "login",
-				onLogin: async id => {
-					const token = await id.signLoginToken({issuer, audience, expiry})
-					await app.login(token)
+				onLogin: async passport => {
+					const tokens = await passport.signLoginToken({issuer, audience, expiry})
+					await app.login(tokens)
 				},
 			})
 		},

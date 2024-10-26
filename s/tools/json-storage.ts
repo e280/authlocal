@@ -1,24 +1,34 @@
 
-import {signal} from "@benev/slate"
+import {ev, pubsub} from "@benev/slate"
 
-export function storageSignal<T>(key: string) {
-	function load(): T {
-		const value = localStorage.getItem(key)
-		return value ? JSON.parse(value) : null
+export class JsonStorage<D> {
+	onChangeFromOutside = pubsub<[D | null]>()
+	dispose: () => void
+
+	constructor(
+			public readonly key: string,
+			public readonly storage: Storage = window.localStorage,
+		) {
+
+		this.dispose = ev(window, {
+			storage: () => this.onChangeFromOutside.publish(this.get()),
+		})
 	}
 
-	const readable = signal(load())
-
-	function save(value: T) {
-		localStorage.setItem(key, JSON.stringify(value))
-		readable.value = value
+	set(data: D) {
+		this.storage.setItem(this.key, JSON.stringify(data))
 	}
 
-	function refresh() {
-		readable.value = load()
+	get(): D | null {
+		const string = this.storage.getItem(this.key)
+		try {
+			return (string)
+				? JSON.parse(string)
+				: null
+		}
+		catch {
+			return null
+		}
 	}
-
-	window.addEventListener("storage", refresh)
-	return {signal: readable, save, refresh}
 }
 

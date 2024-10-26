@@ -1,8 +1,8 @@
 
 import {Passport} from "../../auth/passport.js"
 import {PassportsFileJson} from "../../auth/types.js"
-import {storageSignal} from "../../tools/json-storage.js"
 import {PassportsFile} from "../../auth/passports-file.js"
+import {storageSignal} from "../../tools/storage-signal.js"
 
 export class PassportStore {
 	#storage = storageSignal<PassportsFileJson>("authduo_passports")
