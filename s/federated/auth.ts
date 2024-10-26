@@ -6,6 +6,7 @@ import {openPopup} from "./utils/open-popup.js"
 import {nullcatch} from "../auth/utils/nullcatch.js"
 import {storageSignal} from "../tools/json-storage.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
+import { Proof } from "../auth/tokens/proof.js"
 
 export class Auth {
 	static url = "https://authduo.org/"
@@ -36,6 +37,7 @@ export class Auth {
 		if (!popupWindow)
 			return null
 
+		const appOrigin = appWindow.origin
 		const popupOrigin = new URL(url, window.location.href).origin
 
 		return new Promise<Login | null>((resolve, reject) => {
@@ -43,13 +45,16 @@ export class Auth {
 				appWindow,
 				popupWindow,
 				popupOrigin,
-				async token => {
+				async({proofToken, loginToken}) => {
 					popupWindow.close()
 					try {
-						this.login = await nullcatch(() => Login.verify(token, {
-							allowedIssuers: [popupOrigin],
-							allowedAudiences: [appWindow.origin],
-						}))
+						this.login = await nullcatch(async() => {
+							const proof = await Proof.verify(proofToken, {
+								allowedIssuers: [popupOrigin],
+								allowedAudiences: [appOrigin],
+							})
+							return await Login.verify(proof, loginToken)
+						})
 						dispose()
 						resolve(this.login)
 					}

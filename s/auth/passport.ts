@@ -5,7 +5,7 @@ import {randomId} from "./utils/random-id.js"
 import {PassportJson, KeypairJson} from "./types.js"
 import {JsonWebToken} from "./utils/json-web-token.js"
 import {randomFullName} from "../tools/random-names.js"
-import {LoginPayload, ProofPayload} from "./tokens/types.js"
+import {LoginPayload, LoginSessionTokens, ProofPayload} from "./tokens/types.js"
 
 export class Passport {
 	constructor(
@@ -47,7 +47,7 @@ export class Passport {
 			expiry: number
 			issuer: string
 			audience: string
-		}) {
+		}): Promise<LoginSessionTokens> {
 
 		const passportKeypair = await this.getKeypair()
 		const loginKeypair = await Keypair.generate()
@@ -69,19 +69,16 @@ export class Passport {
 		})
 
 		const loginToken = await passportKeypair.sign<LoginPayload>({
+			sub: this.thumbprint,
 			exp,
-			iss,
-			aud,
 			jti,
 			data: {
 				name,
-				proofToken: proofToken,
 				loginKeypair: await loginKeypair.toJson(),
-				passportPubkey: await passportKeypair.toPubkey().toJson(),
 			},
 		})
 
-		return loginToken
+		return {proofToken, loginToken}
 	}
 }
 

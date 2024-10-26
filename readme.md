@@ -130,10 +130,10 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
   - Your user logs in, and you get a *Login* object.
   - You want to send your user's identity to the host of the game, so they can verify it, and nobody can impersonate your user.
   - So you use your *Login* object to sign a fresh *challenge token* containing your user's name and other info.
-  - You send this *challenge token* along with your *login.proofToken* to the game host.
+  - You send this *challenge token* along with your *login.proof.token* to the game host.
   - The game host receives your `challengeToken` and `proofToken`, and now can verify that your challenge was authentically signed on behalf of the user's passport.
 
-### `Login`, `Challenge`, and `Proof`
+### `Login`, `Proof`, and `Challenge` tokens
 - **Sign a fresh challenge token.**
   ```js
   import {FromNow} from "@authduo/authduo"
@@ -154,7 +154,7 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 - **Send the *challengeToken* along with a *proofToken.***
   ```js
   await sendElsewhere({
-    proofToken: login.proofToken,
+    proofToken: login.proof.token,
     challengeToken,
   })
   ```

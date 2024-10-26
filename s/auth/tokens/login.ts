@@ -1,43 +1,35 @@
 
 import {Proof} from "./proof.js"
-import {Pubkey} from "../pubkey.js"
 import {Keypair} from "../keypair.js"
 import {randomId} from "../utils/random-id.js"
+import {JsonWebToken} from "../utils/json-web-token.js"
 import {ChallengePayload, LoginPayload} from "./types.js"
-import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
 
+/** contains a login keypair for signing challenges (signed by the passport) */
 export class Login {
-	readonly proof: Proof
-
 	constructor(
-			public readonly token: string,
-			public readonly payload: LoginPayload,
-		) {
-		this.proof = Proof.decode(payload.data.proofToken)
-	}
+		public readonly proof: Proof,
+		public readonly token: string,
+		public readonly payload: LoginPayload,
+	) {}
 
 	get expiry() { return JsonWebToken.toJsTime(this.payload.exp) }
 	get name() { return this.payload.data.name }
-	get thumbprint() { return this.payload.data.passportPubkey.thumbprint }
-	get proofToken() { return this.payload.data.proofToken }
+	get thumbprint() { return this.proof.thumbprint }
 
 	isExpired() {
 		return Date.now() > this.expiry
 	}
 
-	static decode(token: string) {
-		return new this(
-			token,
-			JsonWebToken.decode<LoginPayload>(token).payload,
-		)
+	static decode(proof: Proof, token: string) {
+		const {payload} = JsonWebToken.decode<LoginPayload>(token)
+		return new this(proof, token, payload)
 	}
 
-	static async verify(token: string, options: VerificationOptions = {}) {
-		const login = this.decode(token)
-		const pubkey = await Pubkey.fromJson(login.payload.data.passportPubkey)
-		await pubkey.verify(token, options)
-		await pubkey.verify(login.proofToken, options)
-		return login
+	static async verify(proof: Proof, loginToken: string) {
+		const passportPubkey = await proof.getPassportPubkey()
+		await passportPubkey.verify(loginToken)
+		return this.decode(proof, loginToken)
 	}
 
 	async signChallengeToken<C>({data, expiry}: {

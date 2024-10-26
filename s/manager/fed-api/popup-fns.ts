@@ -27,8 +27,8 @@ export const makePopupFns = (
 			setLoginPurpose({
 				kind: "login",
 				onLogin: async passport => {
-					const token = await passport.signLoginToken({issuer, audience, expiry})
-					await app.login(token)
+					const tokens = await passport.signLoginToken({issuer, audience, expiry})
+					await app.login(tokens)
 				},
 			})
 		},

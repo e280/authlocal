@@ -1,11 +1,12 @@
 
 import {Proof} from "./proof.js"
-import {Pubkey} from "../pubkey.js"
 import {ChallengePayload} from "./types.js"
-import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
+import {JsonWebToken} from "../utils/json-web-token.js"
 
+/** arbitrary data (signed by the login) */
 export class Challenge<C> {
 	constructor(
+		public readonly proof: Proof,
 		public readonly token: string,
 		public readonly payload: ChallengePayload<C>,
 	) {}
@@ -18,23 +19,23 @@ export class Challenge<C> {
 		return Date.now() > this.expiry
 	}
 
-	static decode<C>(token: string) {
+	static decode<C>(proof: Proof, challengeToken: string) {
 		return new this(
-			token,
-			JsonWebToken.decode<ChallengePayload<C>>(token).payload,
+			proof,
+			challengeToken,
+			JsonWebToken.decode<ChallengePayload<C>>(challengeToken).payload,
 		)
 	}
 
 	static async verify<C>(
 			proof: Proof,
-			token: string,
-			options: VerificationOptions = {},
+			challengeToken: string,
 		) {
-		const challenge = this.decode<C>(token)
+		const challenge = this.decode<C>(proof, challengeToken)
 		if (challenge.thumbprint !== proof.thumbprint)
 			throw new Error(`thumbprint mismatch between challenge and proof`)
-		const pubkey = await Pubkey.fromJson(proof.payload.data.loginPubkey)
-		await pubkey.verify(token, options)
+		const loginPubkey = await proof.getLoginPubkey()
+		await loginPubkey.verify(challengeToken)
 		return challenge
 	}
 }

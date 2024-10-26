@@ -8,12 +8,13 @@ import {Challenge} from "./auth/tokens/challenge.js"
 
 async function makeAndValidateLoginToken() {
 	const passport = await Passport.generate()
-	const loginToken = await passport.signLoginToken({
+	const {proofToken, loginToken} = await passport.signLoginToken({
 		issuer: "testissuer",
 		audience: "testaudience",
 		expiry: Date.now() + 60_000,
 	})
-	const login = await Login.verify(loginToken)
+	const proof = await Proof.verify(proofToken)
+	const login = await Login.verify(proof, loginToken)
 	expect(login.thumbprint).equals(passport.thumbprint)
 	return login
 }

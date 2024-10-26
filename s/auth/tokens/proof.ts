@@ -3,6 +3,7 @@ import {Pubkey} from "../pubkey.js"
 import {ProofPayload} from "./types.js"
 import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
 
+/** associates a login with a passport (signed by the passport) */
 export class Proof {
 	constructor(
 		public readonly token: string,
@@ -11,6 +12,14 @@ export class Proof {
 
 	get expiry() { return JsonWebToken.toJsTime(this.payload.exp) }
 	get thumbprint() { return this.payload.data.passportPubkey.thumbprint }
+
+	async getPassportPubkey() {
+		return await Pubkey.fromJson(this.payload.data.passportPubkey)
+	}
+
+	async getLoginPubkey() {
+		return await Pubkey.fromJson(this.payload.data.loginPubkey)
+	}
 
 	isExpired() {
 		return Date.now() > this.expiry
@@ -25,8 +34,8 @@ export class Proof {
 
 	static async verify(token: string, options: VerificationOptions = {}) {
 		const proof = this.decode(token)
-		const pubkey = await Pubkey.fromJson(proof.payload.data.passportPubkey)
-		await pubkey.verify(token, options)
+		const passportPubkey = await proof.getPassportPubkey()
+		await passportPubkey.verify(token, options)
 		return proof
 	}
 }

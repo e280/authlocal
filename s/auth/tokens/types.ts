@@ -1,21 +1,7 @@
 
 import {KeypairJson, PubkeyJson} from "../types.js"
 
-/** includes user info and an ephemeral keypair (signed by the passport) */
-export type LoginPayload = {
-	exp: number
-	aud: string
-	iss: string
-	jti: string
-	data: {
-		name: string
-		proofToken: string
-		loginKeypair: KeypairJson
-		passportPubkey: PubkeyJson
-	}
-}
-
-/** proof that the login pubkey was commissioned by the passport (signed by the passport) */
+/** proof that the login commissioned by the passport (signed by the passport) */
 export type ProofPayload = {
 	exp: number
 	aud: string
@@ -27,11 +13,28 @@ export type ProofPayload = {
 	}
 }
 
-/** a challenge signed by the login keypair */
+/** a challenge (signed by the login) */
 export type ChallengePayload<C> = {
 	sub: string // passport thumbprint
 	exp: number
 	jti: string
 	data: C
+}
+
+/** includes user info and an ephemeral keypair (signed by the passport) */
+export type LoginPayload = {
+	sub: string // passport thumbprint
+	exp: number
+	jti: string
+	data: {
+		name: string
+		loginKeypair: KeypairJson
+	}
+}
+
+/** federated apps receive these tokens upon a successful login */
+export type LoginSessionTokens = {
+	proofToken: string
+	loginToken: string
 }
 
