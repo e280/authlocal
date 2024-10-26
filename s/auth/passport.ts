@@ -3,7 +3,7 @@ import {deep} from "@benev/slate"
 import {Keypair} from "./keypair.js"
 import {JsonWebToken} from "./utils/json-web-token.js"
 import {randomFullName} from "../tools/random-names.js"
-import {AccessJwtPayload, PassportJson, KeypairJson} from "./types.js"
+import {LoginPayload, PassportJson, KeypairJson, ProofPayload} from "./types.js"
 
 export class Passport {
 	constructor(
@@ -41,18 +41,43 @@ export class Passport {
 		return await Keypair.fromJson(this.keypairJson)
 	}
 
-	async signLoginToken(o: {expiry: number, audience: string, issuer: string}) {
-		const keypair = await this.getKeypair()
-		return await keypair.sign<AccessJwtPayload>({
-			sub: this.thumbprint,
-			exp: JsonWebToken.fromJsTime(o.expiry),
-			iss: o.issuer,
-			aud: o.audience,
-			data: {name: this.name, publicKey: this.keypairJson.publicKey},
-		})
-	}
+	async signLoginToken(o: {
+			name: string
+			expiry: number
+			issuer: string
+			audience: string
+		}) {
 
-	/** @deprecated renamed to `signLoginToken` */
-	signAccessToken = this.signLoginToken.bind(this)
+		const passportKeypair = await this.getKeypair()
+		const loginKeypair = await Keypair.generate()
+		const exp = JsonWebToken.fromJsTime(o.expiry)
+		const name = o.name
+		const iss = o.issuer
+		const aud = o.audience
+
+		const proofToken = await passportKeypair.sign<ProofPayload>({
+			exp,
+			iss,
+			aud,
+			data: {
+				loginPubkey: await loginKeypair.toPubkey().toJson(),
+				passportPubkey: await passportKeypair.toPubkey().toJson(),
+			},
+		})
+
+		const loginToken = await passportKeypair.sign<LoginPayload>({
+			exp,
+			iss,
+			aud,
+			data: {
+				name,
+				proofToken: proofToken,
+				loginKeypair: await loginKeypair.toJson(),
+				passportPubkey: await passportKeypair.toPubkey().toJson(),
+			},
+		})
+
+		return loginToken
+	}
 }
 

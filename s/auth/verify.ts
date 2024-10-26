@@ -1,6 +1,6 @@
 
 import {Pubkey} from "./pubkey.js"
-import {AccessJwtPayload, Login} from "./types.js"
+import {LoginPayload, Login} from "./types.js"
 import {JsonWebToken, VerificationOptions} from "./utils/json-web-token.js"
 
 export async function verify(
@@ -9,7 +9,7 @@ export async function verify(
 	): Promise<Login | null> {
 
 	try {
-		const {payload} = JsonWebToken.decode<AccessJwtPayload>(token)
+		const {payload} = JsonWebToken.decode<LoginPayload>(token)
 		const thumbprint = payload.sub
 		const {name, publicKey} = payload.data
 
@@ -32,7 +32,7 @@ export async function verify(
 }
 
 export function isExpired(token: string) {
-	const {payload} = JsonWebToken.decode<AccessJwtPayload>(token)
+	const {payload} = JsonWebToken.decode<LoginPayload>(token)
 	const expired = JsonWebToken.toJsTime(payload.exp)
 	return Date.now() > expired
 }

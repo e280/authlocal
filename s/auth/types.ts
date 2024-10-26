@@ -20,22 +20,35 @@ export type PassportsFileJson = {
 	passports: PassportJson[]
 }
 
-export type AccessJwtPayload = {
-	sub: string
-	iss: string
-	aud: string
+////////////////////////////////////////////////////////////////////////////////
+
+/** includes user info and an ephemeral keypair (signed by the passport) */
+export type LoginPayload = {
 	exp: number
-	data: {name: string, publicKey: string}
+	aud: string
+	iss: string
+	data: {
+		name: string
+		proofToken: string
+		loginKeypair: KeypairJson
+		passportPubkey: PubkeyJson
+	}
 }
 
-export type Access = {
-	name: string
-	thumbprint: string
-	publicKey: string
-	expiry: number
-	audience: string
-	issuer: string
+/** proof that the login pubkey was commissioned by the passport (signed by the passport) */
+export type ProofPayload = {
+	exp: number
+	aud: string
+	iss: string
+	data: {
+		loginPubkey: PubkeyJson
+		passportPubkey: PubkeyJson
+	}
 }
 
-export type Login = {token: string} & Access
+/** a challenge signed by the login keypair */
+export type ChallengePayload<C> = {
+	exp: number
+	data: C
+}
 
