@@ -1,6 +1,7 @@
 
 import {AppFns} from "./app-fns.js"
 import {Purpose} from "../logic/purpose.js"
+import { FromNow } from "../../server.js"
 
 export type PopupState = {
 	parentOrigin: string
@@ -21,8 +22,7 @@ export const makePopupFns = (
 		async pleaseLogin() {
 			const audience = event.origin
 			state.parentOrigin = audience
-			const day = (1000 * 60 * 60 * 24)
-			const expiry = Date.now() + (7 * day)
+			const expiry = FromNow.days(7)
 			const issuer = window.origin
 			setLoginPurpose({
 				kind: "login",
