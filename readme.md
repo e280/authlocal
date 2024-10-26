@@ -121,21 +121,32 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
   }
   ```
 - **Do stuff on your own servers.**
-  - send the login token to your serverside. `main.js`
+  - Use the successful login to create and sign a challenge token, then send it to your server. `main.js`
     ```js
-    await sendToMyServer(login.token)
-    ```
-  - receive and verify it cryptographically on your server. `server.js`
-    ```js
-    import {verify} from "@authduo/authduo/x/server.js"
+    // also send along the proof token,
+    // which is used to verify challenges
+    const proofToken = login.proof.token
 
-    myServerReceive(async token => {
-      const login = await verify(token)
-      if (login) console.log("verified", login)
-      else console.error("invalid token", token)
+    // use the login to sign a fresh challenge token,
+    // provide anything you want as "data"
+    const challengeToken = await login.signChallengeToken({
+      data: {name: login.name, scopes: "ecommerce"},
+      expiry: Date.now() + (10 * 60_000),
+    })
+
+    await sendToMyServer({proofToken, challengeToken})
+    ```
+  - Receive and verify the challenge cryptographically on your server. `server.js`
+    ```js
+    import {Proof, Challenge} from "@authduo/authduo/x/server.js"
+
+    myServerReceive(async({proofToken, challengeToken}) => {
+      const proof = await Proof.verify(proofToken)
+      const challenge = await Challenge.verify(challengeToken)
+      console.log("challenge", challenge.data)
     })
     ```
-    - notice that on the server we import from a different entrypoint
+    - Notice that on the server we import from a different entrypoint.
 
 <br/>
 

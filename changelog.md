@@ -9,6 +9,17 @@
 
 --------
 
+## v0.1
+
+### v0.1.0
+- 🟥 rewrite: tokens
+  - now we discourage passing login tokens around, that's basically like passing the user's identity around, and anybody holding that token can impersonate the user
+  - now each login token contains an ephemeral keypair relevant to that specific login
+  - this means a login is capable of signing data arbitrarily on behalf of the passport
+  - so, now, it's recommended that apps should use `login.signChallengeToken` to produce their own access tokens
+
+<br/>
+
 ## v0.0
 
 ### v0.0.3
