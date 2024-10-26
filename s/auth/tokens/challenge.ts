@@ -19,13 +19,13 @@ export class Challenge<C> {
 		)
 	}
 
-	static async verify(
+	static async verify<C>(
 			proof: Proof,
 			token: string,
 			options: VerificationOptions = {},
 		) {
 		try {
-			const challenge = this.decode(token)
+			const challenge = this.decode<C>(token)
 			const pubkey = await Pubkey.fromJson(proof.payload.data.loginPubkey)
 			await pubkey.verify(token, options)
 			return challenge

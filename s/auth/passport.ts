@@ -42,7 +42,6 @@ export class Passport {
 	}
 
 	async signLoginToken(o: {
-			name: string
 			expiry: number
 			issuer: string
 			audience: string
@@ -51,7 +50,7 @@ export class Passport {
 		const passportKeypair = await this.getKeypair()
 		const loginKeypair = await Keypair.generate()
 		const exp = JsonWebToken.fromJsTime(o.expiry)
-		const name = o.name
+		const name = this.name
 		const iss = o.issuer
 		const aud = o.audience
 
