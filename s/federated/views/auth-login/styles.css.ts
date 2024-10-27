@@ -1,18 +1,22 @@
 
 import {css} from "@benev/slate"
-
 export default css`
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	xxx-outline: 1px solid #f008;
 }
 
 :host {
 	display: block;
-	--color: #684595;
+	color: white;
+	text-shadow: .04em .08em .06em #0008;
+	--card-bg: transparent;
+	--login-bg: #684595;
+	--logout-bg: #555;
+	--card-font-size: 1em;
+	--card-align: center;
 }
 
 .box {
@@ -26,7 +30,7 @@ export default css`
 		display: block;
 		height: 3em;
 		aspect-ratio: 1 / 1;
-		background: #333;
+		background: var(--card-bg);
 		padding: .5em;
 		border-radius: 0.3em;
 	}
@@ -36,13 +40,15 @@ export default css`
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: var(--card-align);
+
+		font-size: var(--card-font-size);
 		overflow: hidden;
-		text-align: right;
 		padding: 0 .5em;
 		border-radius: 0.3em;
 
 		max-width: 12em;
-		background: #333;
+		background: var(--card-bg);
 
 		.name {
 			width: 100%;
@@ -64,15 +70,15 @@ export default css`
 		padding: 0.6em;
 		border: none;
 		border-radius: 0.3em;
-		background: #555;
+		background: var(--logout-bg);
 		font: inherit;
-		color: white;
+		color: inherit;
 		font-weight: bold;
-		text-shadow: .02em .04em .02em #0008;
+		text-shadow: .04em .08em .06em #0008;
 		box-shadow: .1em .2em .3em #0002;
 
 		&.login {
-			background: var(--color);
+			background: var(--login-bg);
 		}
 
 		&:is(:hover, :focus) { filter: brightness(120%); }

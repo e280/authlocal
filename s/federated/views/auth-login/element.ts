@@ -37,7 +37,7 @@ export class AuthLogin extends ShadowElement {
 			<div class=box ?data-logged-in="${!!login}">
 
 				${login ? html`
-					<div class=card>
+					<div class=card part=card>
 						<span class=name>${login.name}</span>
 						<small class=thumbprint>${login.thumbprint.slice(0, 8)}</small>
 					</div>
