@@ -18,6 +18,5 @@ export * from "./tools/base64.js"
 export * from "./tools/from-now.js"
 export * from "./tools/hash.js"
 export * from "./tools/hex.js"
-export * from "./tools/random-names.js"
 export * from "./tools/whence.js"
 

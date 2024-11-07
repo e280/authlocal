@@ -1,10 +1,10 @@
 
-import {deep} from "@benev/slate"
+import {deep, randomFullName} from "@benev/slate"
+
 import {Keypair} from "./keypair.js"
 import {randomId} from "./utils/random-id.js"
 import {PassportJson, KeypairJson} from "./types.js"
 import {JsonWebToken} from "./utils/json-web-token.js"
-import {randomFullName} from "../tools/random-names.js"
 import {LoginPayload, LoginSessionTokens, ProofPayload} from "./tokens/types.js"
 
 export class Passport {
