@@ -1,5 +1,4 @@
 
-import {getCrypto} from "./get-crypto.js"
 import {base64} from "../../tools/base64.js"
 import {CryptoConstants} from "../crypto-constants.js"
 
@@ -41,7 +40,6 @@ export class JsonWebToken {
 	static fromJsTime = (t: number) => t / 1000
 
 	static async sign<P extends Payload>(privateKey: CryptoKey, payload: P): Promise<string> {
-		const crypto = await getCrypto()
 		const headerText = base64.url.from.text(JSON.stringify(JsonWebToken.header))
 		const payloadText = base64.url.from.text(JSON.stringify(payload))
 		const signingText = `${headerText}.${payloadText}`
@@ -72,7 +70,6 @@ export class JsonWebToken {
 			options: VerificationOptions = {},
 		): Promise<P> {
 
-		const crypto = await getCrypto()
 		const [headerText, payloadText] = token.split(".")
 		const {payload, signature} = JsonWebToken.decode<P>(token)
 		const signingInput = `${headerText}.${payloadText}`

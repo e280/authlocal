@@ -2,7 +2,6 @@
 import {Pubkey} from "./pubkey.js"
 import {hex} from "../tools/hex.js"
 import {KeypairJson} from "./types.js"
-import {getCrypto} from "./utils/get-crypto.js"
 import {CryptoConstants} from "./crypto-constants.js"
 import {JsonWebToken, Payload} from "./utils/json-web-token.js"
 
@@ -16,8 +15,6 @@ export class Keypair extends Pubkey {
 	}
 
 	static async generate() {
-		const crypto = await getCrypto()
-
 		const keys = await crypto.subtle
 			.generateKey(CryptoConstants.algos.generate, true, ["sign", "verify"])
 
@@ -32,8 +29,6 @@ export class Keypair extends Pubkey {
 	}
 
 	static async fromJson(json: KeypairJson) {
-		const crypto = await getCrypto()
-
 		const pubkey = await Pubkey.fromJson(json)
 		const extractable = true
 		const privateBuffer = hex.to.buffer(json.privateKey)
@@ -50,7 +45,6 @@ export class Keypair extends Pubkey {
 	}
 
 	async toJson(): Promise<KeypairJson> {
-		const crypto = await getCrypto()
 		const pubkey = await super.toJson()
 
 		const privateBuffer = await crypto.subtle

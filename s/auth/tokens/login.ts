@@ -1,7 +1,7 @@
 
+import {hexId} from "@benev/slate"
 import {Proof} from "./proof.js"
 import {Keypair} from "../keypair.js"
-import {randomId} from "../utils/random-id.js"
 import {JsonWebToken} from "../utils/json-web-token.js"
 import {ChallengePayload, LoginPayload} from "./types.js"
 
@@ -38,7 +38,7 @@ export class Login {
 		}) {
 		const sub = this.thumbprint
 		const exp = JsonWebToken.fromJsTime(expiry)
-		const jti = await randomId()
+		const jti = hexId()
 		const loginKeypair = await Keypair.fromJson(this.payload.data.loginKeypair)
 		return await loginKeypair.sign<ChallengePayload<C>>({sub, exp, data, jti})
 	}

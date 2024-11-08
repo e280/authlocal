@@ -1,8 +1,7 @@
 
-import {deep, randomFullName} from "@benev/slate"
+import {deep, hexId, randomFullName} from "@benev/slate"
 
 import {Keypair} from "./keypair.js"
-import {randomId} from "./utils/random-id.js"
 import {PassportJson, KeypairJson} from "./types.js"
 import {JsonWebToken} from "./utils/json-web-token.js"
 import {LoginPayload, LoginSessionTokens, ProofPayload} from "./tokens/types.js"
@@ -55,7 +54,7 @@ export class Passport {
 		const name = this.name
 		const iss = o.issuer
 		const aud = o.audience
-		const jti = await randomId()
+		const jti = hexId()
 
 		const proofToken = await passportKeypair.sign<ProofPayload>({
 			exp,
