@@ -8,14 +8,6 @@
 		"x",
 		"s"
 	],
-	"exports": {
-		".": {
-			"node": "./x/server.js",
-			"deno": "./x/server.js",
-			"browser": "./x/index.js",
-			"default": "./x/index.js"
-		}
-	},
 	"scripts": {
 		"build": "rm -rf x && run-s build-code build-ssg links",
 		"build-code": "turtle build --out=x",
