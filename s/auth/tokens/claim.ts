@@ -1,14 +1,14 @@
 
 import {Proof} from "./proof.js"
-import {ChallengePayload} from "./types.js"
+import {ClaimPayload} from "./types.js"
 import {JsonWebToken} from "../utils/json-web-token.js"
 
 /** arbitrary data (signed by the login) */
-export class Challenge<C> {
+export class Claim<C> {
 	constructor(
 		public readonly proof: Proof,
 		public readonly token: string,
-		public readonly payload: ChallengePayload<C>,
+		public readonly payload: ClaimPayload<C>,
 	) {}
 
 	get thumbprint() { return this.payload.sub }
@@ -19,24 +19,24 @@ export class Challenge<C> {
 		return Date.now() > this.expiry
 	}
 
-	static decode<C>(proof: Proof, challengeToken: string) {
+	static decode<C>(proof: Proof, claimToken: string) {
 		return new this(
 			proof,
-			challengeToken,
-			JsonWebToken.decode<ChallengePayload<C>>(challengeToken).payload,
+			claimToken,
+			JsonWebToken.decode<ClaimPayload<C>>(claimToken).payload,
 		)
 	}
 
 	static async verify<C>(
 			proof: Proof,
-			challengeToken: string,
+			claimToken: string,
 		) {
-		const challenge = this.decode<C>(proof, challengeToken)
-		if (challenge.thumbprint !== proof.thumbprint)
-			throw new Error(`thumbprint mismatch between challenge and proof`)
+		const claim = this.decode<C>(proof, claimToken)
+		if (claim.thumbprint !== proof.thumbprint)
+			throw new Error(`thumbprint mismatch between claim and proof`)
 		const loginPubkey = await proof.getLoginPubkey()
-		await loginPubkey.verify(challengeToken)
-		return challenge
+		await loginPubkey.verify(claimToken)
+		return claim
 	}
 }
 

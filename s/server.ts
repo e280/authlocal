@@ -1,7 +1,7 @@
 
 export {hexId} from "@benev/slate/x/tools/hex-id.js"
 
-export * from "./auth/tokens/challenge.js"
+export * from "./auth/tokens/claim.js"
 export * from "./auth/tokens/token.js"
 export * from "./auth/tokens/login.js"
 export * from "./auth/tokens/proof.js"

@@ -4,7 +4,7 @@ import {Suite, expect} from "cynic"
 import {Proof} from "./server.js"
 import {Passport} from "./auth/passport.js"
 import {Login} from "./auth/tokens/login.js"
-import {Challenge} from "./auth/tokens/challenge.js"
+import {Claim} from "./auth/tokens/claim.js"
 
 async function makeAndValidateLoginToken() {
 	const passport = await Passport.generate()
@@ -24,15 +24,15 @@ export default <Suite>{
 		await makeAndValidateLoginToken()
 	},
 
-	async "sign and verify a challenge token"() {
+	async "sign and verify a claim token"() {
 		const login = await makeAndValidateLoginToken()
-		const challengeToken = await login.signChallengeToken({
+		const claimToken = await login.signClaimToken({
 			data: "hello",
 			expiry: Date.now() + 60_000,
 		})
 		const proof = await Proof.verify(login.proof.token)
-		const challenge = await Challenge.verify<string>(proof, challengeToken)
-		expect(challenge!.data).equals("hello")
+		const claim = await Claim.verify<string>(proof, claimToken)
+		expect(claim!.data).equals("hello")
 	},
 }
 

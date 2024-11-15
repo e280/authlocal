@@ -13,8 +13,8 @@ export type ProofPayload = {
 	}
 }
 
-/** a challenge (signed by the login) */
-export type ChallengePayload<C> = {
+/** a claim (signed by the login) */
+export type ClaimPayload<C> = {
 	sub: string // passport thumbprint
 	exp: number
 	jti: string

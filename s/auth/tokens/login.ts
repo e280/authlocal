@@ -3,9 +3,9 @@ import {hexId} from "@benev/slate"
 import {Proof} from "./proof.js"
 import {Keypair} from "../keypair.js"
 import {JsonWebToken} from "../utils/json-web-token.js"
-import {ChallengePayload, LoginPayload} from "./types.js"
+import {ClaimPayload, LoginPayload} from "./types.js"
 
-/** contains a login keypair for signing challenges (signed by the passport) */
+/** contains a login keypair for signing claims (signed by the passport) */
 export class Login {
 	constructor(
 		public readonly proof: Proof,
@@ -32,7 +32,7 @@ export class Login {
 		return this.decode(proof, loginToken)
 	}
 
-	async signChallengeToken<C>({data, expiry}: {
+	async signClaimToken<C>({data, expiry}: {
 			data: C
 			expiry: number
 		}) {
@@ -40,7 +40,7 @@ export class Login {
 		const exp = JsonWebToken.fromJsTime(expiry)
 		const jti = hexId()
 		const loginKeypair = await Keypair.fromData(this.payload.data.loginKeypair)
-		return await loginKeypair.sign<ChallengePayload<C>>({sub, exp, data, jti})
+		return await loginKeypair.sign<ClaimPayload<C>>({sub, exp, data, jti})
 	}
 }
 
