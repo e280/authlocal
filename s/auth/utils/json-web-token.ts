@@ -15,7 +15,7 @@ export type Payload = Partial<{
 	iat: number
 	nbf: number
 	jti: string
-}>
+}> & {[key: string]: any}
 
 export type Signature = ArrayBuffer
 
