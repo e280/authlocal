@@ -3,7 +3,7 @@ import {Pubkey} from "../pubkey.js"
 import {Keypair} from "../keypair.js"
 import {JsonWebToken} from "../utils/json-web-token.js"
 
-export const SimpleToken = {
+export const Token = {
 	sign: async<D>(keypair: Keypair, expiresAt: number, data: D) => keypair.sign({
 		data,
 		iat: Date.now(),

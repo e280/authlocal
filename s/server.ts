@@ -3,7 +3,7 @@ export {hexId} from "@benev/slate/x/tools/hex-id.js"
 export {randomFullName} from "@benev/slate/x/tools/names/random-names.js"
 
 export * from "./auth/tokens/challenge.js"
-export * from "./auth/tokens/simple.js"
+export * from "./auth/tokens/token.js"
 export * from "./auth/tokens/login.js"
 export * from "./auth/tokens/proof.js"
 export * from "./auth/utils/crush-username.js"
