@@ -21,6 +21,7 @@ export class Auth {
 	constructor() {
 		this.load()
 		this.#fileStorage.onChangeFromOutside(() => this.load())
+		this.#login.on(login => this.onChange.publish(login))
 	}
 
 	get authfile(): AuthFile {
