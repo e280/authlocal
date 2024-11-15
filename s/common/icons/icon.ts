@@ -1,5 +1,5 @@
 
-import {templateParts} from "../../tools/template-string.js"
+import {templateParts} from "@benev/slate"
 
 export const icon = templateParts
 

@@ -1,10 +1,9 @@
 
-import {shadowComponent, html, loading} from "@benev/slate"
+import {shadowComponent, html, loading, svgSlate} from "@benev/slate"
 
 import {manager} from "../../context.js"
 import {Passport} from "../../../auth/passport.js"
 import {EgressPage} from "../pages/egress/view.js"
-import {svgSlate} from "../../../tools/svg-slate.js"
 import {IngressPage} from "../pages/ingress/view.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {EditPage} from "../../views/pages/edit/view.js"

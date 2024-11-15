@@ -1,11 +1,10 @@
 
-import {html, shadowView} from "@benev/slate"
+import {html, shadowView, svgSlate} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {whence} from "../../../../tools/whence.js"
 import {Passport} from "../../../../auth/passport.js"
 import themeCss from "../../../../common/theme.css.js"
-import {svgSlate} from "../../../../tools/svg-slate.js"
 import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
 
 export const Breakdown = shadowView(use => (passports: Passport[]) => {
