@@ -18,11 +18,12 @@
 		"links": "run-s links-s links-assets",
 		"links-s": "ln -s \"$(realpath s)\" x/s",
 		"links-assets": "ln -s \"$(realpath assets)\" x/assets",
+		"devlinks-slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
 		"test": "cynic node x/tests.test.js"
 	},
 	"dependencies": {
-		"@benev/slate": "^0.2.9",
-		"renraku": "^0.4.0"
+		"@benev/slate": "^0.2.16",
+		"renraku": "^0.4.2"
 	},
 	"devDependencies": {
 		"@benev/turtle": "^0.6.3",
