@@ -7,7 +7,7 @@ export const SimpleToken = {
 	sign: async<D>(keypair: Keypair, expiresAt: number, data: D) => keypair.sign({
 		data,
 		iat: Date.now(),
-		exp: expiresAt / 1000,
+		exp: JsonWebToken.fromJsTime(expiresAt),
 	}),
 
 	decode: <D>(token: string) => {
