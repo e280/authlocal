@@ -1,9 +1,10 @@
 
+import {Hex} from "@benev/slate"
+
 import {Pubkey} from "./pubkey.js"
 import {KeypairData} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
 import {JsonWebToken, Payload} from "./utils/json-web-token.js"
-import { Hex } from "@benev/slate"
 
 export class Keypair extends Pubkey {
 	constructor(
