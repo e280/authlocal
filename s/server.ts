@@ -20,6 +20,6 @@ export * from "./auth/passports-file.js"
 export * from "./auth/pubkey.js"
 export * from "./auth/types.js"
 
-export * from "./tools/from-now.js"
+export * from "./tools/future.js"
 export * from "./tools/whence.js"
 
