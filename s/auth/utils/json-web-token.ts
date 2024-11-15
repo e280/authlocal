@@ -1,5 +1,5 @@
 
-import {base64} from "../../tools/base64.js"
+import {Base64url, Text} from "@benev/slate"
 import {CryptoConstants} from "../crypto-constants.js"
 
 export type Header = {
@@ -40,15 +40,21 @@ export class JsonWebToken {
 	static fromJsTime = (t: number) => t / 1000
 
 	static async sign<P extends Payload>(privateKey: CryptoKey, payload: P): Promise<string> {
-		const headerText = base64.url.from.text(JSON.stringify(JsonWebToken.header))
-		const payloadText = base64.url.from.text(JSON.stringify(payload))
+		const headerBytes = Text.bytes(JSON.stringify(JsonWebToken.header))
+		const headerText = Base64url.string(headerBytes)
+
+		const payloadBytes = Text.bytes(JSON.stringify(payload))
+		const payloadText = Base64url.string(payloadBytes)
+
 		const signingText = `${headerText}.${payloadText}`
 		const signingBytes = new TextEncoder().encode(signingText)
-		const signature = base64.url.from.buffer(
-			await crypto.subtle.sign(
-				CryptoConstants.algos.signing,
-				privateKey,
-				signingBytes,
+		const signature = Base64url.string(
+			new Uint8Array(
+				await crypto.subtle.sign(
+					CryptoConstants.algos.signing,
+					privateKey,
+					signingBytes,
+				)
 			)
 		)
 		return `${signingText}.${signature}`
@@ -58,9 +64,16 @@ export class JsonWebToken {
 		const [headerText, payloadText, signatureText] = token.split(".")
 		if (!headerText || !payloadText || !signatureText)
 			throw new Error("invalid jwt structure")
-		const header: Header = JSON.parse(base64.url.to.text(headerText))
-		const payload: P = JSON.parse(base64.url.to.text(payloadText))
-		const signature = base64.url.to.buffer(signatureText)
+
+		const headerBytes = Base64url.bytes(headerText)
+		const headerJson = Text.string(headerBytes)
+		const header: Header = JSON.parse(headerJson)
+
+		const payloadBytes = Base64url.bytes(payloadText)
+		const payloadJson = Text.string(payloadBytes)
+		const payload: P = JSON.parse(payloadJson)
+
+		const signature = Base64url.bytes(signatureText).buffer
 		return {header, payload, signature}
 	}
 

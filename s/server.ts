@@ -1,5 +1,8 @@
 
-export {hexId} from "@benev/slate/x/tools/hex-id.js"
+export * from "@benev/slate/x/tools/data/hex.js"
+export * from "@benev/slate/x/tools/data/base64.js"
+export * from "@benev/slate/x/tools/data/base64url.js"
+export * from "@benev/slate/x/tools/data/text.js"
 
 export * from "./auth/tokens/login-claim.js"
 export * from "./auth/tokens/login-proof.js"
@@ -17,8 +20,6 @@ export * from "./auth/passports-file.js"
 export * from "./auth/pubkey.js"
 export * from "./auth/types.js"
 
-export * from "./tools/base64.js"
 export * from "./tools/from-now.js"
-export * from "./tools/hex.js"
 export * from "./tools/whence.js"
 

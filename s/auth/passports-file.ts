@@ -1,7 +1,8 @@
 
+import {Base64, Text} from "@benev/slate"
+
 import {Passport} from "./passport.js"
 import {ensure} from "./utils/ensure.js"
-import {base64} from "../tools/base64.js"
 import {crushUsername} from "./utils/crush-username.js"
 import {PassportsFileData, PassportData} from "./types.js"
 
@@ -92,7 +93,7 @@ export class PassportsFile {
 
 	href() {
 		const text = JSON.stringify(this.toData(), undefined, "\t")
-		const encoded = base64.from.text(text)
+		const encoded = Base64.string(Text.bytes(text))
 		return `data:application/octet-stream;base64,${encoded}`
 	}
 }

@@ -1,5 +1,5 @@
 
-import {hex} from "../tools/hex.js"
+import {Hex} from "@benev/slate"
 import {PubkeyData} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
 import {JsonWebToken, Payload, VerificationOptions, VerifyError} from "./utils/json-web-token.js"
@@ -12,10 +12,12 @@ export class Pubkey {
 
 	static async fromData(data: PubkeyData) {
 		const extractable = true
-		const publicBuffer = hex.to.buffer(data.publicKey)
+		const publicBuffer = Hex.bytes(data.publicKey).buffer
 
-		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
+		const thumbprint = Hex.string(
+			new Uint8Array(
+				await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
+			)
 		)
 
 		if (data.thumbprint !== thumbprint)
@@ -36,16 +38,18 @@ export class Pubkey {
 		const publicBuffer = await crypto.subtle
 			.exportKey(CryptoConstants.formats.public, this.publicKey)
 
-		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(
-				CryptoConstants.algos.thumbprint,
-				publicBuffer,
+		const thumbprint = Hex.string(
+			new Uint8Array(
+				await crypto.subtle.digest(
+					CryptoConstants.algos.thumbprint,
+					publicBuffer,
+				)
 			)
 		)
 
 		return {
 			thumbprint,
-			publicKey: hex.from.buffer(publicBuffer),
+			publicKey: Hex.string(new Uint8Array(publicBuffer)),
 		}
 	}
 

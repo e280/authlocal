@@ -1,9 +1,9 @@
 
 import {Pubkey} from "./pubkey.js"
-import {hex} from "../tools/hex.js"
 import {KeypairData} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
 import {JsonWebToken, Payload} from "./utils/json-web-token.js"
+import { Hex } from "@benev/slate"
 
 export class Keypair extends Pubkey {
 	constructor(
@@ -21,8 +21,10 @@ export class Keypair extends Pubkey {
 		const publicBuffer = await crypto.subtle
 			.exportKey(CryptoConstants.formats.public, keys.publicKey)
 
-		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
+		const thumbprint = Hex.string(
+			new Uint8Array(
+				await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
+			)
 		)
 
 		return new this(thumbprint, keys.publicKey, keys.privateKey)
@@ -31,7 +33,7 @@ export class Keypair extends Pubkey {
 	static async fromData(data: KeypairData) {
 		const pubkey = await Pubkey.fromData(data)
 		const extractable = true
-		const privateBuffer = hex.to.buffer(data.privateKey)
+		const privateBuffer = Hex.bytes(data.privateKey).buffer
 
 		const privateKey = await crypto.subtle.importKey(
 			CryptoConstants.formats.private,
@@ -53,7 +55,7 @@ export class Keypair extends Pubkey {
 		return {
 			thumbprint: pubkey.thumbprint,
 			publicKey: pubkey.publicKey,
-			privateKey: hex.from.buffer(privateBuffer),
+			privateKey: Hex.string(new Uint8Array(privateBuffer)),
 		}
 	}
 
