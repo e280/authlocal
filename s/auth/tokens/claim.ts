@@ -3,7 +3,13 @@ import {Proof} from "./proof.js"
 import {ClaimPayload} from "./types.js"
 import {JsonWebToken} from "../utils/json-web-token.js"
 
-/** arbitrary data (signed by the login) */
+/**
+ * Claim token.
+ *  - contains any arbitrary data that you want
+ *  - signed by the user's login
+ *  - verification of a claim token requires a proof token
+ *  - you can send this to any of your services
+ */
 export class Claim<C> {
 	constructor(
 		public readonly proof: Proof,

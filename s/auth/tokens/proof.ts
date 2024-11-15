@@ -1,9 +1,18 @@
 
+import {Login} from "./login.js"
+import {Claim} from "./claim.js"
 import {Pubkey} from "../pubkey.js"
 import {ProofPayload} from "./types.js"
 import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
 
-/** associates a login with a passport (signed by the passport) */
+/**
+ * Proof token.
+ *  - proves that a user is logged in
+ *  - signed by the user's authduo passport
+ *  - can verify login tokens, and claim tokens
+ *  - contains the user's thumbprint, the passport public key, and login public key
+ *  - you can send this to any services that need to know if the user is logged in, or any service that needs to verify any claims you sign with the login
+ */
 export class Proof {
 	constructor(
 		public readonly token: string,
@@ -23,6 +32,14 @@ export class Proof {
 
 	isExpired() {
 		return Date.now() > this.expiry
+	}
+
+	async verifyLogin(loginToken: string) {
+		return Login.verify(this, loginToken)
+	}
+
+	async verifyClaim(claimToken: string) {
+		return Claim.verify(this, claimToken)
 	}
 
 	static decode(token: string) {
