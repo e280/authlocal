@@ -1,6 +1,5 @@
 
 export {hexId} from "@benev/slate/x/tools/hex-id.js"
-export {randomFullName} from "@benev/slate/x/tools/names/random-names.js"
 
 export * from "./auth/tokens/challenge.js"
 export * from "./auth/tokens/token.js"
