@@ -1,22 +1,22 @@
 
-import {Login} from "./login.js"
-import {Claim} from "./claim.js"
 import {Pubkey} from "../pubkey.js"
-import {ProofPayload} from "./types.js"
+import {LoginClaim} from "./login-claim.js"
+import {LoginProofPayload} from "./types.js"
+import {LoginKeypair} from "./login-keypair.js"
 import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
 
 /**
- * Proof token.
+ * Login proof token -- proof that a user is logged in
  *  - proves that a user is logged in
  *  - signed by the user's authduo passport
- *  - can verify login tokens, and claim tokens
- *  - contains the user's thumbprint, the passport public key, and login public key
+ *  - can verify login tokens and claim tokens
+ *  - contains user info, the passport public key, and the login public key
  *  - you can send this to any services that need to know if the user is logged in, or any service that needs to verify any claims you sign with the login
  */
-export class Proof {
+export class LoginProof {
 	constructor(
 		public readonly token: string,
-		public readonly payload: ProofPayload,
+		public readonly payload: LoginProofPayload,
 	) {}
 
 	get expiry() { return JsonWebToken.toJsTime(this.payload.exp) }
@@ -35,17 +35,17 @@ export class Proof {
 	}
 
 	async verifyLogin(loginToken: string) {
-		return Login.verify(this, loginToken)
+		return LoginKeypair.verify(this, loginToken)
 	}
 
 	async verifyClaim(claimToken: string) {
-		return Claim.verify(this, claimToken)
+		return LoginClaim.verify(this, claimToken)
 	}
 
 	static decode(token: string) {
 		return new this(
 			token,
-			JsonWebToken.decode<ProofPayload>(token).payload,
+			JsonWebToken.decode<LoginProofPayload>(token).payload,
 		)
 	}
 

@@ -2,12 +2,12 @@
 import {pubsub, signal} from "@benev/slate"
 
 import {AuthFile} from "./types.js"
-import {Proof} from "../auth/tokens/proof.js"
-import {Login} from "../auth/tokens/login.js"
 import {openPopup} from "./utils/open-popup.js"
 import {nullcatch} from "../auth/utils/nullcatch.js"
 import {JsonStorage} from "../tools/json-storage.js"
+import {LoginProof} from "../auth/tokens/login-proof.js"
 import {LoginSessionTokens} from "../auth/tokens/types.js"
+import {LoginKeypair} from "../auth/tokens/login-keypair.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
 export class Auth {
@@ -15,8 +15,8 @@ export class Auth {
 	static version = 0
 
 	#fileStorage = new JsonStorage<AuthFile>("authduo")
-	#login = signal<Login | null>(null)
-	onChange = pubsub<[Login | null]>()
+	#login = signal<LoginKeypair | null>(null)
+	onChange = pubsub<[LoginKeypair | null]>()
 
 	constructor() {
 		this.load()
@@ -34,11 +34,11 @@ export class Auth {
 	async load() {
 		const {tokens} = this.authfile
 		this.#login.value = tokens && await nullcatch(async() => {
-			const proof = await Proof.verify(
+			const proof = await LoginProof.verify(
 				tokens.proofToken,
 				{allowedAudiences: [window.origin]},
 			)
-			return await Login.verify(proof, tokens.loginToken)
+			return await LoginKeypair.verify(proof, tokens.loginToken)
 		})
 	}
 
@@ -56,7 +56,7 @@ export class Auth {
 		return this.#login.value
 	}
 
-	set login(login: Login | null) {
+	set login(login: LoginKeypair | null) {
 		this.#login.value = login
 		this.save(login && {
 			loginToken: login.token,
@@ -74,7 +74,7 @@ export class Auth {
 		const appOrigin = appWindow.origin
 		const popupOrigin = new URL(url, window.location.href).origin
 
-		return new Promise<Login | null>((resolve, reject) => {
+		return new Promise<LoginKeypair | null>((resolve, reject) => {
 			const {dispose} = setupInApp(
 				appWindow,
 				popupWindow,
@@ -83,11 +83,11 @@ export class Auth {
 					popupWindow.close()
 					try {
 						this.login = await nullcatch(async() => {
-							const proof = await Proof.verify(proofToken, {
+							const proof = await LoginProof.verify(proofToken, {
 								allowedIssuers: [popupOrigin],
 								allowedAudiences: [appOrigin],
 							})
-							return await Login.verify(proof, loginToken)
+							return await LoginKeypair.verify(proof, loginToken)
 						})
 						dispose()
 						resolve(this.login)

@@ -1,20 +1,20 @@
 
-import {Proof} from "./proof.js"
-import {ClaimPayload} from "./types.js"
+import {LoginProof} from "./login-proof.js"
+import {LoginClaimPayload} from "./types.js"
 import {JsonWebToken} from "../utils/json-web-token.js"
 
 /**
- * Claim token.
- *  - contains any arbitrary data that you want
+ * Login claim token.
+ *  - contains arbitrary data
  *  - signed by the user's login
  *  - verification of a claim token requires a proof token
  *  - you can send this to any of your services
  */
-export class Claim<C> {
+export class LoginClaim<C> {
 	constructor(
-		public readonly proof: Proof,
+		public readonly proof: LoginProof,
 		public readonly token: string,
-		public readonly payload: ClaimPayload<C>,
+		public readonly payload: LoginClaimPayload<C>,
 	) {}
 
 	get thumbprint() { return this.payload.sub }
@@ -25,15 +25,15 @@ export class Claim<C> {
 		return Date.now() > this.expiry
 	}
 
-	static decode<C>(proof: Proof, claimToken: string) {
+	static decode<C>(proof: LoginProof, claimToken: string) {
 		return new this(
 			proof,
 			claimToken,
-			JsonWebToken.decode<ClaimPayload<C>>(claimToken).payload,
+			JsonWebToken.decode<LoginClaimPayload<C>>(claimToken).payload,
 		)
 	}
 
-	static async verify<C>(proof: Proof, claimToken: string) {
+	static async verify<C>(proof: LoginProof, claimToken: string) {
 		const claim = this.decode<C>(proof, claimToken)
 		if (claim.thumbprint !== proof.thumbprint)
 			throw new Error(`thumbprint mismatch between claim and proof`)

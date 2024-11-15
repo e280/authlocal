@@ -1,10 +1,10 @@
 
 import "@benev/slate/x/node.js"
 import {Suite, expect} from "cynic"
-import {Proof} from "./server.js"
+import {LoginProof} from "./server.js"
 import {Passport} from "./auth/passport.js"
-import {Login} from "./auth/tokens/login.js"
-import {Claim} from "./auth/tokens/claim.js"
+import {LoginClaim} from "./auth/tokens/login-claim.js"
+import {LoginKeypair} from "./auth/tokens/login-keypair.js"
 
 async function makeAndValidateLoginToken() {
 	const passport = await Passport.generate()
@@ -13,8 +13,8 @@ async function makeAndValidateLoginToken() {
 		audience: "testaudience",
 		expiry: Date.now() + 60_000,
 	})
-	const proof = await Proof.verify(proofToken)
-	const login = await Login.verify(proof, loginToken)
+	const proof = await LoginProof.verify(proofToken)
+	const login = await LoginKeypair.verify(proof, loginToken)
 	expect(login.thumbprint).equals(passport.thumbprint)
 	return login
 }
@@ -30,8 +30,8 @@ export default <Suite>{
 			data: "hello",
 			expiry: Date.now() + 60_000,
 		})
-		const proof = await Proof.verify(login.proof.token)
-		const claim = await Claim.verify<string>(proof, claimToken)
+		const proof = await LoginProof.verify(login.proof.token)
+		const claim = await LoginClaim.verify<string>(proof, claimToken)
 		expect(claim!.data).equals("hello")
 	},
 }
