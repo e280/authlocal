@@ -1,5 +1,5 @@
 
-import {deep, hexId, randomFullName} from "@benev/slate"
+import {Bytename, deep, Hex, hexId} from "@benev/slate"
 
 import {Keypair} from "./keypair.js"
 import {PassportData, KeypairData} from "./types.js"
@@ -20,7 +20,10 @@ export class Passport {
 	static async generate() {
 		const keypair = await Keypair.generate()
 		const keypairData = await keypair.toData()
-		const name = randomFullName()
+
+		const thumbBytes = Hex.bytes(keypair.thumbprint).slice(0, 5)
+		const name = Bytename.string(thumbBytes, "Xxxxxx Xxxxxxxxx ")
+
 		const created = Date.now()
 		return new this(keypairData, name, created)
 	}

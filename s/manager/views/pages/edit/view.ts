@@ -17,11 +17,25 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 			situation.onComplete(passport.value)
 	}
 
+	function select(event: PointerEvent) {
+		const target = event.currentTarget as HTMLInputElement
+		target.select()
+	}
+
 	return html`
 		${PassportEditor([{
 			passport: situation.passport,
 			onUpdate: updated => passport.value = updated,
 		}])}
+
+		${passport.value && html`
+			<input
+				type=text
+				readonly
+				.value="${passport.value.thumbprint}"
+				@click="${select}"
+				/>
+		`}
 
 		<footer class=buttonbar>
 			<button class=angry @click="${() => situation.onDelete(situation.passport)}">
