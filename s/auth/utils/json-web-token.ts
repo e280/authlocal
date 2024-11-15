@@ -19,7 +19,7 @@ export type Payload = Partial<{
 
 export type Signature = ArrayBuffer
 
-export type Jwt<P extends Payload = any> = {
+export type WebToken<P extends Payload = any> = {
 	header: Header
 	payload: P
 	signature: Signature
@@ -54,7 +54,7 @@ export class JsonWebToken {
 		return `${signingText}.${signature}`
 	}
 
-	static decode<P extends Payload>(token: string): Jwt<P> {
+	static decode<P extends Payload>(token: string): WebToken<P> {
 		const [headerText, payloadText, signatureText] = token.split(".")
 		if (!headerText || !payloadText || !signatureText)
 			throw new Error("invalid jwt structure")
