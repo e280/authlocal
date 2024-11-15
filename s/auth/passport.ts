@@ -2,44 +2,44 @@
 import {deep, hexId, randomFullName} from "@benev/slate"
 
 import {Keypair} from "./keypair.js"
-import {PassportJson, KeypairJson} from "./types.js"
+import {PassportData, KeypairData} from "./types.js"
 import {JsonWebToken} from "./utils/json-web-token.js"
 import {LoginPayload, LoginSessionTokens, ProofPayload} from "./tokens/types.js"
 
 export class Passport {
 	constructor(
-		public readonly keypairJson: KeypairJson,
+		public readonly keypairData: KeypairData,
 		public name: string,
 		public created: number,
 	) {}
 
 	get thumbprint() {
-		return this.keypairJson.thumbprint
+		return this.keypairData.thumbprint
 	}
 
 	static async generate() {
 		const keypair = await Keypair.generate()
-		const keypairJson = await keypair.toJson()
+		const keypairData = await keypair.toData()
 		const name = randomFullName()
 		const created = Date.now()
-		return new this(keypairJson, name, created)
+		return new this(keypairData, name, created)
 	}
 
-	static fromJson(json: PassportJson) {
-		const {keypair, name, created} = json
+	static fromData(data: PassportData) {
+		const {keypair, name, created} = data
 		return new this(keypair, name, created)
 	}
 
-	toJson(): PassportJson {
+	toData(): PassportData {
 		return deep.clone({
-			keypair: this.keypairJson,
+			keypair: this.keypairData,
 			name: this.name,
 			created: this.created,
 		})
 	}
 
 	async getKeypair() {
-		return await Keypair.fromJson(this.keypairJson)
+		return await Keypair.fromData(this.keypairData)
 	}
 
 	async signLoginToken(o: {
@@ -62,8 +62,8 @@ export class Passport {
 			aud,
 			jti,
 			data: {
-				loginPubkey: await loginKeypair.toPubkey().toJson(),
-				passportPubkey: await passportKeypair.toPubkey().toJson(),
+				loginPubkey: await loginKeypair.toPubkey().toData(),
+				passportPubkey: await passportKeypair.toPubkey().toData(),
 			},
 		})
 
@@ -73,7 +73,7 @@ export class Passport {
 			jti,
 			data: {
 				name,
-				loginKeypair: await loginKeypair.toJson(),
+				loginKeypair: await loginKeypair.toData(),
 			},
 		})
 

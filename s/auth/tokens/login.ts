@@ -39,7 +39,7 @@ export class Login {
 		const sub = this.thumbprint
 		const exp = JsonWebToken.fromJsTime(expiry)
 		const jti = hexId()
-		const loginKeypair = await Keypair.fromJson(this.payload.data.loginKeypair)
+		const loginKeypair = await Keypair.fromData(this.payload.data.loginKeypair)
 		return await loginKeypair.sign<ChallengePayload<C>>({sub, exp, data, jti})
 	}
 }

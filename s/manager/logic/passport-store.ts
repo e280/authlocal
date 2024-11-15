@@ -1,21 +1,21 @@
 
 import {Passport} from "../../auth/passport.js"
-import {PassportsFileJson} from "../../auth/types.js"
+import {PassportsFileData} from "../../auth/types.js"
 import {PassportsFile} from "../../auth/passports-file.js"
 import {storageSignal} from "../../tools/storage-signal.js"
 
 export class PassportStore {
-	#storage = storageSignal<PassportsFileJson>("authduo_passports")
+	#storage = storageSignal<PassportsFileData>("authduo_passports")
 
 	#save(passports: PassportsFile) {
-		this.#storage.save(passports.toJson())
+		this.#storage.save(passports.toData())
 	}
 
 	get passportsFile() {
-		const json = this.#storage.signal.value
+		const data = this.#storage.signal.value
 		try {
-			return json
-				? PassportsFile.fromJson(json)
+			return data
+				? PassportsFile.fromData(data)
 				: new PassportsFile()
 		}
 		catch {

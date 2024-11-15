@@ -14,11 +14,11 @@ export class Proof {
 	get thumbprint() { return this.payload.data.passportPubkey.thumbprint }
 
 	async getPassportPubkey() {
-		return await Pubkey.fromJson(this.payload.data.passportPubkey)
+		return await Pubkey.fromData(this.payload.data.passportPubkey)
 	}
 
 	async getLoginPubkey() {
-		return await Pubkey.fromJson(this.payload.data.loginPubkey)
+		return await Pubkey.fromData(this.payload.data.loginPubkey)
 	}
 
 	isExpired() {

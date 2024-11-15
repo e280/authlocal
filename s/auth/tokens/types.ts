@@ -1,5 +1,5 @@
 
-import {KeypairJson, PubkeyJson} from "../types.js"
+import {KeypairData, PubkeyData} from "../types.js"
 
 /** proof that the login commissioned by the passport (signed by the passport) */
 export type ProofPayload = {
@@ -8,8 +8,8 @@ export type ProofPayload = {
 	iss: string
 	jti: string
 	data: {
-		loginPubkey: PubkeyJson
-		passportPubkey: PubkeyJson
+		loginPubkey: PubkeyData
+		passportPubkey: PubkeyData
 	}
 }
 
@@ -28,7 +28,7 @@ export type LoginPayload = {
 	jti: string
 	data: {
 		name: string
-		loginKeypair: KeypairJson
+		loginKeypair: KeypairData
 	}
 }
 
