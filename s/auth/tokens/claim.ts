@@ -27,10 +27,7 @@ export class Claim<C> {
 		)
 	}
 
-	static async verify<C>(
-			proof: Proof,
-			claimToken: string,
-		) {
+	static async verify<C>(proof: Proof, claimToken: string) {
 		const claim = this.decode<C>(proof, claimToken)
 		if (claim.thumbprint !== proof.thumbprint)
 			throw new Error(`thumbprint mismatch between claim and proof`)

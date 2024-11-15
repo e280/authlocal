@@ -2,10 +2,21 @@
 import {hexId} from "@benev/slate"
 import {Proof} from "./proof.js"
 import {Keypair} from "../keypair.js"
-import {JsonWebToken} from "../utils/json-web-token.js"
 import {ClaimPayload, LoginPayload} from "./types.js"
+import {JsonWebToken} from "../utils/json-web-token.js"
 
-/** contains a login keypair for signing claims (signed by the passport) */
+/**
+ * Login token.
+ *  - represents a user's login on authduo.
+ *  - signed by the user's passport.
+ *  - contains the user's name, and thumbprint, and ephemeral keypair.
+ *  - the ephemeral keypair can be used for signing claims on behalf of the user.
+ *  - you may save this token into your app's local storage, to maintain the user's login.
+ *  - DO NOT distribute this login or login token to any of your services.
+ *    - instead, use the login to sign claim tokens via `login.signClaimToken(~)`
+ *    - you can put any information into the claim token that you like
+ *    - you can send a `claimToken` along with a `proofToken` and your services can verify them with `Claim.verify(~)`
+ */
 export class Login {
 	constructor(
 		public readonly proof: Proof,
