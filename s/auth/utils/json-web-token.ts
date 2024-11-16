@@ -124,6 +124,9 @@ export class JsonWebToken {
 				throw new VerifyError(`invalid aud (audience) "${payload.aud}"`)
 		}
 
+		if (payload.aud && !options.allowedAudiences)
+			throw new VerifyError(`allowedAudiences verification option was not provided, but is required because the token included "aud"`)
+
 		return payload
 	}
 }
