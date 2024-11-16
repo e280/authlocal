@@ -10,6 +10,8 @@ import {JsonStorage} from "../tools/json-storage.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
 export class Auth {
+	static url = "https://authduo.org/"
+	static version = 1
 	static #auth: Auth | null = null
 
 	static getSingleton() {
@@ -18,17 +20,14 @@ export class Auth {
 		return this.#auth
 	}
 
-	static url = "https://authduo.org/"
-	static version = 1
-
+	onChange = pubsub<[Login | null]>()
 	#fileStorage = new JsonStorage<AuthFile>("authduo")
 	#login = signal<Login | null>(null)
-	onChange = pubsub<[Login | null]>()
 
 	constructor() {
-		this.load()
-		this.#fileStorage.onChangeFromOutside(() => this.load())
+		this.#fileStorage.onChangeFromOutside(() => void this.load())
 		this.#login.on(login => this.onChange.publish(login))
+		this.load()
 	}
 
 	get authfile(): AuthFile {
@@ -43,6 +42,7 @@ export class Auth {
 		this.#login.value = tokens && await nullcatch(
 			async() => Login.verify(tokens)
 		)
+		return this.#login.value
 	}
 
 	save(tokens: LoginTokens | null) {
