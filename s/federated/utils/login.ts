@@ -1,7 +1,7 @@
 
 import {LoginKeys} from "../../auth/tokens/login-keys.js"
 import {LoginProof} from "../../auth/tokens/login-proof.js"
-import {LoginTokens, LoginVerification} from "../../auth/tokens/types.js"
+import {LoginTokens, LoginProofVerification} from "../../auth/tokens/types.js"
 
 export class Login {
 	constructor(
@@ -9,7 +9,7 @@ export class Login {
 		public keys: LoginKeys,
 	) {}
 
-	static async verify(tokens: LoginTokens, options: LoginVerification) {
+	static async verify(tokens: LoginTokens, options: LoginProofVerification) {
 		const proof = await LoginProof.verify(tokens.loginProofToken, options)
 		const keys = await LoginKeys.verify(proof, tokens.loginKeysToken, options)
 		return new this(proof, keys)

@@ -1,9 +1,9 @@
 
+import {Token} from "./token.js"
 import {Pubkey} from "../pubkey.js"
 import {LoginKeys} from "./login-keys.js"
 import {LoginClaim} from "./login-claim.js"
-import {LoginProofPayload} from "./types.js"
-import {Token, VerificationOptions} from "./token.js"
+import {LoginProofPayload, LoginProofVerification} from "./types.js"
 
 /**
  * Login proof token -- proof that a user is logged in
@@ -49,7 +49,7 @@ export class LoginProof {
 		)
 	}
 
-	static async verify(token: string, options: {allowedAudiences: string[]} & VerificationOptions) {
+	static async verify(token: string, options: LoginProofVerification) {
 		const proof = this.decode(token)
 		const passportPubkey = await proof.getPassportPubkey()
 		await passportPubkey.verify(token, options)

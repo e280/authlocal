@@ -40,5 +40,5 @@ export type LoginTokens = {
 	loginKeysToken: string
 }
 
-export type LoginVerification = {allowedAudiences: string[]} & VerificationOptions
+export type LoginProofVerification = {allowedAudiences: string[]} & VerificationOptions
 
