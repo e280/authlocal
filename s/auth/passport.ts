@@ -65,7 +65,6 @@ export class Passport {
 			aud,
 			jti,
 			data: {
-				name,
 				loginPubkey: await loginKeypair.toPubkey().toData(),
 				passportPubkey: await passportKeypair.toPubkey().toData(),
 			},
@@ -77,6 +76,7 @@ export class Passport {
 			iss,
 			jti,
 			data: {
+				name,
 				loginKeypair: await loginKeypair.toData(),
 			},
 		})

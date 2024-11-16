@@ -9,7 +9,6 @@ export type ProofPayload = {
 	aud: string
 	jti: string
 	data: {
-		name: string
 		loginPubkey: PubkeyData
 		passportPubkey: PubkeyData
 	}
@@ -22,6 +21,7 @@ export type KeysPayload = {
 	iss: string
 	jti: string
 	data: {
+		name: string
 		loginKeypair: KeypairData
 	}
 }

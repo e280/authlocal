@@ -23,9 +23,9 @@ export class Keys {
 		public readonly payload: KeysPayload,
 	) {}
 
-	get expiresAt() { return Token.toJsTime(this.payload.exp) }
-	get name() { return this.proof.name }
+	get name() { return this.payload.data.name }
 	get thumbprint() { return this.proof.thumbprint }
+	get expiresAt() { return Token.toJsTime(this.payload.exp) }
 
 	isExpired() {
 		return Date.now() > this.expiresAt
