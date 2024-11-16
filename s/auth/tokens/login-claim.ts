@@ -17,11 +17,11 @@ export class LoginClaim<C> {
 	) {}
 
 	get thumbprint() { return this.payload.sub }
-	get expiry() { return Token.toJsTime(this.payload.exp) }
+	get expiresAt() { return Token.toJsTime(this.payload.exp) }
 	get data() { return this.payload.data }
 
 	isExpired() {
-		return Date.now() > this.expiry
+		return Date.now() > this.expiresAt
 	}
 
 	static decode<C>(proof: LoginProof, claimToken: string) {

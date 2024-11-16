@@ -53,7 +53,7 @@ export class Auth {
 
 	get login() {
 		const login = this.#login.value
-		const valid = login && (Date.now() < login.expiry)
+		const valid = login && (Date.now() < login.expiresAt)
 		if (!valid && login)
 			this.#login.value = null
 		return this.#login.value

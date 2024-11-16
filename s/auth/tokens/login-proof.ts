@@ -19,7 +19,7 @@ export class LoginProof {
 	) {}
 
 	get name() { return this.payload.data.name }
-	get expiry() { return Token.toJsTime(this.payload.exp) }
+	get expiresAt() { return Token.toJsTime(this.payload.exp) }
 	get thumbprint() { return this.payload.data.passportPubkey.thumbprint }
 
 	async getPassportPubkey() {
@@ -31,7 +31,7 @@ export class LoginProof {
 	}
 
 	isExpired() {
-		return Date.now() > this.expiry
+		return Date.now() > this.expiresAt
 	}
 
 	async verifyLogin(loginToken: string) {

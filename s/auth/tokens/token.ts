@@ -115,8 +115,8 @@ export class Token {
 			throw new VerifyError("token signature invalid")
 
 		if (payload.exp) {
-			const expiry = Token.toJsTime(payload.exp)
-			if (Date.now() > expiry)
+			const expiresAt = Token.toJsTime(payload.exp)
+			if (Date.now() > expiresAt)
 				throw new VerifyError("token expired")
 		}
 

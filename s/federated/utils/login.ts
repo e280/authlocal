@@ -17,7 +17,7 @@ export class Login {
 
 	isExpired() { return this.proof.isExpired() }
 
-	get expiry() { return this.proof.expiry }
+	get expiresAt() { return this.proof.expiresAt }
 	get name() { return this.proof.name }
 	get thumbprint() { return this.proof.thumbprint }
 

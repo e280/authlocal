@@ -23,12 +23,12 @@ export class LoginKeys {
 		public readonly payload: LoginKeysPayload,
 	) {}
 
-	get expiry() { return Token.toJsTime(this.payload.exp) }
+	get expiresAt() { return Token.toJsTime(this.payload.exp) }
 	get name() { return this.proof.name }
 	get thumbprint() { return this.proof.thumbprint }
 
 	isExpired() {
-		return Date.now() > this.expiry
+		return Date.now() > this.expiresAt
 	}
 
 	static decode(proof: LoginProof, token: string) {

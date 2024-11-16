@@ -11,7 +11,7 @@ async function makeAndValidateLoginToken() {
 	const {loginProofToken, loginKeysToken} = await passport.signLoginTokens({
 		issuer: "testissuer",
 		audience: "testaudience",
-		expiry: Date.now() + 60_000,
+		expiresAt: Date.now() + 60_000,
 	})
 	const proof = await LoginProof.verify(loginProofToken, {allowedAudiences: ["testaudience"]})
 	const loginKeys = await LoginKeys.verify(proof, loginKeysToken)

@@ -46,14 +46,14 @@ export class Passport {
 	}
 
 	async signLoginTokens(o: {
-			expiry: number
+			expiresAt: number
 			issuer: string
 			audience: string
 		}): Promise<LoginTokens> {
 
 		const passportKeypair = await this.getKeypair()
 		const loginKeypair = await Keypair.generate()
-		const exp = Token.fromJsTime(o.expiry)
+		const exp = Token.fromJsTime(o.expiresAt)
 		const name = this.name
 		const iss = o.issuer
 		const aud = o.audience
