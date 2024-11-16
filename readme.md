@@ -126,7 +126,7 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 
 ### Understanding the Authduo flow and tokens
 
-![](https://i.imgur.com/rtK7N1S.png)
+![](https://i.imgur.com/18xwaeU.png)
 
 - When a user on your app clicks to login, this opens an Authduo.org popup for them to login.
 - The authduo signs some tokens with your user's passport keypair, and sends them back to your application.
