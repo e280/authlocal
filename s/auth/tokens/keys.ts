@@ -2,7 +2,7 @@
 import {Proof} from "./proof.js"
 import {Keypair} from "../keypair.js"
 import {ClaimPayload, KeysPayload} from "./types.js"
-import {Token, Requirements, VerificationOptions} from "./token.js"
+import {Token, TokenParams, VerificationOptions} from "./token.js"
 
 /**
  * Login keys token -- able to sign login claims for the user
@@ -42,11 +42,11 @@ export class Keys {
 		return this.decode(proof, loginToken)
 	}
 
-	async signClaimToken<D>({data, ...requirements}: {data: D} & Requirements) {
+	async signClaimToken<D>({data, ...requirements}: {data: D} & TokenParams) {
 		const sub = this.thumbprint
 		const loginKeypair = await Keypair.fromData(this.payload.data.loginKeypair)
 		return await loginKeypair.sign<ClaimPayload<D>>({
-			...Token.requirements(requirements),
+			...Token.params(requirements),
 			sub,
 			data,
 		})

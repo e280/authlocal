@@ -34,7 +34,7 @@ export class VerifyError extends Error {
 	name = this.constructor.name
 }
 
-export type Requirements = {
+export type TokenParams = {
 	expiresAt: number
 	notBefore?: number
 	audience?: string
@@ -46,7 +46,7 @@ export class Token {
 	static toJsTime = (t: number) => t * 1000
 	static fromJsTime = (t: number) => t / 1000
 
-	static requirements = (r: Requirements) => ({
+	static params = (r: TokenParams) => ({
 		jti: hexId(),
 		iat: Date.now(),
 		exp: Token.fromJsTime(r.expiresAt),
