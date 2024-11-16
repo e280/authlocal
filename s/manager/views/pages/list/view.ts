@@ -40,7 +40,7 @@ export const ListPage = shadowView(use => (
 							title="${file.filename()}"
 							download="${file.filename()}"
 							href="${file.href()}">
-							Export
+							Download
 						</a>
 					</footer>
 				</section>
@@ -92,7 +92,7 @@ export const ListPage = shadowView(use => (
 					title="${passportsFile.filename()}"
 					download="${passportsFile.filename()}"
 					href="${passportsFile.href()}">
-					Export All
+					Download All
 				</a>
 			` : null}
 		</nav>
