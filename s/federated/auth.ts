@@ -3,20 +3,20 @@ import {pubsub, signal} from "@benev/slate"
 
 import {AuthFile} from "./types.js"
 import {openPopup} from "./utils/open-popup.js"
+import {LoginTokens} from "../auth/tokens/types.js"
 import {nullcatch} from "../auth/utils/nullcatch.js"
 import {JsonStorage} from "../tools/json-storage.js"
+import {LoginKeys} from "../auth/tokens/login-keys.js"
 import {LoginProof} from "../auth/tokens/login-proof.js"
-import {LoginSessionTokens} from "../auth/tokens/types.js"
-import {LoginKeypair} from "../auth/tokens/login-keypair.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
 export class Auth {
 	static url = "https://authduo.org/"
-	static version = 0
+	static version = 1
 
 	#fileStorage = new JsonStorage<AuthFile>("authduo")
-	#login = signal<LoginKeypair | null>(null)
-	onChange = pubsub<[LoginKeypair | null]>()
+	#login = signal<LoginKeys | null>(null)
+	onChange = pubsub<[LoginKeys | null]>()
 
 	constructor() {
 		this.load()
@@ -35,14 +35,14 @@ export class Auth {
 		const {tokens} = this.authfile
 		this.#login.value = tokens && await nullcatch(async() => {
 			const proof = await LoginProof.verify(
-				tokens.proofToken,
+				tokens.loginProofToken,
 				{allowedAudiences: [window.origin]},
 			)
-			return await LoginKeypair.verify(proof, tokens.loginToken)
+			return await LoginKeys.verify(proof, tokens.loginKeysToken)
 		})
 	}
 
-	save(tokens: LoginSessionTokens | null) {
+	save(tokens: LoginTokens | null) {
 		const {authfile} = this
 		authfile.tokens = tokens
 		this.#fileStorage.set(authfile)
@@ -56,11 +56,11 @@ export class Auth {
 		return this.#login.value
 	}
 
-	set login(login: LoginKeypair | null) {
+	set login(login: LoginKeys | null) {
 		this.#login.value = login
 		this.save(login && {
-			loginToken: login.token,
-			proofToken: login.proof.token,
+			loginKeysToken: login.token,
+			loginProofToken: login.proof.token,
 		})
 	}
 
@@ -74,12 +74,12 @@ export class Auth {
 		const appOrigin = appWindow.origin
 		const popupOrigin = new URL(url, window.location.href).origin
 
-		return new Promise<LoginKeypair | null>((resolve, reject) => {
+		return new Promise<LoginKeys | null>((resolve, reject) => {
 			const {dispose} = setupInApp(
 				appWindow,
 				popupWindow,
 				popupOrigin,
-				async({proofToken, loginToken}) => {
+				async({loginProofToken: proofToken, loginKeysToken: loginToken}) => {
 					popupWindow.close()
 					try {
 						this.login = await nullcatch(async() => {
@@ -87,7 +87,7 @@ export class Auth {
 								allowedIssuers: [popupOrigin],
 								allowedAudiences: [appOrigin],
 							})
-							return await LoginKeypair.verify(proof, loginToken)
+							return await LoginKeys.verify(proof, loginToken)
 						})
 						dispose()
 						resolve(this.login)

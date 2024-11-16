@@ -4,11 +4,10 @@ import {LoginClaimPayload} from "./types.js"
 import {JsonWebToken} from "../utils/json-web-token.js"
 
 /**
- * Login claim token.
- *  - contains arbitrary data
- *  - signed by the user's login
+ * Login claim token -- make any verifiable claim on behalf of your user
+ *  - contains any arbitrary data, signed by the user's login
  *  - verification of a claim token requires a proof token
- *  - you can send this to any of your services
+ *  - you can send this to any of your services, along with the proof token for verification
  */
 export class LoginClaim<C> {
 	constructor(

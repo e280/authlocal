@@ -4,8 +4,8 @@ import {Keypair} from "../keypair.js"
 import {JsonWebToken} from "../utils/json-web-token.js"
 
 /**
- * Quick tokens.
- *  - helper utility for signing and verifying arbitrary data tokens
+ * Quick token helper utility.
+ *  - handy for signing and verifying arbitrary data tokens
  *  - only has expiry as a verification requirement
  *  - for more advanced tokens using subject/audience/issuer stuff, use `JsonWebToken` facility instead
  */

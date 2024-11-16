@@ -23,7 +23,7 @@ export type LoginClaimPayload<C> = {
 }
 
 /** includes user info and an ephemeral keypair (signed by the passport) */
-export type LoginPayload = {
+export type LoginKeysPayload = {
 	sub: string // passport thumbprint
 	exp: number
 	jti: string
@@ -33,8 +33,8 @@ export type LoginPayload = {
 }
 
 /** federated apps receive these tokens upon a successful login */
-export type LoginSessionTokens = {
-	proofToken: string
-	loginToken: string
+export type LoginTokens = {
+	loginProofToken: string
+	loginKeysToken: string
 }
 

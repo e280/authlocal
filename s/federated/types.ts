@@ -1,8 +1,8 @@
 
-import {LoginSessionTokens} from "../auth/tokens/types.js"
+import {LoginTokens} from "../auth/tokens/types.js"
 
 export type AuthFile = {
 	version: number
-	tokens: LoginSessionTokens | null
+	tokens: LoginTokens | null
 }
 

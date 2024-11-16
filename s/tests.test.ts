@@ -4,19 +4,19 @@ import {Suite, expect} from "cynic"
 import {LoginProof} from "./server.js"
 import {Passport} from "./auth/passport.js"
 import {LoginClaim} from "./auth/tokens/login-claim.js"
-import {LoginKeypair} from "./auth/tokens/login-keypair.js"
+import {LoginKeys} from "./auth/tokens/login-keys.js"
 
 async function makeAndValidateLoginToken() {
 	const passport = await Passport.generate()
-	const {proofToken, loginToken} = await passport.signLoginToken({
+	const {loginProofToken: proofToken, loginKeysToken: loginToken} = await passport.signLoginToken({
 		issuer: "testissuer",
 		audience: "testaudience",
 		expiry: Date.now() + 60_000,
 	})
 	const proof = await LoginProof.verify(proofToken)
-	const login = await LoginKeypair.verify(proof, loginToken)
-	expect(login.thumbprint).equals(passport.thumbprint)
-	return login
+	const loginKeys = await LoginKeys.verify(proof, loginToken)
+	expect(loginKeys.thumbprint).equals(passport.thumbprint)
+	return loginKeys
 }
 
 export default <Suite>{
@@ -25,12 +25,12 @@ export default <Suite>{
 	},
 
 	async "sign and verify a claim token"() {
-		const login = await makeAndValidateLoginToken()
-		const claimToken = await login.signClaimToken({
+		const loginKeys = await makeAndValidateLoginToken()
+		const claimToken = await loginKeys.signClaimToken({
 			data: "hello",
 			expiry: Date.now() + 60_000,
 		})
-		const proof = await LoginProof.verify(login.proof.token)
+		const proof = await LoginProof.verify(loginKeys.proof.token)
 		const claim = await LoginClaim.verify<string>(proof, claimToken)
 		expect(claim!.data).equals("hello")
 	},
