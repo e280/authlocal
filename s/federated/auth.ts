@@ -2,12 +2,11 @@
 import {pubsub, signal} from "@benev/slate"
 
 import {AuthFile} from "./types.js"
+import {Login} from "./utils/login.js"
 import {openPopup} from "./utils/open-popup.js"
 import {LoginTokens} from "../auth/tokens/types.js"
 import {nullcatch} from "../auth/utils/nullcatch.js"
 import {JsonStorage} from "../tools/json-storage.js"
-import {LoginKeys} from "../auth/tokens/login-keys.js"
-import {LoginProof} from "../auth/tokens/login-proof.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
 export class Auth {
@@ -15,8 +14,8 @@ export class Auth {
 	static version = 1
 
 	#fileStorage = new JsonStorage<AuthFile>("authduo")
-	#login = signal<LoginKeys | null>(null)
-	onChange = pubsub<[LoginKeys | null]>()
+	#login = signal<Login | null>(null)
+	onChange = pubsub<[Login | null]>()
 
 	constructor() {
 		this.load()
@@ -33,13 +32,9 @@ export class Auth {
 
 	async load() {
 		const {tokens} = this.authfile
-		this.#login.value = tokens && await nullcatch(async() => {
-			const proof = await LoginProof.verify(
-				tokens.loginProofToken,
-				{allowedAudiences: [window.origin]},
-			)
-			return await LoginKeys.verify(proof, tokens.loginKeysToken)
-		})
+		this.#login.value = tokens && await nullcatch(
+			async() => Login.verify(tokens)
+		)
 	}
 
 	save(tokens: LoginTokens | null) {
@@ -56,12 +51,9 @@ export class Auth {
 		return this.#login.value
 	}
 
-	set login(login: LoginKeys | null) {
+	set login(login: Login | null) {
 		this.#login.value = login
-		this.save(login && {
-			loginKeysToken: login.token,
-			loginProofToken: login.proof.token,
-		})
+		this.save(login && login.tokens)
 	}
 
 	async popup(url: string = Auth.url) {
@@ -71,24 +63,21 @@ export class Auth {
 		if (!popupWindow)
 			return null
 
-		const appOrigin = appWindow.origin
 		const popupOrigin = new URL(url, window.location.href).origin
 
-		return new Promise<LoginKeys | null>((resolve, reject) => {
+		return new Promise<Login | null>((resolve, reject) => {
 			const {dispose} = setupInApp(
 				appWindow,
 				popupWindow,
 				popupOrigin,
-				async({loginProofToken: proofToken, loginKeysToken: loginToken}) => {
+				async loginTokens => {
 					popupWindow.close()
 					try {
-						this.login = await nullcatch(async() => {
-							const proof = await LoginProof.verify(proofToken, {
+						this.login = await nullcatch(
+							async() => Login.verify(loginTokens, {
 								allowedIssuers: [popupOrigin],
-								allowedAudiences: [appOrigin],
 							})
-							return await LoginKeys.verify(proof, loginToken)
-						})
+						)
 						dispose()
 						resolve(this.login)
 					}

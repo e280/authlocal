@@ -2,7 +2,7 @@
 import {hexId} from "@benev/slate"
 import {Keypair} from "../keypair.js"
 import {LoginProof} from "./login-proof.js"
-import {JsonWebToken} from "../utils/json-web-token.js"
+import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
 import {LoginClaimPayload, LoginKeysPayload} from "./types.js"
 
 /**
@@ -37,9 +37,9 @@ export class LoginKeys {
 		return new this(proof, token, payload)
 	}
 
-	static async verify(proof: LoginProof, loginToken: string) {
+	static async verify(proof: LoginProof, loginToken: string, options?: VerificationOptions) {
 		const passportPubkey = await proof.getPassportPubkey()
-		await passportPubkey.verify(loginToken)
+		await passportPubkey.verify(loginToken, options)
 		return this.decode(proof, loginToken)
 	}
 

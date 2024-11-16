@@ -4,7 +4,6 @@ import {KeypairData, PubkeyData} from "../types.js"
 /** proof that the login commissioned by the passport (signed by the passport) */
 export type LoginProofPayload = {
 	exp: number
-	aud: string
 	iss: string
 	jti: string
 	data: {
@@ -26,6 +25,7 @@ export type LoginClaimPayload<C> = {
 export type LoginKeysPayload = {
 	sub: string // passport thumbprint
 	exp: number
+	iss: string
 	jti: string
 	data: {
 		loginKeypair: KeypairData

@@ -8,9 +8,8 @@ import {LoginKeys} from "./auth/tokens/login-keys.js"
 
 async function makeAndValidateLoginToken() {
 	const passport = await Passport.generate()
-	const {loginProofToken: proofToken, loginKeysToken: loginToken} = await passport.signLoginToken({
+	const {loginProofToken: proofToken, loginKeysToken: loginToken} = await passport.signLoginTokens({
 		issuer: "testissuer",
-		audience: "testaudience",
 		expiry: Date.now() + 60_000,
 	})
 	const proof = await LoginProof.verify(proofToken)
