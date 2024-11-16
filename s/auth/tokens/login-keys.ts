@@ -1,9 +1,8 @@
 
-import {hexId} from "@benev/slate"
 import {Keypair} from "../keypair.js"
 import {LoginProof} from "./login-proof.js"
-import {JsonWebToken, Requirements, VerificationOptions} from "../utils/json-web-token.js"
 import {LoginClaimPayload, LoginKeysPayload} from "./types.js"
+import {JsonWebToken, Requirements, VerificationOptions} from "../json-web-token.js"
 
 /**
  * Login keys token -- able to sign login claims for the user

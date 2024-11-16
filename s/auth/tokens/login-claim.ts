@@ -1,7 +1,7 @@
 
 import {LoginProof} from "./login-proof.js"
 import {LoginClaimPayload} from "./types.js"
-import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
+import {JsonWebToken, VerificationOptions} from "../json-web-token.js"
 
 /**
  * Login claim token -- make any verifiable claim on behalf of your user

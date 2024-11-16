@@ -3,7 +3,7 @@ import {Pubkey} from "../pubkey.js"
 import {LoginKeys} from "./login-keys.js"
 import {LoginClaim} from "./login-claim.js"
 import {LoginProofPayload} from "./types.js"
-import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
+import {JsonWebToken, VerificationOptions} from "../json-web-token.js"
 
 /**
  * Login proof token -- proof that a user is logged in

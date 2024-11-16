@@ -3,7 +3,7 @@ import {Bytename, deep, Hex, hexId} from "@benev/slate"
 
 import {Keypair} from "./keypair.js"
 import {PassportData, KeypairData} from "./types.js"
-import {JsonWebToken} from "./utils/json-web-token.js"
+import {JsonWebToken} from "./json-web-token.js"
 import {LoginKeysPayload, LoginTokens, LoginProofPayload} from "./tokens/types.js"
 
 export class Passport {

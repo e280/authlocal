@@ -1,9 +1,8 @@
 
 import {Hex} from "@benev/slate"
-
 import {PubkeyData} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
-import {JsonWebToken, Payload, VerificationOptions, VerifyError} from "./utils/json-web-token.js"
+import {JsonWebToken, Payload, VerificationOptions, VerifyError} from "./json-web-token.js"
 
 export class Pubkey {
 	constructor(

@@ -4,7 +4,7 @@ import {Hex} from "@benev/slate"
 import {Pubkey} from "./pubkey.js"
 import {KeypairData} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
-import {JsonWebToken, Payload} from "./utils/json-web-token.js"
+import {JsonWebToken, Payload} from "./json-web-token.js"
 
 export class Keypair extends Pubkey {
 	constructor(
