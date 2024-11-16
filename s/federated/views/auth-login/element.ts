@@ -2,13 +2,12 @@
 import {ShadowElement, attributes, html, mixin} from "@benev/slate"
 
 import {Auth} from "../../auth.js"
-import {auth} from "../../context.js"
 import stylesCss from "./styles.css.js"
 
 	@mixin.css(stylesCss)
 	@mixin.reactive()
 export class AuthLogin extends ShadowElement {
-	auth = auth
+	auth = Auth.get()
 
 	#attrs = attributes(this, {
 		"src": String,
@@ -16,7 +15,7 @@ export class AuthLogin extends ShadowElement {
 	})
 
 	get src() {
-		return this.#attrs.src ?? Auth.url
+		return this.#attrs.src ?? Auth.defaultUrl
 	} set src(src: string) {
 		this.#attrs.src = src
 	}

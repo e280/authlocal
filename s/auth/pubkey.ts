@@ -1,9 +1,8 @@
 
-import {hex} from "../tools/hex.js"
-import {PubkeyJson} from "./types.js"
-import {getCrypto} from "./utils/get-crypto.js"
+import {Hex} from "@benev/slate"
+import {PubkeyData} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
-import {JsonWebToken, Payload, VerificationOptions, VerifyError} from "./utils/json-web-token.js"
+import {Token, Payload, VerificationOptions, VerifyError} from "./tokens/token.js"
 
 export class Pubkey {
 	constructor(
@@ -11,17 +10,17 @@ export class Pubkey {
 		public readonly publicKey: CryptoKey,
 	) {}
 
-	static async fromJson(json: PubkeyJson) {
-		const crypto = await getCrypto()
-
+	static async fromData(data: PubkeyData) {
 		const extractable = true
-		const publicBuffer = hex.to.buffer(json.publicKey)
+		const publicBuffer = Hex.bytes(data.publicKey).buffer
 
-		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
+		const thumbprint = Hex.string(
+			new Uint8Array(
+				await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
+			)
 		)
 
-		if (json.thumbprint !== thumbprint)
+		if (data.thumbprint !== thumbprint)
 			throw new VerifyError("incorrect thumbprint")
 
 		const publicKey = await crypto.subtle.importKey(
@@ -35,22 +34,22 @@ export class Pubkey {
 		return new this(thumbprint, publicKey)
 	}
 
-	async toJson(): Promise<PubkeyJson> {
-		const crypto = await getCrypto()
-
+	async toData(): Promise<PubkeyData> {
 		const publicBuffer = await crypto.subtle
 			.exportKey(CryptoConstants.formats.public, this.publicKey)
 
-		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(
-				CryptoConstants.algos.thumbprint,
-				publicBuffer,
+		const thumbprint = Hex.string(
+			new Uint8Array(
+				await crypto.subtle.digest(
+					CryptoConstants.algos.thumbprint,
+					publicBuffer,
+				)
 			)
 		)
 
 		return {
 			thumbprint,
-			publicKey: hex.from.buffer(publicBuffer),
+			publicKey: Hex.string(new Uint8Array(publicBuffer)),
 		}
 	}
 
@@ -58,7 +57,7 @@ export class Pubkey {
 			token: string,
 			options: VerificationOptions = {},
 		) {
-		return await JsonWebToken.verify<P>(this.publicKey, token, options)
+		return await Token.verify<P>(this.publicKey, token, options)
 	}
 }
 

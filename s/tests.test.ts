@@ -1,22 +1,23 @@
 
 import "@benev/slate/x/node.js"
 import {Suite, expect} from "cynic"
-import {Proof} from "./server.js"
+
+import {Keys} from "./auth/tokens/keys.js"
 import {Passport} from "./auth/passport.js"
-import {Login} from "./auth/tokens/login.js"
-import {Challenge} from "./auth/tokens/challenge.js"
+import {Claim} from "./auth/tokens/claim.js"
+import {Proof} from "./auth/tokens/proof.js"
 
 async function makeAndValidateLoginToken() {
 	const passport = await Passport.generate()
-	const {proofToken, loginToken} = await passport.signLoginToken({
+	const {proofToken, keysToken} = await passport.signLoginTokens({
 		issuer: "testissuer",
 		audience: "testaudience",
-		expiry: Date.now() + 60_000,
+		expiresAt: Date.now() + 60_000,
 	})
-	const proof = await Proof.verify(proofToken)
-	const login = await Login.verify(proof, loginToken)
-	expect(login.thumbprint).equals(passport.thumbprint)
-	return login
+	const proof = await Proof.verify(proofToken, {allowedAudiences: ["testaudience"]})
+	const loginKeys = await Keys.verify(proof, keysToken)
+	expect(loginKeys.thumbprint).equals(passport.thumbprint)
+	return loginKeys
 }
 
 export default <Suite>{
@@ -24,15 +25,15 @@ export default <Suite>{
 		await makeAndValidateLoginToken()
 	},
 
-	async "sign and verify a challenge token"() {
-		const login = await makeAndValidateLoginToken()
-		const challengeToken = await login.signChallengeToken({
+	async "sign and verify a claim token"() {
+		const loginKeys = await makeAndValidateLoginToken()
+		const claimToken = await loginKeys.signClaimToken({
 			data: "hello",
-			expiry: Date.now() + 60_000,
+			expiresAt: Date.now() + 60_000,
 		})
-		const proof = await Proof.verify(login.proof.token)
-		const challenge = await Challenge.verify<string>(proof, challengeToken)
-		expect(challenge!.data).equals("hello")
+		const proof = await Proof.verify(loginKeys.proof.token, {allowedAudiences: ["testaudience"]})
+		const claim = await Claim.verify<string>(proof, claimToken)
+		expect(claim!.data).equals("hello")
 	},
 }
 

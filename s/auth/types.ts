@@ -1,22 +1,22 @@
 
-export type PubkeyJson = {
+export type PubkeyData = {
 	thumbprint: string
 	publicKey: string
 }
 
-export type KeypairJson = {
+export type KeypairData = {
 	privateKey: string
-} & PubkeyJson
+} & PubkeyData
 
-export type PassportJson = {
-	keypair: KeypairJson
+export type PassportData = {
+	keypair: KeypairData
 	name: string
 	created: number
 }
 
-export type PassportsFileJson = {
+export type PassportsFileData = {
 	format: string
 	version: number
-	passports: PassportJson[]
+	passports: PassportData[]
 }
 

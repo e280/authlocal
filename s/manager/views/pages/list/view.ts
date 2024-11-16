@@ -1,5 +1,5 @@
 
-import {html, shadowView} from "@benev/slate"
+import {html, shadowView, svgSlate} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {manager} from "../../../context.js"
@@ -7,7 +7,6 @@ import {whence} from "../../../../tools/whence.js"
 import {Passport} from "../../../../auth/passport.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
-import {svgSlate} from "../../../../tools/svg-slate.js"
 import {PassportsFile} from "../../../../auth/passports-file.js"
 import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
 
@@ -41,7 +40,7 @@ export const ListPage = shadowView(use => (
 							title="${file.filename()}"
 							download="${file.filename()}"
 							href="${file.href()}">
-							Export
+							Download
 						</a>
 					</footer>
 				</section>
@@ -93,7 +92,7 @@ export const ListPage = shadowView(use => (
 					title="${passportsFile.filename()}"
 					download="${passportsFile.filename()}"
 					href="${passportsFile.href()}">
-					Export All
+					Download All
 				</a>
 			` : null}
 		</nav>

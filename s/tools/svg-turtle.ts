@@ -1,6 +1,6 @@
 
 import {html} from "@benev/turtle"
-import {TemplateParts} from "./template-string.js"
+import {TemplateParts} from "@benev/slate"
 
-export const svgTurtle = (parts: TemplateParts) => html(parts.strings, ...parts.values)
+export const svgTurtle = ({strings}: TemplateParts) => html(strings)
 

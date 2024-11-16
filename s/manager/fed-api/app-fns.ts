@@ -1,6 +1,6 @@
 
 import {PopupFns} from "./popup-fns.js"
-import {LoginSessionTokens} from "../../auth/tokens/types.js"
+import {LoginTokens} from "../../auth/tokens/types.js"
 
 /*
 interactions between app and popup
@@ -10,22 +10,26 @@ interactions between app and popup
 */
 
 export type AppFns = {
-	ready: () => Promise<void>
-	login: (tokens: LoginSessionTokens) => Promise<void>
+	v1: {
+		ready: () => Promise<void>
+		login: (tokens: LoginTokens) => Promise<void>
+	}
 }
 
 export const makeAppFns = (
-		handleLogin: (tokens: LoginSessionTokens) => void,
+		handleLogin: (tokens: LoginTokens) => void,
 		popup: PopupFns,
 	): AppFns => {
 
 	return {
-		async ready() {
-			await popup.pleaseLogin()
-		},
+		v1: {
+			async ready() {
+				await popup.v1.pleaseLogin()
+			},
 
-		async login(tokens: LoginSessionTokens) {
-			handleLogin(tokens)
+			async login(tokens: LoginTokens) {
+				handleLogin(tokens)
+			},
 		},
 	}
 }

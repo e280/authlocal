@@ -7,7 +7,20 @@
 
 <br/>
 
---------
+## v0.2
+
+### v0.2.0
+- 🧐 authduo doesn't have any users yet so i'm still in a mode of breaking things with impunity
+- 🟥 tokens reworked, we now have `Keys`, `Proof`, and `Claim` tokens
+- 🟥 auth.login has a new Login type with a somewhat different signature
+- 🟥 breaking changes to the fed api (api between the popup and your app)
+  - all calls are now namespaced under v1
+  - this will make it easier to avoid breaking changes in the future
+  - i also changed the names of the LoginTokens that get returned
+- 🟥 moved the passport's `name` from Keys to Proof
+- 🔶 tweaked authfile format, but its versioned and so should not cause breakage
+- 🍏 renamed `JsonWebToken` facility to simply `Token`
+- 🍏 on the passport edit page, i added a text input for copying the thumbprint
 
 ## v0.1
 

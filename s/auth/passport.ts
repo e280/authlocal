@@ -1,61 +1,63 @@
 
-import {deep} from "@benev/slate"
+import {Bytename, deep, Hex, hexId} from "@benev/slate"
+
 import {Keypair} from "./keypair.js"
-import {randomId} from "./utils/random-id.js"
-import {PassportJson, KeypairJson} from "./types.js"
-import {JsonWebToken} from "./utils/json-web-token.js"
-import {randomFullName} from "../tools/random-names.js"
-import {LoginPayload, LoginSessionTokens, ProofPayload} from "./tokens/types.js"
+import {Token} from "./tokens/token.js"
+import {PassportData, KeypairData} from "./types.js"
+import {KeysPayload, LoginTokens, ProofPayload} from "./tokens/types.js"
 
 export class Passport {
 	constructor(
-		public readonly keypairJson: KeypairJson,
+		public readonly keypairData: KeypairData,
 		public name: string,
 		public created: number,
 	) {}
 
 	get thumbprint() {
-		return this.keypairJson.thumbprint
+		return this.keypairData.thumbprint
 	}
 
 	static async generate() {
 		const keypair = await Keypair.generate()
-		const keypairJson = await keypair.toJson()
-		const name = randomFullName()
+		const keypairData = await keypair.toData()
+
+		const thumbBytes = Hex.bytes(keypair.thumbprint).slice(0, 5)
+		const name = Bytename.string(thumbBytes, "Xxxxxx Xxxxxxxxx ")
+
 		const created = Date.now()
-		return new this(keypairJson, name, created)
+		return new this(keypairData, name, created)
 	}
 
-	static fromJson(json: PassportJson) {
-		const {keypair, name, created} = json
+	static fromData(data: PassportData) {
+		const {keypair, name, created} = data
 		return new this(keypair, name, created)
 	}
 
-	toJson(): PassportJson {
+	toData(): PassportData {
 		return deep.clone({
-			keypair: this.keypairJson,
+			keypair: this.keypairData,
 			name: this.name,
 			created: this.created,
 		})
 	}
 
 	async getKeypair() {
-		return await Keypair.fromJson(this.keypairJson)
+		return await Keypair.fromData(this.keypairData)
 	}
 
-	async signLoginToken(o: {
-			expiry: number
+	async signLoginTokens(o: {
+			expiresAt: number
 			issuer: string
 			audience: string
-		}): Promise<LoginSessionTokens> {
+		}): Promise<LoginTokens> {
 
 		const passportKeypair = await this.getKeypair()
 		const loginKeypair = await Keypair.generate()
-		const exp = JsonWebToken.fromJsTime(o.expiry)
+		const exp = Token.fromJsTime(o.expiresAt)
 		const name = this.name
 		const iss = o.issuer
 		const aud = o.audience
-		const jti = await randomId()
+		const jti = hexId()
 
 		const proofToken = await passportKeypair.sign<ProofPayload>({
 			exp,
@@ -63,22 +65,23 @@ export class Passport {
 			aud,
 			jti,
 			data: {
-				loginPubkey: await loginKeypair.toPubkey().toJson(),
-				passportPubkey: await passportKeypair.toPubkey().toJson(),
+				loginPubkey: await loginKeypair.toPubkey().toData(),
+				passportPubkey: await passportKeypair.toPubkey().toData(),
 			},
 		})
 
-		const loginToken = await passportKeypair.sign<LoginPayload>({
+		const keysToken = await passportKeypair.sign<KeysPayload>({
 			sub: this.thumbprint,
 			exp,
+			iss,
 			jti,
 			data: {
 				name,
-				loginKeypair: await loginKeypair.toJson(),
+				loginKeypair: await loginKeypair.toData(),
 			},
 		})
 
-		return {proofToken, loginToken}
+		return {proofToken, keysToken}
 	}
 }
 

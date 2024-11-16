@@ -1,6 +1,5 @@
 
-import {getCrypto} from "./get-crypto.js"
-import {base64} from "../../tools/base64.js"
+import {Base64url, hexId, Text} from "@benev/slate"
 import {CryptoConstants} from "../crypto-constants.js"
 
 export type Header = {
@@ -16,11 +15,11 @@ export type Payload = Partial<{
 	iat: number
 	nbf: number
 	jti: string
-}>
+}> & {[key: string]: any}
 
 export type Signature = ArrayBuffer
 
-export type Jwt<P extends Payload = any> = {
+export type WebToken<P extends Payload = any> = {
 	header: Header
 	payload: P
 	signature: Signature
@@ -35,34 +34,62 @@ export class VerifyError extends Error {
 	name = this.constructor.name
 }
 
-export class JsonWebToken {
+export type TokenParams = {
+	expiresAt: number
+	notBefore?: number
+	audience?: string
+	issuer?: string
+}
+
+export class Token {
 	static header: Header = Object.freeze({typ: "JWT", alg: "ES256"})
 	static toJsTime = (t: number) => t * 1000
 	static fromJsTime = (t: number) => t / 1000
 
+	static params = (r: TokenParams) => ({
+		jti: hexId(),
+		iat: Date.now(),
+		exp: Token.fromJsTime(r.expiresAt),
+		nbf: r.notBefore,
+		iss: r.issuer,
+		aud: r.audience,
+	})
+
 	static async sign<P extends Payload>(privateKey: CryptoKey, payload: P): Promise<string> {
-		const crypto = await getCrypto()
-		const headerText = base64.url.from.text(JSON.stringify(JsonWebToken.header))
-		const payloadText = base64.url.from.text(JSON.stringify(payload))
+		const headerBytes = Text.bytes(JSON.stringify(Token.header))
+		const headerText = Base64url.string(headerBytes)
+
+		const payloadBytes = Text.bytes(JSON.stringify(payload))
+		const payloadText = Base64url.string(payloadBytes)
+
 		const signingText = `${headerText}.${payloadText}`
 		const signingBytes = new TextEncoder().encode(signingText)
-		const signature = base64.url.from.buffer(
-			await crypto.subtle.sign(
-				CryptoConstants.algos.signing,
-				privateKey,
-				signingBytes,
+		const signature = Base64url.string(
+			new Uint8Array(
+				await crypto.subtle.sign(
+					CryptoConstants.algos.signing,
+					privateKey,
+					signingBytes,
+				)
 			)
 		)
 		return `${signingText}.${signature}`
 	}
 
-	static decode<P extends Payload>(token: string): Jwt<P> {
+	static decode<P extends Payload>(token: string): WebToken<P> {
 		const [headerText, payloadText, signatureText] = token.split(".")
 		if (!headerText || !payloadText || !signatureText)
 			throw new Error("invalid jwt structure")
-		const header: Header = JSON.parse(base64.url.to.text(headerText))
-		const payload: P = JSON.parse(base64.url.to.text(payloadText))
-		const signature = base64.url.to.buffer(signatureText)
+
+		const headerBytes = Base64url.bytes(headerText)
+		const headerJson = Text.string(headerBytes)
+		const header: Header = JSON.parse(headerJson)
+
+		const payloadBytes = Base64url.bytes(payloadText)
+		const payloadJson = Text.string(payloadBytes)
+		const payload: P = JSON.parse(payloadJson)
+
+		const signature = Base64url.bytes(signatureText).buffer
 		return {header, payload, signature}
 	}
 
@@ -72,9 +99,8 @@ export class JsonWebToken {
 			options: VerificationOptions = {},
 		): Promise<P> {
 
-		const crypto = await getCrypto()
 		const [headerText, payloadText] = token.split(".")
-		const {payload, signature} = JsonWebToken.decode<P>(token)
+		const {payload, signature} = Token.decode<P>(token)
 		const signingInput = `${headerText}.${payloadText}`
 		const signingInputBytes = new TextEncoder().encode(signingInput)
 
@@ -89,13 +115,13 @@ export class JsonWebToken {
 			throw new VerifyError("token signature invalid")
 
 		if (payload.exp) {
-			const expiry = JsonWebToken.toJsTime(payload.exp)
-			if (Date.now() > expiry)
+			const expiresAt = Token.toJsTime(payload.exp)
+			if (Date.now() > expiresAt)
 				throw new VerifyError("token expired")
 		}
 
 		if (payload.nbf) {
-			const notBefore = JsonWebToken.toJsTime(payload.nbf)
+			const notBefore = Token.toJsTime(payload.nbf)
 			if (Date.now() < notBefore)
 				throw new VerifyError("token not ready")
 		}
@@ -113,6 +139,9 @@ export class JsonWebToken {
 			if (!options.allowedAudiences.includes(payload.aud))
 				throw new VerifyError(`invalid aud (audience) "${payload.aud}"`)
 		}
+
+		if (payload.aud && !options.allowedAudiences)
+			throw new VerifyError(`allowedAudiences verification option was not provided, but is required because the token included "aud"`)
 
 		return payload
 	}

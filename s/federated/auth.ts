@@ -2,25 +2,32 @@
 import {pubsub, signal} from "@benev/slate"
 
 import {AuthFile} from "./types.js"
-import {Proof} from "../auth/tokens/proof.js"
-import {Login} from "../auth/tokens/login.js"
+import {Login} from "./utils/login.js"
 import {openPopup} from "./utils/open-popup.js"
+import {LoginTokens} from "../auth/tokens/types.js"
 import {nullcatch} from "../auth/utils/nullcatch.js"
 import {JsonStorage} from "../tools/json-storage.js"
-import {LoginSessionTokens} from "../auth/tokens/types.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
 export class Auth {
-	static url = "https://authduo.org/"
-	static version = 0
+	static defaultUrl = "https://authduo.org/"
+	static version = 1
+	static #auth: Auth | null = null
 
+	static get() {
+		if (!this.#auth)
+			this.#auth = new this()
+		return this.#auth
+	}
+
+	onChange = pubsub<[Login | null]>()
 	#fileStorage = new JsonStorage<AuthFile>("authduo")
 	#login = signal<Login | null>(null)
-	onChange = pubsub<[Login | null]>()
 
 	constructor() {
+		this.#fileStorage.onChangeFromOutside(() => void this.load())
+		this.#login.on(login => this.onChange.publish(login))
 		this.load()
-		this.#fileStorage.onChangeFromOutside(() => this.load())
 	}
 
 	get authfile(): AuthFile {
@@ -32,16 +39,13 @@ export class Auth {
 
 	async load() {
 		const {tokens} = this.authfile
-		this.#login.value = tokens && await nullcatch(async() => {
-			const proof = await Proof.verify(
-				tokens.proofToken,
-				{allowedAudiences: [window.origin]},
-			)
-			return await Login.verify(proof, tokens.loginToken)
-		})
+		this.#login.value = tokens && await nullcatch(
+			async() => Login.verify(tokens, {allowedAudiences: [window.origin]})
+		)
+		return this.#login.value
 	}
 
-	save(tokens: LoginSessionTokens | null) {
+	save(tokens: LoginTokens | null) {
 		const {authfile} = this
 		authfile.tokens = tokens
 		this.#fileStorage.set(authfile)
@@ -49,7 +53,7 @@ export class Auth {
 
 	get login() {
 		const login = this.#login.value
-		const valid = login && (Date.now() < login.expiry)
+		const valid = login && (Date.now() < login.expiresAt)
 		if (!valid && login)
 			this.#login.value = null
 		return this.#login.value
@@ -57,20 +61,17 @@ export class Auth {
 
 	set login(login: Login | null) {
 		this.#login.value = login
-		this.save(login && {
-			loginToken: login.token,
-			proofToken: login.proof.token,
-		})
+		this.save(login && login.tokens)
 	}
 
-	async popup(url: string = Auth.url) {
+	async popup(url = Auth.defaultUrl) {
 		const appWindow = window
 		const popupWindow = openPopup(url)
 
 		if (!popupWindow)
 			return null
 
-		const appOrigin = appWindow.origin
+		const appOrigin = window.origin
 		const popupOrigin = new URL(url, window.location.href).origin
 
 		return new Promise<Login | null>((resolve, reject) => {
@@ -78,16 +79,15 @@ export class Auth {
 				appWindow,
 				popupWindow,
 				popupOrigin,
-				async({proofToken, loginToken}) => {
+				async loginTokens => {
 					popupWindow.close()
 					try {
-						this.login = await nullcatch(async() => {
-							const proof = await Proof.verify(proofToken, {
+						this.login = await nullcatch(
+							async() => Login.verify(loginTokens, {
 								allowedIssuers: [popupOrigin],
 								allowedAudiences: [appOrigin],
 							})
-							return await Login.verify(proof, loginToken)
-						})
+						)
 						dispose()
 						resolve(this.login)
 					}

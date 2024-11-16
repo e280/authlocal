@@ -1,14 +1,16 @@
 
 import {AppFns} from "./app-fns.js"
 import {Purpose} from "../logic/purpose.js"
-import { FromNow } from "../../server.js"
+import {Future} from "../../tools/future.js"
 
 export type PopupState = {
 	parentOrigin: string
 }
 
 export type PopupFns = {
-	pleaseLogin: () => Promise<void>
+	v1: {
+		pleaseLogin: () => Promise<void>
+	},
 }
 
 export const makePopupFns = (
@@ -18,19 +20,20 @@ export const makePopupFns = (
 		setLoginPurpose: (login: Purpose.Login) => void,
 	): PopupFns => {
 	return {
-
-		async pleaseLogin() {
-			const audience = event.origin
-			state.parentOrigin = audience
-			const expiry = FromNow.days(7)
-			const issuer = window.origin
-			setLoginPurpose({
-				kind: "login",
-				onLogin: async passport => {
-					const tokens = await passport.signLoginToken({issuer, audience, expiry})
-					await app.login(tokens)
-				},
-			})
+		v1: {
+			async pleaseLogin() {
+				const audience = event.origin
+				state.parentOrigin = audience
+				const expiresAt = Future.days(7)
+				const issuer = window.origin
+				setLoginPurpose({
+					kind: "login",
+					onLogin: async passport => {
+						const tokens = await passport.signLoginTokens({issuer, audience, expiresAt})
+						await app.v1.login(tokens)
+					},
+				})
+			},
 		},
 	}
 }

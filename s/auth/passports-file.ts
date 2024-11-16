@@ -1,17 +1,18 @@
 
+import {Base64, Text} from "@benev/slate"
+
 import {Passport} from "./passport.js"
 import {ensure} from "./utils/ensure.js"
-import {base64} from "../tools/base64.js"
 import {crushUsername} from "./utils/crush-username.js"
-import {PassportsFileJson, PassportJson} from "./types.js"
+import {PassportsFileData, PassportData} from "./types.js"
 
 export class PassportsFile {
 	static readonly format = "authduo.org passports"
 	static readonly extension = "passport"
 	static readonly version = 3
 
-	static #ingestJson(raw: any): PassportsFileJson {
-		let json: PassportsFileJson | null = null
+	static #ingestData(raw: any): PassportsFileData {
+		let data: PassportsFileData | null = null
 
 		if (
 			!("format" in raw) ||
@@ -23,16 +24,16 @@ export class PassportsFile {
 			case 0:
 			case 1:
 			case 2: throw new Error(`invalid version ${raw.version}`)
-			case 3: json = raw
+			case 3: data = raw
 		}
 
-		if (!json)
+		if (!data)
 			throw new Error(`unknown version ${raw.version}`)
 
 		return {
-			format: ensure.string("format", json.format),
-			version: ensure.number("version", json.version),
-			passports: ensure.array("array", json.passports.map((p): PassportJson => ({
+			format: ensure.string("format", data.format),
+			version: ensure.number("version", data.version),
+			passports: ensure.array("array", data.passports.map((p): PassportData => ({
 				name: ensure.string("name", p.name),
 				created: ensure.number("created", p.created),
 				keypair: {
@@ -44,10 +45,10 @@ export class PassportsFile {
 		}
 	}
 
-	static fromJson(raw: any) {
-		const json = PassportsFile.#ingestJson(raw)
+	static fromData(raw: any) {
+		const data = PassportsFile.#ingestData(raw)
 		const passports = new this()
-		passports.add(...json.passports.map(json => Passport.fromJson(json)))
+		passports.add(...data.passports.map(d => Passport.fromData(d)))
 		return passports
 	}
 
@@ -74,12 +75,12 @@ export class PassportsFile {
 		return this
 	}
 
-	toJson(): PassportsFileJson {
+	toData(): PassportsFileData {
 		return {
 			format: PassportsFile.format,
 			version: PassportsFile.version,
 			passports: [...this.#map.values()]
-				.map(passport => passport.toJson()),
+				.map(passport => passport.toData()),
 		}
 	}
 
@@ -91,8 +92,8 @@ export class PassportsFile {
 	}
 
 	href() {
-		const text = JSON.stringify(this.toJson(), undefined, "\t")
-		const encoded = base64.from.text(text)
+		const text = JSON.stringify(this.toData(), undefined, "\t")
+		const encoded = Base64.string(Text.bytes(text))
 		return `data:application/octet-stream;base64,${encoded}`
 	}
 }

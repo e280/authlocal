@@ -1,10 +1,10 @@
 
+import {Hex} from "@benev/slate"
+
 import {Pubkey} from "./pubkey.js"
-import {hex} from "../tools/hex.js"
-import {KeypairJson} from "./types.js"
-import {getCrypto} from "./utils/get-crypto.js"
+import {KeypairData} from "./types.js"
+import {Token, Payload} from "./tokens/token.js"
 import {CryptoConstants} from "./crypto-constants.js"
-import {JsonWebToken, Payload} from "./utils/json-web-token.js"
 
 export class Keypair extends Pubkey {
 	constructor(
@@ -16,27 +16,25 @@ export class Keypair extends Pubkey {
 	}
 
 	static async generate() {
-		const crypto = await getCrypto()
-
 		const keys = await crypto.subtle
 			.generateKey(CryptoConstants.algos.generate, true, ["sign", "verify"])
 
 		const publicBuffer = await crypto.subtle
 			.exportKey(CryptoConstants.formats.public, keys.publicKey)
 
-		const thumbprint = hex.from.buffer(
-			await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
+		const thumbprint = Hex.string(
+			new Uint8Array(
+				await crypto.subtle.digest(CryptoConstants.algos.thumbprint, publicBuffer)
+			)
 		)
 
 		return new this(thumbprint, keys.publicKey, keys.privateKey)
 	}
 
-	static async fromJson(json: KeypairJson) {
-		const crypto = await getCrypto()
-
-		const pubkey = await Pubkey.fromJson(json)
+	static async fromData(data: KeypairData) {
+		const pubkey = await Pubkey.fromData(data)
 		const extractable = true
-		const privateBuffer = hex.to.buffer(json.privateKey)
+		const privateBuffer = Hex.bytes(data.privateKey).buffer
 
 		const privateKey = await crypto.subtle.importKey(
 			CryptoConstants.formats.private,
@@ -49,9 +47,8 @@ export class Keypair extends Pubkey {
 		return new this(pubkey.thumbprint, pubkey.publicKey, privateKey)
 	}
 
-	async toJson(): Promise<KeypairJson> {
-		const crypto = await getCrypto()
-		const pubkey = await super.toJson()
+	async toData(): Promise<KeypairData> {
+		const pubkey = await super.toData()
 
 		const privateBuffer = await crypto.subtle
 			.exportKey(CryptoConstants.formats.private, this.privateKey)
@@ -59,7 +56,7 @@ export class Keypair extends Pubkey {
 		return {
 			thumbprint: pubkey.thumbprint,
 			publicKey: pubkey.publicKey,
-			privateKey: hex.from.buffer(privateBuffer),
+			privateKey: Hex.string(new Uint8Array(privateBuffer)),
 		}
 	}
 
@@ -68,7 +65,7 @@ export class Keypair extends Pubkey {
 	}
 
 	async sign<P extends Payload>(payload: P) {
-		return await JsonWebToken.sign<P>(this.privateKey, payload)
+		return await Token.sign<P>(this.privateKey, payload)
 	}
 }
 

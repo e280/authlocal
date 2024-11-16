@@ -23,7 +23,7 @@ export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 		for (const file of files) {
 			try {
 				const text = await file.text()
-				const passportsFile = PassportsFile.fromJson(JSON.parse(text))
+				const passportsFile = PassportsFile.fromData(JSON.parse(text))
 				passports.value = [...passports.value, ...passportsFile.list()]
 			}
 			catch {
