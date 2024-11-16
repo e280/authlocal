@@ -4,7 +4,7 @@ import {Bytename, deep, Hex, hexId} from "@benev/slate"
 import {Keypair} from "./keypair.js"
 import {Token} from "./tokens/token.js"
 import {PassportData, KeypairData} from "./types.js"
-import {LoginKeysPayload, LoginTokens, LoginProofPayload} from "./tokens/types.js"
+import {KeysPayload, LoginTokens, ProofPayload} from "./tokens/types.js"
 
 export class Passport {
 	constructor(
@@ -59,7 +59,7 @@ export class Passport {
 		const aud = o.audience
 		const jti = hexId()
 
-		const loginProofToken = await passportKeypair.sign<LoginProofPayload>({
+		const proofToken = await passportKeypair.sign<ProofPayload>({
 			exp,
 			iss,
 			aud,
@@ -71,7 +71,7 @@ export class Passport {
 			},
 		})
 
-		const loginKeysToken = await passportKeypair.sign<LoginKeysPayload>({
+		const keysToken = await passportKeypair.sign<KeysPayload>({
 			sub: this.thumbprint,
 			exp,
 			iss,
@@ -81,7 +81,7 @@ export class Passport {
 			},
 		})
 
-		return {loginProofToken, loginKeysToken}
+		return {proofToken, keysToken}
 	}
 }
 

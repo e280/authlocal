@@ -1,9 +1,9 @@
 
 import {Token} from "./token.js"
 import {Pubkey} from "../pubkey.js"
-import {LoginKeys} from "./login-keys.js"
-import {LoginClaim} from "./login-claim.js"
-import {LoginProofPayload, LoginProofVerification} from "./types.js"
+import {Keys} from "./login-keys.js"
+import {Claim} from "./login-claim.js"
+import {ProofPayload, ProofVerification} from "./types.js"
 
 /**
  * Login proof token -- proof that a user is logged in
@@ -12,10 +12,10 @@ import {LoginProofPayload, LoginProofVerification} from "./types.js"
  *  - contains user info, the passport public key, and the login public key
  *  - you can send this around freely to any services that need to know if the user is logged in, or any service that needs to verify any claims you sign with the login keys
  */
-export class LoginProof {
+export class Proof {
 	constructor(
 		public readonly token: string,
-		public readonly payload: LoginProofPayload,
+		public readonly payload: ProofPayload,
 	) {}
 
 	get name() { return this.payload.data.name }
@@ -35,21 +35,21 @@ export class LoginProof {
 	}
 
 	async verifyLogin(loginToken: string) {
-		return LoginKeys.verify(this, loginToken)
+		return Keys.verify(this, loginToken)
 	}
 
 	async verifyClaim(claimToken: string) {
-		return LoginClaim.verify(this, claimToken)
+		return Claim.verify(this, claimToken)
 	}
 
 	static decode(token: string) {
 		return new this(
 			token,
-			Token.decode<LoginProofPayload>(token).payload,
+			Token.decode<ProofPayload>(token).payload,
 		)
 	}
 
-	static async verify(token: string, options: LoginProofVerification) {
+	static async verify(token: string, options: ProofVerification) {
 		const proof = this.decode(token)
 		const passportPubkey = await proof.getPassportPubkey()
 		await passportPubkey.verify(token, options)

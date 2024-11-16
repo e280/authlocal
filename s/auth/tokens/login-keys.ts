@@ -1,7 +1,7 @@
 
 import {Keypair} from "../keypair.js"
-import {LoginProof} from "./login-proof.js"
-import {LoginClaimPayload, LoginKeysPayload} from "./types.js"
+import {Proof} from "./login-proof.js"
+import {ClaimPayload, KeysPayload} from "./types.js"
 import {Token, Requirements, VerificationOptions} from "./token.js"
 
 /**
@@ -16,11 +16,11 @@ import {Token, Requirements, VerificationOptions} from "./token.js"
  *    - you can put any information into the claim token that you like
  *    - you can send a `claimToken` along with a `proofToken` and your services can verify them with `Claim.verify(~)`
  */
-export class LoginKeys {
+export class Keys {
 	constructor(
-		public readonly proof: LoginProof,
+		public readonly proof: Proof,
 		public readonly token: string,
-		public readonly payload: LoginKeysPayload,
+		public readonly payload: KeysPayload,
 	) {}
 
 	get expiresAt() { return Token.toJsTime(this.payload.exp) }
@@ -31,12 +31,12 @@ export class LoginKeys {
 		return Date.now() > this.expiresAt
 	}
 
-	static decode(proof: LoginProof, token: string) {
-		const {payload} = Token.decode<LoginKeysPayload>(token)
+	static decode(proof: Proof, token: string) {
+		const {payload} = Token.decode<KeysPayload>(token)
 		return new this(proof, token, payload)
 	}
 
-	static async verify(proof: LoginProof, loginToken: string, options?: VerificationOptions) {
+	static async verify(proof: Proof, loginToken: string, options?: VerificationOptions) {
 		const passportPubkey = await proof.getPassportPubkey()
 		await passportPubkey.verify(loginToken, options)
 		return this.decode(proof, loginToken)
@@ -45,7 +45,7 @@ export class LoginKeys {
 	async signClaimToken<D>({data, ...requirements}: {data: D} & Requirements) {
 		const sub = this.thumbprint
 		const loginKeypair = await Keypair.fromData(this.payload.data.loginKeypair)
-		return await loginKeypair.sign<LoginClaimPayload<D>>({
+		return await loginKeypair.sign<ClaimPayload<D>>({
 			...Token.requirements(requirements),
 			sub,
 			data,

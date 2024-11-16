@@ -3,7 +3,7 @@ import {VerificationOptions} from "./token.js"
 import {KeypairData, PubkeyData} from "../types.js"
 
 /** proof that the login commissioned by the passport (signed by the passport) */
-export type LoginProofPayload = {
+export type ProofPayload = {
 	exp: number
 	iss: string
 	aud: string
@@ -15,16 +15,8 @@ export type LoginProofPayload = {
 	}
 }
 
-/** a claim (signed by the login) */
-export type LoginClaimPayload<C> = {
-	sub: string // passport thumbprint
-	exp: number
-	jti: string
-	data: C
-}
-
 /** includes user info and an ephemeral keypair (signed by the passport) */
-export type LoginKeysPayload = {
+export type KeysPayload = {
 	sub: string // passport thumbprint
 	exp: number
 	iss: string
@@ -34,11 +26,19 @@ export type LoginKeysPayload = {
 	}
 }
 
-/** federated apps receive these tokens upon a successful login */
-export type LoginTokens = {
-	loginProofToken: string
-	loginKeysToken: string
+/** a claim (signed by the login) */
+export type ClaimPayload<C> = {
+	sub: string // passport thumbprint
+	exp: number
+	jti: string
+	data: C
 }
 
-export type LoginProofVerification = {allowedAudiences: string[]} & VerificationOptions
+/** federated apps receive these tokens upon a successful login */
+export type LoginTokens = {
+	proofToken: string
+	keysToken: string
+}
+
+export type ProofVerification = {allowedAudiences: string[]} & VerificationOptions
 

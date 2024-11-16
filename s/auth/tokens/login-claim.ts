@@ -1,6 +1,6 @@
 
-import {LoginProof} from "./login-proof.js"
-import {LoginClaimPayload} from "./types.js"
+import {Proof} from "./login-proof.js"
+import {ClaimPayload} from "./types.js"
 import {Token, VerificationOptions} from "./token.js"
 
 /**
@@ -9,11 +9,11 @@ import {Token, VerificationOptions} from "./token.js"
  *  - verification of a claim token requires a proof token
  *  - you can send this to any of your services, along with the proof token for verification
  */
-export class LoginClaim<C> {
+export class Claim<C> {
 	constructor(
-		public readonly proof: LoginProof,
+		public readonly proof: Proof,
 		public readonly token: string,
-		public readonly payload: LoginClaimPayload<C>,
+		public readonly payload: ClaimPayload<C>,
 	) {}
 
 	get thumbprint() { return this.payload.sub }
@@ -24,15 +24,15 @@ export class LoginClaim<C> {
 		return Date.now() > this.expiresAt
 	}
 
-	static decode<C>(proof: LoginProof, claimToken: string) {
+	static decode<C>(proof: Proof, claimToken: string) {
 		return new this(
 			proof,
 			claimToken,
-			Token.decode<LoginClaimPayload<C>>(claimToken).payload,
+			Token.decode<ClaimPayload<C>>(claimToken).payload,
 		)
 	}
 
-	static async verify<C>(proof: LoginProof, claimToken: string, options: VerificationOptions = {}) {
+	static async verify<C>(proof: Proof, claimToken: string, options: VerificationOptions = {}) {
 		const claim = this.decode<C>(proof, claimToken)
 		if (claim.thumbprint !== proof.thumbprint)
 			throw new Error(`thumbprint mismatch between claim and proof`)
