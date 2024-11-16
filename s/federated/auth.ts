@@ -14,7 +14,7 @@ export class Auth {
 	static version = 1
 	static #auth: Auth | null = null
 
-	static getSingleton() {
+	static get() {
 		if (!this.#auth)
 			this.#auth = new this()
 		return this.#auth

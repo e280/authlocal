@@ -7,7 +7,7 @@ import stylesCss from "./styles.css.js"
 	@mixin.css(stylesCss)
 	@mixin.reactive()
 export class AuthLogin extends ShadowElement {
-	auth = Auth.getSingleton()
+	auth = Auth.get()
 
 	#attrs = attributes(this, {
 		"src": String,
