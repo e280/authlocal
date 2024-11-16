@@ -1,7 +1,7 @@
 
 import {LoginProof} from "./login-proof.js"
 import {LoginClaimPayload} from "./types.js"
-import {JsonWebToken} from "../utils/json-web-token.js"
+import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
 
 /**
  * Login claim token -- make any verifiable claim on behalf of your user
@@ -32,12 +32,12 @@ export class LoginClaim<C> {
 		)
 	}
 
-	static async verify<C>(proof: LoginProof, claimToken: string) {
+	static async verify<C>(proof: LoginProof, claimToken: string, options: VerificationOptions = {}) {
 		const claim = this.decode<C>(proof, claimToken)
 		if (claim.thumbprint !== proof.thumbprint)
 			throw new Error(`thumbprint mismatch between claim and proof`)
 		const loginPubkey = await proof.getLoginPubkey()
-		await loginPubkey.verify(claimToken)
+		await loginPubkey.verify(claimToken, options)
 		return claim
 	}
 }

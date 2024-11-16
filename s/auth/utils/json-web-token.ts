@@ -1,5 +1,5 @@
 
-import {Base64url, Text} from "@benev/slate"
+import {Base64url, hexId, Text} from "@benev/slate"
 import {CryptoConstants} from "../crypto-constants.js"
 
 export type Header = {
@@ -34,10 +34,26 @@ export class VerifyError extends Error {
 	name = this.constructor.name
 }
 
+export type Requirements = {
+	expiresAt: number
+	notBefore?: number
+	audience?: string
+	issuer?: string
+}
+
 export class JsonWebToken {
 	static header: Header = Object.freeze({typ: "JWT", alg: "ES256"})
 	static toJsTime = (t: number) => t * 1000
 	static fromJsTime = (t: number) => t / 1000
+
+	static requirements = (r: Requirements) => ({
+		jti: hexId(),
+		iat: Date.now(),
+		exp: JsonWebToken.fromJsTime(r.expiresAt),
+		nbf: r.notBefore,
+		iss: r.issuer,
+		aud: r.audience,
+	})
 
 	static async sign<P extends Payload>(privateKey: CryptoKey, payload: P): Promise<string> {
 		const headerBytes = Text.bytes(JSON.stringify(JsonWebToken.header))

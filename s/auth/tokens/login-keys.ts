@@ -2,7 +2,7 @@
 import {hexId} from "@benev/slate"
 import {Keypair} from "../keypair.js"
 import {LoginProof} from "./login-proof.js"
-import {JsonWebToken, VerificationOptions} from "../utils/json-web-token.js"
+import {JsonWebToken, Requirements, VerificationOptions} from "../utils/json-web-token.js"
 import {LoginClaimPayload, LoginKeysPayload} from "./types.js"
 
 /**
@@ -43,15 +43,14 @@ export class LoginKeys {
 		return this.decode(proof, loginToken)
 	}
 
-	async signClaimToken<C>({data, expiry}: {
-			data: C
-			expiry: number
-		}) {
+	async signClaimToken<D>({data, ...requirements}: {data: D} & Requirements) {
 		const sub = this.thumbprint
-		const exp = JsonWebToken.fromJsTime(expiry)
-		const jti = hexId()
 		const loginKeypair = await Keypair.fromData(this.payload.data.loginKeypair)
-		return await loginKeypair.sign<LoginClaimPayload<C>>({sub, exp, data, jti})
+		return await loginKeypair.sign<LoginClaimPayload<D>>({
+			...JsonWebToken.requirements(requirements),
+			sub,
+			data,
+		})
 	}
 }
 
