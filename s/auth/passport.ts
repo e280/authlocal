@@ -1,9 +1,9 @@
 
 import {Bytename, deep, Hex, hexId} from "@benev/slate"
 
+import {Token} from "./token.js"
 import {Keypair} from "./keypair.js"
 import {PassportData, KeypairData} from "./types.js"
-import {JsonWebToken} from "./json-web-token.js"
 import {LoginKeysPayload, LoginTokens, LoginProofPayload} from "./tokens/types.js"
 
 export class Passport {
@@ -53,7 +53,7 @@ export class Passport {
 
 		const passportKeypair = await this.getKeypair()
 		const loginKeypair = await Keypair.generate()
-		const exp = JsonWebToken.fromJsTime(o.expiry)
+		const exp = Token.fromJsTime(o.expiry)
 		const name = this.name
 		const iss = o.issuer
 		const aud = o.audience

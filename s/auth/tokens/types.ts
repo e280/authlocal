@@ -1,6 +1,6 @@
 
+import {VerificationOptions} from "../token.js"
 import {KeypairData, PubkeyData} from "../types.js"
-import {VerificationOptions} from "../json-web-token.js"
 
 /** proof that the login commissioned by the passport (signed by the passport) */
 export type LoginProofPayload = {

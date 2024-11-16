@@ -3,8 +3,8 @@ import {Hex} from "@benev/slate"
 
 import {Pubkey} from "./pubkey.js"
 import {KeypairData} from "./types.js"
+import {Token, Payload} from "./token.js"
 import {CryptoConstants} from "./crypto-constants.js"
-import {JsonWebToken, Payload} from "./json-web-token.js"
 
 export class Keypair extends Pubkey {
 	constructor(
@@ -65,7 +65,7 @@ export class Keypair extends Pubkey {
 	}
 
 	async sign<P extends Payload>(payload: P) {
-		return await JsonWebToken.sign<P>(this.privateKey, payload)
+		return await Token.sign<P>(this.privateKey, payload)
 	}
 }
 

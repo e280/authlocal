@@ -3,7 +3,7 @@ import {Pubkey} from "../pubkey.js"
 import {LoginKeys} from "./login-keys.js"
 import {LoginClaim} from "./login-claim.js"
 import {LoginProofPayload} from "./types.js"
-import {JsonWebToken, VerificationOptions} from "../json-web-token.js"
+import {Token, VerificationOptions} from "../token.js"
 
 /**
  * Login proof token -- proof that a user is logged in
@@ -19,7 +19,7 @@ export class LoginProof {
 	) {}
 
 	get name() { return this.payload.data.name }
-	get expiry() { return JsonWebToken.toJsTime(this.payload.exp) }
+	get expiry() { return Token.toJsTime(this.payload.exp) }
 	get thumbprint() { return this.payload.data.passportPubkey.thumbprint }
 
 	async getPassportPubkey() {
@@ -45,7 +45,7 @@ export class LoginProof {
 	static decode(token: string) {
 		return new this(
 			token,
-			JsonWebToken.decode<LoginProofPayload>(token).payload,
+			Token.decode<LoginProofPayload>(token).payload,
 		)
 	}
 

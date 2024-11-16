@@ -41,7 +41,7 @@ export type Requirements = {
 	issuer?: string
 }
 
-export class JsonWebToken {
+export class Token {
 	static header: Header = Object.freeze({typ: "JWT", alg: "ES256"})
 	static toJsTime = (t: number) => t * 1000
 	static fromJsTime = (t: number) => t / 1000
@@ -49,14 +49,14 @@ export class JsonWebToken {
 	static requirements = (r: Requirements) => ({
 		jti: hexId(),
 		iat: Date.now(),
-		exp: JsonWebToken.fromJsTime(r.expiresAt),
+		exp: Token.fromJsTime(r.expiresAt),
 		nbf: r.notBefore,
 		iss: r.issuer,
 		aud: r.audience,
 	})
 
 	static async sign<P extends Payload>(privateKey: CryptoKey, payload: P): Promise<string> {
-		const headerBytes = Text.bytes(JSON.stringify(JsonWebToken.header))
+		const headerBytes = Text.bytes(JSON.stringify(Token.header))
 		const headerText = Base64url.string(headerBytes)
 
 		const payloadBytes = Text.bytes(JSON.stringify(payload))
@@ -100,7 +100,7 @@ export class JsonWebToken {
 		): Promise<P> {
 
 		const [headerText, payloadText] = token.split(".")
-		const {payload, signature} = JsonWebToken.decode<P>(token)
+		const {payload, signature} = Token.decode<P>(token)
 		const signingInput = `${headerText}.${payloadText}`
 		const signingInputBytes = new TextEncoder().encode(signingInput)
 
@@ -115,13 +115,13 @@ export class JsonWebToken {
 			throw new VerifyError("token signature invalid")
 
 		if (payload.exp) {
-			const expiry = JsonWebToken.toJsTime(payload.exp)
+			const expiry = Token.toJsTime(payload.exp)
 			if (Date.now() > expiry)
 				throw new VerifyError("token expired")
 		}
 
 		if (payload.nbf) {
-			const notBefore = JsonWebToken.toJsTime(payload.nbf)
+			const notBefore = Token.toJsTime(payload.nbf)
 			if (Date.now() < notBefore)
 				throw new VerifyError("token not ready")
 		}

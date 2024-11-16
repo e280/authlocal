@@ -1,7 +1,7 @@
 
 import {LoginProof} from "./login-proof.js"
 import {LoginClaimPayload} from "./types.js"
-import {JsonWebToken, VerificationOptions} from "../json-web-token.js"
+import {Token, VerificationOptions} from "../token.js"
 
 /**
  * Login claim token -- make any verifiable claim on behalf of your user
@@ -17,7 +17,7 @@ export class LoginClaim<C> {
 	) {}
 
 	get thumbprint() { return this.payload.sub }
-	get expiry() { return JsonWebToken.toJsTime(this.payload.exp) }
+	get expiry() { return Token.toJsTime(this.payload.exp) }
 	get data() { return this.payload.data }
 
 	isExpired() {
@@ -28,7 +28,7 @@ export class LoginClaim<C> {
 		return new this(
 			proof,
 			claimToken,
-			JsonWebToken.decode<LoginClaimPayload<C>>(claimToken).payload,
+			Token.decode<LoginClaimPayload<C>>(claimToken).payload,
 		)
 	}
 

@@ -2,7 +2,7 @@
 import {Keypair} from "../keypair.js"
 import {LoginProof} from "./login-proof.js"
 import {LoginClaimPayload, LoginKeysPayload} from "./types.js"
-import {JsonWebToken, Requirements, VerificationOptions} from "../json-web-token.js"
+import {Token, Requirements, VerificationOptions} from "../token.js"
 
 /**
  * Login keys token -- able to sign login claims for the user
@@ -23,7 +23,7 @@ export class LoginKeys {
 		public readonly payload: LoginKeysPayload,
 	) {}
 
-	get expiry() { return JsonWebToken.toJsTime(this.payload.exp) }
+	get expiry() { return Token.toJsTime(this.payload.exp) }
 	get name() { return this.proof.name }
 	get thumbprint() { return this.proof.thumbprint }
 
@@ -32,7 +32,7 @@ export class LoginKeys {
 	}
 
 	static decode(proof: LoginProof, token: string) {
-		const {payload} = JsonWebToken.decode<LoginKeysPayload>(token)
+		const {payload} = Token.decode<LoginKeysPayload>(token)
 		return new this(proof, token, payload)
 	}
 
@@ -46,7 +46,7 @@ export class LoginKeys {
 		const sub = this.thumbprint
 		const loginKeypair = await Keypair.fromData(this.payload.data.loginKeypair)
 		return await loginKeypair.sign<LoginClaimPayload<D>>({
-			...JsonWebToken.requirements(requirements),
+			...Token.requirements(requirements),
 			sub,
 			data,
 		})

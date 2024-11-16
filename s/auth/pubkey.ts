@@ -2,7 +2,7 @@
 import {Hex} from "@benev/slate"
 import {PubkeyData} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
-import {JsonWebToken, Payload, VerificationOptions, VerifyError} from "./json-web-token.js"
+import {Token, Payload, VerificationOptions, VerifyError} from "./token.js"
 
 export class Pubkey {
 	constructor(
@@ -57,7 +57,7 @@ export class Pubkey {
 			token: string,
 			options: VerificationOptions = {},
 		) {
-		return await JsonWebToken.verify<P>(this.publicKey, token, options)
+		return await Token.verify<P>(this.publicKey, token, options)
 	}
 }
 
