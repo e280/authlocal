@@ -2,13 +2,12 @@
 import {ShadowElement, attributes, html, mixin} from "@benev/slate"
 
 import {Auth} from "../../auth.js"
-import {auth} from "../../context.js"
 import stylesCss from "./styles.css.js"
 
 	@mixin.css(stylesCss)
 	@mixin.reactive()
 export class AuthLogin extends ShadowElement {
-	auth = auth
+	auth = Auth.getSingleton()
 
 	#attrs = attributes(this, {
 		"src": String,

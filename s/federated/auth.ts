@@ -10,6 +10,14 @@ import {JsonStorage} from "../tools/json-storage.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
 export class Auth {
+	static #auth: Auth | null = null
+
+	static getSingleton() {
+		if (!this.#auth)
+			this.#auth = new this()
+		return this.#auth
+	}
+
 	static url = "https://authduo.org/"
 	static version = 1
 
