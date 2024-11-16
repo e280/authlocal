@@ -1,7 +1,7 @@
 
 import {AppFns} from "./app-fns.js"
 import {Purpose} from "../logic/purpose.js"
-import {Future} from "../../tools/from-now.js"
+import {Future} from "../../tools/future.js"
 
 export type PopupState = {
 	parentOrigin: string
