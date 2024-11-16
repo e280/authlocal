@@ -14,8 +14,9 @@ async function makeAndValidateLoginToken() {
 		audience: "testaudience",
 		expiresAt: Date.now() + 60_000,
 	})
-	const proof = await Proof.verify(proofToken, {allowedAudiences: ["testaudience"]})
-	const loginKeys = await Keys.verify(proof, keysToken)
+	const verification = {allowedAudiences: ["testaudience"]}
+	const proof = await Proof.verify(proofToken, verification)
+	const loginKeys = await Keys.verify(proof, keysToken, verification)
 	expect(loginKeys.thumbprint).equals(passport.thumbprint)
 	return loginKeys
 }
