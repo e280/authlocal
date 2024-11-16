@@ -10,9 +10,10 @@ async function makeAndValidateLoginToken() {
 	const passport = await Passport.generate()
 	const {loginProofToken: proofToken, loginKeysToken: loginToken} = await passport.signLoginTokens({
 		issuer: "testissuer",
+		audience: "testaudience",
 		expiry: Date.now() + 60_000,
 	})
-	const proof = await LoginProof.verify(proofToken)
+	const proof = await LoginProof.verify(proofToken, {allowedAudiences: ["testaudience"]})
 	const loginKeys = await LoginKeys.verify(proof, loginToken)
 	expect(loginKeys.thumbprint).equals(passport.thumbprint)
 	return loginKeys
@@ -29,7 +30,7 @@ export default <Suite>{
 			data: "hello",
 			expiry: Date.now() + 60_000,
 		})
-		const proof = await LoginProof.verify(loginKeys.proof.token)
+		const proof = await LoginProof.verify(loginKeys.proof.token, {allowedAudiences: ["testaudience"]})
 		const claim = await LoginClaim.verify<string>(proof, claimToken)
 		expect(claim!.data).equals("hello")
 	},

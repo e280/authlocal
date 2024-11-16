@@ -48,6 +48,7 @@ export class Passport {
 	async signLoginTokens(o: {
 			expiry: number
 			issuer: string
+			audience: string
 		}): Promise<LoginTokens> {
 
 		const passportKeypair = await this.getKeypair()
@@ -55,11 +56,13 @@ export class Passport {
 		const exp = JsonWebToken.fromJsTime(o.expiry)
 		const name = this.name
 		const iss = o.issuer
+		const aud = o.audience
 		const jti = hexId()
 
 		const loginProofToken = await passportKeypair.sign<LoginProofPayload>({
 			exp,
 			iss,
+			aud,
 			jti,
 			data: {
 				name,

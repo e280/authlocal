@@ -15,7 +15,7 @@ export class AuthLogin extends ShadowElement {
 	})
 
 	get src() {
-		return this.#attrs.src ?? Auth.url
+		return this.#attrs.src ?? Auth.defaultUrl
 	} set src(src: string) {
 		this.#attrs.src = src
 	}

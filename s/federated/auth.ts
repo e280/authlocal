@@ -10,7 +10,7 @@ import {JsonStorage} from "../tools/json-storage.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
 export class Auth {
-	static url = "https://authduo.org/"
+	static defaultUrl = "https://authduo.org/"
 	static version = 1
 	static #auth: Auth | null = null
 
@@ -40,7 +40,7 @@ export class Auth {
 	async load() {
 		const {tokens} = this.authfile
 		this.#login.value = tokens && await nullcatch(
-			async() => Login.verify(tokens)
+			async() => Login.verify(tokens, {allowedAudiences: [window.origin]})
 		)
 		return this.#login.value
 	}
@@ -64,13 +64,14 @@ export class Auth {
 		this.save(login && login.tokens)
 	}
 
-	async popup(url: string = Auth.url) {
+	async popup(url = Auth.defaultUrl) {
 		const appWindow = window
 		const popupWindow = openPopup(url)
 
 		if (!popupWindow)
 			return null
 
+		const appOrigin = window.origin
 		const popupOrigin = new URL(url, window.location.href).origin
 
 		return new Promise<Login | null>((resolve, reject) => {
@@ -84,6 +85,7 @@ export class Auth {
 						this.login = await nullcatch(
 							async() => Login.verify(loginTokens, {
 								allowedIssuers: [popupOrigin],
+								allowedAudiences: [appOrigin],
 							})
 						)
 						dispose()

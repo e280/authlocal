@@ -49,7 +49,7 @@ export class LoginProof {
 		)
 	}
 
-	static async verify(token: string, options: VerificationOptions = {}) {
+	static async verify(token: string, options: {allowedAudiences: string[]} & VerificationOptions) {
 		const proof = this.decode(token)
 		const passportPubkey = await proof.getPassportPubkey()
 		await passportPubkey.verify(token, options)
