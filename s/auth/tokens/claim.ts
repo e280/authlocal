@@ -1,5 +1,5 @@
 
-import {Proof} from "./login-proof.js"
+import {Proof} from "./proof.js"
 import {ClaimPayload} from "./types.js"
 import {Token, VerificationOptions} from "./token.js"
 

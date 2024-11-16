@@ -1,10 +1,11 @@
 
 import "@benev/slate/x/node.js"
 import {Suite, expect} from "cynic"
-import {Proof} from "./server.js"
+
+import {Keys} from "./auth/tokens/keys.js"
 import {Passport} from "./auth/passport.js"
-import {Claim} from "./auth/tokens/login-claim.js"
-import {Keys} from "./auth/tokens/login-keys.js"
+import {Claim} from "./auth/tokens/claim.js"
+import {Proof} from "./auth/tokens/proof.js"
 
 async function makeAndValidateLoginToken() {
 	const passport = await Passport.generate()

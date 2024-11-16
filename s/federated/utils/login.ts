@@ -1,6 +1,6 @@
 
-import {Keys} from "../../auth/tokens/login-keys.js"
-import {Proof} from "../../auth/tokens/login-proof.js"
+import {Keys} from "../../auth/tokens/keys.js"
+import {Proof} from "../../auth/tokens/proof.js"
 import {LoginTokens, ProofVerification} from "../../auth/tokens/types.js"
 
 export class Login {

@@ -1,6 +1,6 @@
 
+import {Proof} from "./proof.js"
 import {Keypair} from "../keypair.js"
-import {Proof} from "./login-proof.js"
 import {ClaimPayload, KeysPayload} from "./types.js"
 import {Token, Requirements, VerificationOptions} from "./token.js"
 
