@@ -45,9 +45,9 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
     - Customize that second script to handle logins/logouts your way.
     - When the user logs in, the `login` object looks like this:
       ```js
-      login.name // Kaylim Bojrumaj
-      login.thumbprint // "4e77bccf..."
-      login.expiry // 1729381451374
+      login.name // Cetdok Pizafoaba
+      login.thumbprint // "0d196fc3..."
+      login.expiry // 1731740481065
       ```
     - When the user logs out, `login` is `null`.
 1. **Put this button in your `<body>`:**
@@ -67,9 +67,11 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
     ```
 1. **Register components and listen for auth changes.** `main.ts`
     ```ts
-    import {auth, components, register_to_dom} from "@authduo/authduo"
+    import {Auth, components, register_to_dom} from "@authduo/authduo"
 
     register_to_dom(components)
+
+    const auth = Auth.get()
 
     auth.onChange(login => {
       if (login) console.log("logged in", login)
@@ -124,62 +126,66 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 
 ### Understanding the Authduo flow and tokens
 
-![](https://i.imgur.com/eLa130k.png)
+![](https://i.imgur.com/rtK7N1S.png)
 
-- When your user logs in, you receive a *Login* object (a verified *login token*).
-  - Don't pass this around, anybody with the login token can impersonate your user.
-  - Instead of passing the login token around, you can use the login object to *sign* your own *challenge tokens*.
-- Let's consider an example: you're making a player-hosted multiplayer game.
-  - Your user logs in, and you get a *Login* object.
-  - You want to send your user's identity to the host of the game, so they can verify it, and nobody can impersonate your user.
-  - So you use your *Login* object to sign a fresh *challenge token* containing your user's name and other info.
-  - You send this *challenge token* along with your *login.proof.token* to the game host.
-  - The game host receives your `challengeToken` and `proofToken`, and now can verify that your challenge was authentically signed on behalf of the user's passport.
+- When a user on your app clicks to login, this opens an Authduo.org popup for them to login.
+- The authduo signs some tokens with your user's passport keypair, and sends them back to your application.
+- Your app receives a `Login` object, which has some useful things:
+  - `login.proof.token` -- this is a `Proof` token and it's public, so you can send it around anywhere so your user can prove their identity
+  - `login.keys.signClaimToken(~)` -- you can use this to sign arbitrary data into a token, which is verifiably signed on behalf of the user's passport
 
-### `Login`, `Proof`, and `Challenge` tokens
-- **Sign a fresh challenge token.**
+#### Example of signing and verifying claim tokens
+
+- **Sign a fresh claim token.**
   ```js
-  import {FromNow} from "@authduo/authduo"
+  import {Future} from "@authduo/authduo"
 
-  const challengeToken = await login.signChallengeToken({
-    expiry: FromNow.hours(24),
+  const idToken = await login.keys.signClaimToken({
+    expiresAt: Future.hours(24),
 
     // you can pack any abitrary data you want into this token
     data: {
       username: "Rec Doamge",
+      avatarId: "d15aea1a",
 
-      // we've scoped this token to this game session,
-      // so that it cannot be stolen and reused in other game sessions.
+      // perhaps we want to scope this claim to a specific game session,
+      // so that it cannot be stolen by other users and reused in other
+      // game sessions.
       gameSessionId: "9c22b17e",
     },
   })
   ```
-- **Send the *challengeToken* along with a *proofToken.***
+- **Send this *idToken* along with the user's *proofToken.***
   ```js
-  await sendElsewhere({
-    proofToken: login.proof.token,
-    challengeToken,
-  })
+  await sendElsewhere(login.proof.token, idToken)
   ```
-  - Each `login` object comes with a `proofToken` that is required to verify a challenge token.
-- **Verify the proof and challenge**
+  - Each `login` object comes with a proof token that is required to verify any claim tokens.
+- **Verify the proof and claim**
   ```js
-  import {Proof, Challenge} from "@authduo/authduo"
+  import {Proof, Claim} from "@authduo/authduo"
 
-  receiveElsewhere(async(proofToken, challengeToken) => {
-    const proof = await Proof.verify(proofToken)
-    const challenge = await Challenge.verify(proof, challengeToken)
+  receiveElsewhere(async(proofToken, idToken) => {
 
-    // here's that data you packed into the challenge
-    console.log(challenge.data.username) // "Rec Doamge"
-    console.log(challenge.data.gameSessionId) // "9c22b17e"
+    // the origin of your site that triggered the authduo popup
+    const allowedAudiences = ["https://example.benev.gg"]
+
+    // verifying the proof
+    const proof = await Proof.verify(proofToken, {allowedAudiences})
+
+    // proving the claim
+    const claim = await Claim.verify(proof, idToken)
+
+    // here's that data you packed into the claim
+    console.log(claim.data.username) // "Rec Doamge"
+    console.log(claim.data.avatarId) // "d15aea1a"
+    console.log(claim.data.gameSessionId) // "9c22b17e"
 
     // user passport public thumbprint, the true user identifier
-    console.log(challenge.thumbprint) // "a32e638e..."
+    console.log(claim.thumbprint) // "a32e638e..."
     console.log(proof.thumbprint) // "a32e638e..."
   })
   ```
-  - The same proof can be used to verify multiple challenges from the same login.
+  - The same proof can be used to verify multiple claims from the same login.
 
 <br/>
 
