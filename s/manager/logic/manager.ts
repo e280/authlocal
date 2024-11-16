@@ -29,7 +29,7 @@ export class Manager {
 				p => { purpose.value = p },
 			)
 
-			appFns.ready()
+			appFns.v1.ready()
 		}
 	}
 }

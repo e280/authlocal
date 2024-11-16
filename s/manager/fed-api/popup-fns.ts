@@ -8,7 +8,9 @@ export type PopupState = {
 }
 
 export type PopupFns = {
-	pleaseLogin: () => Promise<void>
+	v1: {
+		pleaseLogin: () => Promise<void>
+	},
 }
 
 export const makePopupFns = (
@@ -18,19 +20,20 @@ export const makePopupFns = (
 		setLoginPurpose: (login: Purpose.Login) => void,
 	): PopupFns => {
 	return {
-
-		async pleaseLogin() {
-			const audience = event.origin
-			state.parentOrigin = audience
-			const expiry = Future.days(7)
-			const issuer = window.origin
-			setLoginPurpose({
-				kind: "login",
-				onLogin: async passport => {
-					const tokens = await passport.signLoginToken({issuer, audience, expiry})
-					await app.login(tokens)
-				},
-			})
+		v1: {
+			async pleaseLogin() {
+				const audience = event.origin
+				state.parentOrigin = audience
+				const expiry = Future.days(7)
+				const issuer = window.origin
+				setLoginPurpose({
+					kind: "login",
+					onLogin: async passport => {
+						const tokens = await passport.signLoginToken({issuer, audience, expiry})
+						await app.v1.login(tokens)
+					},
+				})
+			},
 		},
 	}
 }

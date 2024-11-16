@@ -10,8 +10,10 @@ interactions between app and popup
 */
 
 export type AppFns = {
-	ready: () => Promise<void>
-	login: (tokens: LoginTokens) => Promise<void>
+	v1: {
+		ready: () => Promise<void>
+		login: (tokens: LoginTokens) => Promise<void>
+	}
 }
 
 export const makeAppFns = (
@@ -20,12 +22,14 @@ export const makeAppFns = (
 	): AppFns => {
 
 	return {
-		async ready() {
-			await popup.pleaseLogin()
-		},
+		v1: {
+			async ready() {
+				await popup.v1.pleaseLogin()
+			},
 
-		async login(tokens: LoginTokens) {
-			handleLogin(tokens)
+			async login(tokens: LoginTokens) {
+				handleLogin(tokens)
+			},
 		},
 	}
 }
