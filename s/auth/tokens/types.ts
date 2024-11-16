@@ -8,6 +8,7 @@ export type LoginProofPayload = {
 	iss: string
 	jti: string
 	data: {
+		name: string
 		loginPubkey: PubkeyData
 		passportPubkey: PubkeyData
 	}
@@ -27,7 +28,6 @@ export type LoginPayload = {
 	exp: number
 	jti: string
 	data: {
-		name: string
 		loginKeypair: KeypairData
 	}
 }

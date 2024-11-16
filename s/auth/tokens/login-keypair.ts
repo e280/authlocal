@@ -24,7 +24,7 @@ export class LoginKeypair {
 	) {}
 
 	get expiry() { return JsonWebToken.toJsTime(this.payload.exp) }
-	get name() { return this.payload.data.name }
+	get name() { return this.proof.name }
 	get thumbprint() { return this.proof.thumbprint }
 
 	isExpired() {

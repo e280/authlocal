@@ -19,6 +19,7 @@ export class LoginProof {
 		public readonly payload: LoginProofPayload,
 	) {}
 
+	get name() { return this.payload.data.name }
 	get expiry() { return JsonWebToken.toJsTime(this.payload.exp) }
 	get thumbprint() { return this.payload.data.passportPubkey.thumbprint }
 
