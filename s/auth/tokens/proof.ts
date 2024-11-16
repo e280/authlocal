@@ -19,6 +19,7 @@ export class Proof {
 	) {}
 
 	get name() { return this.payload.data.name }
+	get audience() { return this.payload.aud }
 	get expiresAt() { return Token.toJsTime(this.payload.exp) }
 	get thumbprint() { return this.payload.data.passportPubkey.thumbprint }
 
