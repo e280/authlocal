@@ -1,6 +1,6 @@
 
 import {Base64url, hexId, Text} from "@benev/slate"
-import {CryptoConstants} from "./crypto-constants.js"
+import {CryptoConstants} from "../crypto-constants.js"
 
 export type Header = {
 	typ: "JWT"

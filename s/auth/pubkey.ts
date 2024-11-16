@@ -2,7 +2,7 @@
 import {Hex} from "@benev/slate"
 import {PubkeyData} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
-import {Token, Payload, VerificationOptions, VerifyError} from "./token.js"
+import {Token, Payload, VerificationOptions, VerifyError} from "./tokens/token.js"
 
 export class Pubkey {
 	constructor(

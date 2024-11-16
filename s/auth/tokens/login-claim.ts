@@ -1,7 +1,7 @@
 
 import {LoginProof} from "./login-proof.js"
 import {LoginClaimPayload} from "./types.js"
-import {Token, VerificationOptions} from "../token.js"
+import {Token, VerificationOptions} from "./token.js"
 
 /**
  * Login claim token -- make any verifiable claim on behalf of your user

@@ -2,7 +2,7 @@
 import {Keypair} from "../keypair.js"
 import {LoginProof} from "./login-proof.js"
 import {LoginClaimPayload, LoginKeysPayload} from "./types.js"
-import {Token, Requirements, VerificationOptions} from "../token.js"
+import {Token, Requirements, VerificationOptions} from "./token.js"
 
 /**
  * Login keys token -- able to sign login claims for the user

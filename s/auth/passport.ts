@@ -1,8 +1,8 @@
 
 import {Bytename, deep, Hex, hexId} from "@benev/slate"
 
-import {Token} from "./token.js"
 import {Keypair} from "./keypair.js"
+import {Token} from "./tokens/token.js"
 import {PassportData, KeypairData} from "./types.js"
 import {LoginKeysPayload, LoginTokens, LoginProofPayload} from "./tokens/types.js"
 

@@ -1,5 +1,5 @@
 
-import {VerificationOptions} from "../token.js"
+import {VerificationOptions} from "./token.js"
 import {KeypairData, PubkeyData} from "../types.js"
 
 /** proof that the login commissioned by the passport (signed by the passport) */

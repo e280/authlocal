@@ -3,7 +3,7 @@ import {Hex} from "@benev/slate"
 
 import {Pubkey} from "./pubkey.js"
 import {KeypairData} from "./types.js"
-import {Token, Payload} from "./token.js"
+import {Token, Payload} from "./tokens/token.js"
 import {CryptoConstants} from "./crypto-constants.js"
 
 export class Keypair extends Pubkey {
