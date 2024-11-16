@@ -19,6 +19,7 @@ export type KeysPayload = {
 	sub: string // passport thumbprint
 	exp: number
 	iss: string
+	aud: string
 	jti: string
 	data: {
 		name: string

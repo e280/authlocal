@@ -74,6 +74,7 @@ export class Passport {
 			sub: this.thumbprint,
 			exp,
 			iss,
+			aud,
 			jti,
 			data: {
 				name,
