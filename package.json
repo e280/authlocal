@@ -1,6 +1,6 @@
 {
 	"name": "@authduo/authduo",
-	"version": "0.2.0-2",
+	"version": "0.2.0-3",
 	"description": "Free User-sovereign Authentication for the World",
 	"main": "x/index.js",
 	"type": "module",
