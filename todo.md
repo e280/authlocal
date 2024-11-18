@@ -1,6 +1,7 @@
 
 # authduo todo
 
+- [ ] rethink questionable Claim.decode pattern -- decoding a claim requires the proof, like what even?
 - [ ] authduo.org third-party branding (apps can supply some kinda branding, at least their name, maybe a logo image)
 - [ ] improved story about how the ui behaves when tokens expire
 - [ ] improved ui for mobile devices
