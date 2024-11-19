@@ -1,6 +1,7 @@
 
 # authduo todo
 
+- [ ] consider adding a dedicated "edit passport" flow -- instead of logging in, you jump straight to editing and re-logging-in
 - [ ] rethink questionable Claim.decode pattern -- decoding a claim requires the proof, like what even?
 - [ ] authduo.org third-party branding (apps can supply some kinda branding, at least their name, maybe a logo image)
 - [ ] improved story about how the ui behaves when tokens expire
