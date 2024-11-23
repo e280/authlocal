@@ -36,6 +36,12 @@ nav.passports > article {
 		box-shadow: .1em .2em .3em #0002;
 		background: linear-gradient(to bottom, #fff2, #fff1);
 
+		&[x-purpose="login"] {
+			cursor: pointer;
+			&:hover { background: linear-gradient(to bottom, #fff3, #fff2); }
+			&:active { background: linear-gradient(to bottom, #8883, #8882); }
+		}
+
 		> svg {
 			width: 3em;
 			height: 3em;

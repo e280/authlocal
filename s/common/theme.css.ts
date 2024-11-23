@@ -46,7 +46,7 @@ button {
 	user-select: none;
 }
 
-button, a.button {
+:is(button, a.button):not([x-plain]) {
 	color: #a3b1ff;
 	font-weight: bold;
 	text-shadow: .04em .08em .1em #0008;

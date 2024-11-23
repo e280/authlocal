@@ -24,18 +24,23 @@ export const ListPage = shadowView(use => (
 	const none = passports.length === 0
 	const purpose = manager.purpose.value
 
+	const triggerLogin = (passport: Passport) => () => {
+		if (purpose.kind === "login")
+			purpose.onLogin(passport)
+	}
+
 	function renderPassport(passport: Passport) {
 		const file = new PassportsFile().add(passport)
 		return html`
 			<article>
 
-				<div x-nameplate>
+				<div x-nameplate x-purpose="${purpose.kind}" @click="${triggerLogin(passport)}">
 					${svgSlate(userIcon)}
 
 					<h2>${passport.name}</h2>
 
 					${purpose.kind === "login" ? html`
-						<button x-login @click="${() => purpose.onLogin(passport)}">Login</button>
+						<button x-login>Login</button>
 					` : null}
 				</div>
 
