@@ -23,50 +23,59 @@ nav.passports {
 
 nav.passports > article {
 	display: flex;
-	align-items: center;
-	padding: 0.5em 2em;
-	gap: 1em;
-	border-radius: 0.5em;
-	backdrop-filter: brightness(180%) saturate(200%);
+	flex-direction: column;
+	gap: 0.1em;
 
-	> svg {
-		color: white;
-		opacity: 0.2;
-		width: 4em;
-		height: 4em;
-	}
-
-	> section.nameplate {
-		flex: 1 1 auto;
+	[x-nameplate] {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: start;
-		gap: 0.1em;
+		align-items: center;
+		gap: 1em;
+
+		padding: 1em;
+		border-radius: 0.5em;
+		box-shadow: .1em .2em .3em #0002;
+		background: linear-gradient(to bottom, #fff2, #fff1);
+
+		> svg {
+			width: 3em;
+			height: 3em;
+			opacity: 0.2;
+		}
 
 		> h2 {
-			font-size: 1.5em;
 			flex: 1 1 auto;
+			padding-right: 1em;
 		}
 
-		> footer {
-			display: flex;
-			justify-content: end;
-			gap: 1em;
-
-			> :is(button, a.button):not(.happy) {
-				opacity: 0.6;
-			}
+		> [x-login] {
+			background: #783bc2;
+			border-top: 0.05em solid #fff4;
+			padding: 1em;
+			color: white;
+			border-radius: 0.5em;
+			box-shadow: .1em .2em .3em #0004;
 		}
 	}
 
-	> section.details {
+	[x-details] {
 		display: flex;
-		flex-direction: column;
-		align-items: end;
+		justify-content: space-between;
+		gap: 1em;
 
-		opacity: 0.6;
-		font-family: monospace;
+		opacity: 0.3;
+		color: #aaa;
+		padding: 0 1em;
+		font-size: 0.7em;
+
+		> * {
+			flex: 0 0 auto;
+			display: flex;
+			gap: 1em;
+		}
+
+		& :is(button, .button) {
+			xxx-color: #777;
+		}
 	}
 }
 

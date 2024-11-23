@@ -3,13 +3,14 @@ import {html, shadowView, svgSlate} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {manager} from "../../../context.js"
+import {IdView} from "../../common/id/view.js"
 import {whence} from "../../../../tools/whence.js"
 import {Passport} from "../../../../auth/passport.js"
 import {Situation} from "../../../logic/situation.js"
-import themeCss from "../../../../common/theme.css.js"
 import {PassportsFile} from "../../../../auth/passports-file.js"
-import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
-import { IdView } from "../../common/id/view.js"
+
+import themeCss from "../../../../common/theme.css.js"
+import userIcon from "../../../../common/icons/tabler/user.icon.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -27,14 +28,27 @@ export const ListPage = shadowView(use => (
 		const file = new PassportsFile().add(passport)
 		return html`
 			<article>
-				${svgSlate(circleKeyIcon)}
 
-				<section class=nameplate>
+				<div x-nameplate>
+					${svgSlate(userIcon)}
+
 					<h2>${passport.name}</h2>
-					<footer>
-						${purpose.kind === "login" ? html`
-							<button class=happy @click="${() => purpose.onLogin(passport)}">Login</button>
-						` : null}
+
+					${purpose.kind === "login" ? html`
+						<button x-login @click="${() => purpose.onLogin(passport)}">Login</button>
+					` : null}
+				</div>
+
+				<div x-details>
+					<div x-p1>
+						<span>
+							${whence(passport.created)}
+						</span>
+						<span class=thumbprint title="${passport.thumbprint}">
+							${IdView([passport.thumbprint])}
+						</span>
+					</div>
+					<div x-p2>
 						<button @click="${() => situation.onEdit(passport)}">Edit</button>
 						<a
 							class=button
@@ -43,17 +57,8 @@ export const ListPage = shadowView(use => (
 							href="${file.href()}">
 							Download
 						</a>
-					</footer>
-				</section>
-
-				<section class=details>
-					<span>
-						${whence(passport.created)}
-					</span>
-					<span class=thumbprint title="${passport.thumbprint}">
-						${IdView([passport.thumbprint])}
-					</span>
-				</section>
+					</div>
+				</div>
 			</article>
 		`
 	}
