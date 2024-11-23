@@ -2,7 +2,7 @@
 import {Proof} from "./proof.js"
 import {Token} from "../jwt/token.js"
 import {ClaimPayload} from "./types.js"
-import {VerificationOptions} from "../jwt/types.js"
+import {TokenVerifyOptions} from "../jwt/types.js"
 
 /**
  * Login claim token -- make any verifiable claim on behalf of your user
@@ -29,7 +29,7 @@ export class Claim<C> {
 		return Token.decode<ClaimPayload<C>>(claimToken)
 	}
 
-	static async verify<C>(proof: Proof, claimToken: string, options: VerificationOptions = {}) {
+	static async verify<C>(proof: Proof, claimToken: string, options: TokenVerifyOptions = {}) {
 		const {payload} = this.decode<C>(claimToken)
 		const claim = new this(proof, claimToken, payload)
 

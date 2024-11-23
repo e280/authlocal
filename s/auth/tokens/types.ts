@@ -1,5 +1,5 @@
 
-import {VerificationOptions} from "../jwt/types.js"
+import {TokenVerifyOptions} from "../jwt/types.js"
 import {KeypairData, PubkeyData} from "../types.js"
 
 /** proof that the login commissioned by the passport (signed by the passport) */
@@ -41,5 +41,5 @@ export type LoginTokens = {
 	keysToken: string
 }
 
-export type ProofVerification = {allowedAudiences: string[]} & VerificationOptions
+export type ProofVerification = {allowedAudiences: string[]} & TokenVerifyOptions
 

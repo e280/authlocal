@@ -1,10 +1,10 @@
 
 import {Base64url, hexId, Text} from "@benev/slate"
 import {CryptoConstants} from "../crypto-constants.js"
-import {Header, Payload, TokenParams, VerificationOptions, VerifyError, WebToken} from "./types.js"
+import {TokenHeader, TokenPayload, TokenParams, TokenVerifyOptions, TokenVerifyError, WebToken} from "./types.js"
 
 export class Token {
-	static header: Header = Object.freeze({typ: "JWT", alg: "ES256"})
+	static header: TokenHeader = Object.freeze({typ: "JWT", alg: "ES256"})
 	static toJsTime = (t: number) => t * 1000
 	static fromJsTime = (t: number) => t / 1000
 
@@ -17,7 +17,7 @@ export class Token {
 		aud: r.audience,
 	})
 
-	static async sign<P extends Payload>(privateKey: CryptoKey, payload: P): Promise<string> {
+	static async sign<P extends TokenPayload>(privateKey: CryptoKey, payload: P): Promise<string> {
 		const headerBytes = Text.bytes(JSON.stringify(Token.header))
 		const headerText = Base64url.string(headerBytes)
 
@@ -38,14 +38,14 @@ export class Token {
 		return `${signingText}.${signature}`
 	}
 
-	static decode<P extends Payload>(token: string): WebToken<P> {
+	static decode<P extends TokenPayload>(token: string): WebToken<P> {
 		const [headerText, payloadText, signatureText] = token.split(".")
 		if (!headerText || !payloadText || !signatureText)
 			throw new Error("invalid jwt structure")
 
 		const headerBytes = Base64url.bytes(headerText)
 		const headerJson = Text.string(headerBytes)
-		const header: Header = JSON.parse(headerJson)
+		const header: TokenHeader = JSON.parse(headerJson)
 
 		const payloadBytes = Base64url.bytes(payloadText)
 		const payloadJson = Text.string(payloadBytes)
@@ -55,10 +55,10 @@ export class Token {
 		return {header, payload, signature}
 	}
 
-	static async verify<P extends Payload>(
+	static async verify<P extends TokenPayload>(
 			publicKey: CryptoKey,
 			token: string,
-			options: VerificationOptions = {},
+			options: TokenVerifyOptions = {},
 		): Promise<P> {
 
 		const [headerText, payloadText] = token.split(".")
@@ -74,36 +74,36 @@ export class Token {
 		)
 
 		if (!isValid)
-			throw new VerifyError("token signature invalid")
+			throw new TokenVerifyError("token signature invalid")
 
 		if (payload.exp) {
 			const expiresAt = Token.toJsTime(payload.exp)
 			if (Date.now() > expiresAt)
-				throw new VerifyError("token expired")
+				throw new TokenVerifyError("token expired")
 		}
 
 		if (payload.nbf) {
 			const notBefore = Token.toJsTime(payload.nbf)
 			if (Date.now() < notBefore)
-				throw new VerifyError("token not ready")
+				throw new TokenVerifyError("token not ready")
 		}
 
 		if (options.allowedIssuers) {
 			if (!payload.iss)
-				throw new VerifyError(`required iss (issuer) is missing`)
+				throw new TokenVerifyError(`required iss (issuer) is missing`)
 			if (!options.allowedIssuers.includes(payload.iss))
-				throw new VerifyError(`invalid iss (issuer) "${payload.iss}"`)
+				throw new TokenVerifyError(`invalid iss (issuer) "${payload.iss}"`)
 		}
 
 		if (options.allowedAudiences) {
 			if (!payload.aud)
-				throw new VerifyError(`required aud (audience) is missing`)
+				throw new TokenVerifyError(`required aud (audience) is missing`)
 			if (!options.allowedAudiences.includes(payload.aud))
-				throw new VerifyError(`invalid aud (audience) "${payload.aud}"`)
+				throw new TokenVerifyError(`invalid aud (audience) "${payload.aud}"`)
 		}
 
 		if (payload.aud && !options.allowedAudiences)
-			throw new VerifyError(`allowedAudiences verification option was not provided, but is required because the token included "aud"`)
+			throw new TokenVerifyError(`allowedAudiences verification option was not provided, but is required because the token included "aud"`)
 
 		return payload
 	}

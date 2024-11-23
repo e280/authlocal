@@ -4,7 +4,7 @@ import {Hex} from "@benev/slate"
 import {Pubkey} from "./pubkey.js"
 import {Token} from "./jwt/token.js"
 import {KeypairData} from "./types.js"
-import {Payload} from "./jwt/types.js"
+import {TokenPayload} from "./jwt/types.js"
 import {CryptoConstants} from "./crypto-constants.js"
 
 export class Keypair extends Pubkey {
@@ -65,7 +65,7 @@ export class Keypair extends Pubkey {
 		return new Pubkey(this.thumbprint, this.publicKey)
 	}
 
-	async sign<P extends Payload>(payload: P) {
+	async sign<P extends TokenPayload>(payload: P) {
 		return await Token.sign<P>(this.privateKey, payload)
 	}
 }

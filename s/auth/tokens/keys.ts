@@ -3,7 +3,7 @@ import {Proof} from "./proof.js"
 import {Token} from "../jwt/token.js"
 import {Keypair} from "../keypair.js"
 import {ClaimPayload, KeysPayload} from "./types.js"
-import {TokenParams, VerificationOptions} from "../jwt/types.js"
+import {TokenParams, TokenVerifyOptions} from "../jwt/types.js"
 
 /**
  * Login keys token -- able to sign login claims for the user
@@ -36,7 +36,7 @@ export class Keys {
 		return Token.decode<KeysPayload>(token)
 	}
 
-	static async verify(proof: Proof, keysToken: string, options?: VerificationOptions) {
+	static async verify(proof: Proof, keysToken: string, options?: TokenVerifyOptions) {
 		const passportPubkey = await proof.getPassportPubkey()
 		await passportPubkey.verify(keysToken, options)
 		const {payload} = this.decode(keysToken)

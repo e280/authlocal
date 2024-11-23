@@ -3,7 +3,7 @@ import {Hex} from "@benev/slate"
 import {Token} from "./jwt/token.js"
 import {PubkeyData} from "./types.js"
 import {CryptoConstants} from "./crypto-constants.js"
-import {Payload, VerificationOptions, VerifyError} from "./jwt/types.js"
+import {TokenPayload, TokenVerifyOptions, TokenVerifyError} from "./jwt/types.js"
 
 export class Pubkey {
 	constructor(
@@ -22,7 +22,7 @@ export class Pubkey {
 		)
 
 		if (data.thumbprint !== thumbprint)
-			throw new VerifyError("incorrect thumbprint")
+			throw new TokenVerifyError("incorrect thumbprint")
 
 		const publicKey = await crypto.subtle.importKey(
 			CryptoConstants.formats.public,
@@ -54,9 +54,9 @@ export class Pubkey {
 		}
 	}
 
-	async verify<P extends Payload>(
+	async verify<P extends TokenPayload>(
 			token: string,
-			options: VerificationOptions = {},
+			options: TokenVerifyOptions = {},
 		) {
 		return await Token.verify<P>(this.publicKey, token, options)
 	}

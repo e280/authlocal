@@ -1,10 +1,10 @@
 
-export type Header = {
+export type TokenHeader = {
 	typ: "JWT"
 	alg: "ES256"
 }
 
-export type Payload = Partial<{
+export type TokenPayload = Partial<{
 	iss: string
 	sub: string
 	aud: string
@@ -14,20 +14,20 @@ export type Payload = Partial<{
 	jti: string
 }> & {[key: string]: any}
 
-export type Signature = ArrayBuffer
+export type TokenSignature = ArrayBuffer
 
-export type WebToken<P extends Payload = any> = {
-	header: Header
+export type WebToken<P extends TokenPayload = any> = {
+	header: TokenHeader
 	payload: P
-	signature: Signature
+	signature: TokenSignature
 }
 
-export type VerificationOptions = {
+export type TokenVerifyOptions = {
 	allowedIssuers?: string[]
 	allowedAudiences?: string[]
 }
 
-export class VerifyError extends Error {
+export class TokenVerifyError extends Error {
 	name = this.constructor.name
 }
 
