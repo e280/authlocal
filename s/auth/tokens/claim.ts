@@ -1,7 +1,8 @@
 
 import {Proof} from "./proof.js"
+import {Token} from "../jwt/token.js"
 import {ClaimPayload} from "./types.js"
-import {Token, VerificationOptions} from "./token.js"
+import {VerificationOptions} from "../jwt/types.js"
 
 /**
  * Login claim token -- make any verifiable claim on behalf of your user

@@ -1,8 +1,9 @@
 
 import {Proof} from "./proof.js"
+import {Token} from "../jwt/token.js"
 import {Keypair} from "../keypair.js"
 import {ClaimPayload, KeysPayload} from "./types.js"
-import {Token, TokenParams, VerificationOptions} from "./token.js"
+import {TokenParams, VerificationOptions} from "../jwt/types.js"
 
 /**
  * Login keys token -- able to sign login claims for the user
