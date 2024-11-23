@@ -9,6 +9,7 @@ import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
 import {PassportsFile} from "../../../../auth/passports-file.js"
 import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
+import { IdView } from "../../common/id/view.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -50,7 +51,7 @@ export const ListPage = shadowView(use => (
 						${whence(passport.created)}
 					</span>
 					<span class=thumbprint title="${passport.thumbprint}">
-						${passport.thumbprint.slice(0, 8)}
+						${IdView([passport.thumbprint])}
 					</span>
 				</section>
 			</article>
