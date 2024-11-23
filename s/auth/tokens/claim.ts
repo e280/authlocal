@@ -1,7 +1,8 @@
 
 import {Proof} from "./proof.js"
+import {Token} from "../jwt/token.js"
 import {ClaimPayload} from "./types.js"
-import {Token, VerificationOptions} from "./token.js"
+import {TokenVerifyOptions} from "../jwt/types.js"
 
 /**
  * Login claim token -- make any verifiable claim on behalf of your user
@@ -24,18 +25,17 @@ export class Claim<C> {
 		return Date.now() > this.expiresAt
 	}
 
-	static decode<C>(proof: Proof, claimToken: string) {
-		return new this(
-			proof,
-			claimToken,
-			Token.decode<ClaimPayload<C>>(claimToken).payload,
-		)
+	static decode<C>(claimToken: string) {
+		return Token.decode<ClaimPayload<C>>(claimToken)
 	}
 
-	static async verify<C>(proof: Proof, claimToken: string, options: VerificationOptions = {}) {
-		const claim = this.decode<C>(proof, claimToken)
+	static async verify<C>(proof: Proof, claimToken: string, options: TokenVerifyOptions = {}) {
+		const {payload} = this.decode<C>(claimToken)
+		const claim = new this(proof, claimToken, payload)
+
 		if (claim.thumbprint !== proof.thumbprint)
 			throw new Error(`thumbprint mismatch between claim and proof`)
+
 		const loginPubkey = await proof.getLoginPubkey()
 		await loginPubkey.verify(claimToken, options)
 		return claim
