@@ -31,15 +31,15 @@ export class Keys {
 		return Date.now() > this.expiresAt
 	}
 
-	static decode(proof: Proof, token: string) {
-		const {payload} = Token.decode<KeysPayload>(token)
-		return new this(proof, token, payload)
+	static decode(token: string) {
+		return Token.decode<KeysPayload>(token)
 	}
 
-	static async verify(proof: Proof, loginToken: string, options?: VerificationOptions) {
+	static async verify(proof: Proof, keysToken: string, options?: VerificationOptions) {
 		const passportPubkey = await proof.getPassportPubkey()
-		await passportPubkey.verify(loginToken, options)
-		return this.decode(proof, loginToken)
+		await passportPubkey.verify(keysToken, options)
+		const {payload} = this.decode(keysToken)
+		return new this(proof, keysToken, payload)
 	}
 
 	async signClaimToken<D>({data, ...requirements}: {data: D} & TokenParams) {

@@ -11,6 +11,7 @@
 
 ### v0.2.0
 - 🧐 authduo doesn't have any users yet so i'm still in a mode of breaking things with impunity
+- 🟥 `decode` static methods now return the raw WebToken `{header, payload, signature}` object
 - 🟥 tokens reworked, we now have `Keys`, `Proof`, and `Claim` tokens
 - 🟥 auth.login has a new Login type with a somewhat different signature
 - 🟥 breaking changes to the fed api (api between the popup and your app)

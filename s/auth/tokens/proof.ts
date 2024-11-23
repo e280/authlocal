@@ -43,14 +43,12 @@ export class Proof {
 	}
 
 	static decode(token: string) {
-		return new this(
-			token,
-			Token.decode<ProofPayload>(token).payload,
-		)
+		return Token.decode<ProofPayload>(token)
 	}
 
 	static async verify(token: string, options: ProofVerification) {
-		const proof = this.decode(token)
+		const {payload} = this.decode(token)
+		const proof = new this(token, payload)
 		const passportPubkey = await proof.getPassportPubkey()
 		await passportPubkey.verify(token, options)
 		return proof
