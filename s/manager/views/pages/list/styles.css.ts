@@ -27,7 +27,7 @@ nav.passports > article {
 	padding: 0.5em 2em;
 	gap: 1em;
 	border-radius: 0.5em;
-	border: 1px solid #fff2;
+	background: #593e7e;
 
 	> svg {
 		color: white;
