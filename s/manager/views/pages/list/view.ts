@@ -69,44 +69,46 @@ export const ListPage = shadowView(use => (
 	}
 
 	return html`
-		${(() => {switch (purpose.kind) {
+		<div x-plate>
+			${(() => {switch (purpose.kind) {
 
-			case "login":
-				return html`
-					<header class=intro>
-						${none
-							? html`<h2>Create or import a passport to login</h2>`
-							: html`<h2>Choose a passport to login with</h2>`}
-					</header>
-				`
+				case "login":
+					return html`
+						<header class=intro>
+							${none
+								? html`<h2>Create or import a passport to login</h2>`
+								: html`<h2>Choose a passport to login with</h2>`}
+						</header>
+					`
 
-			case "manage":
-				return null
-		}})()}
+				case "manage":
+					return null
+			}})()}
 
-		<nav class=passports ?hidden="${none}">
-			${passports.map(renderPassport)}
-		</nav>
+			<nav class=passports ?hidden="${none}">
+				${passports.map(renderPassport)}
+			</nav>
 
-		<nav class="controls stdbuttons">
-			<button class="${none ? "happy" : ""}" @click="${() => situation.onCreate()}">
-				New Passport
-			</button>
+			<nav class="buttonbar">
+				<button class="${none ? "happy" : ""}" @click="${() => situation.onCreate()}">
+					New Passport
+				</button>
 
-			<button @click="${() => situation.onIngress(undefined)}">
-				Import
-			</button>
+				<button @click="${() => situation.onIngress(undefined)}">
+					Import
+				</button>
 
-			${passports.length > 1 ? html`
-				<a
-					class=button
-					title="${passportsFile.filename()}"
-					download="${passportsFile.filename()}"
-					href="${passportsFile.href()}">
-					Download All
-				</a>
-			` : null}
-		</nav>
+				${passports.length > 1 ? html`
+					<a
+						class=button
+						title="${passportsFile.filename()}"
+						download="${passportsFile.filename()}"
+						href="${passportsFile.href()}">
+						Download All
+					</a>
+				` : null}
+			</nav>
+		</div>
 	`
 })
 

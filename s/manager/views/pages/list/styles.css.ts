@@ -1,9 +1,15 @@
 
 import {css} from "@benev/slate"
+import buttonbarCss from "../../common/styling/buttonbar.css.js"
 export default css`
 
-:host > * + * {
-	margin-top: 2em;
+${buttonbarCss}
+
+[x-plate] {
+	display: flex;
+	gap: 2em;
+	flex-direction: column;
+	align-items: center;
 }
 
 header.intro {
@@ -19,6 +25,8 @@ nav.passports {
 	display: flex;
 	flex-direction: column;
 	gap: 1em;
+	width: max-content;
+	max-width: 100%;
 }
 
 nav.passports > article {
@@ -28,6 +36,7 @@ nav.passports > article {
 
 	[x-nameplate] {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		gap: 1em;
 
@@ -65,8 +74,9 @@ nav.passports > article {
 
 	[x-details] {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
-		gap: 1em;
+		gap: 0 1em;
 
 		opacity: 0.3;
 		color: #aaa;
@@ -83,13 +93,6 @@ nav.passports > article {
 			xxx-color: #777;
 		}
 	}
-}
-
-nav.controls {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	gap: 1em;
 }
 
 `

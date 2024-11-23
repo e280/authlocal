@@ -15,18 +15,21 @@ section.form {
 		> :is(span, input):nth-child(2) {
 			font-size: 2em;
 			font-family: monospace;
+
+			background: #222;
+			border: 1px solid #fff2;
+			&[data-angry] { border: 1px solid red; }
 		}
 
 		> small {
 			display: flex;
 			gap: 1em;
-			margin-left: auto;
-			opacity: 0.5;
+			padding: 0 1em;
+			color: #666;
 		}
-	}
 
-	[data-angry] { border: 1px solid red; }
-	.angry { color: red; }
+		.angry { color: red; }
+	}
 }
 
 `
