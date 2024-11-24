@@ -8,6 +8,8 @@ const time = 1000
 
 export const IdView = shadowView(use => (hex: string, alias?: string) => {
 	alias ??= hex.slice(0, 8)
+
+	use.name("id")
 	use.styles(themeCss, stylesCss)
 
 	const copyStatus = use.signal<"good" | "bad" | undefined>(undefined)

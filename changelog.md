@@ -11,6 +11,7 @@
 
 ### v0.2.0
 - 🧐 authduo doesn't have any users yet so i'm still in a mode of breaking things with impunity
+- 🟥 delete `<auth-login>` and replace it with `<auth-button>` and `<auth-user>`
 - 🟥 renamed a bunch of token types, like `Header` is now `TokenHeader`
 - 🟥 `decode` static methods now return the raw WebToken `{header, payload, signature}` object
 - 🟥 tokens reworked, we now have `Keys`, `Proof`, and `Claim` tokens

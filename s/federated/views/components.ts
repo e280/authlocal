@@ -1,5 +1,6 @@
 
-import {AuthLogin} from "./auth-login/element.js"
+import {AuthUser} from "./auth-user/element.js"
+import {AuthButton} from "./auth-button/element.js"
 
-export const components = {AuthLogin}
+export const components = {AuthButton, AuthUser}
 
