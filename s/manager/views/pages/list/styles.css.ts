@@ -15,9 +15,13 @@ ${buttonbarCss}
 header.intro {
 	opacity: 0.8;
 	text-align: center;
-	h2 {
+	& h2 {
 		font-size: 1.2em;
 		font-weight: normal;
+	}
+	& code {
+		font-weight: bold;
+		color: gold;
 	}
 }
 

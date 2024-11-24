@@ -73,11 +73,12 @@ export const ListPage = shadowView(use => (
 			${(() => {switch (purpose.kind) {
 
 				case "login":
+					const {hostname} = new URL(purpose.audience)
 					return html`
 						<header class=intro>
 							${none
-								? html`<h2>Create or import a passport to login</h2>`
-								: html`<h2>Choose a passport to login with</h2>`}
+								? html`<h2>Create or import a passport login for <code>${hostname}</code></h2>`
+								: html`<h2>Choose a passport login for <code>${hostname}</code></h2>`}
 						</header>
 					`
 

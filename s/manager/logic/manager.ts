@@ -15,21 +15,27 @@ export class Manager {
 
 	constructor() {
 		const {purpose} = this
-		const loginRequested = location.search.includes("login") || window.opener
 
-		if (loginRequested) {
-			purpose.value = {
-				kind: "login",
-				onLogin: async passport => console.log("LOGIN", passport.thumbprint),
+		const isPopup = window.opener
+		const isDebugLoginMode = location.search.includes("login")
+
+		if (isPopup || isDebugLoginMode) {
+			if (isPopup) {
+				const {appFns} = setupInPopup(
+					window.opener,
+					window,
+					p => { purpose.value = p },
+				)
+
+				appFns.v1.ready()
 			}
-
-			const {appFns} = setupInPopup(
-				window.opener,
-				window,
-				p => { purpose.value = p },
-			)
-
-			appFns.v1.ready()
+			else if (isDebugLoginMode) {
+				purpose.value = {
+					kind: "login",
+					audience: window.origin,
+					onLogin: async passport => console.log("LOGIN", passport.thumbprint),
+				}
+			}
 		}
 	}
 }
