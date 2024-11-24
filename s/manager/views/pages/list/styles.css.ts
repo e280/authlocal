@@ -82,7 +82,6 @@ nav.passports > article {
 		justify-content: space-between;
 		gap: 0 1em;
 
-		opacity: 0.3;
 		color: #aaa;
 		padding: 0 1em;
 		font-size: 0.7em;
@@ -91,6 +90,14 @@ nav.passports > article {
 			flex: 0 0 auto;
 			display: flex;
 			gap: 1em;
+		}
+
+		& span {
+			color: color-mix(in srgb, currentColor, transparent 50%);
+		}
+
+		& :is(button, .button) {
+			opacity: 0.5;
 		}
 	}
 }

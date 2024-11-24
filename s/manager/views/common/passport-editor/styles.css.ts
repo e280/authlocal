@@ -21,14 +21,14 @@ section.form {
 			&[data-angry] { border: 1px solid red; }
 		}
 
-		> small {
-			display: flex;
-			gap: 1em;
-			padding: 0 1em;
-			color: #666;
-		}
-
 		.angry { color: red; }
+	}
+
+	> small {
+		display: flex;
+		gap: 1em;
+		padding: 0 1em;
+		color: #666;
 	}
 }
 

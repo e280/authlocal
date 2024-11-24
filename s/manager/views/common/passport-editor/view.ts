@@ -49,15 +49,15 @@ export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
 					?data-angry="${!validName(name.value)}"
 					/>
 
-				<small>
-					<span>${whence(passport.created)}</span>
-					<span>${IdView([passport.thumbprint])}</span>
-				</small>
-
 				${!validName(name.value) ? html`
 					<small class=angry>invalid name</small>
 				` : null}
 			</label>
+
+			<small>
+				<span>${whence(passport.created)}</span>
+				<span>${IdView([passport.thumbprint])}</span>
+			</small>
 		</section>
 	`
 })
