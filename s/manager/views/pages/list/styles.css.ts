@@ -88,10 +88,6 @@ nav.passports > article {
 			display: flex;
 			gap: 1em;
 		}
-
-		& :is(button, .button) {
-			xxx-color: #777;
-		}
 	}
 }
 

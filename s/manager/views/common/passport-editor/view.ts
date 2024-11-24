@@ -1,11 +1,11 @@
 
 import {deep, html, shadowView} from "@benev/slate"
 
-import {IdView} from "../id/view.js"
 import stylesCss from "./styles.css.js"
 import {whence} from "../../../../tools/whence.js"
 import {Passport} from "../../../../auth/passport.js"
 import themeCss from "../../../../common/theme.css.js"
+import {IdView} from "../../../../common/views/id/view.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {maxNameLength, validName} from "../../../../auth/utils/validation.js"
 

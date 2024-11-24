@@ -3,13 +3,13 @@ import {html, shadowView, svgSlate} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {manager} from "../../../context.js"
-import {IdView} from "../../common/id/view.js"
 import {whence} from "../../../../tools/whence.js"
 import {Passport} from "../../../../auth/passport.js"
 import {Situation} from "../../../logic/situation.js"
 import {PassportsFile} from "../../../../auth/passports-file.js"
 
 import themeCss from "../../../../common/theme.css.js"
+import {IdView} from "../../../../common/views/id/view.js"
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
 
 export const ListPage = shadowView(use => (

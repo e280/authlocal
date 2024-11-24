@@ -1,5 +1,5 @@
 
-import {shadowComponent, html, loading, svgSlate} from "@benev/slate"
+import {shadowComponent, html, loading} from "@benev/slate"
 
 import {manager} from "../../context.js"
 import {Passport} from "../../../auth/passport.js"
@@ -13,13 +13,10 @@ import {PassportsFile} from "../../../auth/passports-file.js"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../common/theme.css.js"
-
-import shieldOffIcon from "../../../common/icons/tabler/shield-off.icon.js"
-import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-filled.icon.js"
+import { SafeStorageView } from "../../../common/views/safe-storage/view.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
-
 	const {passportStore, storagePersistence, situationOp} = manager
 
 	use.once(() => storagePersistence.check())
@@ -122,17 +119,7 @@ export const AuthManager = shadowComponent(use => {
 		${page}
 
 		<footer>
-			${storagePersistence.persisted.value ? html`
-				<div class=persistence data-is-persisted>
-					${svgSlate(shieldCheckFilledIcon)}
-					<span>Browser storage persistence enabled</span>
-				</div>
-			` : html`
-				<button class=persistence @click="${() => storagePersistence.request()}">
-					${svgSlate(shieldOffIcon)}
-					<span>Browser storage persistence disabled</span>
-				</button>
-			`}
+			${SafeStorageView([])}
 		</footer>
 	`
 })

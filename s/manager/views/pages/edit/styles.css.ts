@@ -12,5 +12,9 @@ input[readonly] {
 	margin: 3em auto;
 }
 
+footer {
+	margin-top: 4em;
+}
+
 `
 

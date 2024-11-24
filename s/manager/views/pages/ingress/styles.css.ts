@@ -25,5 +25,9 @@ section {
 	}
 }
 
+:host > footer {
+	margin-top: 4em;
+}
+
 `
 
