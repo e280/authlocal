@@ -5,8 +5,9 @@ import stylesCss from "./styles.css.js"
 import {whence} from "../../../../tools/whence.js"
 import {Passport} from "../../../../auth/passport.js"
 import themeCss from "../../../../common/theme.css.js"
+import {IdView} from "../../../../common/views/id/view.js"
 import {inputString} from "../../../../tools/input-string.js"
-import {validName} from "../../../../auth/utils/validation.js"
+import {maxNameLength, validName} from "../../../../auth/utils/validation.js"
 
 export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
 		passport: Passport
@@ -38,24 +39,25 @@ export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
 	return html`
 		<section class=form>
 			<label>
-				<span>Name</span>
+				<strong>Public Name</strong>
 
 				<input
 					type=text
 					.value="${name.value}"
+					maxlength="${maxNameLength}"
 					@input="${inputString(updateName)}"
 					?data-angry="${!validName(name.value)}"
 					/>
-
-				<small>
-					<span>${whence(passport.created)}</span>
-					<span>${passport.thumbprint.slice(0, 8)}</span>
-				</small>
 
 				${!validName(name.value) ? html`
 					<small class=angry>invalid name</small>
 				` : null}
 			</label>
+
+			<small>
+				<span>${whence(passport.created)}</span>
+				<span>${IdView([passport.thumbprint])}</span>
+			</small>
 		</section>
 	`
 })

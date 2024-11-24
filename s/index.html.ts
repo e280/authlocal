@@ -34,6 +34,7 @@ export default template(async basic => {
 			<footer>
 				<p>Authduo is a free and open source user-sovereign login system.</p>
 				<p>See <a href="https://github.com/authduo/authduo" target=_blank>Authduo on GitHub</a> to learn more.</p>
+				<auth-safe-storage></auth-safe-storage>
 			</footer>
 		`,
 	})

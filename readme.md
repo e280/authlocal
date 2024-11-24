@@ -36,7 +36,7 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
     <script type="module" src="https://authduo.org/install.bundle.min.js"></script>
 
     <script type="module">
-      document.querySelector("auth-login").auth.onChange(login => {
+      document.querySelector("auth-button").auth.onChange(login => {
         if (login) console.log("logged in", login)
         else console.log("logged out")
       })
@@ -50,9 +50,10 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
       login.expiry // 1731740481065
       ```
     - When the user logs out, `login` is `null`.
-1. **Put this button in your `<body>`:**
+1. **Put these elements in your `<body>`:**
     ```html
-    <auth-login></auth-login>
+    <auth-user></auth-user>
+    <auth-button></auth-button>
     ```
     - This provides a nice little status/button ui for users to login or logout.
     - The login state is automatically stored in `localStorage`.
@@ -78,9 +79,10 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
       else console.log("logged out")
     })
     ```
-1. **Throw down some login buttons.** `index.html`
+1. **Throw down some elements.** `index.html`
     ```html
-    <auth-login></auth-login>
+    <auth-user></auth-user>
+    <auth-button></auth-button>
     ```
 
 <br/>
@@ -89,7 +91,7 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 - You can fork Authduo to make your own passport management app, and users can take their passport files there instead
 - You can point the login button to your own fork:
   ```html
-  <auth-login src="https://authduo.org/"></auth-login>
+  <auth-button src="https://authduo.org/"></auth-button>
   ```
   - Just swap `https://authduo.org/` with your own url
   - This is what "decentralized", "user-sovereign", and "protocol" is all about

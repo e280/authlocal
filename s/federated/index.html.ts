@@ -27,7 +27,8 @@ export default template(async basic => {
 			<h1 class=title>
 				Authduo Federated Test
 			</h1>
-			<auth-login src="/"></auth-login>
+			<auth-user></auth-user>
+			<auth-button src="/"></auth-button>
 			<footer>
 				<p>This page is a test for a typical federated auth integration with <a href="/">Authduo.org</a></p>
 			</footer>

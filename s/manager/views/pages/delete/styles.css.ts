@@ -14,6 +14,7 @@ export default css`
 	display: flex;
 	justify-content: center;
 	gap: 1em;
+	margin-top: 4em;
 }
 
 `

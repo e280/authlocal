@@ -1,4 +1,6 @@
 
+export const maxNameLength = 24
+
 export function validName(name: string): boolean {
 	if (name !== name.trim())
 		return false
@@ -8,7 +10,7 @@ export function validName(name: string): boolean {
 	return [
 		typeof name === "string",
 		name.length >= 1,
-		name.length <= 24,
+		name.length <= maxNameLength,
 
 		// no consecutive spaces
 		!/[ ]{2,}/u.test(name),

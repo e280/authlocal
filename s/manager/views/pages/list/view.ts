@@ -6,9 +6,11 @@ import {manager} from "../../../context.js"
 import {whence} from "../../../../tools/whence.js"
 import {Passport} from "../../../../auth/passport.js"
 import {Situation} from "../../../logic/situation.js"
-import themeCss from "../../../../common/theme.css.js"
 import {PassportsFile} from "../../../../auth/passports-file.js"
-import circleKeyIcon from "../../../../common/icons/tabler/circle-key.icon.js"
+
+import themeCss from "../../../../common/theme.css.js"
+import {IdView} from "../../../../common/views/id/view.js"
+import userIcon from "../../../../common/icons/tabler/user.icon.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -22,18 +24,36 @@ export const ListPage = shadowView(use => (
 	const none = passports.length === 0
 	const purpose = manager.purpose.value
 
+	const triggerLogin = (passport: Passport) => () => {
+		if (purpose.kind === "login")
+			purpose.onLogin(passport)
+	}
+
 	function renderPassport(passport: Passport) {
 		const file = new PassportsFile().add(passport)
 		return html`
 			<article>
-				${svgSlate(circleKeyIcon)}
 
-				<section class=nameplate>
+				<div x-nameplate x-purpose="${purpose.kind}" @click="${triggerLogin(passport)}">
+					${svgSlate(userIcon)}
+
 					<h2>${passport.name}</h2>
-					<footer>
-						${purpose.kind === "login" ? html`
-							<button class=happy @click="${() => purpose.onLogin(passport)}">Login</button>
-						` : null}
+
+					${purpose.kind === "login" ? html`
+						<button x-login>Login</button>
+					` : null}
+				</div>
+
+				<div x-details>
+					<div x-p1>
+						<span>
+							${whence(passport.created)}
+						</span>
+						<span class=thumbprint title="${passport.thumbprint}">
+							${IdView([passport.thumbprint])}
+						</span>
+					</div>
+					<div x-p2>
 						<button @click="${() => situation.onEdit(passport)}">Edit</button>
 						<a
 							class=button
@@ -42,60 +62,54 @@ export const ListPage = shadowView(use => (
 							href="${file.href()}">
 							Download
 						</a>
-					</footer>
-				</section>
-
-				<section class=details>
-					<span>
-						${whence(passport.created)}
-					</span>
-					<span class=thumbprint title="${passport.thumbprint}">
-						${passport.thumbprint.slice(0, 8)}
-					</span>
-				</section>
+					</div>
+				</div>
 			</article>
 		`
 	}
 
 	return html`
-		${(() => {switch (purpose.kind) {
+		<div x-plate>
+			${(() => {switch (purpose.kind) {
 
-			case "login":
-				return html`
-					<header class=intro>
-						${none
-							? html`<h2>Create or import a passport to login</h2>`
-							: html`<h2>Choose a passport to login with</h2>`}
-					</header>
-				`
+				case "login":
+					const {hostname} = new URL(purpose.audience)
+					return html`
+						<header class=intro>
+							${none
+								? html`<h2>Create or import a passport login for <code>${hostname}</code></h2>`
+								: html`<h2>Choose a passport login for <code>${hostname}</code></h2>`}
+						</header>
+					`
 
-			case "manage":
-				return null
-		}})()}
+				case "manage":
+					return null
+			}})()}
 
-		<nav class=passports ?hidden="${none}">
-			${passports.map(renderPassport)}
-		</nav>
+			<nav class=passports ?hidden="${none}">
+				${passports.map(renderPassport)}
+			</nav>
 
-		<nav class="controls stdbuttons">
-			<button class="${none ? "happy" : ""}" @click="${() => situation.onCreate()}">
-				New Passport
-			</button>
+			<nav class="buttonbar">
+				<button class="${none ? "happy" : ""}" @click="${() => situation.onCreate()}">
+					New Passport
+				</button>
 
-			<button @click="${() => situation.onIngress(undefined)}">
-				Import
-			</button>
+				<button @click="${() => situation.onIngress(undefined)}">
+					Import
+				</button>
 
-			${passports.length > 1 ? html`
-				<a
-					class=button
-					title="${passportsFile.filename()}"
-					download="${passportsFile.filename()}"
-					href="${passportsFile.href()}">
-					Download All
-				</a>
-			` : null}
-		</nav>
+				${passports.length > 1 ? html`
+					<a
+						class=button
+						title="${passportsFile.filename()}"
+						download="${passportsFile.filename()}"
+						href="${passportsFile.href()}">
+						Download All
+					</a>
+				` : null}
+			</nav>
+		</div>
 	`
 })
 

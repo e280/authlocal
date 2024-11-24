@@ -10,5 +10,9 @@ section {
 	text-align: center;
 }
 
+footer {
+	margin-top: 4em;
+}
+
 `
 
