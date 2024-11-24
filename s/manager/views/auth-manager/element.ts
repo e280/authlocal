@@ -13,7 +13,6 @@ import {PassportsFile} from "../../../auth/passports-file.js"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../common/theme.css.js"
-import { SafeStorageView } from "../../../common/views/safe-storage/view.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
@@ -115,12 +114,6 @@ export const AuthManager = shadowComponent(use => {
 			throw new Error("unknown situation")
 	}})
 
-	return html`
-		${page}
-
-		<footer>
-			${SafeStorageView([])}
-		</footer>
-	`
+	return page
 })
 

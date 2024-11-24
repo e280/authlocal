@@ -3,9 +3,6 @@ import {css} from "@benev/slate"
 export default css`
 
 .persistence {
-	opacity: 0.5;
-	font-size: 0.8em;
-
 	display: flex;
 	align-items: center;
 	justify-content: center;
