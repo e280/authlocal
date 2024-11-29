@@ -46,28 +46,52 @@ button {
 	user-select: none;
 }
 
-:is(button, a.button):not([x-plain]) {
-	color: #a3b1ff;
-	font-weight: bold;
-	text-shadow: .04em .08em .1em #0008;
-	cursor: pointer;
+:is(button, a.button) {
+	&:not([x-alt]) {
+		cursor: pointer;
+		padding: 1em;
+		color: #fff;
+		background: #6664;
+		font-weight: bold;
+		text-shadow: .04em .08em .1em #0008;
+		border-radius: 0.3em;
+		box-shadow: .1em .2em .3em #0003;
+		border-top: 0.15em solid #fff4;
 
-	&[disabled] {
-		cursor: default;
-		color: #666;
-		opacity: 0.5;
-		text-decoration: line-through;
+		&[disabled] {
+			cursor: default;
+			opacity: 0.3;
+		}
+
+		&:not([disabled]) {
+			cursor: pointer;
+
+			&.happy { background: #00ac00; }
+			&.angry { background: #800; color: #faa; }
+			&.special { background: #783bc2; }
+
+			&:hover { filter: brightness(120%); text-decoration: underline; }
+			&:active { filter: brightness(90%); }
+		}
 	}
 
-	&:not([disabled]) {
-		cursor: pointer;
+	&[x-alt] {
+		color: #a3b1ff;
+		font-weight: bold;
+		text-shadow: .04em .08em .1em #0008;
 
-		&.happy { color: #26db26; }
-		&.angry { color: #d00000; }
-		&.special { color: #994de6; }
+		&[disabled] {
+			cursor: default;
+			color: #666;
+			opacity: 0.5;
+			text-decoration: line-through;
+		}
 
-		&:hover { filter: brightness(120%); text-decoration: underline; }
-		&:active { filter: brightness(90%); }
+		&:not([disabled]) {
+			cursor: pointer;
+			&:hover { filter: brightness(120%); text-decoration: underline; }
+			&:active { filter: brightness(90%); }
+		}
 	}
 }
 

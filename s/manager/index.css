@@ -1,7 +1,10 @@
 
 :root {
 	color-scheme: dark;
+
 	--link: cyan;
+	--site-bg: #181818;
+	--passport-color: #26402e;
 }
 
 * {
@@ -47,7 +50,7 @@ body {
 	font-size: 16px;
 
 	color: #fffc;
-	background: #25222b;
+	background: var(--site-bg);
 	background-attachment: fixed;
 	font-family: sans-serif;
 

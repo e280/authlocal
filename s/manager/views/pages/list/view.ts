@@ -40,7 +40,7 @@ export const ListPage = shadowView(use => (
 					<h2>${passport.name}</h2>
 
 					${purpose.kind === "login" ? html`
-						<button x-login>Login</button>
+						<button class=happy>Login</button>
 					` : null}
 				</div>
 
@@ -54,9 +54,10 @@ export const ListPage = shadowView(use => (
 						</span>
 					</div>
 					<div x-p2>
-						<button @click="${() => situation.onEdit(passport)}">Edit</button>
+						<button x-alt @click="${() => situation.onEdit(passport)}">Edit</button>
 						<a
 							class=button
+							x-alt
 							title="${file.filename()}"
 							download="${file.filename()}"
 							href="${file.href()}">

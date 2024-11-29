@@ -46,13 +46,14 @@ nav.passports > article {
 
 		padding: 1em;
 		border-radius: 0.5em;
-		box-shadow: .1em .2em .3em #0002;
-		background: linear-gradient(to bottom, #fff2, #fff1);
+		background: var(--passport-color);
+		border-top: 0.15em solid #fff4;
+		box-shadow: .1em .2em .5em #0005;
 
 		&[x-purpose="login"] {
 			cursor: pointer;
-			&:hover { background: linear-gradient(to bottom, #fff3, #fff2); }
-			&:active { background: linear-gradient(to bottom, #8883, #8882); }
+			&:hover { filter: brightness(120%); }
+			&:active { filter: brightness(80%); }
 		}
 
 		> svg {
@@ -64,15 +65,6 @@ nav.passports > article {
 		> h2 {
 			flex: 1 1 auto;
 			padding-right: 1em;
-		}
-
-		> [x-login] {
-			background: #783bc2;
-			border-top: 0.05em solid #fff4;
-			padding: 1em;
-			color: white;
-			border-radius: 0.5em;
-			box-shadow: .1em .2em .3em #0004;
 		}
 	}
 
