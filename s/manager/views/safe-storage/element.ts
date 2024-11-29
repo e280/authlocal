@@ -13,14 +13,21 @@ export const AuthSafeStorage = shadowComponent(use => {
 	const {storagePersistence} = manager
 
 	return storagePersistence.persisted.value ? html`
-		<div class=persistence x-persisted title="Your browser granted persistent storage">
-			${svgSlate(shieldCheckFilledIcon)}
-			<span>Safe storage</span>
+
+		<div class=persistence
+			x-persisted
+			title="Your browser granted persistent storage">
+				${svgSlate(shieldCheckFilledIcon)}
+				<span>Stable Storage</span>
 		</div>
+
 	` : html`
-		<button class=persistence @click="${() => storagePersistence.request()}" title="Your browser has NOT granted persistent storage">
-			${svgSlate(shieldOffIcon)}
-			<span>Unsafe storage</span>
+
+		<button class=persistence
+			@click="${() => storagePersistence.request()}"
+			title="Your browser has NOT granted persistent storage">
+				${svgSlate(shieldOffIcon)}
+				<span>Unstable Storage</span>
 		</button>
 	`
 })
