@@ -1,10 +1,11 @@
 
-import {shadowComponent, html, loading} from "@benev/slate"
+import {shadowComponent, loading} from "@benev/slate"
 
 import {manager} from "../../context.js"
 import {Passport} from "../../../auth/passport.js"
 import {EgressPage} from "../pages/egress/view.js"
 import {IngressPage} from "../pages/ingress/view.js"
+import {OnboardPage} from "../pages/onboard/view.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {CreatePage} from "../../views/pages/create/view.js"
@@ -20,14 +21,35 @@ export const AuthManager = shadowComponent(use => {
 
 	use.once(() => storagePersistence.check())
 
+	function gotoHome() {
+		if (passportStore.list().length === 0)
+			gotoOnboard()
+		else
+			gotoList()
+	}
+
 	function gotoList() {
 		situationOp.load(async() => ({
 			kind: "list",
 			passportStore,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
-			onEgress: passports => gotoEgress(passports, gotoList),
-			onIngress: () => gotoIngress(undefined, gotoList),
+			onEgress: passports => gotoEgress(passports, gotoHome),
+			onIngress: () => gotoIngress(undefined, gotoHome),
+		}))
+	}
+
+	async function gotoOnboard() {
+		const passport = await Passport.generate()
+		situationOp.load(async() => ({
+			kind: "onboard",
+			passport,
+			onIngress: () => gotoIngress(undefined, gotoHome),
+			onComplete: passport => {
+				passportStore.add(passport)
+				storagePersistence.request()
+				gotoHome()
+			},
 		}))
 	}
 
@@ -36,11 +58,11 @@ export const AuthManager = shadowComponent(use => {
 		situationOp.load(async() => ({
 			kind: "create",
 			passport,
-			onCancel: gotoList,
+			onCancel: gotoHome,
 			onComplete: passport => {
 				passportStore.add(passport)
 				storagePersistence.request()
-				gotoList()
+				gotoHome()
 			},
 		}))
 	}
@@ -49,12 +71,12 @@ export const AuthManager = shadowComponent(use => {
 		situationOp.load(async() => ({
 			kind: "edit",
 			passport,
-			onCancel: gotoList,
+			onCancel: gotoHome,
 			onDelete: gotoDelete,
 			onComplete: passport => {
 				passportStore.add(passport)
 				storagePersistence.request()
-				gotoList()
+				gotoHome()
 			},
 		}))
 	}
@@ -63,11 +85,11 @@ export const AuthManager = shadowComponent(use => {
 		situationOp.load(async() => ({
 			kind: "delete",
 			passport,
-			onCancel: gotoList,
+			onCancel: gotoHome,
 			onComplete: passport => {
 				passportStore.delete(passport)
 				storagePersistence.request()
-				gotoList()
+				gotoHome()
 			},
 		}))
 	}
@@ -89,11 +111,14 @@ export const AuthManager = shadowComponent(use => {
 		}))
 	}
 
-	use.once(gotoList)
+	use.once(gotoHome)
 
 	const page = loading.braille(situationOp, situation => {switch (situation.kind) {
 		case "list":
 			return ListPage([situation])
+
+		case "onboard":
+			return OnboardPage([situation])
 
 		case "create":
 			return CreatePage([situation])
