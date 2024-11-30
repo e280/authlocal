@@ -44,11 +44,11 @@ export const AuthManager = shadowComponent(use => {
 		situationOp.load(async() => ({
 			kind: "onboard",
 			passport,
+			onDone: gotoHome,
 			onIngress: () => gotoIngress(undefined, gotoHome),
-			onComplete: passport => {
+			onSaveNewPassport: passport => {
 				passportStore.add(passport)
 				storagePersistence.request()
-				gotoHome()
 			},
 		}))
 	}
