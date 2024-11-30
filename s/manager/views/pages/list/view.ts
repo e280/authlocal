@@ -75,21 +75,13 @@ export const ListPage = shadowView(use => (
 
 	return html`
 		<div class=plate>
-			${(() => {switch (purpose.kind) {
-
-				case "login":
-					const {hostname} = new URL(purpose.audience)
-					return html`
-						<header class="intro instruction">
-							${none
-								? html`<h2>Create or import a passport for <code class=domain>${hostname}</code></h2>`
-								: html`<h2>Choose your login for <code class=domain>${hostname}</code></h2>`}
-						</header>
-					`
-
-				case "manage":
-					return null
-			}})()}
+			${purpose.kind === "login" ? html`
+				<header class="intro instruction">
+					${none
+						? html`<h2>Create or import a passport for <code class=domain>${purpose.hostname}</code></h2>`
+						: html`<h2>Choose your login for <code class=domain>${purpose.hostname}</code></h2>`}
+				</header>
+			` : null}
 
 			<nav class=passports ?hidden="${none}">
 				${passports.map(renderPassport)}

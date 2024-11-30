@@ -11,7 +11,7 @@ export default css`
 :host {
 	color: white;
 	text-shadow: .04em .08em .06em #0008;
-	--login-bg: #684595;
+	--login-bg: #80f;
 	--logout-bg: #555;
 }
 
