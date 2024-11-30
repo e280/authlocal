@@ -2,33 +2,42 @@
 import {css} from "@benev/slate"
 export default css`
 
-section.form {
+:host {
+	align-self: stretch;
+}
+
+.form {
 	> label {
 		display: flex;
 		flex-direction: column;
-		gap: 0.2em;
+		gap: 0.5em;
 
-		+ * {
-			margin-top: 1em;
+		width: 100%;
+		margin: auto;
+		max-width: 24em;
+
+		> strong {
+			padding: 0 1em;
 		}
 
-		> :is(span, input):nth-child(2) {
-			font-size: 2em;
-			font-family: monospace;
-
-			background: #222;
-			border: 1px solid #fff2;
-			&[data-angry] { border: 1px solid red; }
+		> input {
+			display: block;
+			margin: auto;
+			width: 100%;
+			font-size: 1.5em;
 		}
 
-		.angry { color: red; }
-	}
+		> .details {
+			display: flex;
+			gap: 1em;
+			padding: 0 1em;
+			color: #666;
+		}
 
-	> small {
-		display: flex;
-		gap: 1em;
-		padding: 0 1em;
-		color: #666;
+		> .invalid {
+			color: red;
+			padding: 0 1em;
+		}
 	}
 }
 

@@ -14,6 +14,7 @@ export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
 		onUpdate: (passport: Passport | null) => void
 	}) => {
 
+	use.name("passport-editor")
 	use.styles([themeCss, stylesCss])
 
 	const name = use.signal(passport.name)
@@ -49,15 +50,17 @@ export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
 					?data-angry="${!validName(name.value)}"
 					/>
 
+				<small class=details>
+					<span>${whence(passport.created)}</span>
+					<span>${IdView([passport.thumbprint])}</span>
+				</small>
+
 				${!validName(name.value) ? html`
-					<small class=angry>invalid name</small>
+					<span class=invalid>invalid name</span>
 				` : null}
+
 			</label>
 
-			<small>
-				<span>${whence(passport.created)}</span>
-				<span>${IdView([passport.thumbprint])}</span>
-			</small>
 		</section>
 	`
 })

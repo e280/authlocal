@@ -18,24 +18,30 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 	}
 
 	return html`
-		${PassportEditor([{
-			passport: situation.passport,
-			onUpdate: updated => passport.value = updated,
-		}])}
+		<div class=plate>
+			<header>
+				<h2 class=instruction>Edit your passport</h2>
+			</header>
 
-		<footer class=buttonbar>
-			<button class=angry @click="${() => situation.onDelete(situation.passport)}">
-				Delete
-			</button>
+			${PassportEditor([{
+				passport: situation.passport,
+				onUpdate: updated => passport.value = updated,
+			}])}
 
-			<button @click="${() => situation.onCancel()}">
-				Cancel
-			</button>
+			<footer class=buttonbar>
+				<button class=angry @click="${() => situation.onDelete(situation.passport)}">
+					Delete
+				</button>
 
-			<button class=happy ?disabled="${!passport.value}" @click="${save}">
-				Save Changes
-			</button>
-		</footer>
+				<button @click="${() => situation.onCancel()}">
+					Cancel
+				</button>
+
+				<button class=happy ?disabled="${!passport.value}" @click="${save}">
+					Save Changes
+				</button>
+			</footer>
+		</div>
 	`
 })
 

@@ -30,9 +30,12 @@ export class Manager {
 				appFns.v1.ready()
 			}
 			else if (isDebugLoginMode) {
+				const audience = window.origin
+				const {hostname} = new URL(audience)
 				purpose.value = {
 					kind: "login",
-					audience: window.origin,
+					audience,
+					hostname,
 					onLogin: async passport => console.log("LOGIN", passport.thumbprint),
 				}
 			}

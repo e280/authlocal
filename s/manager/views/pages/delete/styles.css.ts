@@ -2,19 +2,15 @@
 import {css} from "@benev/slate"
 export default css`
 
-:host > * {
-	display: block;
+.plate {
+	max-width: 30em;
+	margin: auto;
+	text-align: left;
+	align-items: stretch;
 }
 
-:host > * + * {
-	margin-top: 1em;
-}
-
-:host > footer {
-	display: flex;
-	justify-content: center;
-	gap: 1em;
-	margin-top: 4em;
+[view="breakdown"]::part(ul) {
+	justify-content: start;
 }
 
 `

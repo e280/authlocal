@@ -9,6 +9,7 @@ export namespace Purpose {
 	export type Login = {
 		kind: "login"
 		audience: string
+		hostname: string
 		onLogin: (passport: Passport) => Promise<void>
 	}
 

@@ -8,10 +8,11 @@ import themeCss from "../../../../common/theme.css.js"
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
 
 export const Breakdown = shadowView(use => (passports: Passport[]) => {
+	use.name("breakdown")
 	use.styles([themeCss, stylesCss])
 
 	return html`
-		<ul>
+		<ul part="ul">
 			${passports.map(passport => html`
 				<li>
 					${svgSlate(userIcon)}

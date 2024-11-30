@@ -2,6 +2,12 @@
 :root {
 	color-scheme: dark;
 	--link: cyan;
+	--site-bg: #181818;
+
+	--instruction-color: #00ff89;
+	--domain-color: #ff0;
+	--passport-color: #512f71;
+	--login-color: #80f;
 }
 
 * {
@@ -47,7 +53,7 @@ body {
 	font-size: 16px;
 
 	color: #fffc;
-	background: #25222b;
+	background: var(--site-bg);
 	background-attachment: fixed;
 	font-family: sans-serif;
 
@@ -89,8 +95,8 @@ body {
 
 auth-manager {
 	display: block;
-	width: 42em;
-	max-width: 99%;
+	width: 95%;
+	max-width: 42em;
 	border-radius: 0.5em;
 }
 

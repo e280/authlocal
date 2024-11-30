@@ -1,5 +1,6 @@
 
 import {html, shadowView} from "@benev/slate"
+
 import stylesCss from "./styles.css.js"
 import {Passport} from "../../../../auth/passport.js"
 import {Situation} from "../../../logic/situation.js"
@@ -38,8 +39,10 @@ export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 	}
 
 	return html`
-		<section>
-			<h2>Import passports from your device.</h2>
+		<section class=plate>
+			<header>
+				<h2 class=instruction>Import passport files from your device</h2>
+			</header>
 
 			<input
 				type="file"
@@ -59,17 +62,17 @@ export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 			${passports.value.length > 0 ? html`
 				${Breakdown([passports.value])}
 			` : null}
-		</section>
 
-		<footer class=buttonbar>
-			<button @click="${situation.onBack}">Cancel</button>
-			<button
-				class=happy
-				?disabled="${passports.value.length === 0}"
-				@click="${accept}">
-					Import Passports
-			</button>
-		</footer>
+			<footer class=buttonbar>
+				<button @click="${situation.onBack}">Cancel</button>
+				<button
+					class=happy
+					?disabled="${passports.value.length === 0}"
+					@click="${accept}">
+						Import Passports
+				</button>
+			</footer>
+		</section>
 	`
 })
 
