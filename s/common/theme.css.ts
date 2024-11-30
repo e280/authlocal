@@ -68,14 +68,14 @@ button {
 
 			&.happy { background: #00ac00; }
 			&.angry { background: #800; color: #faa; }
-			&.special { background: #783bc2; }
+			&.login { background: var(--login-color); }
 
 			&:hover { filter: brightness(120%); text-decoration: underline; }
 			&:active { filter: brightness(90%); }
 		}
 	}
 
-	&[x-alt] {
+	&[x-alt=subtle] {
 		color: #a3b1ff;
 		font-weight: bold;
 		text-shadow: .04em .08em .1em #0008;
@@ -95,10 +95,39 @@ button {
 	}
 }
 
+.plate {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2em;
+
+	> .stretch {
+		align-self: stretch;
+	}
+}
+
+.instruction {
+	color: var(--instruction-color);
+}
+
+.domain {
+	color: var(--domain-color);
+}
+
+.buttonbar {
+	display: flex;
+	gap: 1em;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
 input[type="text"] {
 	padding: 0.3em 0.5em;
+	font-family: monospace;
 	border-radius: 0.2em;
-	border-style: solid;
+	border: 1px solid #fff2;
+	background: #222;
+	&[data-angry] { border: 1px solid red; }
 }
 
 .spin {

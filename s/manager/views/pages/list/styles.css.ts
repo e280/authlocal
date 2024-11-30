@@ -1,28 +1,9 @@
 
 import {css} from "@benev/slate"
-import buttonbarCss from "../../common/styling/buttonbar.css.js"
 export default css`
 
-${buttonbarCss}
-
-[x-plate] {
-	display: flex;
-	gap: 2em;
-	flex-direction: column;
-	align-items: center;
-}
-
 header.intro {
-	opacity: 0.8;
 	text-align: center;
-	& h2 {
-		font-size: 1.2em;
-		font-weight: normal;
-	}
-	& code {
-		font-weight: bold;
-		color: gold;
-	}
 }
 
 nav.passports {
@@ -47,7 +28,7 @@ nav.passports > article {
 		padding: 1em;
 		border-radius: 0.5em;
 		background: var(--passport-color);
-		border-top: 0.15em solid #fff4;
+		border-top: 0.15em solid #fff2;
 		box-shadow: .1em .2em .5em #0005;
 
 		&[x-purpose="login"] {
@@ -75,8 +56,7 @@ nav.passports > article {
 		gap: 0 1em;
 
 		color: #aaa;
-		padding: 0 1em;
-		font-size: 0.7em;
+		padding: 0 .5em;
 
 		> * {
 			flex: 0 0 auto;

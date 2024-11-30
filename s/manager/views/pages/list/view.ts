@@ -40,7 +40,7 @@ export const ListPage = shadowView(use => (
 					<h2>${passport.name}</h2>
 
 					${purpose.kind === "login" ? html`
-						<button class=happy>Login</button>
+						<button class=login>Login</button>
 					` : null}
 				</div>
 
@@ -54,14 +54,18 @@ export const ListPage = shadowView(use => (
 						</span>
 					</div>
 					<div x-p2>
-						<button x-alt @click="${() => situation.onEdit(passport)}">Edit</button>
+						<button
+							x-alt=subtle
+							@click="${() => situation.onEdit(passport)}">
+								Edit
+						</button>
 						<a
 							class=button
-							x-alt
+							x-alt=subtle
 							title="${file.filename()}"
 							download="${file.filename()}"
 							href="${file.href()}">
-							Download
+								Download
 						</a>
 					</div>
 				</div>
@@ -70,16 +74,16 @@ export const ListPage = shadowView(use => (
 	}
 
 	return html`
-		<div x-plate>
+		<div class=plate>
 			${(() => {switch (purpose.kind) {
 
 				case "login":
 					const {hostname} = new URL(purpose.audience)
 					return html`
-						<header class=intro>
+						<header class="intro instruction">
 							${none
-								? html`<h2>Create or import a passport login for <code>${hostname}</code></h2>`
-								: html`<h2>Choose a passport login for <code>${hostname}</code></h2>`}
+								? html`<h2>Create or import a passport for <code class=domain>${hostname}</code></h2>`
+								: html`<h2>Choose your login for <code class=domain>${hostname}</code></h2>`}
 						</header>
 					`
 

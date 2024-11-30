@@ -1,17 +1,18 @@
 
 import {css} from "@benev/slate"
-import buttonbarCss from "../../common/styling/buttonbar.css.js"
 export default css`
 
-${buttonbarCss}
+header {
+	max-width: 40em;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
+}
 
 section {
 	margin: 1em;
 	text-align: center;
-}
-
-footer {
-	margin-top: 4em;
 }
 
 `

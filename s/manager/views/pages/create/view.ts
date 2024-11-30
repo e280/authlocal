@@ -18,15 +18,21 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	}
 
 	return html`
-		${PassportEditor([{
-			passport: situation.passport,
-			onUpdate: updated => passport.value = updated,
-		}])}
+		<div class=plate>
+			<header>
+				<h2 class=instruction>Create a new passport</h2>
+			</header>
 
-		<footer class=buttonbar>
-			<button @click="${situation.onCancel}">Cancel</button>
-			<button class=happy ?disabled="${!passport.value}" @click="${save}">Create Passport</button>
-		</footer>
+			${PassportEditor([{
+				passport: situation.passport,
+				onUpdate: updated => passport.value = updated,
+			}])}
+
+			<footer class=buttonbar>
+				<button @click="${situation.onCancel}">Cancel</button>
+				<button class=happy ?disabled="${!passport.value}" @click="${save}">Create Passport</button>
+			</footer>
+		</div>
 	`
 })
 

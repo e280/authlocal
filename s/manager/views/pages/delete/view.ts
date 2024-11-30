@@ -21,30 +21,33 @@ export const DeletePage = shadowView(use => (situation: Situation.Delete) => {
 	}
 
 	return html`
-		<h2>Delete Passport</h2>
-		<p>Are you absolutely super-duper sure you want to delete this passport?</p>
+		<div class=plate>
+			<header>
+				<h2 class=instruction>Delete Passport?</h2>
+			</header>
 
-		${Breakdown([[passport]])}
+			<p>Are you absolutely super-duper sure you want to delete this passport? It will be <strong>gone forever</strong>, unless you have it saved elsewhere.</p>
 
-		<p>It will be <strong>gone forever</strong>, unless you have it saved elsewhere.</p>
+			${Breakdown([[passport]])}
 
-		<label>
-			<span>If you're certain, confirm by typing "<code>${thumb}</code>" exactly:</span>
-			<input type=text .value="${confirmation}" @input="${signalInput(confirmation)}"/>
-		</label>
+			<label>
+				<span>If you're certain, confirm by typing "<code>${thumb}</code>" exactly:</span>
+				<input type=text .value="${confirmation}" @input="${signalInput(confirmation)}"/>
+			</label>
 
-		<footer>
-			<button @click="${() => situation.onCancel()}">
-				Cancel
-			</button>
+			<footer class=buttonbar>
+				<button @click="${() => situation.onCancel()}">
+					Cancel
+				</button>
 
-			<button
-				class=angry
-				?disabled="${!confirmationAccepted.value}"
-				@click="${deleteForever}">
-				Delete Forever
-			</button>
-		</footer>
+				<button
+					class=angry
+					?disabled="${!confirmationAccepted.value}"
+					@click="${deleteForever}">
+					Delete Forever
+				</button>
+			</footer>
+		</div>
 	`
 })
 

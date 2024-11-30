@@ -23,7 +23,9 @@ export const AuthSafeStorage = shadowComponent(use => {
 
 	` : html`
 
-		<button class=persistence
+		<button
+			x-alt=plain
+			class=persistence
 			@click="${() => storagePersistence.request()}"
 			title="Your browser has NOT granted persistent storage">
 				${svgSlate(shieldOffIcon)}
