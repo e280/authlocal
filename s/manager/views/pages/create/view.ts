@@ -30,7 +30,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 			<footer class=buttonbar>
 				<button @click="${situation.onCancel}">Cancel</button>
-				<button class=happy ?disabled="${!passport.value}" @click="${save}">Create Passport</button>
+				<button class=happy ?disabled="${!passport.value}" @click="${save}">Create</button>
 			</footer>
 		</div>
 	`
