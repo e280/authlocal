@@ -23,7 +23,7 @@ export default template(async basic => {
 				themeColor: "#8800ff",
 				siteName: "authduo.org",
 				title: "Authduo.org – web passports",
-				description: "Own your identity. No passwords, no emails, no databases. Decentralized, user-sovereign, open source.",
+				description: "Own your identity. No emails, no passwords, no databases. Decentralized, user-sovereign, open source.",
 				image: `https://${domain}${favicon}`,
 				url: `https://${domain}/`,
 			})}
@@ -44,7 +44,7 @@ export default template(async basic => {
 
 			<footer>
 				<p><strong><em>Own your identity.</em></strong></p>
-				<p>No passwords, no emails, no databases.</p>
+				<p>No emails, no passwords, no databases.</p>
 				<p>Decentralized, user-sovereign, open source.</p>
 				<p>See <a href="https://github.com/authduo/authduo" target=_blank>Authduo on GitHub</a> to learn more.</p>
 				<auth-safe-storage></auth-safe-storage>
