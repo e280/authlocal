@@ -22,8 +22,8 @@ export default template(async basic => {
 			${renderSocialCard({
 				themeColor: "#8800ff",
 				siteName: "authduo.org",
-				title: "Authduo.org – web passports",
-				description: "Own your identity. No emails, no passwords, no databases. Decentralized, user-sovereign, open source.",
+				title: "Authduo.org – login passports",
+				description: "Own your identity. No emails, no passwords, no databases. User-sovereign, privacy-focused, open-source.",
 				image: `https://${domain}${favicon}`,
 				url: `https://${domain}/`,
 			})}
@@ -45,7 +45,7 @@ export default template(async basic => {
 			<footer>
 				<p><strong><em>Own your identity.</em></strong></p>
 				<p>No emails, no passwords, no databases.</p>
-				<p>Decentralized, user-sovereign, open source.</p>
+				<p>User-sovereign, privacy-focused, open-source.</p>
 				<p>See <a href="https://github.com/authduo/authduo" target=_blank>Authduo on GitHub</a> to learn more.</p>
 				<auth-safe-storage></auth-safe-storage>
 			</footer>

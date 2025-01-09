@@ -83,7 +83,7 @@ export const ListPage = shadowView(use => (
 				</header>
 			` : html`
 				<header class="intro">
-					<h2>Manage your passports</h2>
+					<h2>Manage your login passports</h2>
 				</header>
 			`}
 
