@@ -81,7 +81,11 @@ export const ListPage = shadowView(use => (
 						? html`<h2>Create or import a passport for <code class=domain>${purpose.hostname}</code></h2>`
 						: html`<h2>Choose your login for <code class=domain>${purpose.hostname}</code></h2>`}
 				</header>
-			` : null}
+			` : html`
+				<header class="intro">
+					<h2>Manage your passports</h2>
+				</header>
+			`}
 
 			<nav class=passports ?hidden="${none}">
 				${passports.map(renderPassport)}
@@ -89,7 +93,7 @@ export const ListPage = shadowView(use => (
 
 			<nav class="buttonbar">
 				<button class="${none ? "happy" : ""}" @click="${() => situation.onCreate()}">
-					New Passport
+					New
 				</button>
 
 				<button @click="${() => situation.onIngress(undefined)}">
