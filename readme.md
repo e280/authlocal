@@ -7,17 +7,20 @@
 
 You can add a *"Login with Authduo"* button to your website, allowing users to login using an Authduo passport.
 
-🔑 **Passwordless** – passports are cryptographic keypairs  
+✨ **No emails** – users can remain anonymous  
+🔑 **No passwords** – passports are cryptographic keypairs  
+🗿 **No databases** – everything is stored locally on the user's device  
+
 🗽 **User-sovereign** – users can directly download their passport files  
-🥷 **Privacy-focused** – users can be anonymous: no emails, no tracking  
+🥷 **Privacy-focused** – no tracking, except for whatever github pages does  
+💖 **Free and open-source** – zero cost at worldwide scale  
 
-💖 **Free and open source** – zero cost at worldwide scale  
-🥞 **Easy as pancakes** – paste in a tiny amount of code to get logins  
 📱 **Clientside** – statically hosted on github pages, no api servers  
-
-🏛️ **Federated** – get login tokens from the authduo.org popup flow  
-🌐 **Decentralized** – fork and self-host if you'd rather  
+🏛️ **Federated** – your app can get login tokens from an authduo.org popup  
 📜 **Protocol** – permissionless integration, you can do it your way  
+
+🥧 **Easy as pie** – setup your app with an easy snippet  
+🥞 **Easy as pancakes** – logins are fast and painless for users  
 
 > ***Pre-release:** Authduo is an unfinished prototype, use at your own risk.*
 
@@ -192,7 +195,7 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 <br/>
 
 ## 💖 [Authduo](https://authduo.org/) is free and open source
-- I built Authduo because I wanted free user-centric auth for my apps.
+- I built Authduo because I wanted free user-centric auth to power https://benevolent.games/
 - Got questions or feedback? Don't hesitate to open a github issue or discussion anytime.
 - My name is Chase Moskal, ping me on discord: https://discord.gg/BnZx2utdev
 

@@ -45,7 +45,7 @@ export const OnboardPage = shadowView(use => (situation: Situation.Onboard) => {
 
 			<footer class=buttonbar>
 				<button @click="${situation.onIngress}">
-					Import Passport
+					Import Existing
 				</button>
 
 				${purpose.kind === "login" ? html`
@@ -58,7 +58,7 @@ export const OnboardPage = shadowView(use => (situation: Situation.Onboard) => {
 					<button class=happy
 						?disabled="${!passport.value}"
 						@click="${save}">
-							Create Passport
+							Create
 					</button>
 				`}
 

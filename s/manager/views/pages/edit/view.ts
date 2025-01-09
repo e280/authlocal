@@ -38,7 +38,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 				</button>
 
 				<button class=happy ?disabled="${!passport.value}" @click="${save}">
-					Save Changes
+					Save
 				</button>
 			</footer>
 		</div>
