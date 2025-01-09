@@ -7,24 +7,34 @@ import {crushUsername} from "./utils/crush-username.js"
 import {PassportsFileData, PassportData} from "./types.js"
 
 export class PassportsFile {
-	static readonly format = "authduo.org passports"
+	static readonly format = "authlocal.org passports"
 	static readonly extension = "passport"
-	static readonly version = 3
+	static readonly version = 4
 
 	static #ingestData(raw: any): PassportsFileData {
 		let data: PassportsFileData | null = null
+		const legacyFormat = "authduo.org passports"
 
 		if (
-			!("format" in raw) ||
-			!("version" in raw) ||
-			raw.format !== PassportsFile.format)
+			!("format" in raw && (raw.format === PassportsFile.format || raw.format === legacyFormat)) ||
+			!("version" in raw && typeof raw.version === "number"))
 				throw new Error(`invalid format`)
 
-		switch (raw.version) {
-			case 0:
-			case 1:
-			case 2: throw new Error(`invalid version ${raw.version}`)
-			case 3: data = raw
+		// v2 and lower is invalid
+		if (raw.version <= 2) {
+			throw new Error(`invalid version ${raw.version}`)
+		}
+
+		// v3 gets migrated to v4
+		if (raw.version === 3) {
+			// we simply renamed the format, so the migration is just to use the new format name
+			raw.format = PassportsFile.format
+			raw.version = 4
+		}
+
+		// v4 is the current version
+		if (raw.version === 4) {
+			data = raw
 		}
 
 		if (!data)

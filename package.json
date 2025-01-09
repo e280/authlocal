@@ -1,7 +1,7 @@
 {
-	"name": "@authduo/authduo",
+	"name": "@authlocal/authlocal",
 	"version": "0.2.0-7",
-	"description": "Free User-sovereign Authentication for the World",
+	"description": "User-sovereign auth for everybody",
 	"main": "x/index.js",
 	"type": "module",
 	"files": [

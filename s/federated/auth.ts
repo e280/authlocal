@@ -8,9 +8,10 @@ import {LoginTokens} from "../auth/tokens/types.js"
 import {nullcatch} from "../auth/utils/nullcatch.js"
 import {JsonStorage} from "../tools/json-storage.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
+import {migrateStorageKeyRename} from "../tools/migrate-storage-key-rename.js"
 
 export class Auth {
-	static defaultUrl = "https://authduo.org/"
+	static defaultUrl = "https://authlocal.org/"
 	static version = 1
 	static #auth: Auth | null = null
 
@@ -21,10 +22,12 @@ export class Auth {
 	}
 
 	onChange = pubsub<[Login | null]>()
-	#fileStorage = new JsonStorage<AuthFile>("authduo")
 	#login = signal<Login | null>(null)
+	#fileStorage: JsonStorage<AuthFile>
 
 	constructor() {
+		migrateStorageKeyRename(window.localStorage, "authduo", "authlocal")
+		this.#fileStorage = new JsonStorage<AuthFile>("authlocal")
 		this.#fileStorage.onChangeFromOutside(() => void this.load())
 		this.#login.on(login => this.onChange.publish(login))
 		this.load()

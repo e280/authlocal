@@ -14,7 +14,7 @@ export const EgressPage = shadowView(use => (situation: Situation.Egress) => {
 	return html`
 		<section>
 			<h3>Export your passport files, and put them in a secure place.</h3>
-			<p>Authduo does not have any servers, and puts you in direct control over your passport files. Your passports are automatically stored locally in your device's web browser, but this storage may not be reliable.</p>
+			<p>Authlocal does not have any databases, and puts you in direct control over your passport files. Your passports are automatically stored locally in your device's web browser, but this storage may not be reliable.</p>
 
 			<div class=special>
 				${Breakdown([situation.passports])}

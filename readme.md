@@ -1,11 +1,11 @@
 
-![Authduo.org](https://i.imgur.com/Pr6ILnz.png)
+![Authlocal.org](https://i.imgur.com/Pr6ILnz.png)
 
-# 🗽 [Authduo.org](https://authduo.org/) – Free Auth for Everybody
+# 🗽 [Authlocal.org](https://authlocal.org/) – user-sovereign auth for everybody
 
-[Authduo.org](https://authduo.org/) is an app where users can create and manage digital login passports.
+[Authlocal.org](https://authlocal.org/) is an app where users can create and manage digital login passports.
 
-You can add a *"Login with Authduo"* button to your website, allowing users to login using an Authduo passport.
+You can add a *"Login with Authlocal"* button to your website, allowing users to login using an Authlocal passport.
 
 ✨ **No emails** – users can remain anonymous  
 🔑 **No passwords** – passports are cryptographic keypairs  
@@ -16,19 +16,19 @@ You can add a *"Login with Authduo"* button to your website, allowing users to l
 💖 **Free and open-source** – zero cost at worldwide scale  
 
 📱 **Clientside** – statically hosted on github pages, no api servers  
-🏛️ **Federated** – your app can get login tokens from an authduo.org popup  
+🏛️ **Federated** – your app can get login tokens from an authlocal.org popup  
 📜 **Protocol** – permissionless integration, you can do it your way  
 
 🥧 **Easy as pie** – setup your app with an easy snippet  
 🥞 **Easy as pancakes** – logins are fast and painless for users  
 
-> ***Pre-release:** Authduo is an unfinished prototype, use at your own risk.*
+> ***Pre-release:** Authlocal is an unfinished prototype, use at your own risk.*
 
 <br/>
 
-## 🪪 [Authduo.org](https://authduo.org/) Login Button
+## 🪪 [Authlocal.org](https://authlocal.org/) Login Button
 
-Try out the login button at the [Federated Test Page](https://authduo.org/federated/)
+Try out the login button at the [Federated Test Page](https://authlocal.org/federated/)
 
 ### 😎 Easy HTML Installation
 
@@ -36,7 +36,7 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 
 1. **Insert this in your `<head>`:**
     ```html
-    <script type="module" src="https://authduo.org/install.bundle.min.js"></script>
+    <script type="module" src="https://authlocal.org/install.bundle.min.js"></script>
 
     <script type="module">
       document.querySelector("auth-button").auth.onChange(login => {
@@ -67,11 +67,11 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 
 1. **Install the npm package**
     ```sh
-    npm i @authduo/authduo
+    npm i @authlocal/authlocal
     ```
 1. **Register components and listen for auth changes.** `main.ts`
     ```ts
-    import {Auth, components, register_to_dom} from "@authduo/authduo"
+    import {Auth, components, register_to_dom} from "@authlocal/authlocal"
 
     register_to_dom(components)
 
@@ -90,25 +90,25 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 
 <br/>
 
-## 💁 [Authduo.org](https://authduo.org/) is for convenience, not vendor lock-in
-- You can fork Authduo to make your own passport management app, and users can take their passport files there instead
+## 💁 [Authlocal.org](https://authlocal.org/) is for convenience, not vendor lock-in
+- You can fork Authlocal to make your own passport management app, and users can take their passport files there instead
 - You can point the login button to your own fork:
   ```html
-  <auth-button src="https://authduo.org/"></auth-button>
+  <auth-button src="https://authlocal.org/"></auth-button>
   ```
-  - Just swap `https://authduo.org/` with your own url
+  - Just swap `https://authlocal.org/` with your own url
   - This is what "decentralized", "user-sovereign", and "protocol" is all about
 
 <br/>
 
-## 🌠 The More You Know, about [Authduo.org](https://authduo.org/)
+## 🌠 The More You Know, about [Authlocal.org](https://authlocal.org/)
 
 ### What if my users lose their passports?
 - They'll just generate new passports.
 - If you associate important services to your users' passports, you should provide a recovery mechanism so users can re-associate those services with new passports.
 
 ### Opt-in services for casual user experience
-- While Authduo's core must stay lean to retain user-sovereignty and privacy, we can still build optional services which allow users to trade a little sovereignty for some conveniences:
+- While Authlocal's core must stay lean to retain user-sovereignty and privacy, we can still build optional services which allow users to trade a little sovereignty for some conveniences:
   - Username and password logins
   - Email-based recovery
   - OTP/QR codes to easily transfer passports across devices
@@ -121,20 +121,20 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 ### Programmatically trigger a login
 - You can use `auth.popup` to trigger a login, but you should do this in reaction to a user input event, otherwise the browser will block the popup.
   ```js
-  import {auth} from "@authduo/authduo"
+  import {auth} from "@authlocal/authlocal"
 
   myButton.onclick = async() => {
-    const login = await auth.popup("https://authduo.org/")
+    const login = await auth.popup("https://authlocal.org/")
     if (login) console.log("logged in", login)
   }
   ```
 
-### Understanding the Authduo flow and tokens
+### Understanding the Authlocal flow and tokens
 
 ![](https://i.imgur.com/18xwaeU.png)
 
-- When a user on your app clicks to login, this opens an Authduo.org popup for them to login.
-- The authduo signs some tokens with your user's passport keypair, and sends them back to your application.
+- When a user on your app clicks to login, this opens an Authlocal.org popup for them to login.
+- The authlocal signs some tokens with your user's passport keypair, and sends them back to your application.
 - Your app receives a `Login` object, which has some useful things:
   - `login.proof.token` -- this is a `Proof` token and it's public, so you can send it around anywhere so your user can prove their identity
   - `login.keys.signClaimToken(~)` -- you can use this to sign arbitrary data into a token, which is verifiably signed on behalf of the user's passport
@@ -143,7 +143,7 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 
 - **Sign a fresh claim token.**
   ```js
-  import {Future} from "@authduo/authduo"
+  import {Future} from "@authlocal/authlocal"
 
   const idToken = await login.keys.signClaimToken({
     expiresAt: Future.hours(24),
@@ -167,11 +167,11 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
   - Each `login` object comes with a proof token that is required to verify any claim tokens.
 - **Verify the proof and claim**
   ```js
-  import {Proof, Claim} from "@authduo/authduo"
+  import {Proof, Claim} from "@authlocal/authlocal"
 
   receiveElsewhere(async(proofToken, idToken) => {
 
-    // the origin of your site that triggered the authduo popup
+    // the origin of your site that triggered the authlocal popup
     const allowedAudiences = ["https://example.benev.gg"]
 
     // verifying the proof
@@ -194,8 +194,8 @@ Try out the login button at the [Federated Test Page](https://authduo.org/federa
 
 <br/>
 
-## 💖 [Authduo](https://authduo.org/) is free and open source
-- I built Authduo because I wanted free user-centric auth to power https://benevolent.games/
+## 💖 [Authlocal](https://authlocal.org/) is free and open source
+- I built Authlocal because I wanted free user-centric auth to power https://benevolent.games/
 - Got questions or feedback? Don't hesitate to open a github issue or discussion anytime.
 - My name is Chase Moskal, ping me on discord: https://discord.gg/BnZx2utdev
 

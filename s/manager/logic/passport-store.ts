@@ -2,10 +2,16 @@
 import {Passport} from "../../auth/passport.js"
 import {PassportsFileData} from "../../auth/types.js"
 import {PassportsFile} from "../../auth/passports-file.js"
-import {storageSignal} from "../../tools/storage-signal.js"
+import {StorageSignal, storageSignal} from "../../tools/storage-signal.js"
+import {migrateStorageKeyRename} from "../../tools/migrate-storage-key-rename.js"
 
 export class PassportStore {
-	#storage = storageSignal<PassportsFileData>("authduo_passports")
+	#storage: StorageSignal<PassportsFileData>
+
+	constructor() {
+		migrateStorageKeyRename(window.localStorage, "authduo_passports", "authlocal_passports")
+		this.#storage = storageSignal("authlocal_passports")
+	}
 
 	#save(passports: PassportsFile) {
 		this.#storage.save(passports.toData())

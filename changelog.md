@@ -1,5 +1,5 @@
 
-# `@authduo/authduo` changelog
+# `@authlocal/authlocal` changelog
 
 - 🟥 *harmful -- breaking change*
 - 🔶 *maybe harmful -- deprecation, or possible breaking change*
@@ -10,7 +10,11 @@
 ## v0.2
 
 ### v0.2.0
-- 🧐 authduo doesn't have any users yet so i'm still in a mode of breaking things with impunity
+- 🧐 authlocal doesn't have any users yet so i'm still in a mode of breaking things with impunity
+- 🟥🚨🚨 rename org, repo, and domain name to `authlocal` (was previously named `authduo`)
+  - updated passports file format to v4 to account for the rename
+  - changed localstorage keys to reflect the rename
+  - added the migration functionality so the change is seamless, theoretically nothing should break
 - 🟥 delete `<auth-login>` and replace it with `<auth-button>` and `<auth-user>`
 - 🟥 renamed a bunch of token types, like `Header` is now `TokenHeader`
 - 🟥 `decode` static methods now return the raw WebToken `{header, payload, signature}` object
@@ -27,6 +31,7 @@
 - 🍏 on the passport edit page, i added a text input for copying the thumbprint
 
 ## v0.1
+the project was named "authduo" back in these days...
 
 ### v0.1.0
 - 🟥 tokens rewrite

@@ -5,5 +5,5 @@ import {AuthSafeStorage} from "./views/safe-storage/element.js"
 
 register_to_dom({AuthManager, AuthSafeStorage})
 
-console.log("🗽 Authduo")
+console.log("🗽 Authlocal")
 

@@ -1,6 +1,8 @@
 
 import {signal} from "@benev/slate"
 
+export type StorageSignal<T> = ReturnType<typeof storageSignal<T>>
+
 export function storageSignal<T>(key: string) {
 	function load(): T | null {
 		const value = localStorage.getItem(key)
