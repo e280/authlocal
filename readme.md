@@ -1,7 +1,7 @@
 
-![Authlocal.org](https://i.imgur.com/Pr6ILnz.png)
+![Authlocal.org](https://i.imgur.com/CTC0x4q.png)
 
-# 🗽 [Authlocal.org](https://authlocal.org/) – user-sovereign auth for everybody
+# 🛡️ [Authlocal.org](https://authlocal.org/) – user-sovereign logins for all
 
 [Authlocal.org](https://authlocal.org/) is an app where users can create and manage digital login passports.
 
