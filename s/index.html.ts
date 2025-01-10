@@ -43,10 +43,9 @@ export default template(async basic => {
 			<auth-manager></auth-manager>
 
 			<footer>
-				<p><strong><em>Own your identity.</em></strong></p>
-				<p>No emails, no passwords, no databases.</p>
 				<p>User-sovereign, privacy-focused, open-source.</p>
-				<p>See <a href="https://github.com/authlocal/authlocal" target=_blank>Authlocal on GitHub</a> to learn more.</p>
+				<p>No emails, no passwords, no databases.</p>
+				<p>Learn more on <a href="https://github.com/authlocal/authlocal" target=_blank>GitHub</a>.</p>
 				<auth-safe-storage></auth-safe-storage>
 			</footer>
 		`,

@@ -1,7 +1,7 @@
 
 ![Authlocal.org](https://i.imgur.com/CTC0x4q.png)
 
-# 🛡️ [Authlocal.org](https://authlocal.org/) – user-sovereign logins for all
+# 🛡️ [Authlocal.org](https://authlocal.org/) – User-sovereign Logins For All
 
 [Authlocal.org](https://authlocal.org/) is an app where users can create and manage digital login passports.
 
@@ -131,7 +131,7 @@ Try out the login button at the [Federated Test Page](https://authlocal.org/fede
 
 ### Understanding the Authlocal flow and tokens
 
-![](https://i.imgur.com/18xwaeU.png)
+![](https://i.imgur.com/w7P0cqy.png)
 
 - When a user on your app clicks to login, this opens an Authlocal.org popup for them to login.
 - The authlocal signs some tokens with your user's passport keypair, and sends them back to your application.
