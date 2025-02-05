@@ -5,9 +5,9 @@ import stylesCss from "./styles.css.js"
 import {whence} from "../../../../tools/whence.js"
 import {Passport} from "../../../../auth/passport.js"
 import themeCss from "../../../../common/theme.css.js"
-import {IdView} from "../../../../common/views/id/view.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {maxNameLength, validName} from "../../../../auth/utils/validation.js"
+import {renderThumbprint} from "../../../../common/views/id/render-thumbprint.js"
 
 export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
 		passport: Passport
@@ -52,7 +52,7 @@ export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
 
 				<small class=details>
 					<span>${whence(passport.created)}</span>
-					<span>${IdView([passport.thumbprint])}</span>
+					<span>${renderThumbprint(passport.thumbprint)}</span>
 				</small>
 
 				${!validName(name.value) ? html`
