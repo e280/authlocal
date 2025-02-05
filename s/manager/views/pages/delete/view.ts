@@ -1,6 +1,5 @@
 
-
-import {html, shadowView} from "@benev/slate"
+import {Hex, html, shadowView, Urname} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {Situation} from "../../../logic/situation.js"
@@ -12,9 +11,14 @@ export const DeletePage = shadowView(use => (situation: Situation.Delete) => {
 	use.styles([themeCss, stylesCss])
 
 	const {passport} = situation
-	const thumb = use.once(() => passport.thumbprint.slice(0, 5))
+
+	const confirmCode = use.once(() => {
+		const bytes = Hex.bytes(passport.thumbprint)
+		return Urname.string(bytes.slice(0, 2))
+	})
+
 	const confirmation = use.signal("")
-	const confirmationAccepted = use.computed(() => confirmation.value.toLowerCase() === thumb.toLowerCase())
+	const confirmationAccepted = use.computed(() => confirmation.value.toLowerCase() === confirmCode.toLowerCase())
 
 	function deleteForever() {
 		situation.onComplete(passport)
@@ -31,7 +35,7 @@ export const DeletePage = shadowView(use => (situation: Situation.Delete) => {
 			${Breakdown([[passport]])}
 
 			<label>
-				<span>If you're certain, confirm by typing "<code>${thumb}</code>" exactly:</span>
+				<span>If you're certain, confirm by typing "<code>${confirmCode}</code>" exactly:</span>
 				<input type=text .value="${confirmation}" @input="${signalInput(confirmation)}"/>
 			</label>
 

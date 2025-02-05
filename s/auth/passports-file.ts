@@ -3,6 +3,7 @@ import {Base64, Text} from "@benev/slate"
 
 import {Passport} from "./passport.js"
 import {ensure} from "./utils/ensure.js"
+import {maxNameLength} from "./utils/validation.js"
 import {crushUsername} from "./utils/crush-username.js"
 import {PassportsFileData, PassportData} from "./types.js"
 
@@ -44,7 +45,7 @@ export class PassportsFile {
 			format: ensure.string("format", data.format),
 			version: ensure.number("version", data.version),
 			passports: ensure.array("array", data.passports.map((p): PassportData => ({
-				name: ensure.string("name", p.name),
+				name: ensure.string("name", p.name).slice(0, maxNameLength),
 				created: ensure.number("created", p.created),
 				keypair: {
 					thumbprint: ensure.string("thumbprint", p.keypair.thumbprint),

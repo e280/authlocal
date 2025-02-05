@@ -1,10 +1,12 @@
 
-import {Bytename, deep, Hex, hexId} from "@benev/slate"
+import {deep, falryskNameGrammar, Hex, hexId} from "@benev/slate"
 
 import {Token} from "./jwt/token.js"
 import {Keypair} from "./keypair.js"
 import {PassportData, KeypairData} from "./types.js"
 import {KeysPayload, LoginTokens, ProofPayload} from "./tokens/types.js"
+
+const names = falryskNameGrammar()
 
 export class Passport {
 	constructor(
@@ -21,8 +23,8 @@ export class Passport {
 		const keypair = await Keypair.generate()
 		const keypairData = await keypair.toData()
 
-		const thumbBytes = Hex.bytes(keypair.thumbprint).slice(0, 5)
-		const name = Bytename.string(thumbBytes, "Xxxxxx Xxxxxxxxx ")
+		const thumbBytes = Hex.bytes(keypair.thumbprint)
+		const name = names.generate(thumbBytes)
 
 		const created = Date.now()
 		return new this(keypairData, name, created)

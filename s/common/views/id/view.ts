@@ -1,13 +1,14 @@
 
-import {debounce, html, shadowView} from "@benev/slate"
+import {debounce, Hex, html, shadowView, Urname} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../theme.css.js"
 
 const time = 1000
 
-export const IdView = shadowView(use => (hex: string, alias?: string) => {
-	alias ??= hex.slice(0, 8)
+export const IdView = shadowView(use => (hex: string) => {
+	const bytes = Hex.bytes(hex)
+	const urname = Urname.string(bytes.slice(0, 4))
 
 	use.name("id")
 	use.styles(themeCss, stylesCss)
@@ -25,10 +26,9 @@ export const IdView = shadowView(use => (hex: string, alias?: string) => {
 			.finally(() => clearStatus())
 	}
 
-
 	return html`
-		<span x-copy="${copyStatus}" title='copy "${alias}.."'>
-			<span x-text @click="${copy}">${alias}</span>
+		<span x-copy="${copyStatus}" title='copy "${hex.slice(0, 8)}.."'>
+			<span x-text @click="${copy}">${urname}</span>
 			<span x-notify=good>Copied</span>
 			<span x-notify=bad>Copy Failed</span>
 		</span>

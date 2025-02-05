@@ -13,5 +13,9 @@ export default css`
 	justify-content: start;
 }
 
+label input {
+	margin-top: 1em;
+}
+
 `
 

@@ -1,5 +1,5 @@
 
-export const maxNameLength = 24
+export const maxNameLength = 32
 
 export function validName(name: string): boolean {
 	if (name !== name.trim())

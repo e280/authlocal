@@ -1,5 +1,5 @@
 
-import {html, shadowView, svgSlate} from "@benev/slate"
+import {Hex, html, shadowView, svgSlate, Urname} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {whence} from "../../../../tools/whence.js"
@@ -16,10 +16,10 @@ export const Breakdown = shadowView(use => (passports: Passport[]) => {
 			${passports.map(passport => html`
 				<li>
 					${svgSlate(userIcon)}
-					<span class=name>${passport.name}</span>
+					<span class=name>${passport.name.slice(0, 16)}</span>
 					<span class=details>
 						<small>${whence(passport.created)}</small>
-						<small>${passport.thumbprint.slice(0, 8)}</small>
+						<small>${Urname.string(Hex.bytes(passport.thumbprint).slice(0, 4))}</small>
 					</span>
 				</li>
 			`)}
