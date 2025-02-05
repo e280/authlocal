@@ -3,7 +3,7 @@ name: 📦 publish to npm
 on:
   push:
     tags:
-    - 'v*'
+    - "v*"
 
 jobs:
   publish:
@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version: '22'
+        node-version: "22"
 
     - run: npm ci
     - run: npm run build -s

@@ -3,6 +3,7 @@ name: 🚀 full release deployment
 on:
   push:
     branches: ["release"]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -24,7 +25,7 @@ jobs:
     - uses: actions/configure-pages@v5
     - uses: actions/setup-node@v4
       with:
-        node-version: '22'
+        node-version: "22"
 
     - run: npm ci
     - run: npm run build -s
@@ -48,7 +49,7 @@ jobs:
     - name: 📤 upload pages artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: 'x'
+        path: "x"
 
     - name: 🚀 deploy to github pages
       id: deployment
