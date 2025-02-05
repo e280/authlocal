@@ -31,7 +31,7 @@ nav.passports > article {
 		border-top: 0.15em solid #fff2;
 		box-shadow: .1em .2em .5em #0005;
 
-		&[x-purpose="login"] {
+		&[x-clickable] {
 			cursor: pointer;
 			&:hover { filter: brightness(120%); }
 			&:active { filter: brightness(80%); }
