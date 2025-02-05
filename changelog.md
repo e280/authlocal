@@ -26,6 +26,9 @@
   - i also changed the names of the LoginTokens that get returned
 - 🟥 moved the passport's `name` from Keys to Proof
 - 🔶 tweaked authfile format, but its versioned and so should not cause breakage
+- 🍏 add `renderThumbprint`
+- 🍏 add `Badge` system for displaying passport thumbprints
+  - looks like `nomluc-rigpem-tg2bjNkjMh1H6M2b2EhD5V4x6XAqx9wyWddsBt`
 - 🍏 manager app ui overhaul
 - 🍏 renamed `JsonWebToken` facility to simply `Token`
 - 🍏 on the passport edit page, i added a text input for copying the thumbprint
