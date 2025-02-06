@@ -1,5 +1,5 @@
 
-import {Hex, html, shadowView, Urname} from "@benev/slate"
+import {Barname, Hex, html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {Situation} from "../../../logic/situation.js"
@@ -14,7 +14,7 @@ export const DeletePage = shadowView(use => (situation: Situation.Delete) => {
 
 	const confirmCode = use.once(() => {
 		const bytes = Hex.bytes(passport.thumbprint)
-		return Urname.string(bytes.slice(0, 2))
+		return Barname.string(bytes.slice(0, 2))
 	})
 
 	const confirmation = use.signal("")

@@ -21,8 +21,10 @@ export const IdView = shadowView(use => (payload: string, preview?: string) => {
 			.finally(() => clearStatus())
 	}
 
+	const tooltip = `Copy "${truncated}..."`
+
 	return html`
-		<span x-copy="${copyStatus}" title="copy ${truncated}...">
+		<span x-copy="${copyStatus}" title="${tooltip}">
 			<span x-text @click="${copy}">${preview ?? truncated}</span>
 			<span x-notify=good>Copied</span>
 			<span x-notify=bad>Copy Failed</span>

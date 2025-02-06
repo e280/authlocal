@@ -1,6 +1,6 @@
 
+import {Badge} from "@benev/slate"
 import {IdView} from "./view.js"
-import {Badge} from "../../../auth/utils/badge.js"
 
 export const renderThumbprint = (thumbprint: string) => {
 	const badge = Badge.fromHex(thumbprint)

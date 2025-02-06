@@ -1,4 +1,5 @@
 
+export * from "@benev/slate/x/tools/data/barname/index.js"
 export * from "@benev/slate/x/tools/data/hex.js"
 export * from "@benev/slate/x/tools/data/base64.js"
 export * from "@benev/slate/x/tools/data/base64url.js"
@@ -10,7 +11,6 @@ export * from "./auth/tokens/claim.js"
 export * from "./auth/tokens/keys.js"
 export * from "./auth/tokens/proof.js"
 export * from "./auth/tokens/types.js"
-export * from "./auth/utils/badge.js"
 export * from "./auth/utils/crush-username.js"
 export * from "./auth/utils/nullcatch.js"
 export * from "./auth/utils/validation.js"
