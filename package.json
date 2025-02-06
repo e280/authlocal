@@ -22,7 +22,7 @@
 		"test": "cynic node x/tests.test.js"
 	},
 	"dependencies": {
-		"@benev/slate": "^0.3.0-9",
+		"@benev/slate": "^0.3.0-10",
 		"renraku": "^0.4.3"
 	},
 	"devDependencies": {
