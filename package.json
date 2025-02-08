@@ -22,8 +22,8 @@
 		"test": "cynic node x/tests.test.js"
 	},
 	"dependencies": {
-		"@benev/slate": "^0.3.0-10",
-		"renraku": "^0.4.3"
+		"@benev/slate": "^0.3.0-11",
+		"renraku": "^0.4.4"
 	},
 	"devDependencies": {
 		"@benev/turtle": "^0.6.8",
