@@ -42,10 +42,14 @@ export class Auth {
 
 	async #load() {
 		const {tokens} = this.authfile
-		this.#login.value = tokens && await nullcatch(
+		const oldTokens = this.#login.value?.tokens
+
+		if (tokens?.proofToken === oldTokens?.proofToken)
+			return this.#login.value
+
+		return this.#login.value = tokens && await nullcatch(
 			async() => Login.verify(tokens, {allowedAudiences: [window.origin]})
 		)
-		return this.#login.value
 	}
 
 	#save(tokens: LoginTokens | null) {
