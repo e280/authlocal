@@ -28,9 +28,9 @@ export class Auth {
 	constructor() {
 		migrateStorageKeyRename(window.localStorage, "authduo", "authlocal")
 		this.#fileStorage = new JsonStorage<AuthFile>("authlocal")
-		this.#fileStorage.onChangeFromOutside(() => void this.load())
+		this.#fileStorage.onChangeFromOutside(() => void this.#load())
 		this.#login.on(login => this.onChange.publish(login))
-		this.load()
+		this.#load()
 	}
 
 	get authfile(): AuthFile {
@@ -40,7 +40,7 @@ export class Auth {
 			: {version: Auth.version, tokens: null}
 	}
 
-	async load() {
+	async #load() {
 		const {tokens} = this.authfile
 		this.#login.value = tokens && await nullcatch(
 			async() => Login.verify(tokens, {allowedAudiences: [window.origin]})
@@ -48,7 +48,7 @@ export class Auth {
 		return this.#login.value
 	}
 
-	save(tokens: LoginTokens | null) {
+	#save(tokens: LoginTokens | null) {
 		const {authfile} = this
 		authfile.tokens = tokens
 		this.#fileStorage.set(authfile)
@@ -64,7 +64,7 @@ export class Auth {
 
 	set login(login: Login | null) {
 		this.#login.value = login
-		this.save(login && login.tokens)
+		this.#save(login && login.tokens)
 	}
 
 	async popup(url = Auth.defaultUrl) {

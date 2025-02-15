@@ -26,6 +26,7 @@
   - i also changed the names of the LoginTokens that get returned
 - 🟥 moved the passport's `name` from Keys to Proof
 - 🔶 tweaked authfile format, but its versioned and so should not cause breakage
+- 🔶 Auth save/load methods are now private
 - 🍏 add `renderThumbprint`
 - 🍏 use `Badge` from `@benev/slate` to display thumbprints
   - looks like `nomluc_rigpem.tg2bjNkjMh1H6M2b2EhD5V4x6XAqx9wyWddsBt`
