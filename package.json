@@ -23,7 +23,7 @@
 	},
 	"dependencies": {
 		"@benev/slate": "^0.3.0-11",
-		"renraku": "^0.4.4"
+		"renraku": "^0.4.5"
 	},
 	"devDependencies": {
 		"@benev/turtle": "^0.6.8",
