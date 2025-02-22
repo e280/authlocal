@@ -25,12 +25,16 @@ export class Auth {
 	#login = signal<Login | null>(null)
 	#fileStorage: JsonStorage<AuthFile>
 
+	wait: Promise<Login | null>
+
 	constructor() {
 		migrateStorageKeyRename(window.localStorage, "authduo", "authlocal")
 		this.#fileStorage = new JsonStorage<AuthFile>("authlocal")
-		this.#fileStorage.onChangeFromOutside(() => void this.#load())
+		this.#fileStorage.onChangeFromOutside(() => {
+			this.wait = this.#load()
+		})
 		this.#login.on(login => this.onChange.publish(login))
-		this.#load()
+		this.wait = this.#load()
 	}
 
 	get authfile(): AuthFile {
@@ -69,6 +73,7 @@ export class Auth {
 	set login(login: Login | null) {
 		this.#login.value = login
 		this.#save(login && login.tokens)
+		this.wait = Promise.resolve(login)
 	}
 
 	async popup(url = Auth.defaultUrl) {
