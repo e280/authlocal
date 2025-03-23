@@ -23,6 +23,7 @@
 	},
 	"dependencies": {
 		"@benev/slate": "^0.3.0-13",
+		"@noble/ed25519": "^2.2.3",
 		"renraku": "^0.4.5"
 	},
 	"devDependencies": {
