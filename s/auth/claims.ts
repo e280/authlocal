@@ -1,7 +1,7 @@
 
 import {Proofs} from "./proofs.js"
 import {ClaimPayload, ProofPayload, Session} from "./concepts.js"
-import {Token, TokenParams, TokenVerifications} from "./jwt.js"
+import {Token, TokenParams, TokenVerifications} from "./token.js"
 
 export const Claims = {
 

@@ -1,7 +1,7 @@
 
 import {Proofs} from "./proofs.js"
-import {TokenVerifications} from "./jwt.js"
 import {Proof, Session} from "./concepts.js"
+import {TokenVerifications} from "./token.js"
 
 export class Login {
 	static async verify(session: Session, verifications?: TokenVerifications) {

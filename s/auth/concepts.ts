@@ -1,5 +1,5 @@
 
-import {TokenPayload} from "./jwt.js"
+import {TokenPayload} from "./token.js"
 
 export type Keypair = {
 	id: string

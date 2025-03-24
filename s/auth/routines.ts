@@ -1,7 +1,7 @@
 
 import {Barname, Hex} from "@benev/slate"
 import {Proofs} from "./proofs.js"
-import {TokenParams} from "./jwt.js"
+import {TokenParams} from "./token.js"
 import {generateKeypair} from "./crypto.js"
 import {Passport, Proof, Session} from "./concepts.js"
 

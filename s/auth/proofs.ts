@@ -1,6 +1,6 @@
 
 import {Proof, ProofPayload} from "./concepts.js"
-import {Token, TokenParams, TokenVerifications} from "./jwt.js"
+import {Token, TokenParams, TokenVerifications} from "./token.js"
 
 export const Proofs = {
 
