@@ -4,8 +4,6 @@ import {pubsub, signal} from "@benev/slate"
 import {AuthFile} from "./types.js"
 import {Login} from "./utils/login.js"
 import {openPopup} from "./utils/open-popup.js"
-import {LoginTokens} from "../auth/tokens/types.js"
-import {nullcatch} from "../auth/utils/nullcatch.js"
 import {JsonStorage} from "../tools/json-storage.js"
 import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 import {migrateStorageKeyRename} from "../tools/migrate-storage-key-rename.js"
@@ -91,11 +89,11 @@ export class Auth {
 				appWindow,
 				popupWindow,
 				popupOrigin,
-				async loginTokens => {
+				async session => {
 					popupWindow.close()
 					try {
 						this.login = await nullcatch(
-							async() => Login.verify(loginTokens, {
+							async() => Login.verify(session, {
 								allowedIssuers: [popupOrigin],
 								allowedAudiences: [appOrigin],
 							})

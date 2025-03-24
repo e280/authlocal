@@ -16,7 +16,7 @@ export function setupInPopup(
 	const peer = new PostMessenger<AppFns>({
 		local: {
 			window: popupWindow,
-			getFns: (event, app) => makePopupFns(event, state, app, setLoginPurpose),
+			getFns: event => makePopupFns(event, state, setLoginPurpose),
 		},
 		remote: {
 			window: appWindow,

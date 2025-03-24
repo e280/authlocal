@@ -2,13 +2,13 @@
 import {PostMessenger} from "renraku"
 import {PopupFns} from "./popup-fns.js"
 import {makeAppFns} from "./app-fns.js"
-import {LoginTokens} from "../../auth/tokens/types.js"
+import {Session} from "../../auth2/concepts.js"
 
 export function setupInApp(
 		appWindow: Window,
 		popupWindow: WindowProxy,
 		popupOrigin: string,
-		handleLogin: (tokens: LoginTokens) => void,
+		handleLogin: (session: Session) => void,
 	) {
 
 	const peer = new PostMessenger<PopupFns>({
