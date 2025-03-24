@@ -1,6 +1,6 @@
 
 import {Proof, ProofPayload} from "./concepts.js"
-import {Token, TokenParams, TokenVerifyOptions} from "./jwt.js"
+import {Token, TokenParams, TokenVerifications} from "./jwt.js"
 
 export const Proofs = {
 
@@ -12,13 +12,15 @@ export const Proofs = {
 		})
 	},
 
-	async verify(proofToken: string, options?: TokenVerifyOptions) {
+	async verify(proofToken: string, options?: TokenVerifications) {
 		const pre = Token.decode<ProofPayload>(proofToken)
 		const {data: proof} = await Token.verify<ProofPayload>(
 			pre.payload.data.passportId,
 			proofToken,
 			options,
 		)
+		if (proof.scope !== "proof")
+			throw new Error("invalid proof token scope")
 		return proof
 	},
 }

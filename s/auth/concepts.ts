@@ -8,8 +8,8 @@ export type Keypair = {
 
 export type Passport = {
 	id: string
+	label: string
 	secret: string
-	label: string | null
 }
 
 export type Session = {
@@ -18,8 +18,10 @@ export type Session = {
 }
 
 export type Proof = {
+	scope: "proof"
 	sessionId: string
 	passportId: string
+	passportLabel: string
 }
 
 export type ProofPayload = {data: Proof} & TokenPayload

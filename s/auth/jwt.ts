@@ -23,7 +23,7 @@ export type WebToken<P extends TokenPayload = any> = {
 	signature: Uint8Array
 }
 
-export type TokenVerifyOptions = {
+export type TokenVerifications = {
 	allowedIssuers?: string[]
 	allowedAudiences?: string[]
 }
@@ -87,7 +87,7 @@ export class Token {
 	static async verify<P extends TokenPayload>(
 			id: string,
 			token: string,
-			options: TokenVerifyOptions = {},
+			options: TokenVerifications = {},
 		): Promise<P> {
 
 		const [headerText, payloadText] = token.split(".")

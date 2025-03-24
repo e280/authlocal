@@ -1,10 +1,11 @@
 
 import {Proofs} from "./proofs.js"
+import {TokenVerifications} from "./jwt.js"
 import {Proof, Session} from "./concepts.js"
 
 export class Login {
-	static async verify(session: Session) {
-		return new this(session, await Proofs.verify(session.proofToken))
+	static async verify(session: Session, verifications?: TokenVerifications) {
+		return new this(session, await Proofs.verify(session.proofToken, verifications))
 	}
 
 	constructor(
