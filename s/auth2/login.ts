@@ -1,6 +1,6 @@
 
 import {Proofs} from "./proofs.js"
-import {Proof, Session} from "./types.js"
+import {Proof, Session} from "./concepts.js"
 
 export class Login {
 	constructor(

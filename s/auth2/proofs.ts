@@ -1,11 +1,11 @@
 
-import {Passport, Proof, ProofPayload} from "./types.js"
+import {Proof, ProofPayload} from "./concepts.js"
 import {Token, TokenParams, TokenVerifyOptions} from "./jwt.js"
 
 export const Proofs = {
 
-	async sign(passport: Passport, proof: Proof, options: TokenParams) {
-		return Token.sign<ProofPayload>(passport.secret, {
+	async sign(passportSecret: string, proof: Proof, options: TokenParams) {
+		return Token.sign<ProofPayload>(passportSecret, {
 			...Token.params(options),
 			sub: proof.passportId,
 			data: proof,
