@@ -1,6 +1,5 @@
 
 import {Base64url, Hex, Text} from "@benev/slate"
-import {Passport, Seed} from "../types.js"
 import {signMessage, verifyMessage} from "../crypto.js"
 import {TokenHeader, TokenPayload, TokenParams, TokenVerifyOptions, TokenVerifyError, WebToken} from "./types.js"
 
@@ -10,7 +9,6 @@ export class Token {
 	static fromJsTime = (t: number) => t / 1000
 
 	static params = (r: TokenParams) => ({
-		sub: r.subject,
 		jti: Hex.random(32),
 		iat: Date.now(),
 		exp: Token.fromJsTime(r.expiresAt),
@@ -19,7 +17,7 @@ export class Token {
 		aud: r.audience,
 	})
 
-	static async sign<P extends TokenPayload>(seed: Seed, payload: P): Promise<string> {
+	static async sign<P extends TokenPayload>(secret: string, payload: P): Promise<string> {
 		const headerBytes = Text.bytes(JSON.stringify(Token.header))
 		const headerText = Base64url.string(headerBytes)
 
@@ -28,7 +26,7 @@ export class Token {
 
 		const signingText = `${headerText}.${payloadText}`
 		const signingBytes = new TextEncoder().encode(signingText)
-		const signature = Base64url.string(await signMessage(signingBytes, seed))
+		const signature = Base64url.string(await signMessage(signingBytes, secret))
 
 		return `${signingText}.${signature}`
 	}
@@ -51,7 +49,7 @@ export class Token {
 	}
 
 	static async verify<P extends TokenPayload>(
-			passport: Passport,
+			id: string,
 			token: string,
 			options: TokenVerifyOptions = {},
 		): Promise<P> {
@@ -61,7 +59,7 @@ export class Token {
 		const signingText = `${headerText}.${payloadText}`
 		const signingBytes = new TextEncoder().encode(signingText)
 
-		const isValid = await verifyMessage(signingBytes, signature, passport)
+		const isValid = await verifyMessage(signingBytes, signature, id)
 
 		if (!isValid)
 			throw new TokenVerifyError("token signature invalid")

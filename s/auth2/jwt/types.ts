@@ -31,7 +31,6 @@ export class TokenVerifyError extends Error {
 
 export type TokenParams = {
 	expiresAt: number
-	subject?: string
 	notBefore?: number
 	audience?: string
 	issuer?: string

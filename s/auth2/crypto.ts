@@ -1,39 +1,32 @@
 
 import {Hex} from "@benev/slate"
 import * as ed from "@noble/ed25519"
-import {Passport, Secret, Seed} from "./types.js"
 
-export async function thumbprint(pubkey: string) {
-	const pubkeyBytes = Hex.bytes(pubkey)
-	const hash = await crypto.subtle.digest("SHA-256", pubkeyBytes)
-	const bytes = new Uint8Array(hash)
-	return Hex.string(bytes)
+export function unpack(key: string) {
+	const bytes = Hex.bytes(key)
+	if (bytes.length !== 32)
+		throw new Error("invalid key")
+	return bytes
 }
 
-export async function verifyPassport({pubkey, id}: Passport): Promise<Passport> {
-	const realId = await thumbprint(pubkey)
-	if (realId !== id)
-		throw new Error("invalid passport")
-	return {pubkey, id: realId}
+export async function deriveId(secret: string): Promise<string> {
+	const secretBytes = unpack(secret)
+	const idBytes = await ed.getPublicKeyAsync(secretBytes)
+	return Hex.string(idBytes)
 }
 
-export async function hydrate(seed: Seed): Promise<Secret> {
-	const seedBytes = Hex.bytes(seed)
-	if (seedBytes.length !== 32)
-		throw new Error("invalid seed")
-	const pubkeyBytes = await ed.getPublicKeyAsync(seedBytes)
-	const pubkey = Hex.string(pubkeyBytes)
-	const id = await thumbprint(pubkey)
-	return {seed, passport: {id, pubkey}}
+export async function signMessage(
+		message: Uint8Array,
+		secret: string,
+	): Promise<Uint8Array> {
+	return ed.signAsync(message, unpack(secret))
 }
 
-export async function signMessage(message: Uint8Array, seed: Seed): Promise<Uint8Array> {
-	const seedBytes = Hex.bytes(seed)
-	return ed.signAsync(message, seedBytes)
-}
-
-export async function verifyMessage(message: Uint8Array, signature: Uint8Array, passport: Passport): Promise<boolean> {
-	const pubkeyBytes = Hex.bytes(passport.pubkey)
-	return ed.verifyAsync(signature, message, pubkeyBytes)
+export async function verifyMessage(
+		message: Uint8Array,
+		signature: Uint8Array,
+		id: string,
+	): Promise<boolean> {
+	return ed.verifyAsync(signature, message, unpack(id))
 }
 
