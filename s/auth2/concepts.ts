@@ -1,6 +1,11 @@
 
 import {TokenPayload} from "./jwt.js"
 
+export type Keypair = {
+	id: string
+	secret: string
+}
+
 export type Passport = {
 	id: string
 	secret: string

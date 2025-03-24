@@ -1,6 +1,7 @@
 
 import {Hex} from "@benev/slate"
 import * as ed from "@noble/ed25519"
+import {Keypair} from "./concepts.js"
 
 export function unpack(key: string) {
 	const bytes = Hex.bytes(key)
@@ -13,6 +14,12 @@ export async function deriveId(secret: string): Promise<string> {
 	const secretBytes = unpack(secret)
 	const idBytes = await ed.getPublicKeyAsync(secretBytes)
 	return Hex.string(idBytes)
+}
+
+export async function generateKeypair(): Promise<Keypair> {
+	const secret = Hex.random(32)
+	const id = await deriveId(secret)
+	return {id, secret}
 }
 
 export async function signMessage(
