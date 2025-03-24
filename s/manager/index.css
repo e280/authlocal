@@ -1,0 +1,118 @@
+
+:root {
+	color-scheme: dark;
+	--link: cyan;
+	--site-bg: #181818;
+
+	--instruction-color: #00ff89;
+	--domain-color: #ff0;
+	--passport-color: #512f71;
+	--login-color: #80f;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+	scrollbar-width: thin;
+	scrollbar-color: #333 transparent;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 1em; }
+::-webkit-scrollbar-thumb:hover { background: #444; }
+
+a {
+	color: var(--link);
+	text-decoration: none;
+
+	&:visited {
+		color: color-mix(in srgb, purple, var(--link) 70%);
+	}
+
+	&:hover {
+		color: color-mix(in srgb, white, var(--link) 90%);
+		text-decoration: underline;
+	}
+
+	&:active {
+		color: color-mix(in srgb, white, var(--link) 50%);
+	}
+}
+
+/*------------------------------------------*/
+
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+	font-size: 16px;
+
+	color: #fffc;
+	background: var(--site-bg);
+	background-attachment: fixed;
+	font-family: sans-serif;
+
+	scrollbar-gutter: stable;
+	scrollbar-width: thin;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2em;
+
+	padding-bottom: 4em;
+
+	> * {
+		display: block;
+		justify-content: center;
+	}
+}
+
+.title {
+	opacity: 0.3;
+	color: white;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0;
+
+	margin-top: 2vh;
+
+	> svg {
+		width: 2em;
+		height: 2em;
+		stroke-width: 2;
+	}
+}
+
+auth-manager {
+	display: block;
+	width: 95%;
+	max-width: 42em;
+	border-radius: 0.5em;
+}
+
+footer {
+	display: flex;
+	flex-direction: column;
+	gap: 0.33em;
+
+	opacity: 0.5;
+	font-size: 0.8em;
+	width: 42em;
+	max-width: 99%;
+	text-align: center;
+
+	> auth-safe-storage {
+		margin-top: 1em;
+	}
+}
+
