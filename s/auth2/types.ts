@@ -1,5 +1,5 @@
 
-import {TokenPayload} from "./jwt/types.js"
+import {TokenPayload} from "./jwt.js"
 
 export type Passport = {
 	id: string

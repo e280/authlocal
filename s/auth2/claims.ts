@@ -1,8 +1,7 @@
 
 import {Proofs} from "./proofs.js"
-import {Token} from "./jwt/token.js"
 import {ClaimPayload, Session} from "./types.js"
-import {TokenParams, TokenVerifyOptions} from "./jwt/types.js"
+import {Token, TokenParams, TokenVerifyOptions} from "./jwt.js"
 
 export const Claims = {
 

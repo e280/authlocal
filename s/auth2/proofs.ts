@@ -1,7 +1,6 @@
 
-import {Token} from "./jwt/token.js"
 import {Passport, Proof, ProofPayload} from "./types.js"
-import {TokenParams, TokenVerifyOptions} from "./jwt/types.js"
+import {Token, TokenParams, TokenVerifyOptions} from "./jwt.js"
 
 export const Proofs = {
 
