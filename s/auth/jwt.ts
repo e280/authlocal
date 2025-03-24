@@ -84,6 +84,13 @@ export class Token {
 		return {header, payload, signature}
 	}
 
+	static expiresAt(token: string) {
+		const {exp} = Token.decode(token).payload
+		return exp === undefined
+			? undefined
+			: Token.toJsTime(exp)
+	}
+
 	static async verify<P extends TokenPayload>(
 			id: string,
 			token: string,
