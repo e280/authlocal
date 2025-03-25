@@ -9,12 +9,13 @@ import {whence} from "../../../../tools/whence.js"
 // import {Situation} from "../../../logic/situation.js"
 // import {PassportsFile} from "../../../../auth/passports-file.js"
 
+import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
 import {renderThumbprint} from "../../../../common/views/id/render-thumbprint.js"
 
 export const ListPage = shadowView(use => (
-		// situation: Situation.List,
+		situation: Situation.List,
 	) => {
 
 	use.styles([themeCss, stylesCss])
