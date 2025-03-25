@@ -9,7 +9,7 @@ async function setup() {
 	const passport = await generatePassport()
 	const session = await generateSession(passport, {expiresAt: Date.now() + 60_000})
 	const login = await Login.verify(session)
-	expect(login.id).equals(passport.id)
+	expect(login.passport.id).equals(passport.id)
 	expect(login.session.secret).equals(session.secret)
 	return login
 }
@@ -27,7 +27,7 @@ export default <Suite>{
 			{expiresAt: Date.now() + 60_000},
 		)
 		const {claim, proof} = await Claims.verify<string>(claimToken)
-		expect(proof.passportId).equals(login.id)
+		expect(proof.passport.id).equals(login.passport.id)
 		expect(claim).equals("hello")
 	},
 }

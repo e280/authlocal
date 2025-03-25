@@ -4,7 +4,7 @@ import {opSignal, signal} from "@benev/slate"
 import {Purpose} from "./purpose.js"
 import {Situation} from "./situation.js"
 import {Proofs} from "../../auth/proofs.js"
-import {setupInPopup} from "../fed-api/setup-in-popup.js"
+// import {setupInPopup} from "../fed-api/setup-in-popup.js"
 import {PassportStore} from "./passports/passport-store.js"
 import {StoragePersistence} from "./storage-persistence.js"
 
@@ -22,12 +22,13 @@ export class Manager {
 
 		if (isPopup || isDebugLoginMode) {
 			if (isPopup) {
-				const {appFns} = setupInPopup(
-					window.opener,
-					window,
-					p => { purpose.value = p },
-				)
-				appFns.v1.ready()
+				// // TODO
+				// const {appFns} = setupInPopup(
+				// 	window.opener,
+				// 	window,
+				// 	p => { purpose.value = p },
+				// )
+				// appFns.v1.ready()
 			}
 			else if (isDebugLoginMode) {
 				const audience = window.origin

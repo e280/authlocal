@@ -15,7 +15,7 @@ export class Login {
 
 	get secret() { return this.session.secret }
 	get proofToken() { return this.session.proofToken }
-	get id() { return this.proof.passportId }
+	get passport() { return this.proof.passport }
 	get sessionId() { return this.proof.sessionId }
 }
 

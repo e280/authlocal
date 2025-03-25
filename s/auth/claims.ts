@@ -9,7 +9,7 @@ export const Claims = {
 		const proof = Token.decode<ProofPayload>(session.proofToken).payload.data
 		return Token.sign<ClaimPayload<C>>(session.secret, {
 			...Token.params(params),
-			sub: proof.passportId,
+			sub: proof.passport.id,
 			data: {
 				claim,
 				proofToken: session.proofToken,

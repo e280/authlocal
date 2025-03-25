@@ -1,7 +1,7 @@
 
-import {Passport} from "../../auth/passport.js"
-import {PassportStore} from "./passport-store.js"
-import {PassportsFile} from "../../auth/passports-file.js"
+import {Passport} from "../../auth/concepts.js"
+import {PassportStore} from "./passports/passport-store.js"
+import {PassportsFile} from "./passports/passports-file.js"
 
 export namespace Situation {
 	export type List = {
