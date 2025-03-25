@@ -1,0 +1,60 @@
+
+import {deferPromise} from "@benev/slate"
+import {Proofs} from "../../auth/proofs.js"
+import {Purpose} from "../logic/purpose.js"
+import {Future} from "../../tools/future.js"
+import {generateKeypair} from "../../auth/crypto.js"
+import {Proof, Session} from "../../auth/concepts.js"
+
+export type PopupState = {
+	parentOrigin: string
+}
+
+export type PopupFns = {
+	v2: {
+		pleaseLogin: () => Promise<Session>
+	},
+}
+
+export const makePopupFns = (
+		event: MessageEvent,
+		state: PopupState,
+		setLoginPurpose: (login: Purpose.Login) => void,
+	): PopupFns => ({
+
+	v2: {
+		async pleaseLogin() {
+			const audience = event.origin
+			state.parentOrigin = audience
+			const expiresAt = Future.days(7)
+			const issuer = window.origin
+			const {hostname} = new URL(audience)
+			const deferredSession = deferPromise<Session>()
+
+			setLoginPurpose({
+				kind: "login",
+				audience,
+				hostname,
+				onPassport: async passport => {
+					const sessionKeypair = await generateKeypair()
+					const proof: Proof = {
+						scope: "proof",
+						sessionId: sessionKeypair.id,
+						passport: {id: passport.id, label: passport.label},
+					}
+					deferredSession.resolve({
+						secret: sessionKeypair.secret,
+						proofToken: await Proofs.sign(passport.secret, proof, {
+							expiresAt,
+							issuer,
+							audience,
+						}),
+					})
+				},
+			})
+
+			return deferredSession.promise
+		},
+	},
+})
+

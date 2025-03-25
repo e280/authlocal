@@ -3,8 +3,7 @@ import {opSignal, signal} from "@benev/slate"
 
 import {Purpose} from "./purpose.js"
 import {Situation} from "./situation.js"
-import {Proofs} from "../../auth/proofs.js"
-// import {setupInPopup} from "../fed-api/setup-in-popup.js"
+import {setupInPopup} from "../fed-api/setup-in-popup.js"
 import {PassportStore} from "./passports/passport-store.js"
 import {StoragePersistence} from "./storage-persistence.js"
 
@@ -22,13 +21,12 @@ export class Manager {
 
 		if (isPopup || isDebugLoginMode) {
 			if (isPopup) {
-				// // TODO
-				// const {appFns} = setupInPopup(
-				// 	window.opener,
-				// 	window,
-				// 	p => { purpose.value = p },
-				// )
-				// appFns.v1.ready()
+				const {appFns} = setupInPopup(
+					window.opener,
+					window,
+					p => { purpose.value = p },
+				)
+				appFns.v2.ready()
 			}
 			else if (isDebugLoginMode) {
 				const audience = window.origin
@@ -37,7 +35,7 @@ export class Manager {
 					kind: "login",
 					audience,
 					hostname,
-					onLogin: async session => console.log("LOGIN", Proofs.decode(session.proofToken).passport.id),
+					onPassport: async passport => console.log("LOGIN", passport.id),
 				}
 			}
 		}

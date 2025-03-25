@@ -1,5 +1,5 @@
 
-import {Session} from "../../auth/concepts.js"
+import {Passport} from "../../auth/concepts.js"
 
 /** the reason the management app was opened */
 export namespace Purpose {
@@ -14,7 +14,7 @@ export namespace Purpose {
 		kind: "login"
 		audience: string
 		hostname: string
-		onLogin: (session: Session) => Promise<void>
+		onPassport: (passport: Passport) => Promise<void>
 	}
 
 	////////////////////////////////
