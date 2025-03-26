@@ -4,7 +4,7 @@ import {html, shadowView, svgSlate} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import {whence} from "../../../../tools/whence.js"
 
-// import {manager} from "../../../context.js"
+import {manager} from "../../../context.js"
 // import {Passport} from "../../../../auth/passport.js"
 // import {Situation} from "../../../logic/situation.js"
 // import {PassportsFile} from "../../../../auth/passports-file.js"
@@ -20,12 +20,12 @@ export const ListPage = shadowView(use => (
 
 	use.styles([themeCss, stylesCss])
 
-	// const {passportStore} = situation
-	// const passports = passportStore.list()
-	// const passportsFile = new PassportsFile().add(...passports)
-	// const none = passports.length === 0
-	// const purpose = manager.purpose.value
-	//
+	const {passportStore} = situation
+	const passports = passportStore.list()
+
+	const none = passports.length === 0
+	const purpose = manager.purpose.value
+
 	// const clickNameplate = (passport: Passport) => () => {
 	// 	if (purpose.kind === "login")
 	// 		purpose.onLogin(passport)

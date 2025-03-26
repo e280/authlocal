@@ -22,11 +22,25 @@ export const AuthManager = shadowComponent(use => {
 	use.once(() => storagePersistence.check())
 
 	function gotoHome() {
-		gotoList()
-		// if (passportStore.list().length === 0)
-		// 	gotoOnboard()
-		// else
-		// 	gotoList()
+		if (passportStore.list().length === 0)
+			gotoOnboard()
+		else
+			gotoList()
+	}
+
+	async function gotoOnboard() {
+		const passport = await Passport.generate()
+		situationOp.load(async() => ({
+			kind: "onboard",
+			passport,
+			onDone: gotoHome,
+			onIngress: () => {},
+			// onIngress: () => gotoIngress(undefined, gotoHome),
+			onSaveNewPassport: passport => {
+				passportStore.add(passport)
+				storagePersistence.request()
+			},
+		}))
 	}
 
 	function gotoList() {
@@ -44,20 +58,6 @@ export const AuthManager = shadowComponent(use => {
 		}))
 	}
 
-	// async function gotoOnboard() {
-	// 	const passport = await Passport.generate()
-	// 	situationOp.load(async() => ({
-	// 		kind: "onboard",
-	// 		passport,
-	// 		onDone: gotoHome,
-	// 		onIngress: () => gotoIngress(undefined, gotoHome),
-	// 		onSaveNewPassport: passport => {
-	// 			passportStore.add(passport)
-	// 			storagePersistence.request()
-	// 		},
-	// 	}))
-	// }
-	//
 	// async function gotoCreate() {
 	// 	const passport = await Passport.generate()
 	// 	situationOp.load(async() => ({

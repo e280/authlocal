@@ -1,8 +1,8 @@
 
-import {maxNameLength} from "./validation.js"
+import {maxLabelLength} from "./validation.js"
 
 /** convert a username into a string that is url friendly and filename friendly */
-export function crushUsername(username: string, maxLength = maxNameLength): string {
+export function crushUsername(username: string, maxLength = maxLabelLength): string {
 	const sanitized = username
 		.toLowerCase()
 		.replace(/[^a-z0-9]/gi, "_")

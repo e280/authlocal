@@ -1,5 +1,5 @@
 
-export const maxNameLength = 32
+export const maxLabelLength = 32
 
 export function validLabel(label: string): boolean {
 	if (label !== label.trim())
@@ -10,7 +10,7 @@ export function validLabel(label: string): boolean {
 	return [
 		typeof label === "string",
 		label.length >= 1,
-		label.length <= maxNameLength,
+		label.length <= maxLabelLength,
 
 		// no consecutive spaces
 		!/[ ]{2,}/u.test(label),
