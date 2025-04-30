@@ -17,10 +17,10 @@ export type Passport = {
 	/** version for futureproofing */
 	version: 1
 
-	/** public key */
+	/** public key (64 hex chars) */
 	id: string
 
-	/** private key */
+	/** private key (64 hex chars) */
 	secret: string
 
 	/** human-readable name */
