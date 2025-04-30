@@ -10,9 +10,10 @@ header {
 	gap: 0.5em;
 }
 
-section {
-	margin: 1em;
-	text-align: center;
+.plate {
+	background: #2226;
+	padding: 1em;
+	border-radius: 1em;
 }
 
 `
