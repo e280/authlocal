@@ -7,7 +7,7 @@ export * from "@benev/slate/x/tools/data/text.js"
 
 export * from "./auth/claims.js"
 export * from "./auth/concepts.js"
-export * from "./auth/crypto.js"
+export * from "./auth/core.js"
 export * from "./auth/login.js"
 export * from "./auth/proofs.js"
 export * from "./auth/routines.js"

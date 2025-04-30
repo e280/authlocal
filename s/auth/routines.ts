@@ -2,7 +2,7 @@
 import {Barname, Hex} from "@e280/stz"
 import {Proofs} from "./proofs.js"
 import {TokenParams} from "./token.js"
-import {generateKeypair} from "./crypto.js"
+import {generateKeypair} from "./core.js"
 import {Passport, passportVersion, Proof, Session} from "./concepts.js"
 
 export function labelize(id: string) {

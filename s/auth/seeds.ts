@@ -1,5 +1,5 @@
 
-import {unpack} from "./crypto.js"
+import {unpack} from "./core.js"
 import {Barname, Hex} from "@e280/stz"
 
 export const Seeds = {
