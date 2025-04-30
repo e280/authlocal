@@ -1,6 +1,6 @@
 
-import {Barname, Hex} from "@benev/slate"
 import {unpack} from "./crypto.js"
+import {Barname, Hex} from "@e280/stz"
 
 export const Seeds = {
 	async fromSecret(secret: string) {

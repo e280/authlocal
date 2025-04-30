@@ -4,7 +4,6 @@ import {ClaimPayload, ProofPayload, Session} from "./concepts.js"
 import {Token, TokenParams, TokenVerifications} from "./token.js"
 
 export const Claims = {
-
 	async sign<C>(session: Session, claim: C, params: TokenParams) {
 		const proof = Token.decode<ProofPayload>(session.proofToken).payload.data
 		return Token.sign<ClaimPayload<C>>(session.secret, {

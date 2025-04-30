@@ -3,7 +3,6 @@ import {Proof, ProofPayload} from "./concepts.js"
 import {Token, TokenParams, TokenVerifications} from "./token.js"
 
 export const Proofs = {
-
 	async sign(passportSecret: string, proof: Proof, options: TokenParams) {
 		return Token.sign<ProofPayload>(passportSecret, {
 			...Token.params(options),

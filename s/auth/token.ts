@@ -1,5 +1,5 @@
 
-import {Base64url, Hex, Text} from "@benev/slate"
+import {Base64url, Hex, Txt} from "@e280/stz"
 import {signMessage, verifyMessage} from "./crypto.js"
 
 export type TokenHeader = {
@@ -54,10 +54,10 @@ export class Token {
 	})
 
 	static async sign<P extends TokenPayload>(secret: string, payload: P): Promise<string> {
-		const headerBytes = Text.bytes(JSON.stringify(Token.header))
+		const headerBytes = Txt.bytes(JSON.stringify(Token.header))
 		const headerText = Base64url.string(headerBytes)
 
-		const payloadBytes = Text.bytes(JSON.stringify(payload))
+		const payloadBytes = Txt.bytes(JSON.stringify(payload))
 		const payloadText = Base64url.string(payloadBytes)
 
 		const signingText = `${headerText}.${payloadText}`
@@ -73,11 +73,11 @@ export class Token {
 			throw new Error("invalid jwt structure")
 
 		const headerBytes = Base64url.bytes(headerText)
-		const headerJson = Text.string(headerBytes)
+		const headerJson = Txt.string(headerBytes)
 		const header: TokenHeader = JSON.parse(headerJson)
 
 		const payloadBytes = Base64url.bytes(payloadText)
-		const payloadJson = Text.string(payloadBytes)
+		const payloadJson = Txt.string(payloadBytes)
 		const payload: P = JSON.parse(payloadJson)
 
 		const signature = Base64url.bytes(signatureText)

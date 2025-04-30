@@ -1,5 +1,5 @@
 
-import {Barname, Hex} from "@benev/slate"
+import {Barname, Hex} from "@e280/stz"
 import {Proofs} from "./proofs.js"
 import {TokenParams} from "./token.js"
 import {generateKeypair} from "./crypto.js"

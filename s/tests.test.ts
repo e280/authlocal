@@ -1,7 +1,5 @@
 
-import "@benev/slate/x/node.js"
 import {Science, test, expect} from "@e280/science"
-
 import {Login} from "./auth/login.js"
 import {Claims} from "./auth/claims.js"
 import {generatePassport, generateSession} from "./auth/routines.js"

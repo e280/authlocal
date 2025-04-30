@@ -1,7 +1,7 @@
 
-import {Hex} from "@benev/slate"
 import * as ed from "@noble/ed25519"
 
+import {Hex} from "@e280/stz"
 import {Keypair} from "./concepts.js"
 
 export function unpack(key: string) {
