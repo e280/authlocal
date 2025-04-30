@@ -1,8 +1,8 @@
 
 import {Science, test, expect} from "@e280/science"
-import {Login} from "./auth/login.js"
-import {Claims} from "./auth/claims.js"
-import {generatePassport, generateSession} from "./auth/routines.js"
+import {Login} from "./crypto/login.js"
+import {Claims} from "./crypto/claims.js"
+import {generatePassport, generateSession} from "./crypto/routines.js"
 
 async function setup() {
 	const passport = await generatePassport()
