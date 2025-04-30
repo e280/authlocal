@@ -9,17 +9,20 @@
 		"s"
 	],
 	"scripts": {
-		"build": "rm -rf x && run-s build-code build-ssg links",
-		"build-code": "turtle build --out=x",
-		"build-ssg": "turtle ssg --in=s,x --out=x",
-		"start": "run-p start-http start-turtle",
-		"start-http": "http-server x",
-		"start-turtle": "turtle watch --in=s,x --out=x -v",
-		"links": "run-s links-s links-assets",
-		"links-s": "ln -s \"$(realpath s)\" x/s",
-		"links-assets": "ln -s \"$(realpath assets)\" x/assets",
+		"build": "rm -rf x && run-s _code _ssg _ln",
+		"test": "node x/tests.test.js --verbose",
+		"start": "run-p _http _watch _test:watch",
+		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
 		"devlinks-slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
-		"test": "node x/tests.test.js --verbose"
+		"_clean": "rm -rf x",
+		"_code": "turtle build --out=x",
+		"_ssg": "turtle ssg --in=s,x --out=x",
+		"_test:watch": "node --watch x/tests.test.js --verbose",
+		"_http": "http-server x",
+		"_watch": "turtle watch --in=s,x --out=x -v",
+		"_ln": "run-s _ln:s _ln:assets",
+		"_ln:s": "ln -s \"$(realpath s)\" x/s",
+		"_ln:assets": "ln -s \"$(realpath assets)\" x/assets"
 	},
 	"dependencies": {
 		"@benev/slate": "^0.3.0",
