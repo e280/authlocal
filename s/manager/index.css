@@ -4,10 +4,12 @@
 	--link: cyan;
 	--site-bg: #181818;
 
-	--instruction-color: #00ff89;
-	--domain-color: #ff0;
-	--passport-color: #512f71;
-	--login-color: #80f;
+	--prime: lime;
+
+	/* --instruction-color: #00ff89; */
+	/* --domain-color: #ff0; */
+	/* --passport-color: #512f71; */
+	/* --login-color: #80f; */
 }
 
 * {
@@ -45,51 +47,85 @@ a {
 /*------------------------------------------*/
 
 html {
-	height: 100%;
+	font-size: 16px;
+	min-height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	padding-bottom: 2em;
+
+	background: var(--site-bg);
+	font-family: sans-serif;
 }
 
 body {
 	min-height: 100%;
-	font-size: 16px;
+	scrollbar-gutter: stable;
+
+	width: 64em;
+	max-width: calc(100% - 1em);
 
 	color: #fffc;
-	background: var(--site-bg);
-	background-attachment: fixed;
-	font-family: sans-serif;
 
-	scrollbar-gutter: stable;
-	scrollbar-width: thin;
-}
-
-body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 2em;
-
-	padding-bottom: 4em;
-
-	> * {
-		display: block;
-		justify-content: center;
-	}
 }
 
-.title {
-	opacity: 0.3;
-	color: white;
+/* * {outline: 1px solid #f004;} */
+
+header {
+	width: 100%;
+	padding-top: 1em;
+	padding-bottom: 0.5em;
+
+	border-bottom: 0.3em solid #fff1;
+	color: #fff6;
 
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 0;
+	justify-content: space-between;
 
-	margin-top: 2vh;
+	> div {
+		display: flex;
+		flex-direction: column;
+		justify-content: end;
 
-	> svg {
-		width: 2em;
-		height: 2em;
-		stroke-width: 2;
+		&:last-child {
+			text-align: right;
+		}
+
+		> h1 {
+			font-size: 1.4em;
+			display: flex;
+			align-items: baseline;
+			gap: .2em;
+
+			> :is(.title, svg) {
+				color: var(--prime);
+				text-shadow: 0 0 1em color-mix(in srgb, transparent, var(--prime) 30%);
+			}
+
+			> svg {
+				width: 1em;
+				height: 1em;
+				stroke-width: 3;
+			}
+
+			> .version {
+				font-family: monospace;
+				font-size: 0.8rem;
+				font-weight: normal;
+				color: #ff08;
+				margin-left: 0.5em;
+			}
+		}
+
+		& strong {
+			color: #fffc;
+		}
 	}
 }
 
@@ -105,8 +141,7 @@ footer {
 	flex-direction: column;
 	gap: 0.33em;
 
-	opacity: 0.5;
-	font-size: 0.8em;
+	color: #fff8;
 	width: 42em;
 	max-width: 99%;
 	text-align: center;
