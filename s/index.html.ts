@@ -2,6 +2,7 @@
 import "@benev/slate/x/node.js"
 import shieldLockIcon from "./common/icons/tabler/shield-lock.icon.js"
 import {template, html, easypage, headScripts, git_commit_hash, read_file, read_json, unsanitized, renderSocialCard} from "@benev/turtle"
+import lockIcon from "./common/icons/tabler/lock.icon.js"
 
 const domain = "authlocal.org"
 const favicon = "/assets/favicon.png"
@@ -40,7 +41,7 @@ export default template(async basic => {
 			<header>
 				<div>
 					<h1>
-						${html(shieldLockIcon.strings)}
+						${html(lockIcon.strings)}
 						<span class=title>Authlocal.org</span>
 						<span class=version>v${version}</span>
 					</h1>
