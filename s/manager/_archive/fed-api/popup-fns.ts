@@ -1,10 +1,10 @@
 
 import {deferPromise} from "@benev/slate"
-import {Proofs} from "../../auth/proofs.js"
-import {Purpose} from "../logic/purpose.js"
-import {Future} from "../../tools/future.js"
-import {generateKeypair} from "../../auth/crypto.js"
-import {Proof, Session} from "../../auth/concepts.js"
+import {Proofs} from "../../../auth/proofs.js"
+import {Purpose} from "../../logic/purpose.js"
+import {Future} from "../../../tools/future.js"
+import {generateKeypair} from "../../../auth/crypto.js"
+import {Proof, Session} from "../../../auth/concepts.js"
 
 export type PopupState = {
 	parentOrigin: string

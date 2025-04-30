@@ -2,7 +2,7 @@
 import {endpoint, Messenger, WindowConduit} from "renraku"
 import {PopupFns} from "./popup-fns.js"
 import {makeAppFns} from "./app-fns.js"
-import {Login} from "../../auth/login.js"
+import {Login} from "../../../auth/login.js"
 
 export function setupInApp(
 		popupOrigin: string,

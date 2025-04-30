@@ -1,6 +1,6 @@
 
 import {PopupFns} from "./popup-fns.js"
-import {Login} from "../../auth/login.js"
+import {Login} from "../../../auth/login.js"
 
 export type AppFns = {
 	v2: {
