@@ -1,40 +1,20 @@
 
-import {deep, html, shadowView} from "@benev/slate"
+import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
+import {PassportDraft} from "./draft.js"
 import {whence} from "../../../../tools/whence.js"
 import themeCss from "../../../../common/theme.css.js"
-import {Passport} from "../../../../crypto/concepts.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {renderThumbprint} from "../../../../common/views/id/render-thumbprint.js"
 import {maxLabelLength, validLabel} from "../../../logic/passports/utils/validation.js"
 
-export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
-		passport: Passport
-		onUpdate: (passport: Passport | null) => void
-	}) => {
-
+export const PassportEditor = shadowView(use => (draft: PassportDraft) => {
 	use.name("passport-editor")
 	use.styles([themeCss, stylesCss])
 
-	const label = use.signal(passport.label)
-	const valid = use.signal(true)
-
-	function validate() {
-		valid.value = validLabel(label.value)
-		if (valid.value) {
-			const draft = deep.clone(passport)
-			draft.label = label.value
-			onUpdate(draft)
-		}
-		else {
-			onUpdate(null)
-		}
-	}
-
-	function updateName(n: string) {
-		label.value = n
-		validate()
+	function updateLabel(n: string) {
+		draft.label.value = n
 	}
 
 	return html`
@@ -44,23 +24,21 @@ export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
 
 				<input
 					type=text
-					.value="${label.value}"
+					.value="${draft.label.value}"
 					maxlength="${maxLabelLength}"
-					@input="${inputString(updateName)}"
-					?data-angry="${!validLabel(label.value)}"
+					@input="${inputString(updateLabel)}"
+					?data-angry="${!validLabel(draft.label.value)}"
 					/>
 
 				<small class=details>
-					<span>${whence(passport.issued)}</span>
-					<span>${renderThumbprint(passport.id)}</span>
+					<span>${whence(draft.initial.issued)}</span>
+					<span>${renderThumbprint(draft.initial.id)}</span>
 				</small>
 
-				${!validLabel(label.value) ? html`
+				${!draft.getValid() ? html`
 					<span class=invalid>invalid name</span>
 				` : null}
-
 			</label>
-
 		</section>
 	`
 })

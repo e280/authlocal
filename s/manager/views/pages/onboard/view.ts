@@ -5,28 +5,44 @@ import stylesCss from "./styles.css.js"
 import {manager} from "../../../context.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
-import {Passport} from "../../../../crypto/concepts.js"
+import {generatePassport} from "../../../../crypto/routines.js"
+import {PassportDraft} from "../../common/passport-editor/draft.js"
 import {PassportEditor} from "../../common/passport-editor/view.js"
 
 export const OnboardPage = shadowView(use => (situation: Situation.Onboard) => {
 	use.styles([themeCss, stylesCss])
 
 	const purpose = manager.purpose.value
-	const passport = use.signal<Passport | null>(situation.passport)
+	const passportDraft = use.signal<PassportDraft | null>(null)
+
+	async function reroll() {
+		const passport = await generatePassport()
+		passportDraft.value = new PassportDraft(passport)
+	}
+
+	use.once(reroll)
+
+	function getValidPassport() {
+		return passportDraft.value?.getValid()
+	}
 
 	function save() {
-		if (passport.value) {
-			situation.onSaveNewPassport(passport.value)
+		const passport = getValidPassport()
+		if (passport) {
+			situation.onSaveNewPassport(passport)
 			situation.onDone()
 		}
 	}
 
 	function login() {
-		if (purpose.kind === "login" && passport.value) {
-			situation.onSaveNewPassport(passport.value)
-			purpose.onPassport(passport.value)
+		const passport = getValidPassport()
+		if (purpose.kind === "login" && passport) {
+			situation.onSaveNewPassport(passport)
+			purpose.onPassport(passport)
 		}
 	}
+
+	const validPassport = getValidPassport()
 
 	return html`
 		<div class=plate>
@@ -38,25 +54,26 @@ export const OnboardPage = shadowView(use => (situation: Situation.Onboard) => {
 				`}
 			</header>
 
-			${PassportEditor([{
-				passport: situation.passport,
-				onUpdate: updated => passport.value = updated,
-			}])}
+			${passportDraft.value && PassportEditor([passportDraft.value])}
 
 			<footer class=buttonbar>
 				<button @click="${situation.onIngress}">
 					Import Existing
 				</button>
 
+				<button @click="${reroll}">
+					Reroll
+				</button>
+
 				${purpose.kind === "login" ? html`
 					<button class=login
-						?disabled="${!passport.value}"
+						?disabled="${!validPassport}"
 						@click="${login}">
 							Login
 					</button>
 				` : html`
 					<button class=happy
-						?disabled="${!passport.value}"
+						?disabled="${!validPassport}"
 						@click="${save}">
 							Create
 					</button>
