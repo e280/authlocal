@@ -1,32 +1,22 @@
 
-import {PostMessenger} from "renraku"
+import {endpoint, Messenger, WindowConduit} from "renraku"
 
 import {AppFns} from "./app-fns.js"
 import {Purpose} from "../logic/purpose.js"
-import {makePopupFns, PopupState} from "./popup-fns.js"
+import {makePopupFns} from "./popup-fns.js"
 
 export function setupInPopup(
+		appOrigin: string,
 		appWindow: WindowProxy,
-		popupWindow: Window,
-		setLoginPurpose: (purpose: Purpose.Login) => void
+		setLoginPurpose: (purpose: Purpose.Login) => void,
 	) {
 
-	const state: PopupState = {parentOrigin: "*"}
-
-	const peer = new PostMessenger<AppFns>({
-		local: {
-			window: popupWindow,
-			getFns: event => makePopupFns(event, state, setLoginPurpose),
-		},
-		remote: {
-			window: appWindow,
-			getOrigin: () => state.parentOrigin,
-		},
+	const messenger = new Messenger<AppFns>({
+		timeout: Infinity,
+		conduit: new WindowConduit(appWindow, appOrigin, ({origin}) => origin === appOrigin),
+		getLocalEndpoint: () => endpoint(makePopupFns(appOrigin, setLoginPurpose))
 	})
 
-	return {
-		dispose: peer.dispose,
-		appFns: peer.remote as AppFns,
-	}
+	return messenger.remote as AppFns
 }
 

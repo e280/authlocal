@@ -21,9 +21,9 @@ export class Manager {
 
 		if (isPopup || isDebugLoginMode) {
 			if (isPopup) {
-				const {appFns} = setupInPopup(
+				const appFns = setupInPopup(
+					window.opener.origin,
 					window.opener,
-					window,
 					p => { purpose.value = p },
 				)
 				appFns.v2.ready()

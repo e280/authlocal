@@ -1,30 +1,21 @@
 
-import {PostMessenger} from "renraku"
+import {endpoint, Messenger, WindowConduit} from "renraku"
 import {PopupFns} from "./popup-fns.js"
 import {makeAppFns} from "./app-fns.js"
 import {Login} from "../../auth/login.js"
 
 export function setupInApp(
-		appWindow: Window,
-		popupWindow: WindowProxy,
 		popupOrigin: string,
+		popupWindow: WindowProxy,
 		handleLogin: (login: Login) => void,
 	) {
 
-	const peer = new PostMessenger<PopupFns>({
-		local: {
-			window: appWindow,
-			getFns: (_event, popup) => makeAppFns(handleLogin, popup),
-		},
-		remote: {
-			window: popupWindow,
-			getOrigin: () => popupOrigin,
-		},
+	const messenger = new Messenger<PopupFns>({
+		timeout: Infinity,
+		conduit: new WindowConduit(popupWindow, popupOrigin, ({origin}) => origin === popupOrigin),
+		getLocalEndpoint: remote => endpoint(makeAppFns(handleLogin, remote)),
 	})
 
-	return {
-		dispose: peer.dispose,
-		popupFns: peer.remote as PopupFns,
-	}
+	return messenger.remote as PopupFns
 }
 

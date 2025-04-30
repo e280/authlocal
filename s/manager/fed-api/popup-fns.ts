@@ -17,15 +17,12 @@ export type PopupFns = {
 }
 
 export const makePopupFns = (
-		event: MessageEvent,
-		state: PopupState,
+		audience: string,
 		setLoginPurpose: (login: Purpose.Login) => void,
 	): PopupFns => ({
 
 	v2: {
 		async pleaseLogin() {
-			const audience = event.origin
-			state.parentOrigin = audience
 			const expiresAt = Future.days(7)
 			const issuer = window.origin
 			const {hostname} = new URL(audience)
