@@ -1,5 +1,5 @@
 
-import {Passport} from "../../auth/concepts.js"
+import {Passport} from "../../crypto/concepts.js"
 import {PassportStore} from "./passports/passport-store.js"
 import {PassportsFile} from "./passports/passports-file.js"
 

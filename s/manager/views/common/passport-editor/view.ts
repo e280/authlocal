@@ -4,10 +4,10 @@ import {deep, html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import {whence} from "../../../../tools/whence.js"
 import themeCss from "../../../../common/theme.css.js"
+import {Passport} from "../../../../crypto/concepts.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {renderThumbprint} from "../../../../common/views/id/render-thumbprint.js"
-import { Passport } from "../../../../auth/concepts.js"
-import { maxLabelLength, validLabel } from "../../../logic/passports/utils/validation.js"
+import {maxLabelLength, validLabel} from "../../../logic/passports/utils/validation.js"
 
 export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
 		passport: Passport
@@ -47,15 +47,15 @@ export const PassportEditor = shadowView(use => ({passport, onUpdate}: {
 					.value="${label.value}"
 					maxlength="${maxLabelLength}"
 					@input="${inputString(updateName)}"
-					?data-angry="${!validName(label.value)}"
+					?data-angry="${!validLabel(label.value)}"
 					/>
 
 				<small class=details>
-					<span>${whence(passport.created)}</span>
-					<span>${renderThumbprint(passport.thumbprint)}</span>
+					<span>${whence(passport.issued)}</span>
+					<span>${renderThumbprint(passport.id)}</span>
 				</small>
 
-				${!validName(label.value) ? html`
+				${!validLabel(label.value) ? html`
 					<span class=invalid>invalid name</span>
 				` : null}
 

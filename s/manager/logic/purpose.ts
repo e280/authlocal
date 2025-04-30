@@ -1,5 +1,5 @@
 
-import {Passport} from "../../auth/concepts.js"
+import {Passport} from "../../crypto/concepts.js"
 
 /** the reason the management app was opened */
 export namespace Purpose {

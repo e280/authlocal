@@ -1,11 +1,11 @@
 
-import {Base64, Text} from "@benev/slate"
+import {Base64, Txt} from "@e280/stz"
 import {ensure} from "./utils/ensure.js"
-import {deriveId} from "../../../auth/crypto.js"
+import {deriveId} from "../../../crypto/core.js"
 import {validLabel} from "./utils/validation.js"
-import {labelize} from "../../../auth/routines.js"
+import {Passport} from "../../../crypto/concepts.js"
 import {crushUsername} from "./utils/crush-username.js"
-import {Passport, passportVersion} from "../../../auth/concepts.js"
+import {labelize, passportVersion} from "../../../crypto/routines.js"
 
 export type PassportsFileData = {
 	format: string
@@ -35,7 +35,7 @@ export class PassportsFile {
 				id: ensure.string("id", p.id),
 				secret: ensure.string("secret", p.secret),
 				issued: ensure.number("issued", p.issued),
-				version: ensure.number("version", p.version),
+				version: ensure.number("version", p.version) as Passport["version"],
 				label: (ensure.string("name", p.label) && validLabel(p.label))
 					? p.label
 					: labelize(p.id),
@@ -100,7 +100,7 @@ export class PassportsFile {
 
 	href() {
 		const text = JSON.stringify(this.toData(), undefined, "\t")
-		const encoded = Base64.string(Text.bytes(text))
+		const encoded = Base64.string(Txt.bytes(text))
 		return `data:application/octet-stream;base64,${encoded}`
 	}
 }

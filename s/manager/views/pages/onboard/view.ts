@@ -3,9 +3,10 @@ import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {manager} from "../../../context.js"
-import {Passport} from "../../../../auth/concepts.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
+import {Passport} from "../../../../crypto/concepts.js"
+import {PassportEditor} from "../../common/passport-editor/view.js"
 
 export const OnboardPage = shadowView(use => (situation: Situation.Onboard) => {
 	use.styles([themeCss, stylesCss])
@@ -23,7 +24,7 @@ export const OnboardPage = shadowView(use => (situation: Situation.Onboard) => {
 	function login() {
 		if (purpose.kind === "login" && passport.value) {
 			situation.onSaveNewPassport(passport.value)
-			purpose.onLogin(passport.value)
+			purpose.onPassport(passport.value)
 		}
 	}
 

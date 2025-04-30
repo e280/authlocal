@@ -6,7 +6,7 @@ import {TokenParams} from "./token.js"
 import {deriveId, generateKeypair} from "./core.js"
 import {Keypair, Passport, Proof, Session} from "./concepts.js"
 
-const passportVersion = 1
+export const passportVersion = 1
 
 export function labelize(id: string) {
 	const idBytes = Hex.bytes(id)

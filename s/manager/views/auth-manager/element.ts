@@ -14,6 +14,8 @@ import {ListPage} from "../pages/list/view.js"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../common/theme.css.js"
+import {OnboardPage} from "../pages/onboard/view.js"
+import {generatePassport} from "../../../crypto/routines.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
@@ -29,7 +31,7 @@ export const AuthManager = shadowComponent(use => {
 	}
 
 	async function gotoOnboard() {
-		const passport = await Passport.generate()
+		const passport = await generatePassport()
 		situationOp.load(async() => ({
 			kind: "onboard",
 			passport,
@@ -122,8 +124,8 @@ export const AuthManager = shadowComponent(use => {
 		case "list":
 			return ListPage([situation])
 
-		// case "onboard":
-		// 	return OnboardPage([situation])
+		case "onboard":
+			return OnboardPage([situation])
 		//
 		// case "create":
 		// 	return CreatePage([situation])

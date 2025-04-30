@@ -1,8 +1,7 @@
 
 import {endpoint, Messenger, WindowConduit} from "renraku"
-
 import {AppFns} from "./app-fns.js"
-import {Purpose} from "../../logic/purpose.js"
+import {Purpose} from "../logic/purpose.js"
 import {makePopupFns} from "./popup-fns.js"
 
 export function setupInPopup(

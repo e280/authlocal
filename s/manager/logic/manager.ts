@@ -1,9 +1,8 @@
 
 import {opSignal, signal} from "@benev/slate"
-
 import {Purpose} from "./purpose.js"
 import {Situation} from "./situation.js"
-import {setupInPopup} from "../_archive/fed-api/setup-in-popup.js"
+import {setupInPopup} from "../fed-api/setup-in-popup.js"
 import {PassportStore} from "./passports/passport-store.js"
 import {StoragePersistence} from "./storage-persistence.js"
 
