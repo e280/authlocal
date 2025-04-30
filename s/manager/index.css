@@ -87,6 +87,7 @@ header {
 
 	display: flex;
 	justify-content: space-between;
+	flex-wrap: wrap;
 
 	> div {
 		display: flex;
@@ -100,6 +101,7 @@ header {
 		> h1 {
 			font-size: 1.4em;
 			display: flex;
+			flex-wrap: wrap;
 			align-items: baseline;
 			gap: .2em;
 
