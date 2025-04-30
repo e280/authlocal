@@ -3,6 +3,30 @@
 - [ ] seeds should have checksum
 - [ ] downloads should use createObjectURL to conceal the sensitive base64 data from tooltips
 
+## view plan
+- create
+  - edit name
+  - download + seed
+- list
+	- ? click a passport to go to edit view
+- edit
+	- edit name + download + seed + delete
+- ingress
+	- ? shows passports in file you upload
+	- ? checkboxes for which passports you want to import
+- egress
+	- ? checkboxes for which passports you want to export
+- recovery
+	- ? allows user to enter seed(s) in a big textarea
+	- ? presents which valid passports are detected
+	- ? checkboxes for which passports you want to import
+- delete page
+	- ? confirmation for deleting a passport
+- nuclear wipe page
+	- ? checkboxes for which passports to delete
+
+---
+
 # authlocal todo
 - [ ] consider adding a dedicated "edit passport" flow -- instead of logging in, you jump straight to editing and re-logging-in
 - [ ] authlocal.org third-party branding (apps can supply some kinda branding, at least their name, maybe a logo image)
