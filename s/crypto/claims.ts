@@ -3,6 +3,9 @@ import {Proofs} from "./proofs.js"
 import {ClaimPayload, ProofPayload, Session} from "./concepts.js"
 import {Token, TokenParams, TokenVerifications} from "./token.js"
 
+/**
+ * verifying a claim proves it was signed by a session on behalf of a user's passport
+ */
 export const Claims = {
 	async sign<C>(session: Session, claim: C, params: TokenParams) {
 		const proof = Token.decode<ProofPayload>(session.proofToken).payload.data

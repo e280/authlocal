@@ -23,14 +23,14 @@ export async function generateKeypair(): Promise<Keypair> {
 	return {id, secret}
 }
 
-export async function signMessage(
+export async function sign(
 		message: Uint8Array,
 		secret: string,
 	): Promise<Uint8Array> {
 	return ed.signAsync(message, unpack(secret))
 }
 
-export async function verifyMessage(
+export async function verify(
 		message: Uint8Array,
 		signature: Uint8Array,
 		id: string,

@@ -1,6 +1,6 @@
 
 import {Base64url, Hex, Txt} from "@e280/stz"
-import {signMessage, verifyMessage} from "./core.js"
+import {sign, verify} from "./core.js"
 
 export type TokenHeader = {
 	typ: "JWT"
@@ -62,7 +62,7 @@ export class Token {
 
 		const signingText = `${headerText}.${payloadText}`
 		const signingBytes = new TextEncoder().encode(signingText)
-		const signature = Base64url.string(await signMessage(signingBytes, secret))
+		const signature = Base64url.string(await sign(signingBytes, secret))
 
 		return `${signingText}.${signature}`
 	}
@@ -102,7 +102,7 @@ export class Token {
 		const signingText = `${headerText}.${payloadText}`
 		const signingBytes = new TextEncoder().encode(signingText)
 
-		const isValid = await verifyMessage(signingBytes, signature, id)
+		const isValid = await verify(signingBytes, signature, id)
 
 		if (!isValid)
 			throw new TokenVerifyError("token signature invalid")

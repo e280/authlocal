@@ -2,6 +2,11 @@
 import {unpack} from "./core.js"
 import {Barname, Hex} from "@e280/stz"
 
+/**
+ * - seeds are human-friendly phrases that are easier to copy than hex
+ * - in authlocal, the term 'secret' refers to any private key (64 hex chars)
+ * - this utility helps you convert between seeds and secrets
+ */
 export const Seeds = {
 	async fromSecret(secret: string) {
 		const secretBytes = unpack(secret)
