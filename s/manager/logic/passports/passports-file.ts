@@ -4,8 +4,8 @@ import {ensure} from "./utils/ensure.js"
 import {deriveId} from "../../../crypto/core.js"
 import {validLabel} from "./utils/validation.js"
 import {Passport} from "../../../crypto/concepts.js"
+import {labelize} from "../../../crypto/routines.js"
 import {crushUsername} from "./utils/crush-username.js"
-import {labelize, passportVersion} from "../../../crypto/routines.js"
 
 export type PassportsFileData = {
 	format: string
@@ -34,21 +34,15 @@ export class PassportsFile {
 			passports: ensure.array("passports", data.passports).map((p): Passport => ({
 				id: ensure.string("id", p.id),
 				secret: ensure.string("secret", p.secret),
-				issued: ensure.number("issued", p.issued),
-				version: ensure.number("version", p.version) as Passport["version"],
 				label: (ensure.string("name", p.label) && validLabel(p.label))
 					? p.label
 					: labelize(p.id),
 			}))
 		}
 
-		for (const passport of file.passports) {
-			if (passport.version !== passportVersion)
-				throw new Error(`invalid passport version ${passport.version}`)
-
-			// always re-derive all ids to guarantee integrity
+		// always re-derive all ids to guarantee integrity
+		for (const passport of file.passports)
 			passport.id = await deriveId(passport.secret)
-		}
 
 		return file
 	}

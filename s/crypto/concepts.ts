@@ -14,9 +14,6 @@ export type Keypair = {
 /** a user's identity */
 export type Passport = {
 
-	/** version for futureproofing */
-	version: 1
-
 	/** public key (64 hex chars) */
 	id: string
 
@@ -25,15 +22,18 @@ export type Passport = {
 
 	/** human-readable name */
 	label: string
-
-	/** js timestamp for when this passport was generated */
-	issued: number
 }
 
 /** public representation of a user's identity */
 export type PassportPlacard = {
 	id: string
 	label: string
+}
+
+/** serialized passport data */
+export type DehydratedPassport = {
+	label: string
+	secret: string
 }
 
 /** a login session */

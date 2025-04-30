@@ -3,7 +3,6 @@ import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {PassportDraft} from "./draft.js"
-import {whence} from "../../../../tools/whence.js"
 import themeCss from "../../../../common/theme.css.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {renderThumbprint} from "../../../../common/views/id/render-thumbprint.js"
@@ -31,7 +30,6 @@ export const PassportEditor = shadowView(use => (draft: PassportDraft) => {
 					/>
 
 				<small class=details>
-					<span>${whence(draft.initial.issued)}</span>
 					<span>${renderThumbprint(draft.initial.id)}</span>
 				</small>
 
