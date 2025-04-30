@@ -19,17 +19,17 @@
 		"links-s": "ln -s \"$(realpath s)\" x/s",
 		"links-assets": "ln -s \"$(realpath assets)\" x/assets",
 		"devlinks-slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
-		"test": "cynic node x/tests.test.js"
+		"test": "node x/tests.test.js --verbose"
 	},
 	"dependencies": {
 		"@benev/slate": "^0.3.0",
+		"@e280/science": "^0.0.3",
 		"@e280/stz": "^0.0.0-5",
 		"@noble/ed25519": "^2.2.3",
 		"renraku": "^0.5.0-8"
 	},
 	"devDependencies": {
 		"@benev/turtle": "^0.6.9",
-		"cynic": "^0.2.1",
 		"http-server": "^14.1.1",
 		"npm-run-all": "^4.1.5",
 		"typescript": "^5.8.3"
