@@ -25,8 +25,8 @@ export default template(async basic => {
 			${renderSocialCard({
 				themeColor: "#8800ff",
 				siteName: "authlocal.org",
-				title: "Authlocal.org – login passports",
-				description: "Own your identity. No emails, no passwords, no databases. User-sovereign, privacy-focused, open-source.",
+				title: "Authlocal.org – user-sovereign login system",
+				description: "Own your identity. No emails, no passwords, no databases. Privacy-focused, open-source.",
 				image: `https://${domain}${favicon}`,
 				url: `https://${domain}/`,
 			})}

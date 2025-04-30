@@ -1,7 +1,7 @@
 {
 	"name": "@authlocal/authlocal",
 	"version": "0.2.0-17",
-	"description": "User-sovereign Logins For All",
+	"description": "User-sovereign login system",
 	"main": "x/index.js",
 	"type": "module",
 	"files": [
