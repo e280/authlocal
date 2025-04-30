@@ -2,7 +2,7 @@
 :root {
 	color-scheme: dark;
 	--link: cyan;
-	--site-bg: #181818;
+	--site-bg: #111;
 
 	--prime: lime;
 
@@ -79,55 +79,36 @@ body {
 
 header {
 	width: 100%;
-	padding-top: 1em;
-	padding-bottom: 0.5em;
+	margin-top: 1em;
+	margin-bottom: 2em;
 
-	border-bottom: 0.3em solid #fff1;
-	color: #fff6;
+	color: #fffa;
 
 	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
+	flex-direction: column;
+	align-items: center;
 
-	> div {
+	> h1 {
+		font-size: 2.5em;
 		display: flex;
-		flex-direction: column;
-		justify-content: end;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: .2em;
 
-		&:last-child {
-			text-align: right;
+		> :is(.title, svg) {
+			color: color-mix(in srgb, white, var(--prime) 50%);
+			filter: drop-shadow(0 0 .4em color-mix(in srgb, transparent, var(--prime) 40%));
 		}
 
-		> h1 {
-			font-size: 1.4em;
-			display: flex;
-			flex-wrap: wrap;
-			align-items: baseline;
-			gap: .2em;
-
-			> :is(.title, svg) {
-				color: var(--prime);
-				text-shadow: 0 0 1em color-mix(in srgb, transparent, var(--prime) 30%);
-			}
-
-			> svg {
-				width: 1em;
-				height: 1em;
-				stroke-width: 3;
-			}
-
-			> .version {
-				font-family: monospace;
-				font-size: 0.8rem;
-				font-weight: normal;
-				color: #ff08;
-				margin-left: 0.5em;
-			}
+		> svg {
+			width: 1em;
+			height: 1em;
+			stroke-width: 2;
 		}
+	}
 
-		& strong {
-			color: #fffc;
-		}
+	& .version {
+		color: #ff08;
 	}
 }
 
@@ -140,18 +121,12 @@ auth-manager {
 
 footer {
 	width: 100%;
-	padding: 0.5em 0;
+	margin-top: 3em;
 
-	border-top: 0.3em solid #fff1;
 	color: #fff6;
 
 	display: flex;
-	justify-content: end;
-
-	> div {
-		display: flex;
-		flex-direction: column;
-		justify-content: end;
-	}
+	flex-direction: column;
+	align-items: center;
 }
 

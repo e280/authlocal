@@ -39,27 +39,21 @@ export default template(async basic => {
 		`,
 		body: html`
 			<header>
-				<div>
-					<h1>
-						${html(lockIcon.strings)}
-						<span class=title>Authlocal.org</span>
-						<span class=version>v${version}</span>
-					</h1>
-					<p>No emails, no passwords, no databases</p>
-				</div>
-				<div>
-					<p><strong>User-sovereign login system</strong></p>
-					<p>Own your identity, privacy-focused, open-source</p>
-				</div>
+				<h1>
+					${html(lockIcon.strings)}
+					<span class=title>Authlocal<wbr/>.org</span>
+				</h1>
+				<p>
+					<span>User-sovereign logins for all –</span>
+					<span class=version>v${version}</span>
+				</p>
 			</header>
 
 			<auth-manager></auth-manager>
 
 			<footer>
-				<div>
-					<p>Learn more on <a href="https://github.com/authlocal/authlocal" target=_blank>GitHub</a></p>
-					<auth-safe-storage></auth-safe-storage>
-				</div>
+				<p>Learn more on <a href="https://github.com/authlocal/authlocal" target=_blank>GitHub</a></p>
+				<auth-safe-storage></auth-safe-storage>
 			</footer>
 		`,
 	})
