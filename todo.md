@@ -1,6 +1,8 @@
 
-# authlocal todo
+# authlocal todo 2
+- [ ] seeds should have checksum
 
+# authlocal todo
 - [ ] consider adding a dedicated "edit passport" flow -- instead of logging in, you jump straight to editing and re-logging-in
 - [ ] authlocal.org third-party branding (apps can supply some kinda branding, at least their name, maybe a logo image)
 - [ ] improved story about how the ui behaves when tokens expire
