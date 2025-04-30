@@ -22,7 +22,6 @@ export const passportsSuite = Science.suite({
 	"dehydrate": test(async() => {
 		const [passport] = samplePassports
 		const text = await dehydratePassports([passport])
-		console.log(text)
 		expect(text.length).gt(100)
 	}),
 
@@ -65,7 +64,7 @@ export const passportsSuite = Science.suite({
 				"🤖 Robocop 5000.,,'"
 					$midsen_picmyn_widrep_baclut
 					somreg@sivler#havrun&tapfeb
-					tic-pem-han-lev topbec::lorreb
+					TICPEMHANLEV TOPBEC::LOR--REB
 					sipsyp.sarred.dassyn.barlug
 					pitber
 			`)
@@ -121,7 +120,7 @@ export const passportsSuite = Science.suite({
 			expect(passports[0].label.length).is(13) // default'd
 		}),
 
-		"hydrate": Science.suite({
+		"invalid": Science.suite({
 			"empty": test(async() => {
 				const passports = await hydratePassports(``)
 				expect(passports.length).is(0)

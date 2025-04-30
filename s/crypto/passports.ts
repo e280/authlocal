@@ -26,6 +26,7 @@ async function dehydratePassport(passport: Passport) {
 		+ (await dehydrate(passport.secret))
 			.split(" ")
 			.map(s => `\n  ${s}`)
+			.join("")
 }
 
 async function hydratePassport(label: string, barname: string): Promise<Passport> {

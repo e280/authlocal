@@ -30,8 +30,8 @@ export type PassportPlacard = {
 	label: string
 }
 
-/** serialized passport data */
-export type DehydratedPassport = {
+/** dehydrated passport data */
+export type PassportSeed = {
 	label: string
 	secret: string
 }

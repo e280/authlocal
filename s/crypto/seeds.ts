@@ -12,7 +12,7 @@ export async function dehydrate(secret: string) {
 	const hash = new Uint8Array(await crypto.subtle.digest("SHA-256", secretBytes))
 	const checksumBytes = hash.slice(0, 2)
 	const seedBytes = new Uint8Array([...secretBytes, ...checksumBytes])
-	return Barname.string(seedBytes)
+	return Barname.string(seedBytes).replaceAll("_", ".")
 }
 
 /** convert a human-friendly barname seed to a 64-char hex string (with checksum validation) */
