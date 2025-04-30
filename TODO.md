@@ -1,6 +1,7 @@
 
 # authlocal todo 2
 - [ ] seeds should have checksum
+- [ ] downloads should use createObjectURL to conceal the sensitive base64 data from tooltips
 
 # authlocal todo
 - [ ] consider adding a dedicated "edit passport" flow -- instead of logging in, you jump straight to editing and re-logging-in
