@@ -1,6 +1,6 @@
 
 import {Base64url, Hex, Txt} from "@e280/stz"
-import {sign, verify} from "./core.js"
+import {sign, verify} from "./crypto.js"
 
 export type TokenHeader = {
 	typ: "JWT"

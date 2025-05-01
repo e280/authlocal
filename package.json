@@ -22,7 +22,7 @@
 		"_clean": "rm -rf x",
 		"_code": "turtle build --out=x",
 		"_ssg": "turtle ssg --in=s,x --out=x",
-		"_test:watch": "node --watch x/tests.test.js --verbose",
+		"_test:watch": "node --watch x/tests.test.js",
 		"_http": "http-server x",
 		"_watch": "turtle watch --in=s,x --out=x -v",
 		"_ln": "run-s _ln:s _ln:assets",

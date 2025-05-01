@@ -1,11 +1,12 @@
 
 import {html, shadowView, svgSlate} from "@benev/slate"
-import {Passport} from "../../../../crypto/concepts.js"
+
+import {Passport} from "../../../../core/passport.js"
+import {idPreview} from "../../../../tools/id-preview.js"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
-import { idPreview } from "../../../../tools/id-preview.js"
 
 export const Breakdown = shadowView(use => (passports: Passport[]) => {
 	use.name("breakdown")

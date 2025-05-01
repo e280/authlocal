@@ -2,9 +2,8 @@
 import {deep} from "@e280/stz"
 import {Science, test, expect} from "@e280/science"
 
-import {Passport} from "./concepts.js"
-import {SeedChecksumError} from "./seeds.js"
-import {dehydratePassports, hydratePassports} from "./passports.js"
+import {SeedChecksumError} from "./seed.js"
+import {dehydratePassports, hydratePassports, Passport} from "./passport.js"
 
 function scrutinizePassport(passport: Passport) {
 	expect(typeof passport.label).is("string")
@@ -19,7 +18,7 @@ const samplePassports: Passport[] = [
 	{"label":"larrev.wacdus","id":"e18b0c81de6199111814356eceb051eea1916dce1a0ca494a52f0446e88afd84","secret":"b85e894541f6464276434aede306b0dc822d68a601a14da37fff6222c9dc369d"},
 ]
 
-export const passportsSuite = Science.suite({
+export default Science.suite({
 	"dehydrate": test(async() => {
 		const [passport] = samplePassports
 		const text = await dehydratePassports([passport])

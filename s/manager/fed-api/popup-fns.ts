@@ -2,9 +2,9 @@
 import {deferPromise} from "@benev/slate"
 import {Purpose} from "../logic/purpose.js"
 import {Future} from "../../tools/future.js"
-import {Proofs} from "../../crypto/proofs.js"
-import {generateKeypair} from "../../crypto/core.js"
-import {Proof, Session} from "../../crypto/concepts.js"
+import {Session} from "../../core/session.js"
+import {generateKeypair} from "../../core/crypto.js"
+import {Proof, signProof} from "../../core/proof.js"
 
 export type PopupState = {
 	parentOrigin: string
@@ -41,7 +41,7 @@ export const makePopupFns = (
 					}
 					deferredSession.resolve({
 						secret: sessionKeypair.secret,
-						proofToken: await Proofs.sign(passport.secret, proof, {
+						proofToken: await signProof(passport.secret, proof, {
 							expiresAt,
 							issuer,
 							audience,

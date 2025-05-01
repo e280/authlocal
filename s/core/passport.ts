@@ -1,8 +1,32 @@
 
 import {Bytename, Hex} from "@e280/stz"
-import {Passport} from "./concepts.js"
-import {dehydrate, hydrate} from "./seeds.js"
-import {deriveId, generateKeypair} from "./core.js"
+import {dehydrate, hydrate} from "./seed.js"
+import {deriveId, generateKeypair} from "./crypto.js"
+
+/** a user's identity */
+export type Passport = {
+
+	/** public key (64 hex chars) */
+	id: string
+
+	/** private key (64 hex chars) */
+	secret: string
+
+	/** human-readable name */
+	label: string
+}
+
+/** public representation of a user's identity */
+export type PassportPlacard = {
+	id: string
+	label: string
+}
+
+/** dehydrated passport data */
+export type PassportSeed = {
+	label: string
+	secret: string
+}
 
 export function labelize(id: string) {
 	const idBytes = Hex.bytes(id)
@@ -20,10 +44,10 @@ export async function dehydratePassports(passports: Passport[]) {
 	return texts.join("\n\n") + "\n\n"
 }
 
-export async function hydratePassports(text: string) {
-	text = text.trim()
+export async function hydratePassports(seeds: string) {
+	seeds = seeds.trim()
 	const regex = /("[^"]*")([^"]+)/gm
-	const matches = [...text.matchAll(regex)]
+	const matches = [...seeds.matchAll(regex)]
 	return await Promise.all(matches.map(
 		([, label, bytename]) => hydratePassport(
 			label ? JSON.parse(label) : "",

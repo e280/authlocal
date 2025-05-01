@@ -1,8 +1,17 @@
 
+import {Hex} from "@e280/stz"
 import * as ed from "@noble/ed25519"
 
-import {Hex} from "@e280/stz"
-import {Keypair} from "./concepts.js"
+/** crypto keypair */
+export type Keypair = {
+
+	/** public key */
+	id: string
+
+	/** private key */
+	secret: string
+}
+
 
 export function unpack(key: string) {
 	const bytes = Hex.bytes(key)

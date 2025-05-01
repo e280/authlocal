@@ -1,11 +1,11 @@
 
-import {Proofs} from "./proofs.js"
-import {Proof, Session} from "./concepts.js"
+import {Session} from "./session.js"
+import {Proof, verifyProof} from "./proof.js"
 import {TokenVerifications} from "./token.js"
 
 export class Login {
 	static async verify(session: Session, verifications?: TokenVerifications) {
-		return new this(session, await Proofs.verify(session.proofToken, verifications))
+		return new this(session, await verifyProof(session.proofToken, verifications))
 	}
 
 	constructor(

@@ -1,9 +1,10 @@
 
 import {Science, test, expect} from "@e280/science"
-import {Login} from "./crypto/login.js"
-import {generatePassport} from "./crypto/passports.js"
-import {passportsSuite} from "./crypto/passports.test.js"
-import {generateSession, signClaim, verifyClaim} from "./crypto/sessions.js"
+import {Login} from "./core/login.js"
+import {generatePassport} from "./core/passport.js"
+import {generateSession, signClaim, verifyClaim} from "./core/session.js"
+
+import passportTest from "./core/passport.test.js"
 
 const expiresAt = Date.now() + 999_000
 
@@ -35,6 +36,6 @@ await Science.run({
 		}),
 	}),
 
-	passports: passportsSuite,
+	passport: passportTest,
 })
 

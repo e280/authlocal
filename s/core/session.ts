@@ -1,9 +1,24 @@
 
-import {Proofs} from "./proofs.js"
-import {generateKeypair} from "./core.js"
-import {Passport, Proof} from "./concepts.js"
-import {ClaimPayload, ProofPayload, Session} from "./concepts.js"
-import {Token, TokenParams, TokenVerifications} from "./token.js"
+import {Passport} from "./passport.js"
+import {generateKeypair} from "./crypto.js"
+import {Proof, ProofPayload, signProof, verifyProof} from "./proof.js"
+import {Token, TokenParams, TokenPayload, TokenVerifications} from "./token.js"
+
+/** a login session */
+export type Session = {
+
+	/** private key for a login session */
+	secret: string
+
+	/** proof for this session */
+	proofToken: string
+}
+
+/** token payload for a generic claim signed by a session */
+export type ClaimPayload<C> = {
+	sub: string
+	data: {claim: C, proofToken: string}
+} & TokenPayload
 
 export async function generateSession(passport: Passport, proofTokenParams: TokenParams): Promise<Session> {
 	const sessionKeypair = await generateKeypair()
@@ -14,7 +29,7 @@ export async function generateSession(passport: Passport, proofTokenParams: Toke
 	}
 	return {
 		secret: sessionKeypair.secret,
-		proofToken: await Proofs.sign(passport.secret, proof, proofTokenParams)
+		proofToken: await signProof(passport.secret, proof, proofTokenParams)
 	}
 }
 
@@ -35,7 +50,7 @@ export async function verifyClaim<C>(claimToken: string, options?: {
 		claim?: TokenVerifications
 	}) {
 	const pre = Token.decode<ClaimPayload<C>>(claimToken)
-	const proof = await Proofs.verify(pre.payload.data.proofToken, options?.proof)
+	const proof = await verifyProof(pre.payload.data.proofToken, options?.proof)
 	const payload = await Token.verify<ClaimPayload<C>>(proof.sessionId, claimToken, options?.claim)
 	const {claim} = payload.data
 	return {claim, proof}

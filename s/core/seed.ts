@@ -1,5 +1,5 @@
 
-import {unpack} from "./core.js"
+import {unpack} from "./crypto.js"
 import {Bytename, Hex} from "@e280/stz"
 
 export class SeedError extends Error { name = this.constructor.name }

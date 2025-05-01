@@ -1,6 +1,6 @@
 
 import {signal} from "@benev/slate"
-import {Passport} from "../../../crypto/concepts.js"
+import {Passport} from "../../../core/passport.js"
 import {PassportsFile, PassportsFileData} from "./passports-file.js"
 import {StorageSignal, storageSignal} from "../../../tools/storage-signal.js"
 

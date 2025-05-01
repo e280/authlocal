@@ -1,11 +1,10 @@
 
 import {Base64, Txt} from "@e280/stz"
 import {ensure} from "./utils/ensure.js"
-import {deriveId} from "../../../crypto/core.js"
+import {deriveId} from "../../../core/crypto.js"
 import {validLabel} from "./utils/validation.js"
-import {Passport} from "../../../crypto/concepts.js"
-import {labelize} from "../../../crypto/passports.js"
 import {crushUsername} from "./utils/crush-username.js"
+import {labelize, Passport} from "../../../core/passport.js"
 
 export type PassportsFileData = {
 	format: string
