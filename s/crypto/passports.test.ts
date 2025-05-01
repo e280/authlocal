@@ -3,6 +3,7 @@ import {deep} from "@e280/stz"
 import {Science, test, expect} from "@e280/science"
 
 import {Passport} from "./concepts.js"
+import {SeedChecksumError} from "./seeds.js"
 import {dehydratePassports, hydratePassports} from "./passports.js"
 
 function scrutinizePassport(passport: Passport) {
@@ -181,7 +182,7 @@ export const passportsSuite = Science.suite({
 						ticpem.hanlev.topbec.lorreb
 						sipsyp.sarred.dassyn.barlug
 						midsen
-				`)).throwsAsync()
+				`)).throwsAsync(SeedChecksumError)
 			}),
 		}),
 	}),
