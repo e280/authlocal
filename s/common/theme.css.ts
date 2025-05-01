@@ -114,7 +114,7 @@ button {
 	color: var(--domain-color);
 }
 
-.buttonbar {
+[theme-buttons] {
 	display: flex;
 	gap: 1em;
 	justify-content: center;

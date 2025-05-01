@@ -2,8 +2,15 @@
 import {css} from "@benev/slate"
 export default css`
 
+* {Xoutline: 1px solid #f002;}
+
+.realm {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
 header {
-	max-width: 40em;
 	text-align: center;
 	display: flex;
 	flex-direction: column;
@@ -12,7 +19,7 @@ header {
 
 .plate {
 	background: #2226;
-	padding: 1em;
+	padding: 2em;
 	border-radius: 1em;
 }
 

@@ -51,45 +51,62 @@ export const OnboardPage = shadowView(use => (situation: Situation.Onboard) => {
 	const validPassport = getEditedPassport()
 
 	return html`
-		<div class=plate>
-			<header class=instruction>
-				${purpose.kind === "login" ? html`
-						<h2>Create a login for <code class=domain>${purpose.hostname}</code></h2>
+		<section class=realm>
+			<section class=plate>
+				<header class=instruction>
+					${purpose.kind === "login" ? html`
+							<h2>Create a login for <code class=domain>${purpose.hostname}</code></h2>
+						` : html`
+						<h2>Create your first digital passport</h2>
+					`}
+					<p>No emails, no passwords, no databases.</p>
+				</header>
+
+				${PassportWidget([{
+					placard: {id: passport.value.id, label: passport.value.label},
+					editing: passportEditing,
+				}])}
+
+				<footer theme-buttons>
+					<button @click="${situation.onIngress}">
+						Import Existing
+					</button>
+					<button @click="${reroll}">
+						Randomize
+					</button>
+				</footer>
+			</section>
+
+			<section class=plate>
+				<header class=instruction>
+					<h2>Save your passport's recovery seed</h2>
+					<p>Download or copy it to a safe place. It's gone forever if you lose it.</p>
+				</header>
+				<footer theme-buttons>
+					<button>
+						Copy Text to Clipboard
+					</button>
+
+					<button>
+						Download as File
+					</button>
+
+					${purpose.kind === "login" ? html`
+						<button class=login
+							?disabled="${!validPassport}"
+							@click="${login}">
+								Login
+						</button>
 					` : html`
-					<h2>Create your first digital passport</h2>
-				`}
-			</header>
-
-			${PassportWidget([{
-				placard: {id: passport.value.id, label: passport.value.label},
-				editing: passportEditing,
-			}])}
-
-			<footer class=buttonbar>
-				<button @click="${situation.onIngress}">
-					Import Existing
-				</button>
-
-				<button @click="${reroll}">
-					Reroll
-				</button>
-
-				${purpose.kind === "login" ? html`
-					<button class=login
-						?disabled="${!validPassport}"
-						@click="${login}">
-							Login
-					</button>
-				` : html`
-					<button class=happy
-						?disabled="${!validPassport}"
-						@click="${save}">
-							Create
-					</button>
-				`}
-
-			</footer>
-		</div>
+						<button class=happy
+							?disabled="${!validPassport}"
+							@click="${save}">
+								I'm Done
+						</button>
+					`}
+				</footer>
+			</section>
+		</section>
 	`
 })
 

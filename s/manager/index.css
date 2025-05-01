@@ -115,9 +115,7 @@ header {
 
 auth-manager {
 	display: block;
-	width: 95%;
-	max-width: 42em;
-	border-radius: 0.5em;
+	width: 100%;
 }
 
 footer {

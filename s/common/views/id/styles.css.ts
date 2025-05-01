@@ -21,12 +21,14 @@ export default css`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding: 0.2em;
+		padding: 0.2em 0.5em;
 		border-radius: .5em;
+		font-family: sans-serif;
 		font-weight: bold;
 		color: white;
 		text-shadow: .05em .10em .07em #0008;
 		background: transparent;
+		border: .15em solid currentColor;
 
 		&[x-notify="good"] { background: green; }
 		&[x-notify="bad"] { background: red; }
