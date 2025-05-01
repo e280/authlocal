@@ -1,5 +1,5 @@
 
-import {Barname, Hex} from "@e280/stz"
+import {Bytename, Hex} from "@e280/stz"
 import {Proofs} from "./proofs.js"
 import {TokenParams} from "./token.js"
 import {generateKeypair} from "./core.js"
@@ -7,7 +7,7 @@ import {Passport, Proof, Session} from "./concepts.js"
 
 export function labelize(id: string) {
 	const idBytes = Hex.bytes(id)
-	return Barname.string(idBytes.slice(0, 4))
+	return Bytename.string(idBytes.slice(0, 4))
 }
 
 export async function generatePassport(): Promise<Passport> {

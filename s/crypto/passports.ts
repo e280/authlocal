@@ -14,9 +14,9 @@ export async function hydratePassports(text: string) {
 	const regex = /("[^"]*")([^"]+)/gm
 	const matches = [...text.matchAll(regex)]
 	return await Promise.all(matches.map(
-		([, label, barname]) => hydratePassport(
+		([, label, bytename]) => hydratePassport(
 			label ? JSON.parse(label) : "",
-			barname,
+			bytename,
 		)
 	))
 }

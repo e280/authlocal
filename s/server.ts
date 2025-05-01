@@ -1,10 +1,4 @@
 
-export * from "@benev/slate/x/tools/data/barname/index.js"
-export * from "@benev/slate/x/tools/data/hex.js"
-export * from "@benev/slate/x/tools/data/base64.js"
-export * from "@benev/slate/x/tools/data/base64url.js"
-export * from "@benev/slate/x/tools/data/text.js"
-
 export * from "./crypto/claims.js"
 export * from "./crypto/concepts.js"
 export * from "./crypto/core.js"
