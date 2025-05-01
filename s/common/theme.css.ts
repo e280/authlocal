@@ -121,6 +121,24 @@ button {
 	color: var(--domain-color);
 }
 
+[theme-header] {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5em;
+}
+
+[theme-plate] {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2em;
+
+	background: #2226;
+	padding: 2em;
+	border-radius: 1em;
+}
+
 [theme-buttons] {
 	display: flex;
 	gap: 1em;

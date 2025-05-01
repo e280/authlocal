@@ -1,25 +1,25 @@
 
 import {Passport} from "../../core/passport.js"
-import {PassportStore} from "./passports/passport-store.js"
-import {PassportsFile} from "./passports/passports-file.js"
 
 export namespace Situation {
 	export type List = {
 		kind: "list"
-		passportStore: PassportStore
+		passports: Passport[]
 		onCreate: () => void
 		onEdit: (passport: Passport) => void
 		onEgress: (passports: Passport[]) => void
-		onIngress: (passportsFile: PassportsFile | undefined) => void
+		onIngress: (passports?: Passport[]) => void
 	}
 
 	export type Create = {
 		kind: "create"
+		passports: Passport[]
 		initialPassport: Passport
 		initialPassportSeed: string
 		onIngress: () => void
-		onSaveNewPassport: (passport: Passport) => void
+		onSaveNewPassport: (passport: Passport) => Promise<void>
 		onDone: () => void
+		onCancel?: () => void
 	}
 
 	export type Edit = {
@@ -45,7 +45,7 @@ export namespace Situation {
 
 	export type Ingress = {
 		kind: "ingress"
-		passports: PassportsFile | undefined
+		passports: Passport[] | undefined
 		onBack: () => void
 		onAddPassports: (passports: Passport[]) => void
 	}

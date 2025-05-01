@@ -1,16 +1,21 @@
 
+import {Kv, StorageCore} from "@e280/kv"
 import {opSignal, signal} from "@benev/slate"
+
 import {Purpose} from "./purpose.js"
+import {Depot} from "./depot/depot.js"
 import {Situation} from "./situation.js"
 import {setupInPopup} from "../fed-api/setup-in-popup.js"
-import {PassportStore} from "./passports/passport-store.js"
 import {StoragePersistence} from "./storage-persistence.js"
 
 export class Manager {
-	passportStore = new PassportStore()
 	storagePersistence = new StoragePersistence()
 	purpose = signal<Purpose.Any>({kind: "manage"})
 	situationOp = opSignal<Situation.Any>()
+
+	depot = new Depot(
+		new Kv(new StorageCore(window.localStorage))
+	)
 
 	constructor() {
 		const {purpose} = this

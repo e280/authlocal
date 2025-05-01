@@ -11,8 +11,8 @@ import {manager} from "../../../context.js"
 
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
-import userIcon from "../../../../common/icons/tabler/user.icon.js"
-import {renderId} from "../../../../common/views/id/render-id.js"
+import {Passport} from "../../../../core/passport.js"
+import {PassportWidget} from "../../common/passport-widget/view.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -20,11 +20,38 @@ export const ListPage = shadowView(use => (
 
 	use.styles([themeCss, stylesCss])
 
-	const {passportStore} = situation
-	const passports = passportStore.list()
-
-	const none = passports.length === 0
 	const purpose = manager.purpose.value
+	const passports = use.signal(situation.passports)
+	const none = passports.value.length === 0
+
+	async function clickNew() {
+		situation.onCreate()
+	}
+
+	function renderPassport({id, label}: Passport) {
+		return PassportWidget([{
+			placard: {id, label},
+			editing: undefined,
+		}])
+	}
+
+	return html`
+		<section theme-plate>
+			<header theme-header>
+				<h2>Manage your digital passports</h2>
+			</header>
+
+			<div class=passports>
+				${passports.value.map(renderPassport)}
+			</div>
+
+			<footer theme-buttons>
+				<button class=happy @click="${clickNew}">
+					New Passport
+				</button>
+			</footer>
+		</section>
+	`
 
 	// const clickNameplate = (passport: Passport) => () => {
 	// 	if (purpose.kind === "login")
@@ -80,11 +107,5 @@ export const ListPage = shadowView(use => (
 	// 		</article>
 	// 	`
 	// }
-
-	return html`
-		<div class=plate>
-			<h3>list</h3>
-		</div>
-	`
 })
 

@@ -18,12 +18,13 @@ import themeCss from "../../../common/theme.css.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
-	const {passportStore, storagePersistence, situationOp} = manager
+	const {depot, storagePersistence, situationOp} = manager
 
 	use.once(() => storagePersistence.check())
 
-	function gotoHome() {
-		if (passportStore.list().length === 0)
+	async function gotoHome() {
+		const passports = await depot.passports.list()
+		if (passports.length === 0)
 			gotoCreate()
 		else
 			gotoList()
@@ -31,29 +32,36 @@ export const AuthManager = shadowComponent(use => {
 
 	async function gotoCreate() {
 		situationOp.load(async() => {
+			const passports = await depot.passports.list()
 			const initialPassport = await generatePassport()
 			const initialPassportSeed = await dehydratePassports([initialPassport])
+			const onboardingMode = passports.length === 0
 			return {
 				kind: "create",
+				passports,
 				initialPassport,
 				initialPassportSeed,
 				onIngress: () => {},
 				// onIngress: () => gotoIngress(undefined, gotoHome),
-				onSaveNewPassport: passport => {
-					passportStore.add(passport)
+				onSaveNewPassport: async passport => {
+					await depot.passports.save(passport)
 					storagePersistence.request()
 				},
 				onDone: gotoHome,
+				onCancel: onboardingMode
+					? undefined
+					: gotoHome,
 			}
 		})
 	}
 
-	function gotoList() {
+	async function gotoList() {
+		const passports = await depot.passports.list()
 		situationOp.load(async() => ({
 			kind: "list",
-			passportStore,
+			passports,
 			onEdit: () => {},
-			onCreate: () => {},
+			onCreate: gotoCreate,
 			onEgress: () => {},
 			onIngress: () => {},
 			// onEdit: gotoEdit,

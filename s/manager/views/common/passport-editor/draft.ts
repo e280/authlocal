@@ -1,7 +1,7 @@
 
 import {signal, Signal} from "@benev/slate"
 import {Passport} from "../../../../core/passport.js"
-import {validLabel} from "../../../logic/passports/utils/validation.js"
+import {validLabel} from "../../../logic/utils/validation.js"
 
 export class PassportDraft {
 	label: Signal<string>

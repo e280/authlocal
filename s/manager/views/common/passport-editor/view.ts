@@ -6,7 +6,7 @@ import {PassportDraft} from "./draft.js"
 import themeCss from "../../../../common/theme.css.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {renderId} from "../../../../common/views/id/render-id.js"
-import {maxLabelLength, validLabel} from "../../../logic/passports/utils/validation.js"
+import {maxLabelLength, validLabel} from "../../../logic/utils/validation.js"
 
 export const PassportEditor = shadowView(use => (draft: PassportDraft) => {
 	use.name("passport-editor")

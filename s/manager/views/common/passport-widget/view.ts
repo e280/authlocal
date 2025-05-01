@@ -6,7 +6,7 @@ import themeCss from "../../../../common/theme.css.js"
 import {PassportPlacard} from "../../../../core/passport.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {renderId} from "../../../../common/views/id/render-id.js"
-import {maxLabelLength, validLabel} from "../../../logic/passports/utils/validation.js"
+import {maxLabelLength, validLabel} from "../../../logic/utils/validation.js"
 
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
 

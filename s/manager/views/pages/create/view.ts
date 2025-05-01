@@ -12,7 +12,7 @@ import {dehydratePassports, generatePassport, Passport} from "../../../../core/p
 export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	use.styles([themeCss, stylesCss])
 
-	const first = manager.passportStore.list().length === 0
+	const first = situation.passports.length === 0
 	const purpose = manager.purpose.value
 	const wizard = use.signal<"editor" | "seeder">("editor")
 	const seed = use.signal(situation.initialPassportSeed)
@@ -39,8 +39,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 		async function clickCreate() {
 			const passport = getEditedPassport()
 			if (passport) {
-				console.log("TODO save passport")
-				// situation.onSaveNewPassport(passport)
+				await situation.onSaveNewPassport(passport)
 				seed.value = await dehydratePassports([passport])
 				wizard.value = "seeder"
 			}
@@ -49,7 +48,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 		const render = () => {
 			const validPassport = editor.getEditedPassport()
 			return html`
-				<header class=instruction>
+				<header theme-header>
 					${purpose.kind === "login" ? html`
 						<h2>Create a new login for <code class=domain>${purpose.hostname}</code></h2>
 					` : (
@@ -66,6 +65,11 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				}])}
 
 				<footer theme-buttons>
+					${situation.onCancel ? html`
+						<button @click="${situation.onCancel}">
+							Cancel
+						</button>
+					` : null}
 					<button @click="${situation.onIngress}">
 						Import Existing
 					</button>
@@ -81,7 +85,6 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			`
 		}
 
-		reroll()
 		return {render, getEditedPassport, reroll}
 	})
 
@@ -102,7 +105,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 		function render() {
 			return html`
-				<header class=instruction>
+				<header theme-header>
 					<h2>Save your passport's recovery seed</h2>
 					<p>Download or copy it to a safe place — it's gone forever if you lose it</p>
 				</header>
@@ -127,12 +130,10 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	})
 
 	return html`
-		<section class=realm>
-			<section class=plate x-wizard="${wizard.value}">
-				${wizard.value === "editor"
-					? editor.render()
-					: seeder.render()}
-			</section>
+		<section theme-plate x-wizard="${wizard.value}">
+			${wizard.value === "editor"
+				? editor.render()
+				: seeder.render()}
 		</section>
 	`
 })
