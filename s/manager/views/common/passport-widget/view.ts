@@ -3,6 +3,7 @@ import {html, shadowView, Signal, svgSlate} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
+import {idHue} from "../../../../common/utils/id-hue.js"
 import {PassportPlacard} from "../../../../core/passport.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {renderId} from "../../../../common/views/id/render-id.js"
@@ -28,25 +29,31 @@ export const PassportWidget = shadowView(use => ({
 	use.name("passport-widget")
 	use.styles([themeCss, stylesCss])
 
-	return html`
-		<section theme-juicy>
-			${svgSlate(userIcon)}
+	const hsl = `hsl(${idHue(placard.id)}deg, 100%, 75%)`
 
-			<div class=alpha>
-				${editing ? html`
-					<input type=text class=label
-						.value="${editing.value.label}"
-						maxlength="${maxLabelLength}"
-						?data-angry="${!editing.value.valid}"
-						@input="${inputString(label => {
-							editing.value = {label, valid: validLabel(label)}
-						})}"
-						/>
-				` : html`
-					<div class=label>${placard.label}</div>
-				`}
-				<div class=id>${renderId(placard.id)}</div>
+	return html`
+		<section>
+			<div class=card theme-juicy>
+				<div class=icon style="color: ${hsl};">
+					${svgSlate(userIcon)}
+				</div>
+				<div class=alpha>
+					${editing ? html`
+						<input type=text class=label
+							.value="${editing.value.label}"
+							maxlength="${maxLabelLength}"
+							?data-angry="${!editing.value.valid}"
+							@input="${inputString(label => {
+								editing.value = {label, valid: validLabel(label)}
+							})}"
+							/>
+					` : html`
+						<div class="text label">${placard.label}</div>
+					`}
+				</div>
+				<slot></slot>
 			</div>
+			<div class=id>${renderId(placard.id)}</div>
 		</section>
 	`
 })

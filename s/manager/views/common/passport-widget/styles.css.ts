@@ -8,17 +8,24 @@ export default css`
 
 section {
 	display: flex;
+	flex-direction: column;
+}
+
+.card {
+	display: flex;
+	flex-wrap: wrap;
 	padding: 1em;
 	gap: 1em;
-	background: #37698e;
+	background: #272727;
 
-	> svg {
+	& svg {
 		flex: 0 0 auto;
 		width: 4em;
 		height: 4em;
+		stroke-width: 2;
 	}
 
-	.alpha {
+	> .alpha {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -26,22 +33,34 @@ section {
 
 		> .label {
 			font-size: 1.3em;
-			padding: 0.3em 0.5em;
-			width: calc(32ch + 1.2em);
+			width: calc(32ch + 1.4em);
 			max-width: 100%;
+			text-shadow: .1em .1em .2em #0008;
+			font-weight: bold;
+			font-family: monospace;
+		}
+
+		> .text.label {
 		}
 
 		> input {
+			padding: 0.3em 0.5em;
 			background: #0002;
 		}
-
-		> .id {
-			font-family: monospace;
-			align-self: end;
-			color: #fff8;
-			text-shadow: .1em .1em .1em #0004;
-		}
 	}
+
+	> slot {
+		display: contents;
+	}
+}
+
+.id {
+	align-self: start;
+	margin: 0 1em;
+
+	font-family: monospace;
+	color: #fff8;
+	text-shadow: .1em .1em .1em #0004;
 }
 
 `

@@ -50,7 +50,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			return html`
 				<header theme-header>
 					${purpose.kind === "login" ? html`
-						<h2>Create a new login for <code class=domain>${purpose.hostname}</code></h2>
+						<h2>Create a new login passport for <code class=domain>${purpose.hostname}</code></h2>
 					` : (
 						first
 							? html`<h2>Create your first digital passport</h2>`

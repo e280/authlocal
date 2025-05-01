@@ -1,10 +1,9 @@
 
-import {html, shadowView, signal} from "@benev/slate"
+import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
-import { debounce } from "@e280/stz"
-import { Flasher } from "../../../../common/utils/flasher.js"
+import {Flasher} from "../../../../common/utils/flasher.js"
 
 const demoSeed = `
 "fakely.demoly"
@@ -68,14 +67,14 @@ export const SeedReveal = shadowView(use => (passportsSeed: string, count: numbe
 			<footer theme-buttons>
 				<button class=reveal @click="${toggle}">
 					${reveal.value
-						? "👁️ Hide Seed"
-						: "👁️ Reveal Seed"}
+						? "Hide Seed"
+						: "Reveal Seed"}
 				</button>
 
 				<button class="copy button flasher"
 					@click="${() => copier.copy(passportsSeed)}"
 					x-flasher="${copier.status.value}">
-						📋 Copy to Clipboard
+						Copy to Clipboard
 				</button>
 
 				<a class="download button flasher"
@@ -83,7 +82,7 @@ export const SeedReveal = shadowView(use => (passportsSeed: string, count: numbe
 					download="passport${count === 1 ?"" :"s"}.authlocal"
 					@click="${() => downloader.flash(true)}"
 					x-flasher="${downloader.status.value}">
-						💾 Download as File
+						Download as File
 				</a>
 			</footer>
 		</section>

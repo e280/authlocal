@@ -7,6 +7,15 @@ export default css`
 	flex-direction: column;
 	align-items: center;
 	gap: 1em;
+
+	.passport {
+		display: flex;
+		align-items: start;
+		gap: 0.5em;
+
+		.edit {}
+		.login {}
+	}
 }
 
 `

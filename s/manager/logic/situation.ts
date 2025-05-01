@@ -34,7 +34,7 @@ export namespace Situation {
 		kind: "delete"
 		passport: Passport
 		onCancel: () => void
-		onComplete: (passport: Passport) => void
+		onDeleteConfirmed: (passport: Passport) => void
 	}
 
 	export type Egress = {

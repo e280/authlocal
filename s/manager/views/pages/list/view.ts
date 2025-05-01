@@ -29,16 +29,32 @@ export const ListPage = shadowView(use => (
 	}
 
 	function renderPassport({id, label}: Passport) {
-		return PassportWidget([{
-			placard: {id, label},
-			editing: undefined,
-		}])
+		return html`
+			<div class=passport>
+				${PassportWidget([{
+					placard: {id, label},
+					editing: undefined,
+				}], {
+					content: html`
+						<button class=edit x-alt=subtle>Edit</button>
+						${purpose.kind === "login" ? html`
+							<button class=login>Login</button>
+						` : null}
+					`,
+				})}
+			</div>
+		`
 	}
 
 	return html`
-		<section theme-plate>
+		<section theme-plate x-purpose="${purpose.kind}">
 			<header theme-header>
-				<h2>Manage your digital passports</h2>
+				${purpose.kind === "login" ? html`
+					<h2>Login request from <code>${purpose.hostname}</code></h2>
+					<p>You can authorize the login below by pressing "Login"</p>
+				` : html`
+					<h2>Manage your login passports</h2>
+				`}
 			</header>
 
 			<div class=passports>

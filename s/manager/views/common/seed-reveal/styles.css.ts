@@ -68,8 +68,8 @@ footer {
 	justify-content: center;
 	flex-wrap: wrap;
 
-	button {
-		min-width: 20ch;
+	button.reveal {
+		min-width: 16ch;
 	}
 }
 
