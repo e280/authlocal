@@ -1,8 +1,19 @@
 
+import {Bytename, Hex} from "@e280/stz"
 import {Passport} from "./concepts.js"
-import {deriveId} from "./core.js"
-import {labelize} from "./routines.js"
 import {dehydrate, hydrate} from "./seeds.js"
+import {deriveId, generateKeypair} from "./core.js"
+
+export function labelize(id: string) {
+	const idBytes = Hex.bytes(id)
+	return Bytename.string(idBytes.slice(0, 4))
+}
+
+export async function generatePassport(): Promise<Passport> {
+	const {id, secret} = await generateKeypair()
+	const label = labelize(id)
+	return {label, id, secret}
+}
 
 export async function dehydratePassports(passports: Passport[]) {
 	const texts = await Promise.all(passports.map(dehydratePassport))

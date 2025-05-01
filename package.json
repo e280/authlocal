@@ -2,12 +2,17 @@
 	"name": "@authlocal/authlocal",
 	"version": "0.2.0-17",
 	"description": "User-sovereign login system",
-	"main": "x/index.js",
+	"main": "./x/index.web.js",
 	"type": "module",
 	"files": [
 		"x",
 		"s"
 	],
+	"exports": {
+		".": "./x/index.web.js",
+		"./core": "./x/index.core.js",
+		"./*": "./*"
+	},
 	"scripts": {
 		"build": "rm -rf x && run-s _code _ssg _ln",
 		"test": "node x/tests.test.js --verbose",

@@ -4,7 +4,7 @@ import {ensure} from "./utils/ensure.js"
 import {deriveId} from "../../../crypto/core.js"
 import {validLabel} from "./utils/validation.js"
 import {Passport} from "../../../crypto/concepts.js"
-import {labelize} from "../../../crypto/routines.js"
+import {labelize} from "../../../crypto/passports.js"
 import {crushUsername} from "./utils/crush-username.js"
 
 export type PassportsFileData = {

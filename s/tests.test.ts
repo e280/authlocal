@@ -1,10 +1,9 @@
 
 import {Science, test, expect} from "@e280/science"
 import {Login} from "./crypto/login.js"
-import {Claims} from "./crypto/claims.js"
-import {generatePassport, generateSession} from "./crypto/routines.js"
-
+import {generatePassport} from "./crypto/passports.js"
 import {passportsSuite} from "./crypto/passports.test.js"
+import {generateSession, signClaim, verifyClaim} from "./crypto/sessions.js"
 
 const expiresAt = Date.now() + 999_000
 
@@ -25,12 +24,12 @@ await Science.run({
 	"claims": Science.suite({
 		"sign/verify": test(async() => {
 			const login = await setupLogin()
-			const claimToken = await Claims.sign<string>(
+			const claimToken = await signClaim<string>(
 				login.session,
 				"hello",
 				{expiresAt},
 			)
-			const {claim, proof} = await Claims.verify<string>(claimToken)
+			const {claim, proof} = await verifyClaim<string>(claimToken)
 			expect(proof.passport.id).is(login.passport.id)
 			expect(claim).is("hello")
 		}),

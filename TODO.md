@@ -1,6 +1,6 @@
 
 # authlocal todo 2
-- [ ] seeds should have checksum
+- [x] seeds should have checksum
 - [ ] downloads should use createObjectURL to conceal the sensitive base64 data from tooltips
 
 ## view plan

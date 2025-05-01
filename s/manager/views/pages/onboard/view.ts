@@ -5,7 +5,7 @@ import stylesCss from "./styles.css.js"
 import {manager} from "../../../context.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
-import {generatePassport} from "../../../../crypto/routines.js"
+import {generatePassport} from "../../../../crypto/passports.js"
 import {PassportDraft} from "../../common/passport-editor/draft.js"
 import {PassportEditor} from "../../common/passport-editor/view.js"
 
