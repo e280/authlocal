@@ -30,6 +30,10 @@ export default css`
 
 		> .label {
 			font-size: 1.3em;
+			max-width: 80vw;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
 			text-shadow: .1em .1em .2em #0008;
 			font-weight: bold;
 			font-family: monospace;
@@ -38,7 +42,6 @@ export default css`
 		> input {
 			padding: 0.3em 0.5em;
 			width: calc(32ch + 1.4em);
-			max-width: 100%;
 
 			background: #0002;
 		}
