@@ -16,6 +16,7 @@ export namespace Situation {
 	export type Create = {
 		kind: "create"
 		initialPassport: Passport
+		initialPassportSeed: string
 		onIngress: () => void
 		onSaveNewPassport: (passport: Passport) => void
 		onDone: () => void

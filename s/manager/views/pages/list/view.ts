@@ -12,7 +12,7 @@ import {manager} from "../../../context.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
-import {renderThumbprint} from "../../../../common/views/id/render-thumbprint.js"
+import {renderId} from "../../../../common/views/id/render-id.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,

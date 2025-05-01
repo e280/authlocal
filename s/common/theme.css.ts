@@ -1,6 +1,6 @@
 
 import {css} from "@benev/slate"
-export default css`
+export default css`@layer theme, view; @layer theme {
 
 :root {
 	color-scheme: dark;
@@ -93,6 +93,12 @@ button {
 			&:active { filter: brightness(90%); }
 		}
 	}
+
+	&[x-flasher] {
+		transition: background 100ms linear;
+		&[x-flasher="good"] { background: green; }
+		&[x-flasher="bad"] { background: red; }
+	}
 }
 
 .plate {
@@ -108,6 +114,7 @@ button {
 
 .instruction {
 	color: var(--instruction-color);
+	p { opacity: 0.5; }
 }
 
 .domain {
@@ -127,15 +134,16 @@ button {
 	border-top: 0.15em solid #fff5;
 }
 
-input[type="text"] {
+:is(input[type="text"], textarea) {
+	display: block;
 	padding: 0.3em 0.5em;
 	font-family: monospace;
 	background: #111a;
-	border-radius: 0.2em;
-	box-shadow: inset 0 -.1em 1em #0006;
-	border: 1px solid #fff4;
+	border-radius: 0.3em;
+	text-shadow: .1em .1em .1em #000a;
+	box-shadow: inset 0 -.1em 1em #0008;
+	border: 1px solid transparent;
 	border-bottom: 1px solid #fff8;
-	text-shadow: .1em .1em .1em #0008;
 	&[data-angry] { border: 1px solid red; }
 }
 
@@ -149,5 +157,5 @@ input[type="text"] {
 	to { transform: rotate(360deg); }
 }
 
-`
+}`
 

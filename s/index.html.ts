@@ -44,15 +44,16 @@ export default template(async basic => {
 					<span class=title>Authlocal<wbr/>.org</span>
 				</h1>
 				<p>
-					<span>User-sovereign logins for all –</span>
-					<span class=version>v${version}</span>
+					<span>User-sovereign logins for all</span>
+					<span class=version>– v${version}</span>
 				</p>
 			</header>
 
 			<auth-manager></auth-manager>
 
 			<footer>
-				<p>Learn more on <a href="https://github.com/authlocal/authlocal" target=_blank>GitHub</a></p>
+				<p>Privacy-focused, free, open-source. Learn more on <a href="https://github.com/authlocal/authlocal" target=_blank>GitHub</a></p>
+				<p>Own your identity.</p>
 				<auth-safe-storage></auth-safe-storage>
 			</footer>
 		`,

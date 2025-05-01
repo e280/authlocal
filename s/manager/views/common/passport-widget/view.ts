@@ -5,7 +5,7 @@ import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
 import {PassportPlacard} from "../../../../core/passport.js"
 import {inputString} from "../../../../tools/input-string.js"
-import {renderThumbprint} from "../../../../common/views/id/render-thumbprint.js"
+import {renderId} from "../../../../common/views/id/render-id.js"
 import {maxLabelLength, validLabel} from "../../../logic/passports/utils/validation.js"
 
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
@@ -45,7 +45,7 @@ export const PassportWidget = shadowView(use => ({
 				` : html`
 					<div class=label>${placard.label}</div>
 				`}
-				<div class=id>${renderThumbprint(placard.id)}</div>
+				<div class=id>${renderId(placard.id)}</div>
 			</div>
 		</section>
 	`

@@ -5,8 +5,9 @@ import stylesCss from "./styles.css.js"
 import {manager} from "../../../context.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
-import {generatePassport, Passport} from "../../../../core/passport.js"
+import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {PassportEditing, PassportWidget} from "../../common/passport-widget/view.js"
+import {dehydratePassports, generatePassport, Passport} from "../../../../core/passport.js"
 
 export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	use.styles([themeCss, stylesCss])
@@ -14,6 +15,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	const first = manager.passportStore.list().length === 0
 	const purpose = manager.purpose.value
 	const wizard = use.signal<"editor" | "seeder">("editor")
+	const seed = use.signal(situation.initialPassportSeed)
 
 	const editor = use.once(() => {
 		const passport = use.signal<Passport>(situation.initialPassport)
@@ -22,59 +24,65 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			valid: true,
 		})
 
-		async function reroll() {
-			const freshPassport = await generatePassport()
-			passport.value = freshPassport
-			passportEditing.value = {label: freshPassport.label, valid: true}
-		}
-
 		function getEditedPassport(): Passport | undefined {
 			return (passport.value && passportEditing.value?.valid)
 				? {...passport.value, label: passportEditing.value.label}
 				: undefined
 		}
 
-		function clickCreate() {
+		async function reroll() {
+			const freshPassport = await generatePassport()
+			passport.value = freshPassport
+			passportEditing.value = {label: freshPassport.label, valid: true}
+		}
+
+		async function clickCreate() {
 			const passport = getEditedPassport()
 			if (passport) {
-				// situation.onSaveNewPassport(passport)
 				console.log("TODO save passport")
+				// situation.onSaveNewPassport(passport)
+				seed.value = await dehydratePassports([passport])
 				wizard.value = "seeder"
 			}
 		}
 
-		const render = () => html`
-			<header class=instruction>
-				${purpose.kind === "login" ? html`
-					<h2>Create a new login for <code class=domain>${purpose.hostname}</code></h2>
-				` : (
-					first
-						? html`<h2>Create your first digital passport</h2>`
-						: html`<h2>Create a new digital passport</h2>`
-				)}
-				<p>No emails, no passwords, no databases.</p>
-			</header>
+		const render = () => {
+			const validPassport = editor.getEditedPassport()
+			return html`
+				<header class=instruction>
+					${purpose.kind === "login" ? html`
+						<h2>Create a new login for <code class=domain>${purpose.hostname}</code></h2>
+					` : (
+						first
+							? html`<h2>Create your first digital passport</h2>`
+							: html`<h2>Create a new digital passport</h2>`
+					)}
+					<p>No emails, no passwords, no databases</p>
+				</header>
 
-			${PassportWidget([{
-				placard: {id: passport.value.id, label: passport.value.label},
-				editing: passportEditing,
-			}])}
+				${PassportWidget([{
+					placard: {id: passport.value.id, label: passport.value.label},
+					editing: passportEditing,
+				}])}
 
-			<footer theme-buttons>
-				<button @click="${situation.onIngress}">
-					Import Existing
-				</button>
-				<button @click="${reroll}">
-					Randomize
-				</button>
-				<button class=happy @click="${clickCreate}">
-					Create
-				</button>
-			</footer>
-		`
+				<footer theme-buttons>
+					<button @click="${situation.onIngress}">
+						Import Existing
+					</button>
+					<button @click="${reroll}">
+						Randomize
+					</button>
+					<button class=happy
+						?disabled="${!validPassport}"
+						@click="${clickCreate}">
+							Create
+					</button>
+				</footer>
+			`
+		}
 
 		reroll()
-		return {render, getEditedPassport}
+		return {render, getEditedPassport, reroll}
 	})
 
 	const seeder = use.once(() => {
@@ -84,33 +92,31 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				purpose.onPassport(passport)
 		}
 
+		function clickDone() {
+			situation.onDone()
+			editor.reroll()
+				.then(() => {
+					wizard.value = "editor"
+				})
+		}
+
 		function render() {
-			const validPassport = editor.getEditedPassport()
 			return html`
 				<header class=instruction>
 					<h2>Save your passport's recovery seed</h2>
-					<p>Download or copy it to a safe place. It's gone forever if you lose it.</p>
+					<p>Download or copy it to a safe place — it's gone forever if you lose it</p>
 				</header>
+
+				${SeedReveal([seed.value, 1])}
+
 				<footer theme-buttons>
-					<button>
-						Copy Text to Clipboard
-					</button>
-
-					<button>
-						Download as File
-					</button>
-
 					${purpose.kind === "login" ? html`
-						<button class=login
-							?disabled="${!validPassport}"
-							@click="${login}">
-								Login
+						<button class=login @click="${login}">
+							Login
 						</button>
 					` : html`
-						<button class=happy
-							?disabled="${!validPassport}"
-							@click="${situation.onDone}">
-								I'm Done
+						<button class=happy @click="${clickDone}">
+							Continue
 						</button>
 					`}
 				</footer>
@@ -122,7 +128,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 	return html`
 		<section class=realm>
-			<section class=plate>
+			<section class=plate x-wizard="${wizard.value}">
 				${wizard.value === "editor"
 					? editor.render()
 					: seeder.render()}

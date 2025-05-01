@@ -4,7 +4,7 @@ import {shadowComponent, loading} from "@benev/slate"
 import {manager} from "../../context.js"
 import {ListPage} from "../pages/list/view.js"
 import {CreatePage} from "../pages/create/view.js"
-import {generatePassport} from "../../../core/passport.js"
+import {dehydratePassports, generatePassport} from "../../../core/passport.js"
 // import {Passport} from "../../../auth/passport.js"
 // import {EgressPage} from "../pages/egress/view.js"
 // import {IngressPage} from "../pages/ingress/view.js"
@@ -30,17 +30,22 @@ export const AuthManager = shadowComponent(use => {
 	}
 
 	async function gotoCreate() {
-		situationOp.load(async() => ({
-			kind: "create",
-			initialPassport: await generatePassport(),
-			onIngress: () => {},
-			// onIngress: () => gotoIngress(undefined, gotoHome),
-			onSaveNewPassport: passport => {
-				passportStore.add(passport)
-				storagePersistence.request()
-			},
-			onDone: gotoHome,
-		}))
+		situationOp.load(async() => {
+			const initialPassport = await generatePassport()
+			const initialPassportSeed = await dehydratePassports([initialPassport])
+			return {
+				kind: "create",
+				initialPassport,
+				initialPassportSeed,
+				onIngress: () => {},
+				// onIngress: () => gotoIngress(undefined, gotoHome),
+				onSaveNewPassport: passport => {
+					passportStore.add(passport)
+					storagePersistence.request()
+				},
+				onDone: gotoHome,
+			}
+		})
 	}
 
 	function gotoList() {

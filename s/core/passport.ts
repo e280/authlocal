@@ -41,7 +41,7 @@ export async function generatePassport(): Promise<Passport> {
 
 export async function dehydratePassports(passports: Passport[]) {
 	const texts = await Promise.all(passports.map(dehydratePassport))
-	return texts.join("\n\n") + "\n\n"
+	return texts.join("\n\n")
 }
 
 export async function hydratePassports(seeds: string) {

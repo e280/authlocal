@@ -5,7 +5,7 @@ import stylesCss from "./styles.css.js"
 import {PassportDraft} from "./draft.js"
 import themeCss from "../../../../common/theme.css.js"
 import {inputString} from "../../../../tools/input-string.js"
-import {renderThumbprint} from "../../../../common/views/id/render-thumbprint.js"
+import {renderId} from "../../../../common/views/id/render-id.js"
 import {maxLabelLength, validLabel} from "../../../logic/passports/utils/validation.js"
 
 export const PassportEditor = shadowView(use => (draft: PassportDraft) => {
@@ -30,7 +30,7 @@ export const PassportEditor = shadowView(use => (draft: PassportDraft) => {
 					/>
 
 				<small class=details>
-					<span>${renderThumbprint(draft.initial.id)}</span>
+					<span>${renderId(draft.initial.id)}</span>
 				</small>
 
 				${!draft.getValid() ? html`

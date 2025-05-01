@@ -5,7 +5,7 @@ export {register_to_dom, apply, mixin, nexus} from "@benev/slate"
 
 export {default as themeCss} from "./common/theme.css.js"
 export * from "./common/views/id/view.js"
-export * from "./common/views/id/render-thumbprint.js"
+export * from "./common/views/id/render-id.js"
 
 // export * from "./federated/utils/login.js"
 // export * from "./federated/auth.js"

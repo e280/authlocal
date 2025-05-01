@@ -76,8 +76,6 @@ body {
 	gap: 2em;
 }
 
-/* * {outline: 1px solid #f004;} */
-
 header {
 	width: 100%;
 	margin-top: 1em;
@@ -89,17 +87,15 @@ header {
 	flex-direction: column;
 	align-items: center;
 
+	color: color-mix(in srgb, white, var(--prime) 50%);
+
 	> h1 {
-		font-size: 2.5em;
+		font-size: 3em;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
 		gap: .2em;
-
-		> :is(.title, svg) {
-			color: color-mix(in srgb, white, var(--prime) 50%);
-			filter: drop-shadow(0 0 .4em color-mix(in srgb, transparent, var(--prime) 40%));
-		}
+		filter: drop-shadow(0 0 .4em color-mix(in srgb, transparent, var(--prime) 40%));
 
 		> svg {
 			width: 1em;
@@ -108,8 +104,11 @@ header {
 		}
 	}
 
-	& .version {
-		color: #ff08;
+	> p {
+		opacity: 0.5;
+		> .version {
+			opacity: 0.8;
+		}
 	}
 }
 
@@ -127,5 +126,6 @@ footer {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	gap: 0.5em;
 }
 
