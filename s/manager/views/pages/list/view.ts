@@ -1,8 +1,5 @@
 
-import {html, shadowView, svgSlate} from "@benev/slate"
-
-import stylesCss from "./styles.css.js"
-import {whence} from "../../../../tools/whence.js"
+import {html, shadowView} from "@benev/slate"
 
 import {manager} from "../../../context.js"
 // import {Passport} from "../../../../auth/passport.js"
@@ -10,9 +7,11 @@ import {manager} from "../../../context.js"
 // import {PassportsFile} from "../../../../auth/passports-file.js"
 
 import {Situation} from "../../../logic/situation.js"
-import themeCss from "../../../../common/theme.css.js"
 import {Passport} from "../../../../core/passport.js"
 import {PassportWidget} from "../../common/passport-widget/view.js"
+
+import stylesCss from "./styles.css.js"
+import themeCss from "../../../../common/theme.css.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,

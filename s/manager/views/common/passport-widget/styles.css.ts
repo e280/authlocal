@@ -3,10 +3,6 @@ import {css} from "@benev/slate"
 export default css`
 
 :host {
-	display: contents;
-}
-
-section {
 	display: flex;
 	flex-direction: column;
 }
@@ -29,22 +25,21 @@ section {
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		flex: 1 1 12em;
+		flex: 1 1 auto;
+		margin-right: 1em;
 
 		> .label {
 			font-size: 1.3em;
-			width: calc(32ch + 1.4em);
-			max-width: 100%;
 			text-shadow: .1em .1em .2em #0008;
 			font-weight: bold;
 			font-family: monospace;
 		}
 
-		> .text.label {
-		}
-
 		> input {
 			padding: 0.3em 0.5em;
+			width: calc(32ch + 1.4em);
+			max-width: 100%;
+
 			background: #0002;
 		}
 	}

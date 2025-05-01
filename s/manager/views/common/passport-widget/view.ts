@@ -32,29 +32,27 @@ export const PassportWidget = shadowView(use => ({
 	const hsl = `hsl(${idHue(placard.id)}deg, 100%, 75%)`
 
 	return html`
-		<section>
-			<div class=card theme-juicy>
-				<div class=icon style="color: ${hsl};">
-					${svgSlate(userIcon)}
-				</div>
-				<div class=alpha>
-					${editing ? html`
-						<input type=text class=label
-							.value="${editing.value.label}"
-							maxlength="${maxLabelLength}"
-							?data-angry="${!editing.value.valid}"
-							@input="${inputString(label => {
-								editing.value = {label, valid: validLabel(label)}
-							})}"
-							/>
-					` : html`
-						<div class="text label">${placard.label}</div>
-					`}
-				</div>
-				<slot></slot>
+		<div class=card theme-juicy>
+			<div class=icon style="color: ${hsl};">
+				${svgSlate(userIcon)}
 			</div>
-			<div class=id>${renderId(placard.id)}</div>
-		</section>
+			<div class=alpha>
+				${editing ? html`
+					<input type=text class=label
+						.value="${editing.value.label}"
+						maxlength="${maxLabelLength}"
+						?data-angry="${!editing.value.valid}"
+						@input="${inputString(label => {
+							editing.value = {label, valid: validLabel(label)}
+						})}"
+						/>
+				` : html`
+					<div class="text label">${placard.label}</div>
+				`}
+			</div>
+			<slot></slot>
+		</div>
+		<div class=id>${renderId(placard.id)}</div>
 	`
 })
 
