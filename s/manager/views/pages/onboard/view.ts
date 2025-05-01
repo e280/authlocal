@@ -5,29 +5,35 @@ import stylesCss from "./styles.css.js"
 import {manager} from "../../../context.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
-import {generatePassport} from "../../../../core/passport.js"
-import {PassportDraft} from "../../common/passport-editor/draft.js"
-import {PassportEditor} from "../../common/passport-editor/view.js"
+import {generatePassport, Passport} from "../../../../core/passport.js"
+import {PassportEditing, PassportWidget} from "../../common/passport-widget/view.js"
 
 export const OnboardPage = shadowView(use => (situation: Situation.Onboard) => {
 	use.styles([themeCss, stylesCss])
 
 	const purpose = manager.purpose.value
-	const passportDraft = use.signal<PassportDraft | null>(null)
+	const passport = use.signal<Passport>(situation.initialPassport)
+	const passportEditing = use.signal<PassportEditing>({
+		label: situation.initialPassport.label,
+		valid: true,
+	})
 
 	async function reroll() {
-		const passport = await generatePassport()
-		passportDraft.value = new PassportDraft(passport)
+		const freshPassport = await generatePassport()
+		passport.value = freshPassport
+		passportEditing.value = {label: freshPassport.label, valid: true}
 	}
 
 	use.once(reroll)
 
-	function getValidPassport() {
-		return passportDraft.value?.getValid()
+	function getEditedPassport(): Passport | undefined {
+		return (passport.value && passportEditing.value?.valid)
+			? {...passport.value, label: passportEditing.value.label}
+			: undefined
 	}
 
 	function save() {
-		const passport = getValidPassport()
+		const passport = getEditedPassport()
 		if (passport) {
 			situation.onSaveNewPassport(passport)
 			situation.onDone()
@@ -35,14 +41,14 @@ export const OnboardPage = shadowView(use => (situation: Situation.Onboard) => {
 	}
 
 	function login() {
-		const passport = getValidPassport()
+		const passport = getEditedPassport()
 		if (purpose.kind === "login" && passport) {
 			situation.onSaveNewPassport(passport)
 			purpose.onPassport(passport)
 		}
 	}
 
-	const validPassport = getValidPassport()
+	const validPassport = getEditedPassport()
 
 	return html`
 		<div class=plate>
@@ -54,7 +60,10 @@ export const OnboardPage = shadowView(use => (situation: Situation.Onboard) => {
 				`}
 			</header>
 
-			${passportDraft.value && PassportEditor([passportDraft.value])}
+			${PassportWidget([{
+				placard: {id: passport.value.id, label: passport.value.label},
+				editing: passportEditing,
+			}])}
 
 			<footer class=buttonbar>
 				<button @click="${situation.onIngress}">

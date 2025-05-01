@@ -121,12 +121,21 @@ button {
 	flex-wrap: wrap;
 }
 
+[theme-juicy] {
+	border-radius: 0.5em;
+	box-shadow: .3em .5em 1em #0005;
+	border-top: 0.15em solid #fff5;
+}
+
 input[type="text"] {
 	padding: 0.3em 0.5em;
 	font-family: monospace;
+	background: #111a;
 	border-radius: 0.2em;
-	border: 1px solid #fff2;
-	background: #222;
+	box-shadow: inset 0 -.1em 1em #0006;
+	border: 1px solid #fff4;
+	border-bottom: 1px solid #fff8;
+	text-shadow: .1em .1em .1em #0008;
 	&[data-angry] { border: 1px solid red; }
 }
 

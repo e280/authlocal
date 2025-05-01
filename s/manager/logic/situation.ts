@@ -15,6 +15,7 @@ export namespace Situation {
 
 	export type Onboard = {
 		kind: "onboard"
+		initialPassport: Passport
 		onIngress: () => void
 		onSaveNewPassport: (passport: Passport) => void
 		onDone: () => void
