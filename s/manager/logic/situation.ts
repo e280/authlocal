@@ -13,19 +13,12 @@ export namespace Situation {
 		onIngress: (passportsFile: PassportsFile | undefined) => void
 	}
 
-	export type Onboard = {
-		kind: "onboard"
+	export type Create = {
+		kind: "create"
 		initialPassport: Passport
 		onIngress: () => void
 		onSaveNewPassport: (passport: Passport) => void
 		onDone: () => void
-	}
-
-	export type Create = {
-		kind: "create"
-		passport: Passport
-		onCancel: () => void
-		onComplete: (passport: Passport) => void
 	}
 
 	export type Edit = {
@@ -58,6 +51,6 @@ export namespace Situation {
 
 	////////////////////////////////
 
-	export type Any = List | Onboard | Create | Edit | Delete | Egress | Ingress
+	export type Any = List | Create | Edit | Delete | Egress | Ingress
 }
 

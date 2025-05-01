@@ -2,20 +2,19 @@
 import {shadowComponent, loading} from "@benev/slate"
 
 import {manager} from "../../context.js"
+import {ListPage} from "../pages/list/view.js"
+import {CreatePage} from "../pages/create/view.js"
+import {generatePassport} from "../../../core/passport.js"
 // import {Passport} from "../../../auth/passport.js"
 // import {EgressPage} from "../pages/egress/view.js"
 // import {IngressPage} from "../pages/ingress/view.js"
 // import {OnboardPage} from "../pages/onboard/view.js"
-import {ListPage} from "../pages/list/view.js"
 // import {EditPage} from "../../views/pages/edit/view.js"
-// import {CreatePage} from "../../views/pages/create/view.js"
 // import {DeletePage} from "../../views/pages/delete/view.js"
 // import {PassportsFile} from "../../../auth/passports-file.js"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../common/theme.css.js"
-import {OnboardPage} from "../pages/onboard/view.js"
-import { generatePassport } from "../../../core/passport.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
@@ -25,22 +24,22 @@ export const AuthManager = shadowComponent(use => {
 
 	function gotoHome() {
 		if (passportStore.list().length === 0)
-			gotoOnboard()
+			gotoCreate()
 		else
 			gotoList()
 	}
 
-	async function gotoOnboard() {
+	async function gotoCreate() {
 		situationOp.load(async() => ({
-			kind: "onboard",
+			kind: "create",
 			initialPassport: await generatePassport(),
-			onDone: gotoHome,
 			onIngress: () => {},
 			// onIngress: () => gotoIngress(undefined, gotoHome),
 			onSaveNewPassport: passport => {
 				passportStore.add(passport)
 				storagePersistence.request()
 			},
+			onDone: gotoHome,
 		}))
 	}
 
@@ -59,20 +58,6 @@ export const AuthManager = shadowComponent(use => {
 		}))
 	}
 
-	// async function gotoCreate() {
-	// 	const passport = await Passport.generate()
-	// 	situationOp.load(async() => ({
-	// 		kind: "create",
-	// 		passport,
-	// 		onCancel: gotoHome,
-	// 		onComplete: passport => {
-	// 			passportStore.add(passport)
-	// 			storagePersistence.request()
-	// 			gotoHome()
-	// 		},
-	// 	}))
-	// }
-	//
 	// function gotoEdit(passport: Passport) {
 	// 	situationOp.load(async() => ({
 	// 		kind: "edit",
@@ -123,8 +108,8 @@ export const AuthManager = shadowComponent(use => {
 		case "list":
 			return ListPage([situation])
 
-		case "onboard":
-			return OnboardPage([situation])
+		case "create":
+			return CreatePage([situation])
 		//
 		// case "create":
 		// 	return CreatePage([situation])
