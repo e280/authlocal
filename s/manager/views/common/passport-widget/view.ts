@@ -18,12 +18,12 @@ export const PassportWidget = shadowView(use => (draft: PassportDraft, options: 
 	const hsl = `hsl(${idHue(draft.passport.id)}deg, 100%, 75%)`
 
 	return html`
-		<div class=card>
-			<div class=icon style="color: ${hsl};">
-				${svgSlate(userIcon)}
-			</div>
+		<section>
+			<div class=card>
+				<div class=icon style="color: ${hsl};">
+					${svgSlate(userIcon)}
+				</div>
 
-			<div class=alpha>
 				${options.allowEditing ? html`
 					<input type=text class=label
 						.value="${draft.getEditedLabel()}"
@@ -34,12 +34,12 @@ export const PassportWidget = shadowView(use => (draft: PassportDraft, options: 
 				` : html`
 					<div class="text label">${draft.getEditedLabel()}</div>
 				`}
+
+				<slot></slot>
 			</div>
 
-			<slot></slot>
-		</div>
-
-		<div class=id>${renderId(draft.passport.id)}</div>
+			<div class=id>${renderId(draft.passport.id)}</div>
+		</section>
 	`
 })
 

@@ -178,7 +178,7 @@ button {
 	border-top: 0.15em solid #fff5;
 }
 
-:is([theme-insetty], input[type="text"], textarea) {
+:is([theme-insetty], input[type="text"], textarea):not([theme-alt]) {
 	display: block;
 	padding: 0.3em 0.5em;
 	font-family: monospace;
