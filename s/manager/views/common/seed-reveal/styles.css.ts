@@ -20,6 +20,7 @@ section {
 	textarea {
 		display: block;
 		width: 40ch;
+		max-width: 90vw;
 		height: 10em;
 		font-size: 1.3em;
 		padding: 1em;

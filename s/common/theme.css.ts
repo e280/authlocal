@@ -111,6 +111,15 @@ button {
 	}
 }
 
+[theme-nav] {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5em;
+	width: 100%;
+	> div[theme-counterbalance] { margin-right: 5em; }
+}
+
 [theme-header] {
 	display: flex;
 	flex-direction: column;
@@ -126,7 +135,7 @@ button {
 	align-items: center;
 	gap: 2em;
 
-	&[x-appear] {
+	&[theme-plate="bg"] {
 		background: #2226;
 		padding: 2em;
 		border-radius: 1em;

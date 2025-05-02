@@ -7,11 +7,12 @@ import {manager} from "../../../context.js"
 // import {PassportsFile} from "../../../../auth/passports-file.js"
 
 import {Situation} from "../../../logic/situation.js"
-import {Passport} from "../../../../core/passport.js"
+import {Passport, toPlacard} from "../../../../core/passport.js"
 import {PassportWidget} from "../../common/passport-widget/view.js"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
+import { PassportDraft } from "../../common/passport-widget/draft.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -21,26 +22,23 @@ export const ListPage = shadowView(use => (
 
 	const purpose = manager.purpose.value
 	const passports = use.signal(situation.passports)
-	const none = passports.value.length === 0
+	const clickNew = () => situation.onCreate()
 
-	async function clickNew() {
-		situation.onCreate()
-	}
+	function renderPassport(passport: Passport) {
+		const clickEdit = () => situation.onEdit(passport)
 
-	function renderPassport({id, label}: Passport) {
 		return html`
 			<div class=passport>
-				${PassportWidget([{
-					placard: {id, label},
-					editing: undefined,
-				}], {
-					content: html`
-						<button class=edit theme-alt=subtle>Edit</button>
-						${purpose.kind === "login" ? html`
-							<button theme-login>Login</button>
-						` : null}
-					`,
-				})}
+				${PassportWidget([new PassportDraft(passport)], {content: html`
+					<button class=edit theme-alt=subtle
+						@click="${clickEdit}">
+						Edit
+					</button>
+
+					${purpose.kind === "login" ? html`
+						<button theme-login>Login</button>
+					` : null}
+				`})}
 			</div>
 		`
 	}
@@ -61,9 +59,14 @@ export const ListPage = shadowView(use => (
 			</div>
 
 			<footer theme-buttons>
-				<button @click="${clickNew}">
+				<button>
+					Wipe
+				</button>
+
+				<button>
 					Import
 				</button>
+
 				<button theme-happy @click="${clickNew}">
 					New
 				</button>

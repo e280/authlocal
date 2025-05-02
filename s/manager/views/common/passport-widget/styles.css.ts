@@ -30,7 +30,7 @@ export default css`
 
 		> .label {
 			font-size: 1.3em;
-			max-width: 80vw;
+			max-width: 90vw;
 			overflow: hidden;
 			text-overflow: ellipsis;
 

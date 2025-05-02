@@ -39,6 +39,10 @@ export async function generatePassport(): Promise<Passport> {
 	return {label, id, secret}
 }
 
+export function toPlacard({id, label}: Passport): PassportPlacard {
+	return {id, label}
+}
+
 export async function dehydratePassports(passports: Passport[]) {
 	const texts = await Promise.all(passports.map(dehydratePassport))
 	return texts.join("\n\n")

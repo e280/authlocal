@@ -17,17 +17,18 @@ export namespace Situation {
 		initialPassport: Passport
 		initialPassportSeed: string
 		onIngress: () => void
-		onSaveNewPassport: (passport: Passport) => Promise<void>
+		onSave: (passport: Passport) => Promise<void>
 		onDone: () => void
 		onCancel?: () => void
 	}
 
 	export type Edit = {
 		kind: "edit"
+		seed: string
 		passport: Passport
-		onCancel: () => void
-		onDelete: (passport: Passport) => void
-		onComplete: (passport: Passport) => void
+		onBack: () => void
+		onSave: (passport: Passport) => Promise<void>
+		onDelete: (passport: Passport) => Promise<void>
 	}
 
 	export type Delete = {

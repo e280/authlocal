@@ -4,7 +4,7 @@ import {shadowComponent, loading} from "@benev/slate"
 import {manager} from "../../context.js"
 import {ListPage} from "../pages/list/view.js"
 import {CreatePage} from "../pages/create/view.js"
-import {dehydratePassports, generatePassport} from "../../../core/passport.js"
+import {dehydratePassports, generatePassport, Passport} from "../../../core/passport.js"
 // import {Passport} from "../../../auth/passport.js"
 // import {EgressPage} from "../pages/egress/view.js"
 // import {IngressPage} from "../pages/ingress/view.js"
@@ -15,6 +15,7 @@ import {dehydratePassports, generatePassport} from "../../../core/passport.js"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../common/theme.css.js"
+import { EditPage } from "../pages/edit/view.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
@@ -42,8 +43,7 @@ export const AuthManager = shadowComponent(use => {
 				initialPassport,
 				initialPassportSeed,
 				onIngress: () => {},
-				// onIngress: () => gotoIngress(undefined, gotoHome),
-				onSaveNewPassport: async passport => {
+				onSave: async passport => {
 					await depot.passports.save(passport)
 					storagePersistence.request()
 				},
@@ -60,31 +60,31 @@ export const AuthManager = shadowComponent(use => {
 		situationOp.load(async() => ({
 			kind: "list",
 			passports,
-			onEdit: () => {},
+			onEdit: gotoEdit,
 			onCreate: gotoCreate,
 			onEgress: () => {},
 			onIngress: () => {},
-			// onEdit: gotoEdit,
 			// onCreate: gotoCreate,
 			// onEgress: passports => gotoEgress(passports, gotoHome),
 			// onIngress: () => gotoIngress(undefined, gotoHome),
 		}))
 	}
 
-	// function gotoEdit(passport: Passport) {
-	// 	situationOp.load(async() => ({
-	// 		kind: "edit",
-	// 		passport,
-	// 		onCancel: gotoHome,
-	// 		onDelete: gotoDelete,
-	// 		onComplete: passport => {
-	// 			passportStore.add(passport)
-	// 			storagePersistence.request()
-	// 			gotoHome()
-	// 		},
-	// 	}))
-	// }
-	//
+	async function gotoEdit(passport: Passport) {
+		const seed = await dehydratePassports([passport])
+		situationOp.load(async() => ({
+			kind: "edit",
+			seed,
+			passport,
+			onBack: gotoHome,
+			onDelete: async() => {},
+			onSave: async passport => {
+				await depot.passports.save(passport)
+				storagePersistence.request()
+			},
+		}))
+	}
+
 	// function gotoDelete(passport: Passport) {
 	// 	situationOp.load(async() => ({
 	// 		kind: "delete",
@@ -123,7 +123,10 @@ export const AuthManager = shadowComponent(use => {
 
 		case "create":
 			return CreatePage([situation])
-		//
+
+		case "edit":
+			return EditPage([situation])
+
 		// case "create":
 		// 	return CreatePage([situation])
 		//
