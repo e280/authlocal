@@ -2,15 +2,15 @@
 	"name": "@authlocal/authlocal",
 	"version": "0.2.0-17",
 	"description": "User-sovereign login system",
-	"main": "./x/index.web.js",
+	"main": "./x/exports.web.js",
 	"type": "module",
 	"files": [
 		"x",
 		"s"
 	],
 	"exports": {
-		".": "./x/index.web.js",
-		"./core": "./x/index.core.js",
+		".": "./x/exports.web.js",
+		"./core": "./x/exports.core.js",
 		"./*": "./*"
 	},
 	"scripts": {
