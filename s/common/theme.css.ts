@@ -135,10 +135,23 @@ button {
 	align-items: center;
 	gap: 2em;
 
-	&[theme-plate="bg"] {
-		background: #2226;
-		padding: 2em;
-		border-radius: 1em;
+	background: linear-gradient(160deg, #0d1e1a44, #08080811);
+	backdrop-filter: blur(0.2em);
+
+	padding: 2em;
+	border-radius: 1em;
+	border: 0.2em solid color-mix(in srgb, var(--alpha), white 25%);
+	box-shadow:
+		0 0 16em color-mix(in srgb, transparent, var(--alpha) 33%),
+		0 0 2em color-mix(in srgb, transparent, var(--alpha) 33%)
+	;
+
+	h2 {
+		color: color-mix(in srgb, var(--alpha), white 50%);
+		text-shadow:
+			0 0 2em var(--alpha),
+			0 0 .5em var(--alpha)
+		;
 	}
 }
 

@@ -1,11 +1,13 @@
 
 :root {
 	color-scheme: dark;
+
 	--link: cyan;
-	--site-bg: #111;
+	--site-bg: #000;
+	--login-color: #80f;
 
 	--prime: lime;
-	--login-color: #80f;
+	--alpha: #00ff93;
 }
 
 * {
@@ -45,22 +47,29 @@ a {
 html {
 	font-size: 16px;
 	min-height: 100%;
+	padding-bottom: 2em;
 
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 
-	padding-bottom: 2em;
-
-	background: var(--site-bg);
 	font-family: sans-serif;
+	background: var(--site-bg);
+
+	background:
+		linear-gradient(to bottom, #0007, #0007),
+		var(--site-bg) url("https://i.imgur.com/QrRX9gp.png") center center / cover;
+
+	/* background: */
+	/* 	linear-gradient(to bottom, #0007, #0007), */
+	/* 	var(--site-bg) url("https://i.imgur.com/jce3Nn7.png") center center / cover; */
 }
 
 body {
 	min-height: 100%;
 	scrollbar-gutter: stable;
 
-	width: 64em;
+	width: 42em;
 	max-width: calc(100% - 1em);
 
 	color: #fffc;
@@ -73,8 +82,8 @@ body {
 
 header {
 	width: 100%;
-	margin-top: 1em;
-	margin-bottom: 2em;
+	margin-top: 2em;
+	margin-bottom: 1em;
 
 	color: #fffa;
 
@@ -90,12 +99,18 @@ header {
 		flex-wrap: wrap;
 		align-items: center;
 		gap: .2em;
-		filter: drop-shadow(0 0 .4em color-mix(in srgb, transparent, var(--prime) 40%));
+		filter:
+			drop-shadow(0 0 3em var(--prime))
+			drop-shadow(0 0 3em color-mix(in srgb, transparent, var(--prime) 50%))
+			drop-shadow(0 0 .2em color-mix(in srgb, var(--prime), white 25%))
+		;
 
 		> svg {
+			position: relative;
+			bottom: 0.04em;
 			width: 1em;
 			height: 1em;
-			stroke-width: 2;
+			stroke-width: 3;
 		}
 	}
 
@@ -113,14 +128,19 @@ auth-manager {
 }
 
 footer {
+	opacity: 0.8;
 	width: 100%;
 	margin-top: 3em;
-
-	color: #fff6;
 
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 0.5em;
+
+	color: color-mix(in srgb, white, var(--prime) 50%);
+	text-shadow:
+		0 0 4em color-mix(in srgb, transparent, currentColor 70%),
+		0 0 .3em color-mix(in srgb, transparent, currentColor 70%)
+	;
 }
 

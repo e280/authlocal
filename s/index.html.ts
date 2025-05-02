@@ -23,7 +23,7 @@ export default template(async basic => {
 			<meta data-version="${version}"/>
 
 			${renderSocialCard({
-				themeColor: "#8800ff",
+				themeColor: "#77ff81",
 				siteName: "authlocal.org",
 				title: "Authlocal.org – user-sovereign login system",
 				description: "Own your identity. No emails, no passwords, no databases. Privacy-focused, open-source.",
