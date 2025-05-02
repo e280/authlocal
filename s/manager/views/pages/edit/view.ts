@@ -52,7 +52,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 		</section>
 
 		<footer theme-buttons>
-			<button @click="${clickBack}">
+			<button theme-back @click="${clickBack}">
 				Back
 			</button>
 		</footer>

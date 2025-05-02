@@ -25,10 +25,10 @@ export const PassportWidget = shadowView(use => (draft: PassportDraft, options: 
 				</div>
 
 				${options.allowEditing ? html`
-					<input type=text class=label
+					<input type=text class=label theme-insetty
 						.value="${draft.getEditedLabel()}"
 						maxlength="${maxLabelLength}"
-						?data-angry="${!draft.getValidEditedPassport()}"
+						?theme-angry="${!draft.getValidEditedPassport()}"
 						@input="${inputString(label => { draft.setEditedLabel(label) })}"
 						/>
 				` : html`

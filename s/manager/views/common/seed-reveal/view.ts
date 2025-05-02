@@ -63,9 +63,8 @@ export const SeedReveal = shadowView(use => (seed: string, filename: string) => 
 
 	return html`
 		<section>
-			<div class=box>
-				<textarea
-					readonly
+			<div class=box theme-seed-box>
+				<textarea readonly theme-seed-text
 					.value="${seedDisplay}"
 					?disabled="${!reveal.value}"
 					@click="${selectTextarea}"
@@ -79,7 +78,7 @@ export const SeedReveal = shadowView(use => (seed: string, filename: string) => 
 				<button class="copy button flasher"
 					@click="${() => copier.copy(seed)}"
 					theme-flasher="${copier.status.value}">
-						Copy to Clipboard
+						Copy
 				</button>
 
 				<a class="download button flasher"
@@ -87,13 +86,13 @@ export const SeedReveal = shadowView(use => (seed: string, filename: string) => 
 					download="${filename}"
 					@click="${() => downloader.flash(true)}"
 					theme-flasher="${downloader.status.value}">
-						Download as File
+						Download
 				</a>
 
 				<button class=reveal @click="${toggle}">
 					${reveal.value
-						? "Hide Seed"
-						: "Reveal Seed"}
+						? "Conceal"
+						: "Reveal"}
 				</button>
 			</footer>
 		</section>

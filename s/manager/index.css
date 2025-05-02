@@ -3,12 +3,18 @@
 	color-scheme: dark;
 
 	--link: cyan;
-	--site-bg: #000;
-	--login-color: #80f;
+	--bg: #000;
 
 	--prime: lime;
 	--alpha: #00ff93;
-	--alpha: #00ff93;
+	--seed: red;
+
+	--happy: lime;
+	--angry: red;
+	--login: yellow;
+	--back: #00bbff;
+
+	--code: magenta;
 }
 
 * {
@@ -55,18 +61,18 @@ html {
 	align-items: center;
 
 	font-family: sans-serif;
-	background: var(--site-bg);
+	background: var(--bg);
 
 	--tint: #1b060040;
 	--tint: #00061b5e;
 
 	background:
 		linear-gradient(to bottom, var(--tint), var(--tint)),
-		var(--site-bg) url("https://i.imgur.com/QrRX9gp.png") center center / cover;
+		var(--bg) url("https://i.imgur.com/QrRX9gp.png") center center / cover;
 
 	/* background: */
 	/* 	linear-gradient(to bottom, var(--tint), var(--tint)), */
-	/* 	var(--site-bg) url("https://i.imgur.com/jce3Nn7.png") center center / cover; */
+	/* 	var(--bg) url("https://i.imgur.com/jce3Nn7.png") center center / cover; */
 }
 
 body {

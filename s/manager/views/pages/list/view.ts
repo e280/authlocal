@@ -39,7 +39,7 @@ export const ListPage = shadowView(use => (
 		<section theme-plate x-purpose="${purpose.kind}">
 			<header theme-header>
 				${purpose.kind === "login" ? html`
-					<h2>Login request from <code>${purpose.hostname}</code></h2>
+					<h2>Login request from <code theme-login>${purpose.hostname}</code></h2>
 					<p>You can authorize the login below by pressing "Login"</p>
 				` : html`
 					<h2>Your login passports</h2>
@@ -51,7 +51,7 @@ export const ListPage = shadowView(use => (
 			</div>
 
 			<footer theme-buttons>
-				<button>
+				<button theme-angry>
 					Wipe
 				</button>
 

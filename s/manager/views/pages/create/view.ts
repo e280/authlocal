@@ -43,7 +43,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			return html`
 				<header theme-header>
 					${purpose.kind === "login" ? html`
-						<h2>Create a new login passport for <code class=domain>${purpose.hostname}</code></h2>
+						<h2>Create a new login passport for <code theme-login>${purpose.hostname}</code></h2>
 					` : (
 						first
 							? html`<h2>Create your first login passport</h2>`
@@ -56,7 +56,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 				<footer theme-buttons>
 					${situation.onCancel ? html`
-						<button @click="${situation.onCancel}">
+						<button theme-back @click="${situation.onCancel}">
 							Cancel
 						</button>
 					` : null}

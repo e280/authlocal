@@ -40,12 +40,15 @@ a {
 
 code {
 	padding: 0.1em 0.5em;
-	color: yellow;
+	color: var(--code);
 	text-shadow: .1em .1em .2em #0008;
-	background: #0004;
-	box-shadow: inset 0 -.1em 1em #0008;
+	box-shadow: 0 0 2em color-mix(in lch, transparent, currentColor 50%);
 	border-radius: 0.3em;
-	border-bottom: 1px solid #fff4;
+	border: 0.1em solid currentColor;
+
+	&[theme-login] {
+		color: var(--login);
+	}
 }
 
 button {
@@ -82,9 +85,10 @@ button {
 		&:not([disabled]) {
 			cursor: pointer;
 
-			&[theme-happy] { color: lime; }
-			&[theme-angry] { background: #800; color: #faa; }
-			&[theme-login] { background: var(--login-color); }
+			&[theme-happy] { color: var(--happy); }
+			&[theme-angry] { color: var(--angry); }
+			&[theme-login] { color: var(--login); }
+			&[theme-back] { color: var(--back); }
 
 			&:hover {
 				filter: brightness(120%); text-decoration: underline;
@@ -123,22 +127,13 @@ button {
 	}
 }
 
-[theme-nav] {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.5em;
-	width: 100%;
-	> div[theme-counterbalance] { margin-right: 5em; }
-}
-
 [theme-header] {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 0.5em;
 
-	p { opacity: 0.5; }
+	p { opacity: 0.8; }
 }
 
 [theme-plate] {
@@ -163,11 +158,15 @@ button {
 			0 0 2em var(--alpha),
 			0 0 .5em var(--alpha);
 	}
+
+	p {
+		color: color-mix(in srgb, var(--alpha), white 25%);
+	}
 }
 
 [theme-buttons] {
 	display: flex;
-	gap: 1em;
+	gap: 0.5em;
 	justify-content: center;
 	flex-wrap: wrap;
 }
@@ -178,18 +177,38 @@ button {
 	border-top: 0.15em solid #fff5;
 }
 
-:is([theme-insetty], input[type="text"], textarea):not([theme-alt]) {
+:is(input, textarea) {
 	display: block;
 	padding: 0.3em 0.5em;
 	font-family: monospace;
 	background: #111a;
+	border: none;
 	border-radius: 0.3em;
+}
+
+[theme-insetty] {
 	text-shadow: .1em .1em .1em #000a;
 	box-shadow: inset 0 -.1em 1em #0008;
 	border: 1px solid transparent;
 	border-bottom-color: #fff4;
 	border-top-color: #fff1;
-	&[data-angry] { border: 1px solid red; }
+	&[theme-angry] { border: 1px solid red; }
+}
+
+[theme-seed-box] {
+	background: color-mix(in srgb, var(--seed), black 80%);
+	border-radius: 0.5em;
+	border: 0.2rem solid red;
+	box-shadow: 0 0 5em #f008;
+}
+
+[theme-seed-text] {
+	font-size: 1.3em;
+	padding: 1em;
+
+	color: color-mix(in srgb, var(--seed), white 50%);
+	text-shadow: 0 0 1em var(--seed);
+	font-weight: bold;
 }
 
 [theme-spin] {
