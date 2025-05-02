@@ -52,7 +52,7 @@ export const ListPage = shadowView(use => (
 					<h2>Login request from <code>${purpose.hostname}</code></h2>
 					<p>You can authorize the login below by pressing "Login"</p>
 				` : html`
-					<h2>Manage your login passports</h2>
+					<h2>Your login passports</h2>
 				`}
 			</header>
 

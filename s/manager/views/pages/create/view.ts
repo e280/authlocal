@@ -53,8 +53,8 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 						<h2>Create a new login passport for <code class=domain>${purpose.hostname}</code></h2>
 					` : (
 						first
-							? html`<h2>Create your first digital passport</h2>`
-							: html`<h2>Create a new digital passport</h2>`
+							? html`<h2>Create your first login passport</h2>`
+							: html`<h2>Create a new login passport</h2>`
 					)}
 					<p>No emails, no passwords, no databases</p>
 				</header>
@@ -71,7 +71,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 						</button>
 					` : null}
 					<button @click="${situation.onIngress}">
-						Import Existing
+						Import
 					</button>
 					<button @click="${reroll}">
 						Randomize
@@ -106,8 +106,8 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 		function render() {
 			return html`
 				<header theme-header>
-					<h2>Save your passport's recovery seed</h2>
-					<p>Download or copy it to a safe place — it's gone forever if you lose it</p>
+					<h2>Save your recovery seed</h2>
+					<p>Download or copy it to a safe place — if you lose it, it's gone forever</p>
 				</header>
 
 				${SeedReveal([seed.value, 1])}
