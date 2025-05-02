@@ -135,7 +135,6 @@ button {
 	align-items: center;
 	gap: 2em;
 
-	background: linear-gradient(160deg, #0d1e1a44, #08080811);
 	backdrop-filter: blur(0.2em);
 
 	padding: 2em;

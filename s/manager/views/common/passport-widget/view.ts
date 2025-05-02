@@ -18,7 +18,7 @@ export const PassportWidget = shadowView(use => (draft: PassportDraft, options: 
 	const hsl = `hsl(${idHue(draft.passport.id)}deg, 100%, 75%)`
 
 	return html`
-		<div class=card theme-juicy>
+		<div class=card>
 			<div class=icon style="color: ${hsl};">
 				${svgSlate(userIcon)}
 			</div>

@@ -7,6 +7,7 @@ export default css`
 	flex-direction: column;
 	align-items: stretch;
 	gap: 1em;
+	width: 100%;
 
 	.passport {
 		display: flex;

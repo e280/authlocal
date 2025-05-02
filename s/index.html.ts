@@ -43,17 +43,14 @@ export default template(async basic => {
 					${html(lockIcon.strings)}
 					<span class=title>Authlocal<wbr/>.org</span>
 				</h1>
-				<p>
-					<span>User-sovereign logins for all</span>
-					<span class=version>– v${version}</span>
-				</p>
 			</header>
 
 			<auth-manager></auth-manager>
 
 			<footer>
-				<p>Privacy-focused, free, open-source. Learn more on <a href="https://github.com/authlocal/authlocal" target=_blank>GitHub</a></p>
-				<p>Own your identity.</p>
+				<p>User-sovereign privacy-focused free open-source federated authentication</p>
+				<p>Learn more on <a href="https://github.com/authlocal/authlocal" target=_blank>GitHub</a></p>
+				<p class=version>v${version}</p>
 				<auth-safe-storage></auth-safe-storage>
 			</footer>
 		`,

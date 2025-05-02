@@ -8,6 +8,7 @@
 
 	--prime: lime;
 	--alpha: #00ff93;
+	--alpha: #00ff93;
 }
 
 * {
@@ -56,12 +57,15 @@ html {
 	font-family: sans-serif;
 	background: var(--site-bg);
 
+	--tint: #1b060040;
+	--tint: #00061b5e;
+
 	background:
-		linear-gradient(to bottom, #0007, #0007),
+		linear-gradient(to bottom, var(--tint), var(--tint)),
 		var(--site-bg) url("https://i.imgur.com/QrRX9gp.png") center center / cover;
 
 	/* background: */
-	/* 	linear-gradient(to bottom, #0007, #0007), */
+	/* 	linear-gradient(to bottom, var(--tint), var(--tint)), */
 	/* 	var(--site-bg) url("https://i.imgur.com/jce3Nn7.png") center center / cover; */
 }
 
@@ -81,10 +85,9 @@ body {
 }
 
 header {
-	width: 100%;
 	margin-top: 2em;
-	margin-bottom: 1em;
-
+	margin-top: 10vh;
+	width: 100%;
 	color: #fffa;
 
 	display: flex;
@@ -142,5 +145,7 @@ footer {
 		0 0 4em color-mix(in srgb, transparent, currentColor 70%),
 		0 0 .3em color-mix(in srgb, transparent, currentColor 70%)
 	;
+
+	.version { opacity: 0.5; }
 }
 
