@@ -6,10 +6,12 @@ import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {PassportDraft} from "../../common/passport-widget/draft.js"
-import {PassportWidget} from "../../common/passport-widget/view.js"
+import {passportCard, PassportWidget} from "../../common/passport-widget/view.js"
 import {crushUsername} from "../../../logic/utils/crush-username.js"
 import {Tabby} from "../../../../common/views/tabby/view.js"
 import {dehydratePassports} from "../../../../core/passport.js"
+import { Confirmer } from "../../common/confirmer/view.js"
+import { idPreview } from "../../../../tools/id-preview.js"
 
 export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 	use.styles([themeCss, stylesCss])
@@ -34,10 +36,6 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 		<section theme-plate>
 			${tabby.render([
 				{button: () => html`Edit`, panel: () => html`
-					<div theme-text>
-						<h2>Choose a name</h2>
-						<p>It'll be publicly viewable</p>
-					</div>
 					${PassportWidget(
 						[draft, {allowEditing: true}],
 						{content: html`
@@ -48,15 +46,27 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 							</button>
 						`},
 					)}
+					<div theme-text>
+						<p>The name you choose is public</p>
+					</div>
 				`},
 
-				{button: () => html`Seed`, panel: () => SeedReveal([
-					seed.value,
-					`${crushUsername(label)}.authlocal`,
-				])},
+				{button: () => html`Seed`, panel: () => html`
+					${passportCard(draft.passport)}
+					${SeedReveal([
+						seed.value,
+						`${crushUsername(label)}.authlocal`,
+					])}
+				`},
 
 				{button: () => html`Deletion`, panel: () => html`
-					Deletion
+					${passportCard(draft.passport)}
+					${Confirmer([{
+						buttonLabel: () => "Delete",
+						requiredText: idPreview(draft.passport.id),
+					}], {content: html`
+						<h2 class=delete-heading>Delete "${draft.passport.label}"</h2>
+					`})}
 				`},
 			])}
 

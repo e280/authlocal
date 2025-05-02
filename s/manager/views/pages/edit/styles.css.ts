@@ -8,5 +8,9 @@ export default css`
 	gap: 1em;
 }
 
+.delete-heading {
+	color: var(--angry);
+}
+
 `
 

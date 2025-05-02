@@ -38,17 +38,15 @@ a {
 	}
 }
 
-code {
-	padding: 0.1em 0.5em;
-	color: var(--code);
-	text-shadow: .1em .1em .2em #0008;
-	box-shadow: 0 0 2em color-mix(in lch, transparent, currentColor 50%);
-	border-radius: 0.3em;
-	border: 0.1em solid currentColor;
+h2 {
+	color: color-mix(in srgb, var(--alpha), white 50%);
+	text-shadow:
+		0 0 2em currentColor,
+		0 0 .5em currentColor;
+}
 
-	&[theme-login] {
-		color: var(--login);
-	}
+p {
+	color: color-mix(in srgb, var(--alpha), #fff8 50%);
 }
 
 button {
@@ -133,27 +131,28 @@ button {
 	align-items: center;
 	gap: 2em;
 
-	backdrop-filter: blur(0.2em);
-
 	padding: 2em;
 	border-radius: 1em;
 	border: 0.2em solid color-mix(in srgb, var(--alpha), white 25%);
+	backdrop-filter: blur(0.2em);
 	box-shadow:
 		0 0 16em color-mix(in srgb, transparent, var(--alpha) 33%),
 		0 0 2em color-mix(in srgb, transparent, var(--alpha) 33%),
 		inset 0 0 1em color-mix(in srgb, transparent, var(--alpha) 50%);
+}
 
-	h2 {
-		color: color-mix(in srgb, var(--alpha), white 50%);
-		text-shadow:
-			0 0 2em var(--alpha),
-			0 0 .5em var(--alpha);
-	}
+[theme-dangerzone] {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1em;
+	padding: 1em;
 
-	p {
-		opacity: 0.8;
-		color: color-mix(in srgb, var(--alpha), white 25%);
-	}
+	color: var(--angry);
+	background: color-mix(in srgb, var(--angry), transparent 80%);
+	border-radius: 0.5em;
+	border: 0.2rem solid red;
+	box-shadow: 0 0 5em #f008;
 }
 
 [theme-text] {
@@ -178,6 +177,7 @@ button {
 }
 
 :is(input, textarea) {
+	font-size: 1em;
 	display: block;
 	padding: 0.3em 0.5em;
 	font-family: monospace;
@@ -195,13 +195,6 @@ button {
 	&[theme-angry] { border: 1px solid red; }
 }
 
-[theme-seed-box] {
-	background: color-mix(in srgb, var(--seed), black 80%);
-	border-radius: 0.5em;
-	border: 0.2rem solid red;
-	box-shadow: 0 0 5em #f008;
-}
-
 [theme-seed-text] {
 	font-size: 1.3em;
 	padding: 1em;
@@ -209,6 +202,20 @@ button {
 	color: color-mix(in srgb, var(--seed), white 50%);
 	text-shadow: 0 0 1em var(--seed);
 	font-weight: bold;
+}
+
+:is(code, [theme-code]) {
+	padding: 0.1em 0.5em;
+	color: var(--code);
+	text-shadow: .1em .1em .2em #0008;
+	box-shadow: 0 0 2em color-mix(in lch, transparent, currentColor 33%);
+	border-radius: 0.3em;
+	border: 0.1em solid color-mix(in lch, transparent, currentColor 50%);
+	font-weight: bold;
+
+	&[theme-login] {
+		color: var(--login);
+	}
 }
 
 [theme-spin] {

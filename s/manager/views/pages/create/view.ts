@@ -41,21 +41,22 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 		const render = () => {
 			return html`
-				<h2>
-					${purpose.kind === "login" ? html`
-						Create a new login passport for <code theme-login>${purpose.hostname}</code>
-					` : (
-						first
-							? html`Create your first login passport`
-							: html`Create a new login passport`
-					)}
-				</h2>
-
-				<p>No emails, no passwords, no databases</p>
+				<div theme-text>
+					<h2>
+						${purpose.kind === "login" ? html`
+							Create a passport for <code theme-login>${purpose.hostname}</code>
+						` : (
+							first
+								? html`Create your first login passport`
+								: html`Create a new login passport`
+						)}
+					</h2>
+					<p>No emails, no passwords, no databases</p>
+				</div>
 
 				${PassportWidget([draft, {allowEditing: true}])}
 
-				<p>The name you choose will be publicly available</p>
+				<p>The name you choose is public</p>
 
 				<footer theme-buttons>
 					${situation.onCancel ? html`

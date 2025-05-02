@@ -3,20 +3,14 @@ import {css} from "@benev/slate"
 export default css`
 
 :host {
-	display: contents;
-}
-
-section {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 1em;
+	width: 100%;
 }
 
 .box {
 	position: relative;
 	width: max-content;
 	overflow: hidden;
+	border-radius: 0.5em;
 
 	textarea {
 		display: block;
@@ -38,7 +32,6 @@ section {
 		inset: 0;
 		background: color-mix(in srgb, #fff1, var(--seed) 10%);
 		backdrop-filter: blur(0.3em);
-		border-radius: 0.3em;
 
 		display: flex;
 		justify-content: center;
