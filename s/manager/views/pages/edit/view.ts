@@ -5,10 +5,11 @@ import stylesCss from "./styles.css.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
-import {dehydratePassports} from "../../../../index.core.js"
 import {PassportDraft} from "../../common/passport-widget/draft.js"
 import {PassportWidget} from "../../common/passport-widget/view.js"
 import {crushUsername} from "../../../logic/utils/crush-username.js"
+import {Tabby} from "../../../../common/views/tabby/view.js"
+import {dehydratePassports} from "../../../../core/passport.js"
 
 export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 	use.styles([themeCss, stylesCss])
@@ -27,35 +28,32 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 	}
 
 	const label = draft.getValidEditedPassport()?.label ?? draft.passport.label
+	const tabby = use.once(() => new Tabby(0))
 
 	return html`
-		<div theme-header theme-counterbalance>
-			<h2>Edit Passport</h2>
-		</div>
-
 		<section theme-plate=bg>
-			${PassportWidget([draft, {allowEditing: true}], {content: html`
-				<button theme-happy
-					@click="${clickSave}"
-					?disabled="${!draft.hasValidChanges()}">
-						Save
+			${tabby.render([
+				{button: () => html`Edit`, panel: () => html`
+					${PassportWidget([draft, {allowEditing: true}], {content: html`
+						<button theme-happy
+							@click="${clickSave}"
+							?disabled="${!draft.hasValidChanges()}">
+								Save
+						</button>
+					`})}
+				`},
+
+				{button: () => html`Seed`, panel: () => html`
+					${SeedReveal([seed.value, `${crushUsername(label)}.authlocal`])}
+				`},
+			])}
+
+			<footer theme-buttons>
+				<button theme-back @click="${clickBack}">
+					Back
 				</button>
-			`})}
+			</footer>
 		</section>
-
-		<section theme-plate=bg>
-			<header theme-header>
-				<h2>Recovery seed</h2>
-			</header>
-
-			${SeedReveal([seed.value, `${crushUsername(label)}.authlocal`])}
-		</section>
-
-		<footer theme-buttons>
-			<button theme-back @click="${clickBack}">
-				Back
-			</button>
-		</footer>
 	`
 })
 
