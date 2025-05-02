@@ -60,13 +60,19 @@ button {
 	&:not([theme-alt]) {
 		cursor: pointer;
 		padding: 1em;
-		color: #fff;
-		background: #6664;
+
+		color: color-mix(in srgb, var(--alpha), white 50%);
+		background: #8881;
+
 		font-weight: bold;
-		text-shadow: .04em .08em .1em #0008;
 		border-radius: 0.3em;
-		box-shadow: .1em .2em .3em #0003;
-		border-top: 0.15em solid #fff4;
+		border: 0.15em solid color-mix(in srgb, transparent, currentColor 50%);
+		border-top-color: color-mix(in srgb, transparent, currentColor 80%);
+
+		text-shadow: 0 0 1em color-mix(in srgb, transparent, currentColor 80%);
+		box-shadow:
+			0 0 3em color-mix(in srgb, transparent, currentColor 20%),
+			inset 0 0 1em color-mix(in srgb, transparent, currentColor 15%);
 
 		&[disabled] {
 			cursor: default;
@@ -76,11 +82,17 @@ button {
 		&:not([disabled]) {
 			cursor: pointer;
 
-			&[theme-happy] { background: #00ac00; }
+			&[theme-happy] { color: lime; }
 			&[theme-angry] { background: #800; color: #faa; }
 			&[theme-login] { background: var(--login-color); }
 
-			&:hover { filter: brightness(120%); text-decoration: underline; }
+			&:hover {
+				filter: brightness(120%); text-decoration: underline;
+				box-shadow:
+					0 0 1em color-mix(in srgb, transparent, currentColor 20%),
+					0 0 3em color-mix(in srgb, transparent, currentColor 20%),
+					inset 0 0 1em color-mix(in srgb, transparent, currentColor 15%);
+			}
 			&:active { filter: brightness(90%); }
 		}
 	}
@@ -142,15 +154,14 @@ button {
 	border: 0.2em solid color-mix(in srgb, var(--alpha), white 25%);
 	box-shadow:
 		0 0 16em color-mix(in srgb, transparent, var(--alpha) 33%),
-		0 0 2em color-mix(in srgb, transparent, var(--alpha) 33%)
-	;
+		0 0 2em color-mix(in srgb, transparent, var(--alpha) 33%),
+		inset 0 0 1em color-mix(in srgb, transparent, var(--alpha) 50%);
 
 	h2 {
 		color: color-mix(in srgb, var(--alpha), white 50%);
 		text-shadow:
 			0 0 2em var(--alpha),
-			0 0 .5em var(--alpha)
-		;
+			0 0 .5em var(--alpha);
 	}
 }
 
