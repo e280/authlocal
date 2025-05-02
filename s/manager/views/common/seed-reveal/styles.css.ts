@@ -27,23 +27,40 @@ section {
 		color: #ff8181;
 		background: #260000;
 		text-shadow: .1em .1em .1em #0008;
+
+		&[disabled] {
+			pointer-events: none;
+			user-select: none;
+		}
 	}
 
 	.blanket {
 		pointer-events: none;
+		user-select: none;
+
 		position: absolute;
 		inset: 0.5em;
 		background: #fff2;
 		backdrop-filter: blur(0.3em);
 		border-radius: 0.3em;
 
-		transition:
-			background 300ms linear,
-			backdrop-filter 300ms linear;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		font-size: 2em;
+		font-family: monospace;
+		font-weight: bold;
+		text-transform: uppercase;
+		color: red;
+
+		transition: all 300ms linear;
 
 		&[x-hide] {
 			background: transparent;
 			backdrop-filter: blur(0);
+			color: transparent;
+			text-shadow: 0;
 		}
 	}
 

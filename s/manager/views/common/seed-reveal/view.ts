@@ -14,7 +14,7 @@ const demoSeed = `
 	pitber
 `.replaceAll("\t", "  ").trim()
 
-export const SeedReveal = shadowView(use => (passportsSeed: string, count: number) => {
+export const SeedReveal = shadowView(use => (seed: string, filename: string) => {
 	use.name("seed-viewer")
 	use.styles([themeCss, stylesCss])
 	const reveal = use.signal(false)
@@ -24,7 +24,7 @@ export const SeedReveal = shadowView(use => (passportsSeed: string, count: numbe
 	}
 
 	const seedDisplay = reveal.value
-		? passportsSeed // show real seed
+		? seed // show real seed
 		: demoSeed // show demo text before actual reveal
 
 	const downloader = use.once(() => new class Downloader extends Flasher {
@@ -36,7 +36,7 @@ export const SeedReveal = shadowView(use => (passportsSeed: string, count: numbe
 			if (this.url) URL.revokeObjectURL(this.url)
 
 			// generate new object url
-			const blob = new Blob([`\n${passportsSeed}\n\n`], {type: "text/plain"})
+			const blob = new Blob([`\n${seed}\n\n`], {type: "text/plain"})
 			this.url = URL.createObjectURL(blob)
 		}
 	})
@@ -57,33 +57,44 @@ export const SeedReveal = shadowView(use => (passportsSeed: string, count: numbe
 		}
 	})
 
+	function selectTextarea() {
+		use.shadow.querySelector<HTMLTextAreaElement>("textarea")!.select()
+	}
+
 	return html`
 		<section>
 			<div class=box>
-				<textarea readonly .value="${seedDisplay}"></textarea>
-				<div class=blanket ?x-hide="${reveal.value}"></div>
+				<textarea
+					readonly
+					.value="${seedDisplay}"
+					?disabled="${!reveal.value}"
+					@click="${selectTextarea}"
+				></textarea>
+				<div class=blanket ?x-hide="${reveal.value}">
+					[TOP SECRET]
+				</div>
 			</div>
 
 			<footer theme-buttons>
-				<button class=reveal @click="${toggle}">
-					${reveal.value
-						? "Hide Seed"
-						: "Reveal Seed"}
-				</button>
-
 				<button class="copy button flasher"
-					@click="${() => copier.copy(passportsSeed)}"
-					x-flasher="${copier.status.value}">
+					@click="${() => copier.copy(seed)}"
+					theme-flasher="${copier.status.value}">
 						Copy to Clipboard
 				</button>
 
 				<a class="download button flasher"
 					href="${downloader.url}"
-					download="passport${count === 1 ?"" :"s"}.authlocal"
+					download="${filename}"
 					@click="${() => downloader.flash(true)}"
-					x-flasher="${downloader.status.value}">
+					theme-flasher="${downloader.status.value}">
 						Download as File
 				</a>
+
+				<button class=reveal @click="${toggle}">
+					${reveal.value
+						? "Hide Seed"
+						: "Reveal Seed"}
+				</button>
 			</footer>
 		</section>
 	`

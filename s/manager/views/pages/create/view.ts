@@ -8,6 +8,7 @@ import themeCss from "../../../../common/theme.css.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {PassportEditing, PassportWidget} from "../../common/passport-widget/view.js"
 import {dehydratePassports, generatePassport, Passport} from "../../../../core/passport.js"
+import { crushUsername } from "../../../logic/utils/crush-username.js"
 
 export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	use.styles([themeCss, stylesCss])
@@ -15,7 +16,10 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	const first = situation.passports.length === 0
 	const purpose = manager.purpose.value
 	const wizard = use.signal<"editor" | "seeder">("editor")
-	const seed = use.signal(situation.initialPassportSeed)
+	const finalized = use.signal({
+		passport: situation.initialPassport,
+		seed: situation.initialPassportSeed,
+	})
 
 	const editor = use.once(() => {
 		const passport = use.signal<Passport>(situation.initialPassport)
@@ -40,7 +44,8 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			const passport = getEditedPassport()
 			if (passport) {
 				await situation.onSaveNewPassport(passport)
-				seed.value = await dehydratePassports([passport])
+				const seed = await dehydratePassports([passport])
+				finalized.value = {passport, seed}
 				wizard.value = "seeder"
 			}
 		}
@@ -104,13 +109,14 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 		}
 
 		function render() {
+			const {passport, seed} = finalized.value
 			return html`
 				<header theme-header>
 					<h2>Save your recovery seed</h2>
 					<p>Download or copy it to a safe place — if you lose it, it's gone forever</p>
 				</header>
 
-				${SeedReveal([seed.value, 1])}
+				${SeedReveal([seed, crushUsername(passport.label) + ".authlocal"])}
 
 				<footer theme-buttons>
 					${purpose.kind === "login" ? html`
