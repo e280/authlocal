@@ -34,17 +34,29 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 		<section theme-plate=bg>
 			${tabby.render([
 				{button: () => html`Edit`, panel: () => html`
-					${PassportWidget([draft, {allowEditing: true}], {content: html`
-						<button theme-happy
-							@click="${clickSave}"
-							?disabled="${!draft.hasValidChanges()}">
-								Save
-						</button>
-					`})}
+					<div theme-text>
+						<h2>Choose a name</h2>
+						<p>It'll be publicly viewable</p>
+					</div>
+					${PassportWidget(
+						[draft, {allowEditing: true}],
+						{content: html`
+							<button theme-happy
+								@click="${clickSave}"
+								?disabled="${!draft.hasValidChanges()}">
+									Save
+							</button>
+						`},
+					)}
 				`},
 
-				{button: () => html`Seed`, panel: () => html`
-					${SeedReveal([seed.value, `${crushUsername(label)}.authlocal`])}
+				{button: () => html`Seed`, panel: () => SeedReveal([
+					seed.value,
+					`${crushUsername(label)}.authlocal`,
+				])},
+
+				{button: () => html`Deletion`, panel: () => html`
+					Deletion
 				`},
 			])}
 

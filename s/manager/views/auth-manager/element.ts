@@ -1,7 +1,8 @@
 
-import {shadowComponent, loading} from "@benev/slate"
+import {shadowComponent, loading, nap} from "@benev/slate"
 
 import {manager} from "../../context.js"
+import {EditPage} from "../pages/edit/view.js"
 import {ListPage} from "../pages/list/view.js"
 import {CreatePage} from "../pages/create/view.js"
 import {dehydratePassports, generatePassport, Passport} from "../../../core/passport.js"
@@ -15,7 +16,6 @@ import {dehydratePassports, generatePassport, Passport} from "../../../core/pass
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../common/theme.css.js"
-import { EditPage } from "../pages/edit/view.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
@@ -23,16 +23,23 @@ export const AuthManager = shadowComponent(use => {
 
 	use.once(() => storagePersistence.check())
 
+	async function resetScroll() {
+		await nap(0)
+		window.scrollTo({
+			top: 0,
+			behavior: "instant",
+		})
+	}
+
 	async function gotoHome() {
 		const passports = await depot.passports.list()
-		if (passports.length === 0)
-			gotoCreate()
-		else
-			gotoList()
+		if (passports.length === 0) await gotoCreate()
+		else await gotoList()
+		await resetScroll()
 	}
 
 	async function gotoCreate() {
-		situationOp.load(async() => {
+		await situationOp.load(async() => {
 			const passports = await depot.passports.list()
 			const initialPassport = await generatePassport()
 			const initialPassportSeed = await dehydratePassports([initialPassport])
@@ -53,11 +60,12 @@ export const AuthManager = shadowComponent(use => {
 					: gotoHome,
 			}
 		})
+		await resetScroll()
 	}
 
 	async function gotoList() {
 		const passports = await depot.passports.list()
-		situationOp.load(async() => ({
+		await situationOp.load(async() => ({
 			kind: "list",
 			passports,
 			onEdit: gotoEdit,
@@ -68,11 +76,12 @@ export const AuthManager = shadowComponent(use => {
 			// onEgress: passports => gotoEgress(passports, gotoHome),
 			// onIngress: () => gotoIngress(undefined, gotoHome),
 		}))
+		await resetScroll()
 	}
 
 	async function gotoEdit(passport: Passport) {
 		const seed = await dehydratePassports([passport])
-		situationOp.load(async() => ({
+		await situationOp.load(async() => ({
 			kind: "edit",
 			seed,
 			passport,
@@ -83,6 +92,7 @@ export const AuthManager = shadowComponent(use => {
 				storagePersistence.request()
 			},
 		}))
+		await resetScroll()
 	}
 
 	// function gotoDelete(passport: Passport) {

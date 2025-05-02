@@ -9,7 +9,7 @@ import {PassportWidget} from "../../common/passport-widget/view.js"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
-import { PassportDraft } from "../../common/passport-widget/draft.js"
+import {PassportDraft} from "../../common/passport-widget/draft.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -37,14 +37,16 @@ export const ListPage = shadowView(use => (
 
 	return html`
 		<section theme-plate x-purpose="${purpose.kind}">
-			<header theme-header>
-				${purpose.kind === "login" ? html`
-					<h2>Login request from <code theme-login>${purpose.hostname}</code></h2>
-					<p>You can authorize the login below by pressing "Login"</p>
-				` : html`
-					<h2>Your login passports</h2>
-				`}
-			</header>
+			<div theme-text>
+				<h2>
+					${purpose.kind === "login"
+						? html`Login request from <code theme-login>${purpose.hostname}</code>`
+						: html`Your login passports`}
+				</h2>
+				${purpose.kind === "login"
+					? html`<p>You can authorize the login below by pressing "Login"</p>`
+					: null}
+			</div>
 
 			<div class=passports>
 				${passports.value.map(renderPassport)}

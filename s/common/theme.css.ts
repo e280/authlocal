@@ -127,15 +127,6 @@ button {
 	}
 }
 
-[theme-header] {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 0.5em;
-
-	p { opacity: 0.8; }
-}
-
 [theme-plate] {
 	display: flex;
 	flex-direction: column;
@@ -160,8 +151,17 @@ button {
 	}
 
 	p {
+		opacity: 0.8;
 		color: color-mix(in srgb, var(--alpha), white 25%);
 	}
+}
+
+[theme-text] {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5em;
 }
 
 [theme-buttons] {
