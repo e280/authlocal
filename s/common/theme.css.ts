@@ -57,7 +57,7 @@ button {
 }
 
 :is(button, a.button) {
-	&:not([x-alt]) {
+	&:not([theme-alt]) {
 		cursor: pointer;
 		padding: 1em;
 		color: #fff;
@@ -76,16 +76,16 @@ button {
 		&:not([disabled]) {
 			cursor: pointer;
 
-			&.happy { background: #00ac00; }
-			&.angry { background: #800; color: #faa; }
-			&.login { background: var(--login-color); }
+			&[theme-happy] { background: #00ac00; }
+			&[theme-angry] { background: #800; color: #faa; }
+			&[theme-login] { background: var(--login-color); }
 
 			&:hover { filter: brightness(120%); text-decoration: underline; }
 			&:active { filter: brightness(90%); }
 		}
 	}
 
-	&[x-alt=subtle] {
+	&[theme-alt="subtle"] {
 		color: #a3b1ff;
 		font-weight: bold;
 		text-shadow: .04em .08em .1em #0008;
@@ -104,21 +104,10 @@ button {
 		}
 	}
 
-	&[x-flasher] {
+	&[theme-flasher] {
 		transition: background 100ms linear;
-		&[x-flasher="good"] { background: green; }
-		&[x-flasher="bad"] { background: red; }
-	}
-}
-
-.plate {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 2em;
-
-	> .stretch {
-		align-self: stretch;
+		&[theme-flasher="good"] { background: green; }
+		&[theme-flasher="bad"] { background: red; }
 	}
 }
 
@@ -171,7 +160,7 @@ button {
 	&[data-angry] { border: 1px solid red; }
 }
 
-.spin {
+[theme-spin] {
 	display: block;
 	animation: spin 2s linear infinite;
 }

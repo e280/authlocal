@@ -35,9 +35,9 @@ export const ListPage = shadowView(use => (
 					editing: undefined,
 				}], {
 					content: html`
-						<button class=edit x-alt=subtle>Edit</button>
+						<button class=edit theme-alt=subtle>Edit</button>
 						${purpose.kind === "login" ? html`
-							<button class=login>Login</button>
+							<button theme-login>Login</button>
 						` : null}
 					`,
 				})}
@@ -61,8 +61,11 @@ export const ListPage = shadowView(use => (
 			</div>
 
 			<footer theme-buttons>
-				<button class=happy @click="${clickNew}">
-					New Passport
+				<button @click="${clickNew}">
+					Import
+				</button>
+				<button theme-happy @click="${clickNew}">
+					New
 				</button>
 			</footer>
 		</section>

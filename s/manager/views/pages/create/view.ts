@@ -76,7 +76,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 					<button @click="${reroll}">
 						Randomize
 					</button>
-					<button class=happy
+					<button theme-happy
 						?disabled="${!validPassport}"
 						@click="${clickCreate}">
 							Create
@@ -114,11 +114,11 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 				<footer theme-buttons>
 					${purpose.kind === "login" ? html`
-						<button class=login @click="${login}">
+						<button theme-login @click="${login}">
 							Login
 						</button>
 					` : html`
-						<button class=happy @click="${clickDone}">
+						<button theme-happy @click="${clickDone}">
 							Continue
 						</button>
 					`}
