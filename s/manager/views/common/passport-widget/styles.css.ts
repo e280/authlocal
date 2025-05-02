@@ -5,6 +5,7 @@ export default css`
 :host {
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 }
 
 .card {
@@ -12,8 +13,8 @@ export default css`
 	flex-wrap: wrap;
 	padding: 1em;
 	gap: 1em;
-	background: #20563c33;
 
+	background: #20563c33;
 	border-radius: 0.5em;
 	border: 0.15em solid color-mix(in srgb, transparent, var(--alpha) 20%);
 	border-top: 0.15em solid color-mix(in srgb, transparent, var(--alpha) 60%);

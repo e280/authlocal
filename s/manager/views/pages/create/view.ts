@@ -70,7 +70,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 					</button>
 
 					<button theme-happy
-						?disabled="${!draft.hasValidChanges()}"
+						?disabled="${!draft.getValidEditedPassport()}"
 						@click="${clickCreate}">
 							Create
 					</button>
