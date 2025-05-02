@@ -31,7 +31,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 	const tabby = use.once(() => new Tabby(0))
 
 	return html`
-		<section theme-plate=bg>
+		<section theme-plate>
 			${tabby.render([
 				{button: () => html`Edit`, panel: () => html`
 					<div theme-text>
