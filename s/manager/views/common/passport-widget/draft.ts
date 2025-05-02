@@ -41,7 +41,7 @@ export class PassportDraft {
 			? {
 				label,
 				id: this.#passport.value.id,
-				secret: this.#passport.value.id,
+				secret: this.#passport.value.secret,
 			}
 			: null
 	}
