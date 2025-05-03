@@ -46,11 +46,6 @@ export default css`
 		text-shadow:
 			0 0 0.50em color-mix(in srgb, transparent, var(--alpha) 50%),
 			0 0 0.25em color-mix(in srgb, transparent, var(--alpha) 50%);
-
-		:is(input) {
-			padding: 0.3em 0.5em;
-			background: #0002;
-		}
 	}
 
 	> slot {

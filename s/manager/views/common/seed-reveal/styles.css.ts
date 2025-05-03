@@ -6,11 +6,12 @@ export default css`
 	width: 100%;
 }
 
-.box {
+.secretbox {
 	position: relative;
-	width: max-content;
+	background: color-mix(in srgb, black, var(--seed) 10%);
 	overflow: hidden;
-	border-radius: 0.5em;
+	border-radius: 1em;
+	border: 0.2em solid var(--seed);
 
 	textarea {
 		display: block;
@@ -30,28 +31,26 @@ export default css`
 
 		position: absolute;
 		inset: 0;
-		background: color-mix(in srgb, #fff1, var(--seed) 10%);
-		backdrop-filter: blur(0.3em);
+		z-index: 1;
 
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		text-align: center;
+
+		backdrop-filter: blur(0.3em);
 
 		font-size: 2em;
 		font-family: monospace;
 		font-weight: bold;
-		text-transform: uppercase;
-		color: var(--seed);
-		text-shadow: .1em .1em .2em #0008;
+		background: color-mix(in srgb, #ffffff08, var(--seed) 10%);
 
-		transition: all 300ms linear;
+		transition: all 500ms linear;
 
 		&[x-hide] {
-			background: transparent;
 			backdrop-filter: blur(0);
+			background: transparent;
 			color: transparent;
-			text-shadow: 0;
+			text-shadow: none;
 		}
 	}
 }

@@ -38,7 +38,7 @@ export const PassportWidget = shadowView(use => (draft: PassportDraft, options: 
 						@input="${inputString(label => { draft.setEditedLabel(label) })}"
 						/>
 				` : html`
-					<div class="text label">${draft.getEditedLabel()}</div>
+					<div class="text label" theme-input-border>${draft.getEditedLabel()}</div>
 				`}
 
 				<slot></slot>

@@ -79,11 +79,10 @@ html {
 
 body {
 	min-height: 100%;
-
 	width: 42em;
 	max-width: calc(100% - 1em);
 
-	color: #fffc;
+	color: color-mix(in lch, var(--alpha), white 50%);
 
 	display: flex;
 	flex-direction: column;
@@ -95,7 +94,6 @@ header {
 	margin-top: 2em;
 	margin-top: 10vh;
 	width: 100%;
-	color: #fffa;
 
 	display: flex;
 	flex-direction: column;

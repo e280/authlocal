@@ -39,14 +39,13 @@ a {
 }
 
 h2 {
-	color: color-mix(in srgb, var(--alpha), white 50%);
 	text-shadow:
-		0 0 2em currentColor,
-		0 0 .5em currentColor;
+		0 0 2em color-mix(in lch, transparent, currentColor 50%),
+		0 0 .5em color-mix(in lch, transparent, currentColor 50%);
 }
 
 p {
-	color: color-mix(in srgb, var(--alpha), #fff8 50%);
+	color: color-mix(in srgb, transparent, currentColor 80%);
 }
 
 button {
@@ -176,26 +175,28 @@ button {
 	border-top: 0.15em solid #fff5;
 }
 
-:is(input, textarea) {
+:is(input, textarea, [theme-inputty], [theme-input-border]) {
+	border: 0.1em solid transparent;
+}
+
+:is(input, textarea, [theme-inputty]) {
 	font-size: 1em;
 	display: block;
 	padding: 0.3em 0.5em;
 	font-family: monospace;
 	background: #111a;
-	border: none;
 	border-radius: 0.3em;
 }
 
 [theme-insetty] {
 	text-shadow: .1em .1em .1em #000a;
 	box-shadow: inset 0 -.1em 1em #0008;
-	border: 1px solid transparent;
 	border-bottom-color: #fff4;
 	border-top-color: #fff1;
 	&[theme-angry] { border: 1px solid red; }
 }
 
-[theme-seed-text] {
+[theme-seed] {
 	font-size: 1.3em;
 	padding: 1em;
 

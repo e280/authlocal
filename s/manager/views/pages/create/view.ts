@@ -103,11 +103,6 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 		function render() {
 			const {passport, seed} = finalized.value
 			return html`
-				<div theme-text>
-					<h2>Save your recovery seed</h2>
-					<p>Download or copy it to a safe place — if you lose it, it's gone forever</p>
-				</div>
-
 				${SeedReveal([seed, crushUsername(passport.label) + ".authlocal"])}
 
 				<footer theme-buttons>

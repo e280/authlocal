@@ -63,8 +63,14 @@ export const SeedReveal = shadowView(use => (seed: string, filename: string) => 
 
 	return html`
 		<section theme-dangerzone>
-			<div class=box>
-				<textarea readonly theme-insetty theme-seed-text
+			<div theme-text>
+				<h2>Save your recovery seed</h2>
+				<p>Download or copy it to a safe place — if you lose it, it's gone forever</p>
+			</div>
+
+			<div class=secretbox>
+				<textarea
+					readonly theme-seed
 					.value="${seedDisplay}"
 					?disabled="${!reveal.value}"
 					@click="${selectTextarea}"
