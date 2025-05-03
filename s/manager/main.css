@@ -14,7 +14,6 @@
 	--angryglow: #f88;
 	--login: yellow;
 	--back: #00bbff;
-
 	--code: magenta;
 }
 
@@ -92,7 +91,7 @@ body {
 
 header {
 	margin-top: 2em;
-	margin-top: 10vh;
+	margin-top: 5vh;
 	width: 100%;
 
 	display: flex;

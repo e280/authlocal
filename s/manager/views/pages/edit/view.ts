@@ -4,14 +4,14 @@ import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
+import {Confirmer} from "../../common/confirmer/view.js"
+import {idPreview} from "../../../../tools/id-preview.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
-import {PassportDraft} from "../../common/passport-widget/draft.js"
-import {passportCard, PassportWidget} from "../../common/passport-widget/view.js"
-import {crushUsername} from "../../../logic/utils/crush-username.js"
 import {Tabby} from "../../../../common/views/tabby/view.js"
 import {dehydratePassports} from "../../../../core/passport.js"
-import { Confirmer } from "../../common/confirmer/view.js"
-import { idPreview } from "../../../../tools/id-preview.js"
+import {PassportDraft} from "../../common/passport-widget/draft.js"
+import {crushUsername} from "../../../logic/utils/crush-username.js"
+import {passportCard, PassportWidget} from "../../common/passport-widget/view.js"
 
 export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 	use.styles([themeCss, stylesCss])
@@ -50,9 +50,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 
 				{button: () => html`Seed`, panel: () => html`
 					${passportCard(draft.passport)}
-
 					<section theme-group class=seedtext>
-						<h2>Recovery seed</h2>
 						${SeedReveal([
 							seed.value,
 							`${crushUsername(label)}.authlocal`,
