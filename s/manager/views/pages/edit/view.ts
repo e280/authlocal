@@ -39,7 +39,8 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 					${PassportWidget(
 						[draft, {editable: true}],
 						{content: html`
-							<button theme-happy
+							<button
+								theme-button=happy
 								@click="${clickSave}"
 								?disabled="${!draft.hasValidChanges()}">
 									Save
@@ -77,7 +78,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 			])}
 
 			<footer theme-buttons>
-				<button theme-back @click="${clickBack}">
+				<button theme-button=back @click="${clickBack}">
 					Back
 				</button>
 			</footer>

@@ -6,14 +6,14 @@ import {manager} from "../../../context.js"
 
 import {Situation} from "../../../logic/situation.js"
 import {Passport} from "../../../../core/passport.js"
+import {Downloader} from "../../../utils/downloader.js"
+import {idPreview} from "../../../../tools/id-preview.js"
+import {PassportDraft} from "../../common/passport-widget/draft.js"
+import {crushUsername} from "../../../logic/utils/crush-username.js"
 import {PassportWidget, PassportWidgetOptions} from "../../common/passport-widget/view.js"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
-import {PassportDraft} from "../../common/passport-widget/draft.js"
-import {Downloader} from "../../../utils/downloader.js"
-import { idPreview } from "../../../../tools/id-preview.js"
-import { crushUsername } from "../../../logic/utils/crush-username.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -46,14 +46,17 @@ export const ListPage = shadowView(use => (
 					: clickEdit,
 			}
 			return PassportWidget([new PassportDraft(passport), options], {content: html`
-				<button class=edit
+				<button
+					theme-button
+					class=edit
 					@click="${clickEdit}">
 						Edit
 				</button>
 
 				${purpose.kind === "login" ? html`
-					<button class=login
-						theme-login
+					<button
+						class=login
+						theme-button=login
 						@click="${() => purpose.onPassport(passport)}">
 							Login
 					</button>
@@ -67,20 +70,20 @@ export const ListPage = shadowView(use => (
 
 			<footer theme-buttons>
 				${purpose.kind === "login" ? html`
-					<button theme-angry @click="${() => purpose.onDeny()}">
+					<button theme-button=angry @click="${() => purpose.onDeny()}">
 						Deny Login
 					</button>
 				` : null}
 
-				<button @click="${clickSelectMode}">
+				<button theme-button @click="${clickSelectMode}">
 					Select
 				</button>
 
-				<button>
+				<button theme-button>
 					Import
 				</button>
 
-				<button theme-happy @click="${clickNew}">
+				<button theme-button=happy @click="${clickNew}">
 					New
 				</button>
 			</footer>
@@ -101,7 +104,13 @@ export const ListPage = shadowView(use => (
 				onClick: toggle,
 			}
 			return PassportWidget([new PassportDraft(passport), options], {content: html`
-				<button x-check ?x-selected="${isSelected}" theme-alt @click="${toggle}"></button>
+				<button
+					theme-button
+					x-check
+					?x-selected="${isSelected}"
+					theme-alt
+					@click="${toggle}"
+				></button>
 			`})
 		}
 
@@ -122,12 +131,12 @@ export const ListPage = shadowView(use => (
 				? crushUsername(idPreview(selectedPassportIds.at(0)!))
 				: `passports-${selected.size}.authlocal`
 			return html`
-				<button theme-angry>
+				<button theme-button=angry>
 					Delete
 				</button>
 
 				<a class=button
-					theme-happy
+					theme-button=seed
 					theme-flasher
 					download="${filename}"
 					title="${`Download "${filename}"`}"
@@ -145,16 +154,16 @@ export const ListPage = shadowView(use => (
 			<p>${selected.size} selected</p>
 
 			<footer theme-buttons>
-				<button theme-back @click="${clickSelectMode}">
+				<button theme-button=back @click="${clickSelectMode}">
 					Back
 				</button>
 
 				${selected.size > 0 ? html`
-					<button @click="${deselectAll}">
+					<button theme-button @click="${deselectAll}">
 						Deselect All
 					</button>
 				` : html`
-					<button @click="${selectAll}">
+					<button theme-button @click="${selectAll}">
 						Select All
 					</button>
 				`}

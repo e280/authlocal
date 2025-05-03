@@ -56,8 +56,14 @@ button {
 	user-select: none;
 }
 
-:is(button, a.button) {
-	&:not([theme-alt]) {
+[theme-button] {
+	color: inherit;
+	background: none;
+	border: none;
+	font: inherit;
+	user-select: none;
+
+	&:not([theme-button^="plain"]) {
 		cursor: pointer;
 		padding: 1em;
 
@@ -82,10 +88,11 @@ button {
 		&:not([disabled]) {
 			cursor: pointer;
 
-			&[theme-happy] { color: var(--happy); }
-			&[theme-angry] { color: var(--angry); }
-			&[theme-login] { color: var(--login); }
-			&[theme-back] { color: var(--back); }
+			&[theme-button="happy"] { color: var(--happy); }
+			&[theme-button="angry"] { color: var(--angry); }
+			&[theme-button="login"] { color: var(--login); }
+			&[theme-button="back"] { color: var(--back); }
+			&[theme-button="seed"] { color: var(--seed); }
 
 			&:hover {
 				filter: brightness(120%); text-decoration: underline;
@@ -94,11 +101,12 @@ button {
 					0 0 3em color-mix(in srgb, transparent, currentColor 20%),
 					inset 0 0 1em color-mix(in srgb, transparent, currentColor 15%);
 			}
+
 			&:active { filter: brightness(90%); }
 		}
 	}
 
-	&[theme-alt="subtle"] {
+	&[theme-button="plain-subtle"] {
 		color: #a3b1ff;
 		font-weight: bold;
 		text-shadow: .04em .08em .1em #0008;

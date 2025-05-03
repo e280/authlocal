@@ -35,7 +35,7 @@ export const Confirmer = shadowView(use => (options: ConfirmerOptions) => {
 				@input="${inputString(onInput)}"
 				/>
 
-			<button theme-angry
+			<button theme-button theme-angry
 				?disabled="${!primed.value}"
 				@click="${clickConfirm}">
 					${options.buttonLabel()}

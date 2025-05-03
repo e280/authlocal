@@ -43,6 +43,7 @@ export const Tabnav = shadowView(use => (tabby: Tabby, tabs: Tab[]) => {
 		<nav>
 			${tabs.map((tab, index) => html`
 				<button
+					theme-button
 					x-index="${index}"
 					?x-active="${index === tabby.activeIndex}"
 					@click="${() => tabby.goto(index)}">
