@@ -12,5 +12,9 @@ export default css`
 	color: var(--angry);
 }
 
+.seedtext {
+	color: var(--seed);
+}
+
 `
 

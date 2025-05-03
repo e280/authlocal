@@ -41,7 +41,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 		const render = () => {
 			return html`
-				<div theme-text>
+				<div theme-group>
 					<h2>
 						${purpose.kind === "login" ? html`
 							Create a passport for <code theme-login>${purpose.hostname}</code>
@@ -51,12 +51,10 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 								: html`Create a new login passport`
 						)}
 					</h2>
-					<p>No emails, no passwords, no databases</p>
+					<p>The name you choose is public.</p>
 				</div>
 
 				${PassportWidget([draft, {allowEditing: true}])}
-
-				<p>The name you choose is public</p>
 
 				<footer theme-buttons>
 					${situation.onCancel ? html`
@@ -103,6 +101,11 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 		function render() {
 			const {passport, seed} = finalized.value
 			return html`
+				<section theme-group class=seed>
+					<h2>Save your recovery seed</h2>
+					<p>Download or copy it, and keep it safe — if you lose it, it's gone forever</p>
+				</section>
+
 				${SeedReveal([seed, crushUsername(passport.label) + ".authlocal"])}
 
 				<footer theme-buttons>

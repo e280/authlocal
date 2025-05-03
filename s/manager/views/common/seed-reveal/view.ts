@@ -62,46 +62,39 @@ export const SeedReveal = shadowView(use => (seed: string, filename: string) => 
 	}
 
 	return html`
-		<section theme-dangerzone>
-			<div theme-text>
-				<h2>Save your recovery seed</h2>
-				<p>Download or copy it to a safe place — if you lose it, it's gone forever</p>
+		<div class=secretbox>
+			<textarea theme-seed
+				readonly
+				.value="${seedDisplay}"
+				?disabled="${!reveal.value}"
+				@click="${selectTextarea}"
+			></textarea>
+			<div class=blanket ?x-hide="${reveal.value}">
+				[TOP SECRET]
 			</div>
+		</div>
 
-			<div class=secretbox>
-				<textarea
-					readonly theme-seed
-					.value="${seedDisplay}"
-					?disabled="${!reveal.value}"
-					@click="${selectTextarea}"
-				></textarea>
-				<div class=blanket ?x-hide="${reveal.value}">
-					[TOP SECRET]
-				</div>
-			</div>
+		<footer theme-buttons>
+			<button class="copy button flasher"
+				@click="${() => copier.copy(seed)}"
+				theme-flasher="${copier.status.value}">
+					Copy
+			</button>
 
-			<footer theme-buttons>
-				<button class="copy button flasher"
-					@click="${() => copier.copy(seed)}"
-					theme-flasher="${copier.status.value}">
-						Copy
-				</button>
+			<a class="download button flasher"
+				href="${downloader.url}"
+				download="${filename}"
+				@click="${() => downloader.flash(true)}"
+				theme-flasher="${downloader.status.value}">
+					Download
+			</a>
 
-				<a class="download button flasher"
-					href="${downloader.url}"
-					download="${filename}"
-					@click="${() => downloader.flash(true)}"
-					theme-flasher="${downloader.status.value}">
-						Download
-				</a>
-
-				<button class=reveal @click="${toggle}">
-					${reveal.value
-						? "Conceal"
-						: "Reveal"}
-				</button>
-			</footer>
-		</section>
+			<button class=reveal @click="${toggle}">
+				${reveal.value
+					? "Conceal"
+					: "Reveal"}
+			</button>
+		</footer>
 	`
 })
 

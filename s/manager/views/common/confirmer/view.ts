@@ -20,20 +20,17 @@ export const Confirmer = shadowView(use => (options: ConfirmerOptions) => {
 	})
 
 	return html`
-		<section theme-dangerzone>
-			<slot></slot>
-			<p>To confirm, enter the phrase <code>${options.requiredText}</code> exactly</p>
-			<div class=box>
-				<input
-					type="text"
-					theme-code
-					@input="${inputString(onInput)}"
-					/>
-				<button theme-angry ?disabled="${!primed.value}">
-					${options.buttonLabel()}
-				</button>
-			</div>
-		</section>
+		<p>To confirm, enter the phrase <code>${options.requiredText}</code> exactly</p>
+		<div class=box>
+			<input
+				type="text"
+				theme-insetty
+				@input="${inputString(onInput)}"
+				/>
+			<button theme-angry ?disabled="${!primed.value}">
+				${options.buttonLabel()}
+			</button>
+		</div>
 	`
 })
 

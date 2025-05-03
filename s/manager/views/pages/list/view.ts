@@ -37,7 +37,7 @@ export const ListPage = shadowView(use => (
 
 	return html`
 		<section theme-plate x-purpose="${purpose.kind}">
-			<div theme-text>
+			<div theme-group>
 				<h2>
 					${purpose.kind === "login"
 						? html`Login request from <code theme-login>${purpose.hostname}</code>`

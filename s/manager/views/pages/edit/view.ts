@@ -46,27 +46,31 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 							</button>
 						`},
 					)}
-					<div theme-text>
-						<p>The name you choose is public</p>
-					</div>
 				`},
 
 				{button: () => html`Seed`, panel: () => html`
 					${passportCard(draft.passport)}
-					${SeedReveal([
-						seed.value,
-						`${crushUsername(label)}.authlocal`,
-					])}
+
+					<section theme-group class=seedtext>
+						<h2>Recovery seed</h2>
+						${SeedReveal([
+							seed.value,
+							`${crushUsername(label)}.authlocal`,
+						])}
+					</section>
 				`},
 
 				{button: () => html`Deletion`, panel: () => html`
 					${passportCard(draft.passport)}
-					${Confirmer([{
-						buttonLabel: () => "Delete",
-						requiredText: idPreview(draft.passport.id),
-					}], {content: html`
-						<h2 class=delete-heading>Delete "${draft.passport.label}"</h2>
-					`})}
+					<section theme-zone=danger>
+						<h2>Delete this passport</h2>
+						${Confirmer([{
+							buttonLabel: () => "Delete",
+							requiredText: idPreview(draft.passport.id),
+						}], {content: html`
+							<h2 class=delete-heading>Delete "${draft.passport.label}"</h2>
+						`})}
+					</section>
 				`},
 			])}
 

@@ -3,14 +3,14 @@ import {css} from "@benev/slate"
 export default css`
 
 :host {
-	width: 100%;
+	display: contents;
 }
 
 p {
 	color: var(--angry);
 }
 
-code, [theme-code] {
+code {
 	color: var(--angry);
 	font-size: 1.2em;
 }
@@ -26,6 +26,7 @@ input {
 	flex: 1 1 auto;
 	font-size: 1.5em;
 	padding: 0.5em 1em;
+	color: var(--angry);
 }
 
 button:not([disabled]) {

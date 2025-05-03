@@ -140,21 +140,26 @@ button {
 		inset 0 0 1em color-mix(in srgb, transparent, var(--alpha) 50%);
 }
 
-[theme-dangerzone] {
+[theme-zone] {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 1em;
-	padding: 1em;
 
-	color: var(--angry);
-	background: color-mix(in srgb, var(--angry), transparent 80%);
-	border-radius: 0.5em;
-	border: 0.2rem solid red;
-	box-shadow: 0 0 5em #f008;
+	&:not([theme-zone="naked"]) {
+		padding: 1em;
+		background: color-mix(in lch, transparent, currentColor 20%);
+		border-radius: 0.5em;
+		border: 0.2rem solid currentColor;
+		box-shadow: 0 0 5em color-mix(in lch, transparent, currentColor 50%);
+	}
+
+	&[theme-zone="danger"] { color: var(--angry); }
+	&[theme-zone="seed"] { color: var(--seed); }
 }
 
-[theme-text] {
+[theme-group] {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

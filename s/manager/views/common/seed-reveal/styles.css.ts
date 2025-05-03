@@ -3,12 +3,13 @@ import {css} from "@benev/slate"
 export default css`
 
 :host {
-	width: 100%;
+	display: contents;
 }
 
 .secretbox {
+	color: var(--seed);
 	position: relative;
-	background: color-mix(in srgb, black, var(--seed) 10%);
+	background: color-mix(in srgb, black, var(--seed) 30%);
 	overflow: hidden;
 	border-radius: 1em;
 	border: 0.2em solid var(--seed);
@@ -55,18 +56,15 @@ export default css`
 	}
 }
 
-.reveal {
-	color: var(--seed);
-	min-width: 12ch;
-}
-
 footer {
 	display: flex;
 	gap: 0.5em;
 	justify-content: center;
 	flex-wrap: wrap;
 
-	button.reveal {
+	.reveal {
+		color: var(--seed);
+		min-width: 12ch;
 	}
 }
 
