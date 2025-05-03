@@ -3,7 +3,8 @@ import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
-import {Flasher} from "../../../../common/utils/flasher.js"
+import {Flasher} from "../../../utils/flasher.js"
+import { Downloader } from "../../../utils/downloader.js"
 
 const demoSeed = `
 "fakely.demoly"
@@ -27,32 +28,16 @@ export const SeedReveal = shadowView(use => (seed: string, filename: string) => 
 		? seed // show real seed
 		: demoSeed // show demo text before actual reveal
 
-	const downloader = use.once(() => new class Downloader extends Flasher {
-		url: string | undefined
-
-		updateUrl() {
-
-			// dispose previous object url
-			if (this.url) URL.revokeObjectURL(this.url)
-
-			// generate new object url
-			const blob = new Blob([`\n${seed}\n\n`], {type: "text/plain"})
-			this.url = URL.createObjectURL(blob)
-		}
-	})
-
-	downloader.updateUrl()
+	const downloader = use.once(() => new Downloader(seed))
 
 	const copier = use.once(() => new class Copier extends Flasher {
 		async copy(text: string) {
 			try {
 				await navigator.clipboard.writeText(text)
-				this.status.value = "good"
-				this.reset()
+				await this.flash("good")
 			}
 			catch (error) {
-				this.status.value = "bad"
-				this.reset()
+				await this.flash("bad")
 			}
 		}
 	})
@@ -75,25 +60,26 @@ export const SeedReveal = shadowView(use => (seed: string, filename: string) => 
 		</div>
 
 		<footer theme-buttons>
-			<button class="copy button flasher"
-				@click="${() => copier.copy(seed)}"
-				theme-flasher="${copier.status.value}">
-					Copy
-			</button>
-
-			<a class="download button flasher"
-				href="${downloader.url}"
-				download="${filename}"
-				@click="${() => downloader.flash(true)}"
-				theme-flasher="${downloader.status.value}">
-					Download
-			</a>
-
 			<button class=reveal @click="${toggle}">
 				${reveal.value
 					? "Conceal"
 					: "Reveal"}
 			</button>
+
+			<button class="copy button"
+				@click="${() => copier.copy(seed)}"
+				theme-flashing="${copier.flashing}">
+					Copy
+			</button>
+
+			<a class="download button"
+				href="${downloader.url}"
+				download="${filename}"
+				title="${`Download "${filename}"`}"
+				@click="${() => downloader.flash()}"
+				theme-flashing="${downloader.flashing}">
+					Download
+			</a>
 		</footer>
 	`
 })

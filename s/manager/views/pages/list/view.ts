@@ -1,4 +1,5 @@
 
+import {MapG} from "@e280/stz"
 import {html, shadowView} from "@benev/slate"
 
 import {manager} from "../../../context.js"
@@ -10,6 +11,9 @@ import {PassportWidget, PassportWidgetOptions} from "../../common/passport-widge
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
 import {PassportDraft} from "../../common/passport-widget/draft.js"
+import {Downloader} from "../../../utils/downloader.js"
+import { idPreview } from "../../../../tools/id-preview.js"
+import { crushUsername } from "../../../logic/utils/crush-username.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -17,10 +21,13 @@ export const ListPage = shadowView(use => (
 
 	use.styles([themeCss, stylesCss])
 
+	const passports = situation.passportInfo.map(info => info.passport)
+	const seeds = new MapG(situation.passportInfo.map(info => [info.passport.id, info.seed]))
+
 	const purpose = manager.purpose.value
-	const passports = use.signal(situation.passports)
 	const selectMode = use.signal(false)
 	const selected = use.once(() => new Set<string>())
+	const downloader = use.once(() => new Downloader(""))
 
 	const clickNew = () => situation.onCreate()
 
@@ -55,7 +62,7 @@ export const ListPage = shadowView(use => (
 		}
 		return html`
 			<div class=passports>
-				${passports.value.map(renderPassport)}
+				${passports.map(renderPassport)}
 			</div>
 
 			<footer theme-buttons>
@@ -97,9 +104,42 @@ export const ListPage = shadowView(use => (
 				<button x-check ?x-selected="${isSelected}" theme-alt @click="${toggle}"></button>
 			`})
 		}
+
+		const selectAll = () => {
+			passports.map(p => p.id).forEach(id => selected.add(id))
+			use.rerender()
+		}
+
+		const deselectAll = () => {
+			selected.clear()
+			use.rerender()
+		}
+
+		const renderSelectedButtons = () => {
+			const selectedPassportIds = [...selected]
+			downloader.text = [...selected].map(id => seeds.require(id)).join("\n\n")
+			const filename = selectedPassportIds.length === 1
+				? crushUsername(idPreview(selectedPassportIds.at(0)!))
+				: `passports-${selected.size}.authlocal`
+			return html`
+				<button theme-angry>
+					Delete
+				</button>
+
+				<a class=button
+					theme-happy
+					theme-flasher
+					download="${filename}"
+					title="${`Download "${filename}"`}"
+					href="${downloader.url}"
+					@click="${() => downloader.flash()}">
+						Download
+				</button>
+			`
+		}
 		return html`
 			<div class=passports>
-				${passports.value.map(renderPassport)}
+				${passports.map(renderPassport)}
 			</div>
 
 			<p>${selected.size} selected</p>
@@ -110,14 +150,18 @@ export const ListPage = shadowView(use => (
 				</button>
 
 				${selected.size > 0 ? html`
-					<button theme-angry>
-						Delete
+					<button @click="${deselectAll}">
+						Deselect All
 					</button>
+				` : html`
+					<button @click="${selectAll}">
+						Select All
+					</button>
+				`}
 
-					<button theme-happy>
-						Download
-					</button>
-				` : null}
+				${selected.size > 0
+					? renderSelectedButtons()
+					: null}
 			</footer>
 		`
 	}

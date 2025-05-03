@@ -117,10 +117,10 @@ button {
 		}
 	}
 
-	&[theme-flasher] {
+	&[theme-flashing] {
 		transition: background 100ms linear;
-		&[theme-flasher="good"] { background: green; }
-		&[theme-flasher="bad"] { background: red; }
+		&[theme-flashing="good"] { background: var(--happy); }
+		&[theme-flashing="bad"] { background: var(--angry); }
 	}
 }
 
