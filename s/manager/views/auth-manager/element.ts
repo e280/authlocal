@@ -86,7 +86,9 @@ export const AuthManager = shadowComponent(use => {
 			seed,
 			passport,
 			onBack: gotoHome,
-			onDelete: async() => {},
+			onDelete: async passport => {
+				await depot.passports.delete(passport.id)
+			},
 			onSave: async passport => {
 				await depot.passports.save(passport)
 				storagePersistence.request()

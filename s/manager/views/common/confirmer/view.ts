@@ -7,6 +7,7 @@ import {inputString} from "../../../../tools/input-string.js"
 export type ConfirmerOptions = {
 	requiredText: string
 	buttonLabel: () => Content
+	onConfirmed: () => void
 }
 
 export const Confirmer = shadowView(use => (options: ConfirmerOptions) => {
@@ -19,16 +20,25 @@ export const Confirmer = shadowView(use => (options: ConfirmerOptions) => {
 		primed.value = proposed === options.requiredText
 	})
 
+	function clickConfirm() {
+		if (primed.value)
+			options.onConfirmed()
+	}
+
 	return html`
 		<p>To confirm, enter the phrase <code>${options.requiredText}</code> exactly</p>
 		<div class=box>
+
 			<input
 				type="text"
 				theme-insetty
 				@input="${inputString(onInput)}"
 				/>
-			<button theme-angry ?disabled="${!primed.value}">
-				${options.buttonLabel()}
+
+			<button theme-angry
+				?disabled="${!primed.value}"
+				@click="${clickConfirm}">
+					${options.buttonLabel()}
 			</button>
 		</div>
 	`

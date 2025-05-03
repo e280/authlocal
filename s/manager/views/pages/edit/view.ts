@@ -65,6 +65,10 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 						${Confirmer([{
 							buttonLabel: () => "Delete",
 							requiredText: idPreview(draft.passport.id),
+							onConfirmed: async() => {
+								await situation.onDelete(draft.passport)
+								await situation.onBack()
+							},
 						}], {content: html`
 							<h2 class=delete-heading>Delete "${draft.passport.label}"</h2>
 						`})}
