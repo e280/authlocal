@@ -33,6 +33,7 @@ export const ListPage = shadowView(use => (
 
 	const clickSelectMode = () => {
 		selected.clear()
+		// passports.map(p => p.id).forEach(id => selected.add(id))
 		selectMode.value = !selectMode.value
 	}
 
@@ -42,7 +43,8 @@ export const ListPage = shadowView(use => (
 			const options: PassportWidgetOptions = {
 				selected: false,
 				onClick: purpose.kind === "login"
-					? () => purpose.onPassport(passport)
+					// ? () => purpose.onPassport(passport)
+					? undefined
 					: clickEdit,
 			}
 			return PassportWidget([new PassportDraft(passport), options], {content: html`
@@ -146,6 +148,7 @@ export const ListPage = shadowView(use => (
 				</button>
 			`
 		}
+
 		return html`
 			<div class=passports>
 				${passports.map(renderPassport)}
