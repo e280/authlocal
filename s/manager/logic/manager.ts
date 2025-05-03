@@ -39,6 +39,7 @@ export class Manager {
 					kind: "login",
 					audience,
 					hostname,
+					onDeny: async() => console.log("DENIED LOGIN"),
 					onPassport: async passport => console.log("LOGIN", passport.id),
 				}
 			}

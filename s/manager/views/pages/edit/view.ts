@@ -37,7 +37,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 			${tabby.render([
 				{button: () => html`Edit`, panel: () => html`
 					${PassportWidget(
-						[draft, {allowEditing: true}],
+						[draft, {editable: true}],
 						{content: html`
 							<button theme-happy
 								@click="${clickSave}"

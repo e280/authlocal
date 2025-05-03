@@ -12,25 +12,47 @@ import {maxLabelLength} from "../../../logic/utils/validation.js"
 
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
 
+export type PassportWidgetOptions = {
+	editable?: boolean
+	selected?: boolean
+	onClick?: () => void
+}
+
 export function passportCard(passport: Passport) {
 	const draft = new PassportDraft(passport)
 	return PassportWidget([draft])
 }
 
-export const PassportWidget = shadowView(use => (draft: PassportDraft, options: {allowEditing?: boolean} = {}) => {
-	use.name("passport-widget")
+export const PassportWidget = shadowView(use => (
+		draft: PassportDraft,
+		options: PassportWidgetOptions = {},
+	) => {
 
+	use.name("passport-widget")
 	use.styles([themeCss, stylesCss])
+
 	const hsl = `hsl(${idHue(draft.passport.id)}deg, 100%, 75%)`
+
+	function handleCardClick(event: MouseEvent) {
+		if (!options.onClick) return undefined
+		const slot = use.shadow.querySelector("slot")!
+		if (!event.composedPath().includes(slot)) {
+			options.onClick()
+		}
+	}
 
 	return html`
 		<section>
-			<div class=card>
+			<div class=card
+				?x-clickable="${!!options.onClick}"
+				?x-selected="${!!options.selected}"
+				@click="${handleCardClick}">
+
 				<div class=icon style="color: ${hsl};">
 					${svgSlate(userIcon)}
 				</div>
 
-				${options.allowEditing ? html`
+				${options.editable ? html`
 					<input type=text class=label theme-insetty
 						.value="${draft.getEditedLabel()}"
 						maxlength="${maxLabelLength}"

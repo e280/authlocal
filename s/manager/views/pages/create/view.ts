@@ -54,7 +54,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 					<p>The name you choose is public.</p>
 				</div>
 
-				${PassportWidget([draft, {allowEditing: true}])}
+				${PassportWidget([draft, {editable: true}])}
 
 				<footer theme-buttons>
 					${situation.onCancel ? html`

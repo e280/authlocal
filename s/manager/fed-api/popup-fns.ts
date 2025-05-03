@@ -27,11 +27,13 @@ export const makePopupFns = (
 			const issuer = window.origin
 			const {hostname} = new URL(audience)
 			const deferredSession = deferPromise<Session>()
-
 			setLoginPurpose({
 				kind: "login",
 				audience,
 				hostname,
+				onDeny: async() => {
+					deferredSession.reject("denied")
+				},
 				onPassport: async passport => {
 					const sessionKeypair = await generateKeypair()
 					const proof: Proof = {
@@ -49,7 +51,6 @@ export const makePopupFns = (
 					})
 				},
 			})
-
 			return deferredSession.promise
 		},
 	},

@@ -14,6 +14,7 @@ export namespace Purpose {
 		kind: "login"
 		audience: string
 		hostname: string
+		onDeny: () => Promise<void>
 		onPassport: (passport: Passport) => Promise<void>
 	}
 
