@@ -45,7 +45,7 @@ h2 {
 }
 
 p {
-	color: color-mix(in srgb, transparent, currentColor 80%);
+	color: color-mix(in srgb, transparent, currentColor 60%);
 }
 
 button {
