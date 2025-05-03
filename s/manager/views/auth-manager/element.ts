@@ -49,7 +49,7 @@ export const AuthManager = shadowComponent(use => {
 				passports,
 				initialPassport,
 				initialPassportSeed,
-				onIngress: () => {},
+				onIngress: async() => {},
 				onSave: async passport => {
 					await depot.passports.save(passport)
 					storagePersistence.request()
@@ -70,8 +70,8 @@ export const AuthManager = shadowComponent(use => {
 			passports,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
-			onEgress: () => {},
-			onIngress: () => {},
+			onEgress: async() => {},
+			onIngress: async() => {},
 			// onCreate: gotoCreate,
 			// onEgress: passports => gotoEgress(passports, gotoHome),
 			// onIngress: () => gotoIngress(undefined, gotoHome),

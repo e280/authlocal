@@ -5,10 +5,10 @@ export namespace Situation {
 	export type List = {
 		kind: "list"
 		passports: Passport[]
-		onCreate: () => void
-		onEdit: (passport: Passport) => void
-		onEgress: (passports: Passport[]) => void
-		onIngress: (passports?: Passport[]) => void
+		onCreate: () => Promise<void>
+		onEdit: (passport: Passport) => Promise<void>
+		onEgress: (passports: Passport[]) => Promise<void>
+		onIngress: (passports?: Passport[]) => Promise<void>
 	}
 
 	export type Create = {
@@ -16,17 +16,17 @@ export namespace Situation {
 		passports: Passport[]
 		initialPassport: Passport
 		initialPassportSeed: string
-		onIngress: () => void
+		onIngress: () => Promise<void>
 		onSave: (passport: Passport) => Promise<void>
-		onDone: () => void
-		onCancel?: () => void
+		onDone: () => Promise<void>
+		onCancel?: () => Promise<void>
 	}
 
 	export type Edit = {
 		kind: "edit"
 		seed: string
 		passport: Passport
-		onBack: () => void
+		onBack: () => Promise<void>
 		onSave: (passport: Passport) => Promise<void>
 		onDelete: (passport: Passport) => Promise<void>
 	}
@@ -34,21 +34,21 @@ export namespace Situation {
 	export type Delete = {
 		kind: "delete"
 		passport: Passport
-		onCancel: () => void
-		onDeleteConfirmed: (passport: Passport) => void
+		onCancel: () => Promise<void>
+		onDeleteConfirmed: (passport: Passport) => Promise<void>
 	}
 
 	export type Egress = {
 		kind: "egress"
 		passports: Passport[]
-		onBack: () => void
+		onBack: () => Promise<void>
 	}
 
 	export type Ingress = {
 		kind: "ingress"
 		passports: Passport[] | undefined
-		onBack: () => void
-		onAddPassports: (passports: Passport[]) => void
+		onBack: () => Promise<void>
+		onAddPassports: (passports: Passport[]) => Promise<void>
 	}
 
 	////////////////////////////////
