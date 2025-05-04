@@ -53,7 +53,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 								: html`Create a new login passport`
 						)}
 					</h2>
-					<p>The name you choose is public.</p>
+					<p>The name you choose is public</p>
 				</div>
 
 				${PassportWidget([draft, {editable: true}])}
