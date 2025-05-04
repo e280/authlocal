@@ -44,6 +44,7 @@ export const PassportWidget = shadowView(use => (
 	return html`
 		<section>
 			<div class=card
+				?x-editable="${!!options.editable}"
 				?x-clickable="${!!options.onClick}"
 				?x-selected="${!!options.selected}"
 				@click="${handleCardClick}">

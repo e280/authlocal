@@ -21,6 +21,10 @@ export default css`
 	border-top: 0.15em solid color-mix(in srgb, transparent, var(--alpha) 60%);
 	box-shadow: 0 0 2em color-mix(in srgb, transparent, var(--alpha) 10%);
 
+	&:not([x-editable]) {
+		user-select: none;
+	}
+
 	&[x-selected] {
 		background: var(--passport-select);
 		border: 0.15em solid color-mix(in lch, transparent, var(--select) 60%);
