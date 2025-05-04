@@ -43,13 +43,13 @@ export const AuthManager = shadowComponent(use => {
 				passports,
 				initialPassport,
 				initialPassportSeed,
-				onIngress: async() => {},
+				onIngress: gotoIngress,
 				onSave: async passport => {
 					await depot.passports.save(passport)
 					await storagePersistence.request()
 				},
 				onDone: gotoHome,
-				onCancel: onboardingMode
+				onBack: onboardingMode
 					? undefined
 					: gotoHome,
 			}
@@ -68,6 +68,7 @@ export const AuthManager = shadowComponent(use => {
 			passportInfo,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
+			onDelete: gotoDelete,
 			onIngress: gotoIngress,
 			onEgress: async() => {},
 		}))
@@ -83,6 +84,7 @@ export const AuthManager = shadowComponent(use => {
 			onBack: gotoHome,
 			onDelete: async passport => {
 				await depot.passports.delete(passport.id)
+				await storagePersistence.request()
 			},
 			onSave: async passport => {
 				await depot.passports.save(passport)
@@ -92,8 +94,21 @@ export const AuthManager = shadowComponent(use => {
 		await resetScroll()
 	}
 
+	async function gotoDelete(passports: Passport[]) {
+		await situationOp.load(async() => ({
+			kind: "delete",
+			passports,
+			onBack: gotoHome,
+			onDelete: async passport => {
+				await depot.passports.delete(passport.id)
+				await storagePersistence.request()
+			},
+		}))
+		await resetScroll()
+	}
+
 	async function gotoIngress(passports: Passport[] = [], problems: string[] = []) {
-		situationOp.load(async() => ({
+		await situationOp.load(async() => ({
 			kind: "ingress",
 			problems,
 			passports,
@@ -103,6 +118,7 @@ export const AuthManager = shadowComponent(use => {
 				await storagePersistence.request()
 			},
 		}))
+		await resetScroll()
 	}
 
 	use.once(gotoHome)

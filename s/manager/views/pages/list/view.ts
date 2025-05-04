@@ -19,6 +19,7 @@ export const ListPage = shadowView(use => (
 		situation: Situation.List,
 	) => {
 
+	use.name("list-page")
 	use.styles([themeCss, stylesCss])
 
 	const passports = situation.passportInfo.map(info => info.passport)

@@ -140,7 +140,7 @@ button {
 [theme-plate] {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	text-align: center;
 	gap: 2em;
 
 	padding: 2em;
@@ -157,7 +157,6 @@ button {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	gap: 1em;
 
 	&:not([theme-zone="naked"]) {
@@ -176,7 +175,6 @@ button {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
 	gap: 0.5em;
 }
 
@@ -219,9 +217,12 @@ button {
 	padding: 1em;
 
 	height: 10em;
-	width: 40ch;
-	max-width: 90vw;
-	max-width: 100%;
+	width: 100%;
+
+	color: var(--seed);
+	background: color-mix(in srgb, black, var(--seed) 15%);
+	border-radius: 1rem;
+	border: 0.2em solid var(--seed);
 
 	color: color-mix(in srgb, var(--seed), white 50%);
 	text-shadow: 0 0 1em var(--seed);

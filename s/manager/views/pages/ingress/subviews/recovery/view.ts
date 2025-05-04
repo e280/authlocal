@@ -4,7 +4,8 @@ import {debounce, html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../../../common/theme.css.js"
 
-import {Problematic} from "../problems/problematic.js"
+import {Summary} from "../../../../common/summary/view.js"
+import {Problematic} from "../../../../common/problems/problematic.js"
 import {hydratePassports, Passport} from "../../../../../../core/passport.js"
 
 export type RecoveryOptions = {
@@ -21,6 +22,7 @@ export const Recovery = shadowView(use => (options: RecoveryOptions) => {
 	const hasValidPassports = passports.value.length > 0
 
 	const ingest = debounce(100, async() => {
+		passports.value = []
 		await problematic.captureProblems(async() => {
 			const textarea = use.shadow.querySelector("textarea")!
 			const text = textarea.value
@@ -36,18 +38,25 @@ export const Recovery = shadowView(use => (options: RecoveryOptions) => {
 	}
 
 	return html`
-		<section theme-group>
-			<section theme-zone=seed>
-				<h2>Enter your recovery seed(s)</h2>
-				<textarea
-					theme-inputty
-					theme-seed
-					@input="${ingest}"
-				></textarea>
-			</section>
+		<section theme-group class=seedzone>
+			<h2>Enter your recovery seed(s)</h2>
+
+			<textarea
+				theme-inputty
+				theme-seedbox
+				theme-seed
+				autocorrect=off
+				autocapitalize=off
+				spellcheck=false
+				@input="${ingest}"
+			></textarea>
 
 			${problematic.renderProblems()}
 		</section>
+
+		${hasValidPassports
+			? Summary([passports.value])
+			: null}
 
 		<footer theme-buttons>
 			<button

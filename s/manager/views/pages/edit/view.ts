@@ -14,6 +14,7 @@ import {crushUsername} from "../../../logic/utils/crush-username.js"
 import {passportCard, PassportWidget} from "../../common/passport-widget/view.js"
 
 export const EditPage = shadowView(use => (situation: Situation.Edit) => {
+	use.name("edit-page")
 	use.styles([themeCss, stylesCss])
 
 	const seed = use.signal(situation.seed)

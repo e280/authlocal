@@ -86,7 +86,8 @@ section {
 }
 
 .id {
-	align-self: start;
+	display: flex;
+	flex-wrap: wrap;
 	margin: 0 1em;
 
 	font-family: monospace;

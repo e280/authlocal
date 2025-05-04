@@ -10,13 +10,13 @@ import {Situation} from "../../../logic/situation.js"
 import {Tabby} from "../../../../common/views/tabby/view.js"
 
 export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
-	use.name("ingress")
+	use.name("ingress-page")
 	use.styles([themeCss, stylesCss])
 
 	const tabby = use.once(() => new Tabby(0))
 
 	const {tabs, panel} = tabby.render([
-		{button: () => "File Upload", panel: () => Upload([situation])},
+		{button: () => "Uploader", panel: () => Upload([situation])},
 		{button: () => "Recovery Seed", panel: () => Recovery([situation])},
 	])
 

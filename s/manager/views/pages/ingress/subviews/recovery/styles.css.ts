@@ -6,5 +6,9 @@ export default css`
 	display: contents;
 }
 
+.seedzone {
+	width: 100%;
+}
+
 `
 

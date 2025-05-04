@@ -13,6 +13,8 @@ export default css`
 }
 
 .seedtext {
+	width: 100%;
+	align-items: stretch;
 	color: var(--seed);
 }
 

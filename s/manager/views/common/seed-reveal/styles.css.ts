@@ -7,12 +7,9 @@ export default css`
 }
 
 .secretbox {
-	color: var(--seed);
+	width: 100%;
 	position: relative;
-	background: color-mix(in srgb, black, var(--seed) 30%);
 	overflow: hidden;
-	border-radius: 1em;
-	border: 0.2em solid var(--seed);
 
 	textarea {
 		display: block;
@@ -41,6 +38,7 @@ export default css`
 		font-family: monospace;
 		font-weight: bold;
 		background: color-mix(in srgb, #ffffff08, var(--seed) 10%);
+		border-radius: 1rem;
 
 		transition: all 500ms linear;
 

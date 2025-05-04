@@ -49,9 +49,11 @@ export const SeedReveal = shadowView(use => (seed: string, filename: string) => 
 	return html`
 		<div class=secretbox>
 			<textarea
-				theme-inputty
 				theme-seed
 				readonly
+				autocorrect=off
+				autocapitalize=off
+				spellcheck=false
 				.value="${seedDisplay}"
 				?disabled="${!reveal.value}"
 				@click="${selectTextarea}"

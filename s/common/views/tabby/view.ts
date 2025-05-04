@@ -40,7 +40,7 @@ export const Tabnav = shadowView(use => (tabby: Tabby, tabs: Tab[]) => {
 	use.styles(themeCss, stylesCss)
 
 	return html`
-		<nav>
+		<nav theme-buttons>
 			${tabs.map((tab, index) => html`
 				<button
 					theme-button

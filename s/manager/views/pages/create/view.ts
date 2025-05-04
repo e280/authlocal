@@ -2,9 +2,10 @@
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
+import themeCss from "../../../../common/theme.css.js"
+
 import {manager} from "../../../context.js"
 import {Situation} from "../../../logic/situation.js"
-import themeCss from "../../../../common/theme.css.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {PassportDraft} from "../../common/passport-widget/draft.js"
 import {PassportWidget} from "../../common/passport-widget/view.js"
@@ -12,6 +13,7 @@ import {crushUsername} from "../../../logic/utils/crush-username.js"
 import {dehydratePassports, generatePassport} from "../../../../core/passport.js"
 
 export const CreatePage = shadowView(use => (situation: Situation.Create) => {
+	use.name("create-page")
 	use.styles([themeCss, stylesCss])
 
 	const draft = use.once(() => new PassportDraft(situation.initialPassport))
@@ -57,8 +59,8 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				${PassportWidget([draft, {editable: true}])}
 
 				<footer theme-buttons>
-					${situation.onCancel ? html`
-						<button theme-button=back @click="${situation.onCancel}">
+					${situation.onBack ? html`
+						<button theme-button=back @click="${situation.onBack}">
 							Cancel
 						</button>
 					` : null}
@@ -90,12 +92,10 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				purpose.onPassport(passport)
 		}
 
-		function clickDone() {
+		async function clickDone() {
+			await editor.reroll()
+			wizard.value = "editor"
 			situation.onDone()
-			editor.reroll()
-				.then(() => {
-					wizard.value = "editor"
-				})
 		}
 
 		function render() {

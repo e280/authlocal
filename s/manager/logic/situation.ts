@@ -7,6 +7,7 @@ export namespace Situation {
 		passportInfo: {passport: Passport, seed: string}[]
 		onCreate: () => Promise<void>
 		onEdit: (passport: Passport) => Promise<void>
+		onDelete: (passports: Passport[]) => Promise<void>
 		onEgress: (passports: Passport[]) => Promise<void>
 		onIngress: (passports?: Passport[]) => Promise<void>
 	}
@@ -19,7 +20,7 @@ export namespace Situation {
 		onIngress: () => Promise<void>
 		onSave: (passport: Passport) => Promise<void>
 		onDone: () => Promise<void>
-		onCancel?: () => Promise<void>
+		onBack?: () => Promise<void>
 	}
 
 	export type Edit = {
@@ -33,9 +34,9 @@ export namespace Situation {
 
 	export type Delete = {
 		kind: "delete"
-		passport: Passport
-		onCancel: () => Promise<void>
-		onDeleteConfirmed: (passport: Passport) => Promise<void>
+		passports: Passport[]
+		onBack: () => Promise<void>
+		onDelete: (passport: Passport) => Promise<void>
 	}
 
 	export type Egress = {

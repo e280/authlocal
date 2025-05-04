@@ -6,7 +6,8 @@ export default css`
 	display: contents;
 }
 
-section {
+.uploader {
+	align-self: center;
 	width: max-content;
 }
 
