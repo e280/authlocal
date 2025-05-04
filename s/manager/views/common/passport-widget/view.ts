@@ -54,7 +54,11 @@ export const PassportWidget = shadowView(use => (
 				</div>
 
 				${options.editable ? html`
-					<input type=text class=label theme-insetty
+					<input
+						type=text
+						class=label
+						theme-inputty
+						theme-insetty
 						.value="${draft.getEditedLabel()}"
 						maxlength="${maxLabelLength}"
 						?theme-angry="${!draft.getValidEditedPassport()}"

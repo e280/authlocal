@@ -31,6 +31,7 @@ export const Confirmer = shadowView(use => (options: ConfirmerOptions) => {
 
 			<input
 				type="text"
+				theme-inputty
 				theme-insetty
 				@input="${inputString(onInput)}"
 				/>

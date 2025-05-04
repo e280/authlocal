@@ -188,11 +188,11 @@ button {
 	border-top: 0.15em solid #fff5;
 }
 
-:is(input, textarea, [theme-inputty], [theme-input-border]) {
+:is([theme-inputty], [theme-input-border]) {
 	border: 0.1em solid transparent;
 }
 
-:is(input, textarea, [theme-inputty]) {
+[theme-inputty] {
 	font-size: 1em;
 	display: block;
 	padding: 0.3em 0.5em;
