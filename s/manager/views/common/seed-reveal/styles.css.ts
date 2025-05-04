@@ -32,13 +32,14 @@ export default css`
 		justify-content: center;
 		align-items: center;
 
+		color: var(--seed);
+		border-radius: 1rem;
+		background: color-mix(in srgb, #ffffff08, var(--seed) 10%);
 		backdrop-filter: blur(0.3em);
 
 		font-size: 2em;
 		font-family: monospace;
 		font-weight: bold;
-		background: color-mix(in srgb, #ffffff08, var(--seed) 10%);
-		border-radius: 1rem;
 
 		transition: all 500ms linear;
 
