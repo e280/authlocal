@@ -15,7 +15,7 @@ export default template(async basic => {
 	return easypage({
 		path,
 		dark: true,
-		title: "Authlocal.org",
+		title: "Authlocal",
 		head: html`
 			<link rel="icon" href="${favicon}"/>
 			<style>${unsanitized(await read_file("x/manager/main.css"))}</style>
@@ -24,9 +24,9 @@ export default template(async basic => {
 
 			${renderSocialCard({
 				themeColor: "#77ff81",
-				siteName: "authlocal.org",
-				title: "Authlocal.org – user-sovereign login system",
-				description: "Own your identity. No emails, no passwords, no databases. Privacy-focused, open-source.",
+				siteName: domain,
+				title: "Authlocal – user-sovereign login system",
+				description: "Own your identity. No emails, no passwords, no databases. Open-source. Privacy-focused.",
 				image: `https://${domain}${favicon}`,
 				url: `https://${domain}/`,
 			})}
@@ -41,15 +41,15 @@ export default template(async basic => {
 			<header>
 				<h1>
 					${html(lockIcon.strings)}
-					<span class=title>Authlocal<wbr/>.org</span>
+					<span class=title>Authlocal</span>
 				</h1>
 			</header>
 
 			<auth-manager></auth-manager>
 
 			<footer>
-				<p>User-sovereign privacy-focused free open-source federated authentication</p>
-				<p>Learn more on <a href="https://github.com/authlocal/authlocal" target=_blank>GitHub</a></p>
+				<p>User-sovereign. Open-source. Privacy-focused. Own your identity.</p>
+				<p>Learn more on <a href="https://github.com/authlocal/authlocal" target=_blank>GitHub</a>.</p>
 				<p class=version>v${version}</p>
 				<auth-safe-storage></auth-safe-storage>
 			</footer>
