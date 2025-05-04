@@ -120,18 +120,6 @@ export const AuthManager = shadowComponent(use => {
 		case "ingress":
 			return IngressPage([situation])
 
-		// case "create":
-		// 	return CreatePage([situation])
-		//
-		// case "edit":
-		// 	return EditPage([situation])
-		//
-		// case "delete":
-		// 	return DeletePage([situation])
-		//
-		// case "egress":
-		// 	return EgressPage([situation])
-
 		default:
 			throw new Error("unknown situation")
 	}})
