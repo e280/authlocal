@@ -110,10 +110,9 @@ header {
 		align-items: center;
 		gap: .2em;
 		filter:
+			drop-shadow(0 0 .2em color-mix(in srgb, var(--prime), white 50%))
 			drop-shadow(0 0 3em var(--prime))
-			drop-shadow(0 0 3em color-mix(in srgb, transparent, var(--prime) 50%))
-			drop-shadow(0 0 .2em color-mix(in srgb, var(--prime), white 25%))
-		;
+			drop-shadow(0 0 3em var(--prime));
 
 		> svg {
 			position: relative;
