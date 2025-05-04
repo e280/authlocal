@@ -15,7 +15,7 @@
 	},
 	"scripts": {
 		"build": "rm -rf x && run-s _code _ssg _ln",
-		"test": "node x/tests.test.js --verbose",
+		"test": "node x/tests.test.js",
 		"start": "run-p _http _watch _test:watch",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
 		"devlinks-slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
