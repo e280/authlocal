@@ -10,6 +10,7 @@ import {ListPage} from "../pages/list/view.js"
 import {CreatePage} from "../pages/create/view.js"
 import {IngressPage} from "../pages/ingress/view.js"
 import {dehydratePassports, generatePassport, Passport} from "../../../core/passport.js"
+import { DeletePage } from "../pages/delete/view.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
@@ -99,8 +100,8 @@ export const AuthManager = shadowComponent(use => {
 			kind: "delete",
 			passports,
 			onBack: gotoHome,
-			onDelete: async passport => {
-				await depot.passports.delete(passport.id)
+			onDelete: async ids => {
+				await depot.passports.delete(...ids)
 				await storagePersistence.request()
 			},
 		}))
@@ -123,7 +124,7 @@ export const AuthManager = shadowComponent(use => {
 
 	use.once(gotoHome)
 
-	const page = loading.braille(situationOp, situation => {switch (situation.kind) {
+	return loading.braille(situationOp, situation => {switch (situation.kind) {
 		case "list":
 			return ListPage([situation])
 
@@ -136,10 +137,11 @@ export const AuthManager = shadowComponent(use => {
 		case "ingress":
 			return IngressPage([situation])
 
+		case "delete":
+			return DeletePage([situation])
+
 		default:
 			throw new Error("unknown situation")
 	}})
-
-	return page
 })
 

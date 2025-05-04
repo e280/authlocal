@@ -19,8 +19,8 @@ export class PassportsDepot {
 		return await this.kv.require(id)
 	}
 
-	async delete(id: string) {
-		return await this.kv.del(id)
+	async delete(...ids: string[]) {
+		return await this.kv.del(...ids)
 	}
 
 	async wipe() {

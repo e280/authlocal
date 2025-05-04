@@ -1,5 +1,4 @@
 
-import {MapG} from "@e280/stz"
 import {html, shadowView} from "@benev/slate"
 
 import {manager} from "../../../context.js"
@@ -14,6 +13,7 @@ import {PassportWidget, PassportWidgetOptions} from "../../common/passport-widge
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
+import { is } from "@e280/stz"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -23,7 +23,8 @@ export const ListPage = shadowView(use => (
 	use.styles([themeCss, stylesCss])
 
 	const passports = situation.passportInfo.map(info => info.passport)
-	const seeds = new MapG(situation.passportInfo.map(info => [info.passport.id, info.seed]))
+	const passportsMap = new Map(passports.map(p => [p.id, p]))
+	const seeds = new Map(situation.passportInfo.map(info => [info.passport.id, info.seed]))
 
 	const purpose = manager.purpose.value
 	const selectMode = use.signal(false)
@@ -130,13 +131,23 @@ export const ListPage = shadowView(use => (
 
 		const renderSelectedButtons = () => {
 			const selectedPassportIds = [...selected]
-			downloader.text = [...selected].map(id => seeds.require(id)).join("\n\n")
+			const selectedSeeds = selectedPassportIds
+				.map(id => seeds.get(id))
+				.filter(is.available)
+			const selectedPassports = selectedPassportIds
+				.map(id => passportsMap.get(id))
+				.filter(is.available)
+
+			downloader.text = selectedSeeds.join("\n\n")
 			const filename = selectedPassportIds.length === 1
 				? crushUsername(idPreview(selectedPassportIds.at(0)!))
 				: `passports-${selected.size}.authlocal`
+
 			return html`
-				<button theme-button=angry>
-					Delete
+				<button
+					theme-button=angry
+					@click="${() => situation.onDelete(selectedPassports)}">
+						Delete
 				</button>
 
 				<a class=button

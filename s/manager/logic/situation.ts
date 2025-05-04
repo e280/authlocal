@@ -36,7 +36,7 @@ export namespace Situation {
 		kind: "delete"
 		passports: Passport[]
 		onBack: () => Promise<void>
-		onDelete: (passport: Passport) => Promise<void>
+		onDelete: (ids: string[]) => Promise<void>
 	}
 
 	export type Egress = {
