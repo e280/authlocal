@@ -8,9 +8,9 @@ import {manager} from "../../context.js"
 import {EditPage} from "../pages/edit/view.js"
 import {ListPage} from "../pages/list/view.js"
 import {CreatePage} from "../pages/create/view.js"
+import {DeletePage} from "../pages/delete/view.js"
 import {IngressPage} from "../pages/ingress/view.js"
 import {dehydratePassports, generatePassport, Passport} from "../../../core/passport.js"
-import { DeletePage } from "../pages/delete/view.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])

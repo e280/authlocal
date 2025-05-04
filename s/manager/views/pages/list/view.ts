@@ -1,8 +1,8 @@
 
+import {is} from "@e280/stz"
 import {html, shadowView} from "@benev/slate"
 
 import {manager} from "../../../context.js"
-
 import {Situation} from "../../../logic/situation.js"
 import {Passport} from "../../../../core/passport.js"
 import {Downloader} from "../../../utils/downloader.js"
@@ -13,7 +13,6 @@ import {PassportWidget, PassportWidgetOptions} from "../../common/passport-widge
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
-import { is } from "@e280/stz"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,

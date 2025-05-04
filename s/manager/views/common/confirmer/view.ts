@@ -2,6 +2,7 @@
 import {Content, debounce, html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
+
 import {inputString} from "../../../../tools/input-string.js"
 
 export type ConfirmerOptions = {

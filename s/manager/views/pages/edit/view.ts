@@ -2,8 +2,9 @@
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import {Situation} from "../../../logic/situation.js"
 import themeCss from "../../../../common/theme.css.js"
+
+import {Situation} from "../../../logic/situation.js"
 import {Confirmer} from "../../common/confirmer/view.js"
 import {idPreview} from "../../../../tools/id-preview.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
