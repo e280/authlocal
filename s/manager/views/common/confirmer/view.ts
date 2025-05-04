@@ -27,7 +27,7 @@ export const Confirmer = shadowView(use => (options: ConfirmerOptions) => {
 	}
 
 	return html`
-		<p>To confirm, enter the phrase <code>${options.requiredText}</code> exactly</p>
+		<p>To confirm, enter <code>${options.requiredText}</code> exactly</p>
 		<div class=box>
 
 			<input
