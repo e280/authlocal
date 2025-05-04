@@ -1,19 +1,29 @@
 
-import {MapG} from "@e280/stz"
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
 
+import {Upload} from "./subviews/upload/view.js"
+import {Recovery} from "./subviews/recovery/view.js"
 import {Situation} from "../../../logic/situation.js"
+import {Tabby} from "../../../../common/views/tabby/view.js"
 
 export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 	use.name("ingress")
 	use.styles([themeCss, stylesCss])
 
+	const tabby = use.once(() => new Tabby(0))
+
+	const {tabs, panel} = tabby.render([
+		{button: () => "File Upload", panel: () => Upload([situation])},
+		{button: () => "Recovery Seed", panel: () => Recovery([situation])},
+	])
+
 	return html`
 		<section theme-plate>
-			<h2>Ingress</h2>
+			${tabs}
+			${panel}
 		</section>
 	`
 })

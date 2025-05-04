@@ -1,22 +1,15 @@
 
 import {shadowComponent, loading, nap} from "@benev/slate"
 
+import stylesCss from "./styles.css.js"
+import themeCss from "../../../common/theme.css.js"
+
 import {manager} from "../../context.js"
 import {EditPage} from "../pages/edit/view.js"
 import {ListPage} from "../pages/list/view.js"
 import {CreatePage} from "../pages/create/view.js"
+import {IngressPage} from "../pages/ingress/view.js"
 import {dehydratePassports, generatePassport, Passport} from "../../../core/passport.js"
-// import {Passport} from "../../../auth/passport.js"
-// import {EgressPage} from "../pages/egress/view.js"
-// import {IngressPage} from "../pages/ingress/view.js"
-// import {OnboardPage} from "../pages/onboard/view.js"
-// import {EditPage} from "../../views/pages/edit/view.js"
-// import {DeletePage} from "../../views/pages/delete/view.js"
-// import {PassportsFile} from "../../../auth/passports-file.js"
-
-import stylesCss from "./styles.css.js"
-import themeCss from "../../../common/theme.css.js"
-import { IngressPage } from "../pages/ingress/view.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
@@ -77,8 +70,6 @@ export const AuthManager = shadowComponent(use => {
 			onCreate: gotoCreate,
 			onIngress: gotoIngress,
 			onEgress: async() => {},
-			// onCreate: gotoCreate,
-			// onEgress: passports => gotoEgress(passports, gotoHome),
 		}))
 		await resetScroll()
 	}
@@ -101,39 +92,18 @@ export const AuthManager = shadowComponent(use => {
 		await resetScroll()
 	}
 
-	async function gotoIngress(passports?: Passport[]) {
+	async function gotoIngress(passports: Passport[] = [], problems: string[] = []) {
 		situationOp.load(async() => ({
 			kind: "ingress",
+			problems,
 			passports,
 			onBack: gotoHome,
-			onAddPassports: async passports => {
+			onSave: async passports => {
 				await depot.passports.save(...passports)
 				await storagePersistence.request()
 			},
 		}))
 	}
-
-	// function gotoDelete(passport: Passport) {
-	// 	situationOp.load(async() => ({
-	// 		kind: "delete",
-	// 		passport,
-	// 		onCancel: gotoHome,
-	// 		onComplete: passport => {
-	// 			passportStore.delete(passport)
-	// 			storagePersistence.request()
-	// 			gotoHome()
-	// 		},
-	// 	}))
-	// }
-	//
-	// function gotoEgress(passports: Passport[], onBack: () => void) {
-	// 	situationOp.load(async() => ({
-	// 		kind: "egress",
-	// 		passports,
-	// 		onBack,
-	// 	}))
-	// }
-	//
 
 	use.once(gotoHome)
 

@@ -16,9 +16,6 @@ export default css`
 
 	textarea {
 		display: block;
-		width: 40ch;
-		max-width: 90vw;
-		height: 10em;
 
 		&[disabled] {
 			pointer-events: none;

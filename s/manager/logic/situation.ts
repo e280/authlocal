@@ -46,9 +46,10 @@ export namespace Situation {
 
 	export type Ingress = {
 		kind: "ingress"
-		passports: Passport[] | undefined
+		problems: string[]
+		passports: Passport[]
 		onBack: () => Promise<void>
-		onAddPassports: (passports: Passport[]) => Promise<void>
+		onSave: (passports: Passport[]) => Promise<void>
 	}
 
 	////////////////////////////////

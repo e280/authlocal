@@ -32,51 +32,53 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 	const label = draft.getValidEditedPassport()?.label ?? draft.passport.label
 	const tabby = use.once(() => new Tabby(0))
 
+	const {tabs, panel} = tabby.render([
+		{button: () => html`Edit`, panel: () => html`
+			${PassportWidget(
+				[draft, {editable: true}],
+				{content: html`
+					<button
+						theme-button=happy
+						@click="${clickSave}"
+						?disabled="${!draft.hasValidChanges()}">
+							Save
+					</button>
+				`},
+			)}
+		`},
+
+		{button: () => html`Seed`, panel: () => html`
+			${passportCard(draft.passport)}
+			<section theme-group class=seedtext>
+				${SeedReveal([
+					seed.value,
+					`${crushUsername(label)}.authlocal`,
+				])}
+			</section>
+		`},
+
+		{button: () => html`Deletion`, panel: () => html`
+			${passportCard(draft.passport)}
+			<section theme-zone=danger>
+				<h2>Delete this passport</h2>
+				${Confirmer([{
+					buttonLabel: () => "Delete",
+					requiredText: idPreview(draft.passport.id),
+					onConfirmed: async() => {
+						await situation.onDelete(draft.passport)
+						await situation.onBack()
+					},
+				}], {content: html`
+					<h2 class=delete-heading>Delete "${draft.passport.label}"</h2>
+				`})}
+			</section>
+		`},
+	])
+
 	return html`
 		<section theme-plate>
-			${tabby.render([
-				{button: () => html`Edit`, panel: () => html`
-					${PassportWidget(
-						[draft, {editable: true}],
-						{content: html`
-							<button
-								theme-button=happy
-								@click="${clickSave}"
-								?disabled="${!draft.hasValidChanges()}">
-									Save
-							</button>
-						`},
-					)}
-				`},
-
-				{button: () => html`Seed`, panel: () => html`
-					${passportCard(draft.passport)}
-					<section theme-group class=seedtext>
-						${SeedReveal([
-							seed.value,
-							`${crushUsername(label)}.authlocal`,
-						])}
-					</section>
-				`},
-
-				{button: () => html`Deletion`, panel: () => html`
-					${passportCard(draft.passport)}
-					<section theme-zone=danger>
-						<h2>Delete this passport</h2>
-						${Confirmer([{
-							buttonLabel: () => "Delete",
-							requiredText: idPreview(draft.passport.id),
-							onConfirmed: async() => {
-								await situation.onDelete(draft.passport)
-								await situation.onBack()
-							},
-						}], {content: html`
-							<h2 class=delete-heading>Delete "${draft.passport.label}"</h2>
-						`})}
-					</section>
-				`},
-			])}
-
+			${tabs}
+			${panel}
 			<footer theme-buttons>
 				<button theme-button=back @click="${clickBack}">
 					Back

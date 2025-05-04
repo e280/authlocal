@@ -20,6 +20,11 @@ export default css`@layer theme, view; @layer theme {
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 1em; }
 ::-webkit-scrollbar-thumb:hover { background: #444; }
 
+ul, ol {
+	padding: 0;
+	list-style: none;
+}
+
 a {
 	color: var(--link);
 	text-decoration: none;
@@ -212,6 +217,11 @@ button {
 [theme-seed] {
 	font-size: 1.3em;
 	padding: 1em;
+
+	height: 10em;
+	width: 40ch;
+	max-width: 90vw;
+	max-width: 100%;
 
 	color: color-mix(in srgb, var(--seed), white 50%);
 	text-shadow: 0 0 1em var(--seed);

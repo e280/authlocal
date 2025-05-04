@@ -28,10 +28,10 @@ export class Tabby {
 	}
 
 	render(tabs: Tab[]) {
-		return html`
-			${Tabnav([this, tabs])}
-			${tabs.at(this.activeIndex)?.panel()}
-		`
+		return {
+			tabs: Tabnav([this, tabs]),
+			panel: tabs.at(this.activeIndex)?.panel(),
+		}
 	}
 }
 
