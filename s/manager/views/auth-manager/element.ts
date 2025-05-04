@@ -16,6 +16,7 @@ import {dehydratePassports, generatePassport, Passport} from "../../../core/pass
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../common/theme.css.js"
+import { IngressPage } from "../pages/ingress/view.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
@@ -52,7 +53,7 @@ export const AuthManager = shadowComponent(use => {
 				onIngress: async() => {},
 				onSave: async passport => {
 					await depot.passports.save(passport)
-					storagePersistence.request()
+					await storagePersistence.request()
 				},
 				onDone: gotoHome,
 				onCancel: onboardingMode
@@ -74,11 +75,10 @@ export const AuthManager = shadowComponent(use => {
 			passportInfo,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
+			onIngress: gotoIngress,
 			onEgress: async() => {},
-			onIngress: async() => {},
 			// onCreate: gotoCreate,
 			// onEgress: passports => gotoEgress(passports, gotoHome),
-			// onIngress: () => gotoIngress(undefined, gotoHome),
 		}))
 		await resetScroll()
 	}
@@ -95,10 +95,22 @@ export const AuthManager = shadowComponent(use => {
 			},
 			onSave: async passport => {
 				await depot.passports.save(passport)
-				storagePersistence.request()
+				await storagePersistence.request()
 			},
 		}))
 		await resetScroll()
+	}
+
+	async function gotoIngress(passports?: Passport[]) {
+		situationOp.load(async() => ({
+			kind: "ingress",
+			passports,
+			onBack: gotoHome,
+			onAddPassports: async passports => {
+				await depot.passports.save(...passports)
+				await storagePersistence.request()
+			},
+		}))
 	}
 
 	// function gotoDelete(passport: Passport) {
@@ -122,14 +134,6 @@ export const AuthManager = shadowComponent(use => {
 	// 	}))
 	// }
 	//
-	// function gotoIngress(passports: PassportsFile | undefined, onBack: () => void) {
-	// 	situationOp.load(async() => ({
-	// 		kind: "ingress",
-	// 		passports,
-	// 		onBack,
-	// 		onAddPassports: passports => passportStore.add(...passports),
-	// 	}))
-	// }
 
 	use.once(gotoHome)
 
@@ -143,6 +147,9 @@ export const AuthManager = shadowComponent(use => {
 		case "edit":
 			return EditPage([situation])
 
+		case "ingress":
+			return IngressPage([situation])
+
 		// case "create":
 		// 	return CreatePage([situation])
 		//
@@ -154,9 +161,6 @@ export const AuthManager = shadowComponent(use => {
 		//
 		// case "egress":
 		// 	return EgressPage([situation])
-		//
-		// case "ingress":
-		// 	return IngressPage([situation])
 
 		default:
 			throw new Error("unknown situation")

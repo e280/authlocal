@@ -30,6 +30,7 @@ export const ListPage = shadowView(use => (
 	const downloader = use.once(() => new Downloader(""))
 
 	const clickNew = () => situation.onCreate()
+	const clickImport = () => situation.onIngress()
 
 	const clickSelectMode = () => {
 		selected.clear()
@@ -81,7 +82,7 @@ export const ListPage = shadowView(use => (
 					Select
 				</button>
 
-				<button theme-button>
+				<button theme-button @click="${clickImport}">
 					Import
 				</button>
 

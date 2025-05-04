@@ -9,8 +9,10 @@ export class PassportsDepot {
 		return await Kv.collect(this.kv.values())
 	}
 
-	async save(passport: Passport) {
-		await this.kv.put(passport.id, passport)
+	async save(...passports: Passport[]) {
+		await this.kv.puts(
+			...passports.map(p => [p.id, p] as [string, Passport])
+		)
 	}
 
 	async load(id: string) {
