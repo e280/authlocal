@@ -4,7 +4,6 @@ import {Passport} from "../../core/passport.js"
 export namespace Situation {
 	export type List = {
 		kind: "list"
-		passportInfo: {passport: Passport, seed: string}[]
 		onCreate: () => Promise<void>
 		onEdit: (passport: Passport) => Promise<void>
 		onDelete: (passports: Passport[]) => Promise<void>

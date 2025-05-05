@@ -59,14 +59,9 @@ export const AuthManager = shadowComponent(use => {
 	}
 
 	async function gotoList() {
-		const passports = await depot.passports.list()
-		const passportInfo = await Promise.all(passports.map(async passport => ({
-			passport,
-			seed: await dehydratePassports([passport]),
-		})))
+		await depot.passports.list()
 		await situationOp.load(async() => ({
 			kind: "list",
-			passportInfo,
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
 			onDelete: gotoDelete,

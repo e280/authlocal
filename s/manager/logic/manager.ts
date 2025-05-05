@@ -1,14 +1,14 @@
 
 import {Kv, StorageDriver} from "@e280/kv"
-import {opSignal, signal} from "@benev/slate"
+import {ev, opSignal, signal} from "@benev/slate"
 
 import {Purpose} from "./purpose.js"
 import {Depot} from "./depot/depot.js"
 import {Situation} from "./situation.js"
 import {Future} from "../../tools/future.js"
 import {generateSession} from "../../core/session.js"
-import {setupInPopup} from "../fed-api/setup-in-popup.js"
 import {StoragePersistence} from "./storage-persistence.js"
+import {setupInPopup} from "../../federated/api/setup-in-popup.js"
 
 export class Manager {
 	storagePersistence = new StoragePersistence()
@@ -18,6 +18,11 @@ export class Manager {
 	depot = new Depot(
 		new Kv(new StorageDriver(window.localStorage))
 	)
+
+	dispose = ev(window, {storage: async() => {
+		console.log("storage event, bruh")
+		await this.depot.passports.list()
+	}})
 
 	constructor() {
 		const {purpose} = this

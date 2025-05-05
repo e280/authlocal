@@ -8,9 +8,9 @@ import {Session} from "../core/session.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
 import {openPopup} from "./parts/open-popup.js"
+import {setupInApp} from "./api/setup-in-app.js"
 import {AuthSingleton} from "./parts/singleton.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
-import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
 export class Auth {
 	static version = 1

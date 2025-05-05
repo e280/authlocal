@@ -21,9 +21,10 @@ export const ListPage = shadowView(use => (
 	use.name("list-page")
 	use.styles([themeCss, stylesCss])
 
-	const passports = situation.passportInfo.map(info => info.passport)
-	const passportsMap = new Map(passports.map(p => [p.id, p]))
-	const seeds = new Map(situation.passportInfo.map(info => [info.passport.id, info.seed]))
+	const permits = manager.depot.passports.permits.value
+	const passports = permits.map(p => p.passport)
+	const seedMap = new Map(permits.map(p => [p.passport.id, p.seed]))
+	const passportMap = new Map(permits.map(p => [p.passport.id, p.passport]))
 
 	const purpose = manager.purpose.value
 	const selectMode = use.signal(false)
@@ -131,10 +132,10 @@ export const ListPage = shadowView(use => (
 		const renderSelectedButtons = () => {
 			const selectedPassportIds = [...selected]
 			const selectedSeeds = selectedPassportIds
-				.map(id => seeds.get(id))
+				.map(id => seedMap.get(id))
 				.filter(is.available)
 			const selectedPassports = selectedPassportIds
-				.map(id => passportsMap.get(id))
+				.map(id => passportMap.get(id))
 				.filter(is.available)
 
 			downloader.text = selectedSeeds.join("\n\n")
