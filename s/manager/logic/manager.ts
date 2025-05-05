@@ -1,5 +1,5 @@
 
-import {Kv, StorageCore} from "@e280/kv"
+import {Kv, StorageDriver} from "@e280/kv"
 import {opSignal, signal} from "@benev/slate"
 
 import {Purpose} from "./purpose.js"
@@ -14,7 +14,7 @@ export class Manager {
 	situationOp = opSignal<Situation.Any>()
 
 	depot = new Depot(
-		new Kv(new StorageCore(window.localStorage))
+		new Kv(new StorageDriver(window.localStorage))
 	)
 
 	constructor() {
@@ -25,12 +25,12 @@ export class Manager {
 
 		if (isPopup || isDebugLoginMode) {
 			if (isPopup) {
-				const appFns = setupInPopup(
+				const {app} = setupInPopup(
 					window.opener.origin,
 					window.opener,
 					p => { purpose.value = p },
 				)
-				appFns.v2.ready()
+				app.v3.ready()
 			}
 			else if (isDebugLoginMode) {
 				const audience = window.origin
