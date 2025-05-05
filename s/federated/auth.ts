@@ -83,6 +83,8 @@ export class Auth {
 				popupOrigin,
 				async session => {
 					popupWindow.close()
+					if (!session)
+						return undefined
 					try {
 						const login = await this.#verify(session)
 						await this.saveLogin(login)
@@ -105,7 +107,6 @@ export class Auth {
 	async #verify(session: Session) {
 		return nullcatch(async() => Login.verify(session, {
 			allowedAudiences: [window.origin],
-			allowedIssuers: [new URL(this.src).origin],
 		}))
 	}
 

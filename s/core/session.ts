@@ -29,7 +29,7 @@ export async function generateSession(passport: Passport, proofTokenParams: Toke
 	}
 	return {
 		secret: sessionKeypair.secret,
-		proofToken: await signProof(passport.secret, proof, proofTokenParams)
+		proofToken: await signProof(passport.secret, proof, proofTokenParams),
 	}
 }
 

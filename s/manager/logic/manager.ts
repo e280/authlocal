@@ -5,6 +5,8 @@ import {opSignal, signal} from "@benev/slate"
 import {Purpose} from "./purpose.js"
 import {Depot} from "./depot/depot.js"
 import {Situation} from "./situation.js"
+import {Future} from "../../tools/future.js"
+import {generateSession} from "../../core/session.js"
 import {setupInPopup} from "../fed-api/setup-in-popup.js"
 import {StoragePersistence} from "./storage-persistence.js"
 
@@ -29,12 +31,25 @@ export class Manager {
 				popupWindow,
 				appWindow,
 				appWindow.origin,
-				loginPurpose => {
-					purpose.value = loginPurpose
-				},
 			)
-			app.v3.ready()
+			const audience = window.opener.origin
+			const {hostname} = new URL(audience)
+			purpose.value = {
+				kind: "login",
+				audience,
+				hostname,
+				onDeny: async() => app.v3.login(null),
+				onPassport: async passport => {
+					const session = await generateSession(passport, {
+						expiresAt: Future.days(7),
+						issuer: popupWindow.origin,
+						audience,
+					})
+					await app.v3.login(session)
+				},
+			}
 		}
+
 		else if (isDebugLoginMode) {
 			const audience = window.origin
 			const {hostname} = new URL(audience)

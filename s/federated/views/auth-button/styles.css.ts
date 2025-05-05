@@ -11,8 +11,8 @@ export default css`
 :host {
 	color: white;
 	text-shadow: .04em .08em .06em #0008;
-	--login-bg: #80f;
-	--logout-bg: #555;
+	--login-bg: var(--authlocal, #80f);
+	--logout-bg: var(--authlocal-logout, #555);
 }
 
 button {

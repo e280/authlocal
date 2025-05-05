@@ -1,25 +1,18 @@
 
-import {PopupFns} from "./popup-fns.js"
 import {Session} from "../../core/session.js"
 
 export type AppFns = {
 	v3: {
-		ready: () => Promise<void>
+		login: (session: Session | null) => Promise<void>
 	}
 }
 
 export const makeAppFns = (
-		handleSession: (session: Session) => void,
-		popup: PopupFns,
+		login: (session: Session | null) => Promise<void>,
 	): AppFns => {
 
 	return {
-		v3: {
-			async ready() {
-				const session = await popup.v3.pleaseLogin()
-				handleSession(session)
-			},
-		},
+		v3: {login},
 	}
 }
 
