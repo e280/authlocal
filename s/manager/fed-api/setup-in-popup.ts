@@ -10,12 +10,21 @@ export function setupInPopup(
 		setLoginPurpose: (purpose: Purpose.Login) => void,
 	) {
 
+	const conduit = new WindowConduit(
+		appWindow,
+		appOrigin,
+		({origin}) => origin === appOrigin,
+	)
+
 	const messenger = new Messenger<AppFns>({
+		conduit,
 		timeout: Infinity,
-		conduit: new WindowConduit(appWindow, appOrigin, ({origin}) => origin === appOrigin),
 		getLocalEndpoint: () => endpoint(makePopupFns(appOrigin, setLoginPurpose))
 	})
 
-	return messenger.remote as AppFns
+	return {
+		app: messenger.remote as AppFns,
+		dispose: () => conduit.dispose(),
+	}
 }
 

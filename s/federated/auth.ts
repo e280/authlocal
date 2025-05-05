@@ -4,13 +4,16 @@ import {signal} from "@benev/slate"
 
 import {Login} from "../core/login.js"
 import {AuthOptions} from "./types.js"
+import {Session} from "../core/session.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
+import {openPopup} from "./parts/open-popup.js"
 import {AuthSingleton} from "./parts/singleton.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
+import {setupInApp} from "../manager/fed-api/setup-in-app.js"
 
 export class Auth {
-	static version = 2
+	static version = 1
 	static defaults = defaults
 
 	static #singleton = new AuthSingleton()
@@ -23,34 +26,52 @@ export class Auth {
 	#options: AuthOptions
 	#stores: AuthStores
 	#login = signal<Login | null>(null)
+	#ready: Promise<void>
+	#lastLogin: Login | null = null
 
 	constructor(options: Partial<AuthOptions> = {}) {
 		this.#options = Auth.defaults(options)
 		this.#stores = new AuthStores(this.#options.kv)
+		this.#ready = this.#stores.versionMigration(Auth.version)
+		this.#login.on(async login => {
+			const isChanged = login?.sessionId !== this.#lastLogin?.sessionId
+			this.#lastLogin = login
+			if (isChanged)
+				await this.onChange.pub(login)
+		})
 	}
 
-	async recallLogin(): Promise<Login | null> {
-		await this.#stores.versionMigration()
+	async #verify(session: Session) {
+		return nullcatch(async() => Login.verify(session, {
+			allowedAudiences: [window.origin],
+			allowedIssuers: [new URL(this.#options.src).origin],
+		}))
+	}
+
+	async #getStoredLogin() {
+		await this.#ready
 		const session = await this.#stores.session.get()
-		this.wait = (async() => {
-			if (!session)
-				return null
-			if (this.#login.value && this.#login.value.session.secret === session.secret)
-				return Promise.resolve(this.#login.value)
-			return nullcatch(async() => Login.verify(session, {
-				allowedAudiences: [window.origin],
-				allowedIssuers: [new URL(this.#options.src).origin],
-			}))
-		})()
-		const login = await this.wait
-		if (this.#login.value !== login)
-			this.#login.value = login
+		if (!session) return null
+		return this.#verify(session)
+	}
+
+	async #setStoredLogin(login: Login | null) {
+		await this.#ready
+		const session = login?.session
+		await this.#stores.session.set(session)
 		return login
 	}
 
+	async loadLogin(): Promise<Login | null> {
+		this.wait = this.#getStoredLogin()
+		this.#login.value = await this.wait
+		return this.#login.value
+	}
+
 	async saveLogin(login: Login | null) {
-		const session = login?.session
-		await this.#stores.session.set(session)
+		this.wait = this.#setStoredLogin(login)
+		this.#login.value = await this.wait
+		return this.#login.value
 	}
 
 	get login() {
@@ -60,10 +81,34 @@ export class Auth {
 		return this.#login.value
 	}
 
-	set login(login: Login | null) {
-		this.#login.value = login
-		this.#save(login && login.tokens)
-		this.wait = Promise.resolve(login)
+	async popup(url = this.#options.src) {
+		const popupWindow = openPopup(url)
+		const popupOrigin = new URL(url).origin
+		if (!popupWindow)
+			return null
+		return new Promise<Login | null>((resolve, reject) => {
+			const {dispose} = setupInApp(
+				popupOrigin,
+				popupWindow,
+				async session => {
+					popupWindow.close()
+					try {
+						const login = await this.#verify(session)
+						await this.saveLogin(login)
+						dispose()
+						resolve(login)
+					}
+					catch (err) {
+						dispose()
+						reject(err)
+					}
+				},
+			)
+			popupWindow.onclose = () => {
+				dispose()
+				resolve(this.login)
+			}
+		})
 	}
 }
 

@@ -2,20 +2,29 @@
 import {endpoint, Messenger, WindowConduit} from "renraku"
 import {PopupFns} from "./popup-fns.js"
 import {makeAppFns} from "./app-fns.js"
-import {Login} from "../../core/login.js"
+import {Session} from "../../core/session.js"
 
 export function setupInApp(
 		popupOrigin: string,
 		popupWindow: WindowProxy,
-		handleLogin: (login: Login) => void,
+		handleSession: (session: Session) => void,
 	) {
 
+	const conduit = new WindowConduit(
+		popupWindow,
+		popupOrigin,
+		({origin}) => origin === popupOrigin,
+	)
+
 	const messenger = new Messenger<PopupFns>({
+		conduit,
 		timeout: Infinity,
-		conduit: new WindowConduit(popupWindow, popupOrigin, ({origin}) => origin === popupOrigin),
-		getLocalEndpoint: remote => endpoint(makeAppFns(handleLogin, remote)),
+		getLocalEndpoint: remote => endpoint(makeAppFns(handleSession, remote)),
 	})
 
-	return messenger.remote as PopupFns
+	return {
+		popup: messenger.remote as PopupFns,
+		dispose: () => conduit.dispose(),
+	}
 }
 

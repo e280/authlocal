@@ -1,6 +1,5 @@
 
 import {Kv, Store} from "@e280/kv"
-import {Auth} from "../auth.js"
 import {Session} from "../../core/session.js"
 
 export class AuthStores {
@@ -12,10 +11,13 @@ export class AuthStores {
 		this.session = kv.store("session")
 	}
 
-	async versionMigration() {
-		const storedVersion = await this.version.get()
-		if (storedVersion !== Auth.version)
+	async versionMigration(version: number) {
+		const storedVersion = await this.version.get() ?? 0
+		if (storedVersion !== version) {
+			console.log(`auth store version migration from v${storedVersion} to v${version}`)
 			await this.kv.clear()
+			await this.version.set(version)
+		}
 	}
 }
 

@@ -11,7 +11,7 @@ export type PopupState = {
 }
 
 export type PopupFns = {
-	v2: {
+	v3: {
 		pleaseLogin: () => Promise<Session>
 	},
 }
@@ -21,7 +21,7 @@ export const makePopupFns = (
 		setLoginPurpose: (login: Purpose.Login) => void,
 	): PopupFns => ({
 
-	v2: {
+	v3: {
 		async pleaseLogin() {
 			const expiresAt = Future.days(7)
 			const issuer = window.origin

@@ -9,7 +9,7 @@ export class AuthSingleton {
 		if (this.#auth)
 			throw new Error("Auth already installed")
 		this.#auth = new Auth(options)
-		await this.#auth.recallLogin()
+		await this.#auth.loadLogin()
 		return this.#auth
 	}
 
