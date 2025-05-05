@@ -91,6 +91,13 @@ export class Token {
 			: Token.toJsTime(exp)
 	}
 
+	static isExpired(token: string, time = Date.now()) {
+		const expiresAt = this.expiresAt(token)
+		return expiresAt === undefined
+			? false
+			: time >= expiresAt
+	}
+
 	static async verify<P extends TokenPayload>(
 			id: string,
 			token: string,

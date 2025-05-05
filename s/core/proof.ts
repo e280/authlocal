@@ -32,7 +32,7 @@ export async function verifyProof(proofToken: string, options?: TokenVerificatio
 	return proof
 }
 
-export function decode(proofToken: string) {
-	return Token.decode<ProofPayload>(proofToken).payload.data
+export function decodeProofPayload(proofToken: string) {
+	return Token.decode<ProofPayload>(proofToken).payload
 }
 

@@ -11,7 +11,7 @@ import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {Tabby} from "../../../../common/views/tabby/view.js"
 import {dehydratePassports} from "../../../../core/passport.js"
 import {PassportDraft} from "../../common/passport-widget/draft.js"
-import {crushUsername} from "../../../logic/utils/crush-username.js"
+import {crushUsername} from "../../../../common/utils/crush-username.js"
 import {passportCard, PassportWidget} from "../../common/passport-widget/view.js"
 
 export const EditPage = shadowView(use => (situation: Situation.Edit) => {

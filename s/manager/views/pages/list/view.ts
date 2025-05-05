@@ -8,7 +8,7 @@ import {Passport} from "../../../../core/passport.js"
 import {Downloader} from "../../../utils/downloader.js"
 import {idPreview} from "../../../../tools/id-preview.js"
 import {PassportDraft} from "../../common/passport-widget/draft.js"
-import {crushUsername} from "../../../logic/utils/crush-username.js"
+import {crushUsername} from "../../../../common/utils/crush-username.js"
 import {PassportWidget, PassportWidgetOptions} from "../../common/passport-widget/view.js"
 
 import stylesCss from "./styles.css.js"

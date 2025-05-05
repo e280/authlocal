@@ -1,7 +1,7 @@
 
 import {Session} from "./session.js"
 import {Proof, verifyProof} from "./proof.js"
-import {TokenVerifications} from "./token.js"
+import {Token, TokenVerifications} from "./token.js"
 
 export class Login {
 	static async verify(session: Session, verifications?: TokenVerifications) {
@@ -13,9 +13,12 @@ export class Login {
 		public proof: Proof,
 	) {}
 
-	get secret() { return this.session.secret }
 	get proofToken() { return this.session.proofToken }
 	get passport() { return this.proof.passport }
 	get sessionId() { return this.proof.sessionId }
+
+	isExpired(time = Date.now()) {
+		return Token.isExpired(this.proofToken, time)
+	}
 }
 

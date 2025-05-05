@@ -2,8 +2,9 @@
 :root {
 	color-scheme: dark;
 
-	--link: cyan;
+	--authlocal: #71ff82;
 	--bg: #000;
+	--link: cyan;
 
 	--prime: lime;
 	--alpha: #00ff93;

@@ -8,7 +8,7 @@ import themeCss from "../../../../common/theme.css.js"
 import {idHue} from "../../../../common/utils/id-hue.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {renderId} from "../../../../common/views/id/render-id.js"
-import {maxLabelLength} from "../../../logic/utils/validation.js"
+import {maxLabelLength} from "../../../../common/utils/validation.js"
 
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
 

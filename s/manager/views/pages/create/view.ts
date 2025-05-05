@@ -9,7 +9,7 @@ import {Situation} from "../../../logic/situation.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {PassportDraft} from "../../common/passport-widget/draft.js"
 import {PassportWidget} from "../../common/passport-widget/view.js"
-import {crushUsername} from "../../../logic/utils/crush-username.js"
+import {crushUsername} from "../../../../common/utils/crush-username.js"
 import {dehydratePassports, generatePassport} from "../../../../core/passport.js"
 
 export const CreatePage = shadowView(use => (situation: Situation.Create) => {
