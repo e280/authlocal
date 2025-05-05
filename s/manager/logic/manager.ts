@@ -19,29 +19,31 @@ export class Manager {
 
 	constructor() {
 		const {purpose} = this
-
-		const isPopup = window.opener
+		const isPopup = window.opener && window.opener !== window
 		const isDebugLoginMode = location.search.includes("login")
 
-		if (isPopup || isDebugLoginMode) {
-			if (isPopup) {
-				const {app} = setupInPopup(
-					window.opener.origin,
-					window.opener,
-					p => { purpose.value = p },
-				)
-				app.v3.ready()
-			}
-			else if (isDebugLoginMode) {
-				const audience = window.origin
-				const {hostname} = new URL(audience)
-				purpose.value = {
-					kind: "login",
-					audience,
-					hostname,
-					onDeny: async() => console.log("DENIED LOGIN"),
-					onPassport: async passport => console.log("LOGIN", passport.id),
-				}
+		if (isPopup) {
+			const popupWindow = window
+			const appWindow = window.opener
+			const {app} = setupInPopup(
+				popupWindow,
+				appWindow,
+				appWindow.origin,
+				loginPurpose => {
+					purpose.value = loginPurpose
+				},
+			)
+			app.v3.ready()
+		}
+		else if (isDebugLoginMode) {
+			const audience = window.origin
+			const {hostname} = new URL(audience)
+			purpose.value = {
+				kind: "login",
+				audience,
+				hostname,
+				onDeny: async() => console.log("DENIED LOGIN"),
+				onPassport: async passport => console.log("LOGIN", passport.id),
 			}
 		}
 	}

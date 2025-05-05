@@ -28,6 +28,7 @@ export default template(async basic => {
 			<footer>
 				<p>This page is a test for a typical federated auth integration with <a href="/">Authlocal</a></p>
 			</footer>
+
 		`,
 	})
 })

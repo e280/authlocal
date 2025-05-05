@@ -41,25 +41,12 @@ export class Auth {
 		})
 	}
 
-	async #verify(session: Session) {
-		return nullcatch(async() => Login.verify(session, {
-			allowedAudiences: [window.origin],
-			allowedIssuers: [new URL(this.#options.src).origin],
-		}))
+	get src() {
+		return this.#options.src
 	}
 
-	async #getStoredLogin() {
-		await this.#ready
-		const session = await this.#stores.session.get()
-		if (!session) return null
-		return this.#verify(session)
-	}
-
-	async #setStoredLogin(login: Login | null) {
-		await this.#ready
-		const session = login?.session
-		await this.#stores.session.set(session)
-		return login
+	set src(url: string) {
+		this.#options.src = url
 	}
 
 	async loadLogin(): Promise<Login | null> {
@@ -81,15 +68,19 @@ export class Auth {
 		return this.#login.value
 	}
 
-	async popup(url = this.#options.src) {
+	async popup(url = this.src) {
 		const popupWindow = openPopup(url)
-		const popupOrigin = new URL(url).origin
+		const popupOrigin = new URL(url, window.location.href).origin
+
 		if (!popupWindow)
 			return null
+
 		return new Promise<Login | null>((resolve, reject) => {
+			const appWindow = window
 			const {dispose} = setupInApp(
-				popupOrigin,
+				appWindow,
 				popupWindow,
+				popupOrigin,
 				async session => {
 					popupWindow.close()
 					try {
@@ -109,6 +100,27 @@ export class Auth {
 				resolve(this.login)
 			}
 		})
+	}
+
+	async #verify(session: Session) {
+		return nullcatch(async() => Login.verify(session, {
+			allowedAudiences: [window.origin],
+			allowedIssuers: [new URL(this.src).origin],
+		}))
+	}
+
+	async #getStoredLogin() {
+		await this.#ready
+		const session = await this.#stores.session.get()
+		if (!session) return null
+		return this.#verify(session)
+	}
+
+	async #setStoredLogin(login: Login | null) {
+		await this.#ready
+		const session = login?.session
+		await this.#stores.session.set(session)
+		return login
 	}
 }
 

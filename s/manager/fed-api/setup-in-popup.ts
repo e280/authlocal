@@ -5,12 +5,14 @@ import {Purpose} from "../logic/purpose.js"
 import {makePopupFns} from "./popup-fns.js"
 
 export function setupInPopup(
-		appOrigin: string,
+		popupWindow: Window,
 		appWindow: WindowProxy,
+		appOrigin: string,
 		setLoginPurpose: (purpose: Purpose.Login) => void,
 	) {
 
 	const conduit = new WindowConduit(
+		popupWindow,
 		appWindow,
 		appOrigin,
 		({origin}) => origin === appOrigin,
@@ -19,7 +21,7 @@ export function setupInPopup(
 	const messenger = new Messenger<AppFns>({
 		conduit,
 		timeout: Infinity,
-		getLocalEndpoint: () => endpoint(makePopupFns(appOrigin, setLoginPurpose))
+		getLocalEndpoint: () => endpoint(makePopupFns(appOrigin, setLoginPurpose)),
 	})
 
 	return {
