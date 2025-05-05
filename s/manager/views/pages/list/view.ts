@@ -196,14 +196,12 @@ export const ListPage = shadowView(use => (
 			?x-select-mode="${selectMode.value}">
 
 			<div theme-group>
-				<h2>
-					${purpose.kind === "login"
-						? html`Login request from <code theme-login>${purpose.hostname}</code>`
-						: html`Your login passports`}
-				</h2>
-				${purpose.kind === "login"
-					? html`<p>You can choose one of your passports, or deny the request</p>`
-					: null}
+				${purpose.kind === "login" ? html`
+					<h2>Login for <code theme-login>${purpose.hostname}</code></h2>
+					<p>This website is requesting your login</p>
+				` : html`
+					<h2>Your login passports</h2>
+				`}
 			</div>
 
 			${selectMode.value

@@ -9,11 +9,12 @@ export default css`
 
 .card {
 	display: flex;
-	flex-direction: column;
+	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
-	padding: 1em;
+	padding: 0.2em;
 	gap: 0.5em;
+	min-height: 4.5em;
 
 	background: var(--passport);
 	border-radius: 0.5em;
@@ -42,22 +43,24 @@ export default css`
 
 	& svg {
 		flex: 0 0 auto;
-		width: 4em;
-		height: 4em;
+		width: 2em;
+		height: 2em;
 		stroke-width: 2;
 		filter:
 			drop-shadow(0 0 1em color-mix(in srgb, transparent, currentColor 90%));
 	}
 
 	> .label {
+		flex: 1 1 10em;
+
 		font-size: 1.3em;
 		width: 100%;
-		padding: 0.5em 1em;
+		padding: 0.2em 0.5em;
 
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		text-align: center;
+		text-align: left;
 
 		font-weight: bold;
 		font-family: monospace;
@@ -69,8 +72,13 @@ export default css`
 	}
 
 	> slot {
-		display: contents;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		flex: 0 1 auto;
+		gap: 0.25em;
 	}
+
 }
 
 section {

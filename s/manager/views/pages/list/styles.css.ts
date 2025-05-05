@@ -6,7 +6,7 @@ export default css`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1em;
+	gap: 0.5em;
 	width: 100%;
 
 	slate-view { width: 100%; }
@@ -20,6 +20,8 @@ export default css`
 		height: 2em;
 		padding: 0.2em;
 		border-radius: 2em;
+		
+		margin: 0 1em;
 
 		&[x-selected] {
 			color: color-mix(in lch, transparent, var(--select) 50%);

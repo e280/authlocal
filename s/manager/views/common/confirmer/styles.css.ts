@@ -24,9 +24,11 @@ code {
 
 input {
 	flex: 1 1 auto;
-	font-size: 1.5em;
+	min-width: 1em;
+	font-size: 1.3em;
 	padding: 0.5em 1em;
 	color: var(--angry);
+	font-weight: bold;
 }
 
 button:not([disabled]) {

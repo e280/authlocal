@@ -82,8 +82,8 @@ html {
 
 body {
 	min-height: 100%;
-	width: 42em;
-	max-width: calc(100% - 1em);
+	width: 32em;
+	max-width: 100%;
 
 	color: color-mix(in lch, var(--alpha), white 50%);
 
@@ -91,12 +91,11 @@ body {
 	flex-direction: column;
 	align-items: center;
 	text-align: center;
-	gap: 2em;
+	gap: 0.5em;
 }
 
 header {
-	margin-top: 2em;
-	margin-top: 5vh;
+	margin-top: 2vw;
 	width: 100%;
 
 	display: flex;
@@ -139,7 +138,7 @@ auth-manager {
 }
 
 footer {
-	opacity: 0.8;
+	opacity: 0.6;
 	width: 100%;
 	padding: 0 1em;
 

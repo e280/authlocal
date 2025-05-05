@@ -44,6 +44,7 @@ a {
 }
 
 h2 {
+	font-size: 1.2em;
 	text-shadow:
 		0 0 2em color-mix(in lch, transparent, currentColor 50%),
 		0 0 .5em color-mix(in lch, transparent, currentColor 50%);
@@ -70,7 +71,7 @@ button {
 
 	&:not([theme-button^="plain"]) {
 		cursor: pointer;
-		padding: 1em;
+		padding: 1em 0.5em;
 
 		color: color-mix(in srgb, var(--alpha), white 50%);
 		background: #8881;
@@ -141,9 +142,9 @@ button {
 	display: flex;
 	flex-direction: column;
 	text-align: center;
-	gap: 2em;
+	gap: 1em;
 
-	padding: 2em;
+	padding: 1em;
 	border-radius: 1em;
 	border: 0.2em solid color-mix(in srgb, var(--alpha), white 25%);
 	backdrop-filter: blur(0.2em);
@@ -196,8 +197,8 @@ button {
 }
 
 [theme-inputty] {
-	font-size: 1em;
 	display: block;
+	font-size: 1em;
 	padding: 0.3em 0.5em;
 	font-family: monospace;
 	background: #111a;
@@ -213,10 +214,10 @@ button {
 }
 
 [theme-seed] {
-	font-size: 1.3em;
+	font-size: 1.2em;
 	padding: 1em;
 
-	height: 10em;
+	height: 9em;
 	width: 100%;
 
 	color: var(--seed);
