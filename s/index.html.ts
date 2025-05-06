@@ -48,9 +48,9 @@ export default template(async basic => {
 			<auth-manager></auth-manager>
 
 			<footer>
-				<p>User-sovereign. Open-source. Privacy-focused. Own your identity.</p>
+				<p>Own your identity. Open-source. Privacy-focused. User-sovereign.</p>
 				<p>Learn more on <a href="https://github.com/authlocal/authlocal" target=_blank>GitHub</a>.</p>
-				<p class=persist><auth-persistence></auth-persistence></p>
+				<p class=persistence><auth-persistence></auth-persistence></p>
 				<p class=version>v${version}</p>
 			</footer>
 		`,
