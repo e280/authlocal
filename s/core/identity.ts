@@ -38,7 +38,14 @@ export function toNametag({id, label}: Identity): Nametag {
 }
 
 export async function dehydrateIdentities(...identities: Identity[]) {
-	const texts = await Promise.all(identities.map(dehydrateIdentity))
+	const texts = await Promise.all(identities.map(
+		async identity =>
+			JSON.stringify(identity.label)
+				+ (await dehydrate(identity.secret))
+					.split(" ")
+					.map(s => `\n  ${s}`)
+					.join("")
+	))
 	return texts.join("\n\n")
 }
 
@@ -47,28 +54,16 @@ export async function hydrateIdentities(seeds: string) {
 	const regex = /("[^"]*")([^"]+)/gm
 	const matches = [...seeds.matchAll(regex)]
 	return await Promise.all(matches.map(
-		([, label, bytename]) => hydrateIdentity(
-			label ? JSON.parse(label) : "",
-			bytename,
-		)
+		async([, labelstring, bytename]) => {
+			const label = labelstring ? JSON.parse(labelstring) : ""
+			const secret = await hydrate(bytename)
+			const id = await deriveId(secret)
+			return <Identity>{
+				id,
+				secret,
+				label: label || (labelize(id)),
+			}
+		}
 	))
-}
-
-async function dehydrateIdentity(identity: Identity) {
-	return JSON.stringify(identity.label)
-		+ (await dehydrate(identity.secret))
-			.split(" ")
-			.map(s => `\n  ${s}`)
-			.join("")
-}
-
-async function hydrateIdentity(label: string, barname: string): Promise<Identity> {
-	const secret = await hydrate(barname)
-	const id = await deriveId(secret)
-	return {
-		id,
-		secret,
-		label: label || (labelize(id)),
-	}
 }
 
