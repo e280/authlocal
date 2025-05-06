@@ -1,21 +1,21 @@
 
-import {PassportPlacard} from "./passport.js"
+import {Nametag} from "./identity.js"
 import {Token, TokenParams, TokenPayload, TokenVerifications} from "./token.js"
 
-/** proof that a session was signed by the user's passport */
+/** proof that a session was signed by the user's identity */
 export type Proof = {
 	scope: "proof"
 	sessionId: string
-	passport: PassportPlacard
+	nametag: Nametag
 }
 
 /** token payload that contains proof */
 export type ProofPayload = {data: Proof} & TokenPayload
 
-export async function signProof(passportSecret: string, proof: Proof, options: TokenParams) {
-	return Token.sign<ProofPayload>(passportSecret, {
+export async function signProof(identitySecret: string, proof: Proof, options: TokenParams) {
+	return Token.sign<ProofPayload>(identitySecret, {
 		...Token.params(options),
-		sub: proof.passport.id,
+		sub: proof.nametag.id,
 		data: proof,
 	})
 }
@@ -23,7 +23,7 @@ export async function signProof(passportSecret: string, proof: Proof, options: T
 export async function verifyProof(proofToken: string, options?: TokenVerifications) {
 	const pre = Token.decode<ProofPayload>(proofToken)
 	const {data: proof} = await Token.verify<ProofPayload>(
-		pre.payload.data.passport.id,
+		pre.payload.data.nametag.id,
 		proofToken,
 		options,
 	)

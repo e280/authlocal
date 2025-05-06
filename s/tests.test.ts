@@ -1,18 +1,18 @@
 
 import {Science, test, expect} from "@e280/science"
 import {Login} from "./core/login.js"
-import {generatePassport} from "./core/passport.js"
+import {generateIdentity} from "./core/identity.js"
 import {generateSession, signClaim, verifyClaim} from "./core/session.js"
 
-import passportTest from "./core/passport.test.js"
+import identityTest from "./core/identity.test.js"
 
 const expiresAt = Date.now() + 999_000
 
 async function setupLogin() {
-	const passport = await generatePassport()
-	const session = await generateSession(passport, {expiresAt})
+	const identity = await generateIdentity()
+	const session = await generateSession(identity, {expiresAt})
 	const login = await Login.verify(session)
-	expect(login.passport.id).is(passport.id)
+	expect(login.nametag.id).is(identity.id)
 	expect(login.session.secret).is(session.secret)
 	return login
 }
@@ -31,11 +31,11 @@ await Science.run({
 				{expiresAt},
 			)
 			const {claim, proof} = await verifyClaim<string>(claimToken)
-			expect(proof.passport.id).is(login.passport.id)
+			expect(proof.nametag.id).is(login.nametag.id)
 			expect(claim).is("hello")
 		}),
 	}),
 
-	passport: passportTest,
+	identity: identityTest,
 })
 

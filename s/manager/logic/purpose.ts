@@ -1,5 +1,5 @@
 
-import {Passport} from "../../core/passport.js"
+import {Identity} from "../../core/identity.js"
 
 /** the reason the management app was opened */
 export namespace Purpose {
@@ -15,7 +15,7 @@ export namespace Purpose {
 		audience: string
 		hostname: string
 		onDeny: () => Promise<void>
-		onPassport: (passport: Passport) => Promise<void>
+		onIdentity: (identity: Identity) => Promise<void>
 	}
 
 	////////////////////////////////

@@ -2,18 +2,18 @@
 import {is} from "@e280/stz"
 import {html, shadowView} from "@benev/slate"
 
-import {manager} from "../../../context.js"
-import {Situation} from "../../../logic/situation.js"
-import {Passport} from "../../../../core/passport.js"
-import {Downloader} from "../../../utils/downloader.js"
-import {idPreview} from "../../../../tools/id-preview.js"
-import {PassportDraft} from "../../common/passport-widget/draft.js"
-import {crushUsername} from "../../../../common/utils/crush-username.js"
-import {PassportWidget, PassportWidgetOptions} from "../../common/passport-widget/view.js"
-
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
-import { hostcode } from "../../../utils/hostcode.js"
+
+import {manager} from "../../../context.js"
+import {hostcode} from "../../../utils/hostcode.js"
+import {Situation} from "../../../logic/situation.js"
+import {Identity} from "../../../../core/identity.js"
+import {Downloader} from "../../../utils/downloader.js"
+import {idPreview} from "../../../../tools/id-preview.js"
+import {IdentityDraft} from "../../common/identity-widget/draft.js"
+import {crushUsername} from "../../../../common/utils/crush-username.js"
+import {IdentityWidget, IdentityWidgetOptions} from "../../common/identity-widget/view.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -22,10 +22,10 @@ export const ListPage = shadowView(use => (
 	use.name("list-page")
 	use.styles([themeCss, stylesCss])
 
-	const permits = manager.depot.passports.permits.value
-	const passports = permits.map(p => p.passport)
-	const seedMap = new Map(permits.map(p => [p.passport.id, p.seed]))
-	const passportMap = new Map(permits.map(p => [p.passport.id, p.passport]))
+	const permits = manager.depot.identities.permits.value
+	const passports = permits.map(p => p.identity)
+	const seedMap = new Map(permits.map(p => [p.identity.id, p.seed]))
+	const passportMap = new Map(permits.map(p => [p.identity.id, p.identity]))
 
 	const purpose = manager.purpose.value
 	const selectMode = use.signal(false)
@@ -42,16 +42,16 @@ export const ListPage = shadowView(use => (
 	}
 
 	function renderNormalMode() {
-		const renderPassport = (passport: Passport) => {
+		const renderPassport = (passport: Identity) => {
 			const clickEdit = () => situation.onEdit(passport)
-			const options: PassportWidgetOptions = {
+			const options: IdentityWidgetOptions = {
 				selected: false,
 				onClick: purpose.kind === "login"
 					// ? () => purpose.onPassport(passport)
 					? undefined
 					: clickEdit,
 			}
-			return PassportWidget([new PassportDraft(passport), options], {content: html`
+			return IdentityWidget([new IdentityDraft(passport), options], {content: html`
 				<button
 					theme-button
 					class=edit
@@ -63,7 +63,7 @@ export const ListPage = shadowView(use => (
 					<button
 						class=login
 						theme-button=login
-						@click="${() => purpose.onPassport(passport)}">
+						@click="${() => purpose.onIdentity(passport)}">
 							Login
 					</button>
 				` : null}
@@ -91,7 +91,7 @@ export const ListPage = shadowView(use => (
 	}
 
 	function renderSelectMode() {
-		const renderPassport = (passport: Passport) => {
+		const renderPassport = (passport: Identity) => {
 			const toggle = () => {
 				const already = selected.has(passport.id)
 				if (already) selected.delete(passport.id)
@@ -99,11 +99,11 @@ export const ListPage = shadowView(use => (
 				use.rerender()
 			}
 			const isSelected = selected.has(passport.id)
-			const options: PassportWidgetOptions = {
+			const options: IdentityWidgetOptions = {
 				selected: isSelected,
 				onClick: toggle,
 			}
-			return PassportWidget([new PassportDraft(passport), options], {content: html`
+			return IdentityWidget([new IdentityDraft(passport), options], {content: html`
 				<button
 					theme-button
 					x-check

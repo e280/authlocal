@@ -13,7 +13,7 @@ export const DeletePage = shadowView(use => (situation: Situation.Delete) => {
 	use.name("delete-page")
 	use.styles([themeCss, stylesCss])
 
-	const {passports} = situation
+	const {identities: passports} = situation
 	const requiredText = use.once(() => randomDigits(5))
 
 	return html`
@@ -27,7 +27,7 @@ export const DeletePage = shadowView(use => (situation: Situation.Delete) => {
 					requiredText,
 					buttonLabel: () => "Delete",
 					onConfirmed: async() => {
-						await situation.onDelete(situation.passports.map(p => p.id))
+						await situation.onDelete(situation.identities.map(p => p.id))
 						await situation.onBack()
 					},
 				}])}

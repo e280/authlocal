@@ -1,18 +1,18 @@
 
 import {Kv} from "@e280/kv"
-import {Passport} from "../../../core/passport.js"
-import {PassportsDepot} from "./depots/passports.js"
+import {Identity} from "../../../core/identity.js"
+import {IdentitiesDepot} from "./depots/identities.js"
 
 /** local storage facility for authlocal */
 export class Depot {
 	root: Kv
-	passports: PassportsDepot
+	identities: IdentitiesDepot
 
 	constructor(kv: Kv) {
 		this.root = kv.namespace("authlocal")
 
-		this.passports = new PassportsDepot(
-			this.root.namespace<Passport>("passports")
+		this.identities = new IdentitiesDepot(
+			this.root.namespace<Identity>("identities")
 		)
 	}
 }

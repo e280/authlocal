@@ -17,7 +17,7 @@ export class AuthUser extends ShadowElement {
 
 		return login ? html`
 			<div part=box ?data-logged-in="${!!login}">
-				<span class=label>${login.passport.label}</span>
+				<span class=label>${login.nametag.label}</span>
 				<small>${idPreview(login.sessionId)}</small>
 			</div>
 		` : html``

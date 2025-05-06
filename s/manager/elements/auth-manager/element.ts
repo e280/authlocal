@@ -10,7 +10,7 @@ import {ListPage} from "../../views/pages/list/view.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
 import {IngressPage} from "../../views/pages/ingress/view.js"
-import {dehydratePassports, generatePassport, Passport} from "../../../core/passport.js"
+import {dehydrateIdentities, generateIdentity, Identity} from "../../../core/identity.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
@@ -27,26 +27,26 @@ export const AuthManager = shadowComponent(use => {
 	}
 
 	async function gotoHome() {
-		const passports = await depot.passports.list()
-		if (passports.length === 0) await gotoCreate()
+		const identities = await depot.identities.list()
+		if (identities.length === 0) await gotoCreate()
 		else await gotoList()
 		await resetScroll()
 	}
 
 	async function gotoCreate() {
 		await situationOp.load(async() => {
-			const passports = await depot.passports.list()
-			const initialPassport = await generatePassport()
-			const initialPassportSeed = await dehydratePassports([initialPassport])
-			const onboardingMode = passports.length === 0
+			const identities = await depot.identities.list()
+			const initialIdentity = await generateIdentity()
+			const initialIdentitySeed = await dehydrateIdentities([initialIdentity])
+			const onboardingMode = identities.length === 0
 			return {
 				kind: "create",
-				passports,
-				initialPassport,
-				initialPassportSeed,
+				identities,
+				initialIdentity,
+				initialIdentitySeed,
 				onIngress: gotoIngress,
-				onSave: async passport => {
-					await depot.passports.save(passport)
+				onSave: async identity => {
+					await depot.identities.save(identity)
 					await storagePersistence.request()
 				},
 				onDone: gotoHome,
@@ -59,7 +59,7 @@ export const AuthManager = shadowComponent(use => {
 	}
 
 	async function gotoList() {
-		await depot.passports.list()
+		await depot.identities.list()
 		await situationOp.load(async() => ({
 			kind: "list",
 			onEdit: gotoEdit,
@@ -71,46 +71,46 @@ export const AuthManager = shadowComponent(use => {
 		await resetScroll()
 	}
 
-	async function gotoEdit(passport: Passport) {
-		const seed = await dehydratePassports([passport])
+	async function gotoEdit(identity: Identity) {
+		const seed = await dehydrateIdentities([identity])
 		await situationOp.load(async() => ({
 			kind: "edit",
 			seed,
-			passport,
+			identity: identity,
 			onBack: gotoHome,
-			onDelete: async passport => {
-				await depot.passports.delete(passport.id)
+			onDelete: async identity => {
+				await depot.identities.delete(identity.id)
 				await storagePersistence.request()
 			},
-			onSave: async passport => {
-				await depot.passports.save(passport)
+			onSave: async identity => {
+				await depot.identities.save(identity)
 				await storagePersistence.request()
 			},
 		}))
 		await resetScroll()
 	}
 
-	async function gotoDelete(passports: Passport[]) {
+	async function gotoDelete(identity: Identity[]) {
 		await situationOp.load(async() => ({
 			kind: "delete",
-			passports,
+			identities: identity,
 			onBack: gotoHome,
 			onDelete: async ids => {
-				await depot.passports.delete(...ids)
+				await depot.identities.delete(...ids)
 				await storagePersistence.request()
 			},
 		}))
 		await resetScroll()
 	}
 
-	async function gotoIngress(passports: Passport[] = [], problems: string[] = []) {
+	async function gotoIngress(identities: Identity[] = [], problems: string[] = []) {
 		await situationOp.load(async() => ({
 			kind: "ingress",
 			problems,
-			passports,
+			identities,
 			onBack: gotoHome,
-			onSave: async passports => {
-				await depot.passports.save(...passports)
+			onSave: async identities => {
+				await depot.identities.save(...identities)
 				await storagePersistence.request()
 			},
 		}))

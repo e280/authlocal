@@ -4,7 +4,7 @@ import {dehydrate, hydrate} from "./seed.js"
 import {deriveId, generateKeypair} from "./crypto.js"
 
 /** a user's identity */
-export type Passport = {
+export type Identity = {
 
 	/** public key (64 hex chars) */
 	id: string
@@ -12,20 +12,14 @@ export type Passport = {
 	/** private key (64 hex chars) */
 	secret: string
 
-	/** human-readable name */
+	/** nickname associated with this identity */
 	label: string
 }
 
 /** public representation of a user's identity */
-export type PassportPlacard = {
+export type Nametag = {
 	id: string
 	label: string
-}
-
-/** dehydrated passport data */
-export type PassportSeed = {
-	label: string
-	secret: string
 }
 
 export function labelize(id: string) {
@@ -33,42 +27,42 @@ export function labelize(id: string) {
 	return Bytename.string(idBytes.slice(0, 4))
 }
 
-export async function generatePassport(): Promise<Passport> {
+export async function generateIdentity(): Promise<Identity> {
 	const {id, secret} = await generateKeypair()
 	const label = labelize(id)
 	return {label, id, secret}
 }
 
-export function toPlacard({id, label}: Passport): PassportPlacard {
+export function toNametag({id, label}: Identity): Nametag {
 	return {id, label}
 }
 
-export async function dehydratePassports(passports: Passport[]) {
-	const texts = await Promise.all(passports.map(dehydratePassport))
+export async function dehydrateIdentities(identities: Identity[]) {
+	const texts = await Promise.all(identities.map(dehydrateIdentity))
 	return texts.join("\n\n")
 }
 
-export async function hydratePassports(seeds: string) {
+export async function hydrateIdentities(seeds: string) {
 	seeds = seeds.trim()
 	const regex = /("[^"]*")([^"]+)/gm
 	const matches = [...seeds.matchAll(regex)]
 	return await Promise.all(matches.map(
-		([, label, bytename]) => hydratePassport(
+		([, label, bytename]) => hydrateIdentity(
 			label ? JSON.parse(label) : "",
 			bytename,
 		)
 	))
 }
 
-async function dehydratePassport(passport: Passport) {
-	return JSON.stringify(passport.label)
-		+ (await dehydrate(passport.secret))
+async function dehydrateIdentity(identity: Identity) {
+	return JSON.stringify(identity.label)
+		+ (await dehydrate(identity.secret))
 			.split(" ")
 			.map(s => `\n  ${s}`)
 			.join("")
 }
 
-async function hydratePassport(label: string, barname: string): Promise<Passport> {
+async function hydrateIdentity(label: string, barname: string): Promise<Identity> {
 	const secret = await hydrate(barname)
 	const id = await deriveId(secret)
 	return {

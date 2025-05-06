@@ -21,7 +21,7 @@ export class Manager {
 
 	dispose = ev(window, {storage: async() => {
 		console.log("storage event, bruh")
-		await this.depot.passports.list()
+		await this.depot.identities.list()
 	}})
 
 	constructor() {
@@ -44,8 +44,8 @@ export class Manager {
 				audience,
 				hostname,
 				onDeny: async() => app.v3.login(null),
-				onPassport: async passport => {
-					const session = await generateSession(passport, {
+				onIdentity: async identity => {
+					const session = await generateSession(identity, {
 						expiresAt: Future.days(7),
 						issuer: popupWindow.origin,
 						audience,
@@ -63,7 +63,7 @@ export class Manager {
 				audience,
 				hostname,
 				onDeny: async() => console.log("DENIED LOGIN"),
-				onPassport: async passport => console.log("LOGIN", passport.id),
+				onIdentity: async passport => console.log("LOGIN", passport.id),
 			}
 		}
 	}

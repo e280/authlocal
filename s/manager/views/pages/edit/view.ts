@@ -9,34 +9,34 @@ import {Confirmer} from "../../common/confirmer/view.js"
 import {idPreview} from "../../../../tools/id-preview.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {Tabby} from "../../../../common/views/tabby/view.js"
-import {dehydratePassports} from "../../../../core/passport.js"
-import {PassportDraft} from "../../common/passport-widget/draft.js"
+import {dehydrateIdentities} from "../../../../core/identity.js"
+import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
-import {passportCard, PassportWidget} from "../../common/passport-widget/view.js"
+import {identityWidget, IdentityWidget} from "../../common/identity-widget/view.js"
 
 export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 	use.name("edit-page")
 	use.styles([themeCss, stylesCss])
 
 	const seed = use.signal(situation.seed)
-	const draft = use.once(() => new PassportDraft(situation.passport))
+	const draft = use.once(() => new IdentityDraft(situation.identity))
 
 	const clickBack = () => situation.onBack()
 	const clickSave = async() => {
-		const passport = draft.getValidEditedPassport()
+		const passport = draft.getValidEditedIdentity()
 		if (passport) {
-			draft.passport = passport
-			seed.value = await dehydratePassports([passport])
+			draft.identity = passport
+			seed.value = await dehydrateIdentities([passport])
 			await situation.onSave(passport)
 		}
 	}
 
-	const label = draft.getValidEditedPassport()?.label ?? draft.passport.label
+	const label = draft.getValidEditedIdentity()?.label ?? draft.identity.label
 	const tabby = use.once(() => new Tabby(0))
 
 	const {tabs, panel} = tabby.render([
 		{button: () => html`Edit`, panel: () => html`
-			${PassportWidget(
+			${IdentityWidget(
 				[draft, {editable: true}],
 				{content: html`
 					<button
@@ -50,7 +50,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 		`},
 
 		{button: () => html`Seed`, panel: () => html`
-			${passportCard(draft.passport)}
+			${identityWidget(draft.identity)}
 			<section theme-group class=seedtext>
 				${SeedReveal([
 					seed.value,
@@ -60,18 +60,18 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 		`},
 
 		{button: () => html`Deletion`, panel: () => html`
-			${passportCard(draft.passport)}
+			${identityWidget(draft.identity)}
 			<section theme-zone=danger>
 				<h2>Delete this passport</h2>
 				${Confirmer([{
 					buttonLabel: () => "Delete",
-					requiredText: idPreview(draft.passport.id),
+					requiredText: idPreview(draft.identity.id),
 					onConfirmed: async() => {
-						await situation.onDelete(draft.passport)
+						await situation.onDelete(draft.identity)
 						await situation.onBack()
 					},
 				}], {content: html`
-					<h2 class=delete-heading>Delete "${draft.passport.label}"</h2>
+					<h2 class=delete-heading>Delete "${draft.identity.label}"</h2>
 				`})}
 			</section>
 		`},

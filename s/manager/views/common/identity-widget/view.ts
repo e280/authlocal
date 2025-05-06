@@ -2,9 +2,10 @@
 import {html, shadowView, svgSlate} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import {PassportDraft} from "./draft.js"
-import {Passport} from "../../../../core/passport.js"
 import themeCss from "../../../../common/theme.css.js"
+
+import {IdentityDraft} from "./draft.js"
+import {Identity} from "../../../../core/identity.js"
 import {idHue} from "../../../../common/utils/id-hue.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {renderId} from "../../../../common/views/id/render-id.js"
@@ -12,26 +13,26 @@ import {maxLabelLength} from "../../../../common/utils/validation.js"
 
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
 
-export type PassportWidgetOptions = {
+export type IdentityWidgetOptions = {
 	editable?: boolean
 	selected?: boolean
 	onClick?: () => void
 }
 
-export function passportCard(passport: Passport) {
-	const draft = new PassportDraft(passport)
-	return PassportWidget([draft])
+export function identityWidget(identity: Identity) {
+	const draft = new IdentityDraft(identity)
+	return IdentityWidget([draft])
 }
 
-export const PassportWidget = shadowView(use => (
-		draft: PassportDraft,
-		options: PassportWidgetOptions = {},
+export const IdentityWidget = shadowView(use => (
+		draft: IdentityDraft,
+		options: IdentityWidgetOptions = {},
 	) => {
 
-	use.name("passport-widget")
+	use.name("identity-widget")
 	use.styles([themeCss, stylesCss])
 
-	const hsl = `hsl(${idHue(draft.passport.id)}deg, 100%, 75%)`
+	const hsl = `hsl(${idHue(draft.identity.id)}deg, 100%, 75%)`
 
 	function handleCardClick(event: MouseEvent) {
 		if (!options.onClick) return undefined
@@ -61,7 +62,7 @@ export const PassportWidget = shadowView(use => (
 						theme-insetty
 						.value="${draft.getEditedLabel()}"
 						maxlength="${maxLabelLength}"
-						?theme-angry="${!draft.getValidEditedPassport()}"
+						?theme-angry="${!draft.getValidEditedIdentity()}"
 						@input="${inputString(label => { draft.setEditedLabel(label) })}"
 						/>
 				` : html`
@@ -71,7 +72,7 @@ export const PassportWidget = shadowView(use => (
 				<slot></slot>
 			</div>
 
-			<div class=id>${renderId(draft.passport.id)}</div>
+			<div class=id>${renderId(draft.identity.id)}</div>
 		</section>
 	`
 })

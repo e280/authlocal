@@ -1,23 +1,23 @@
 
-import {Passport} from "../../core/passport.js"
+import {Identity} from "../../core/identity.js"
 
 export namespace Situation {
 	export type List = {
 		kind: "list"
 		onCreate: () => Promise<void>
-		onEdit: (passport: Passport) => Promise<void>
-		onDelete: (passports: Passport[]) => Promise<void>
-		onEgress: (passports: Passport[]) => Promise<void>
-		onIngress: (passports?: Passport[]) => Promise<void>
+		onEdit: (identity: Identity) => Promise<void>
+		onDelete: (identities: Identity[]) => Promise<void>
+		onEgress: (identities: Identity[]) => Promise<void>
+		onIngress: (identities?: Identity[]) => Promise<void>
 	}
 
 	export type Create = {
 		kind: "create"
-		passports: Passport[]
-		initialPassport: Passport
-		initialPassportSeed: string
+		identities: Identity[]
+		initialIdentity: Identity
+		initialIdentitySeed: string
 		onIngress: () => Promise<void>
-		onSave: (passport: Passport) => Promise<void>
+		onSave: (identity: Identity) => Promise<void>
 		onDone: () => Promise<void>
 		onBack?: () => Promise<void>
 	}
@@ -25,35 +25,29 @@ export namespace Situation {
 	export type Edit = {
 		kind: "edit"
 		seed: string
-		passport: Passport
+		identity: Identity
 		onBack: () => Promise<void>
-		onSave: (passport: Passport) => Promise<void>
-		onDelete: (passport: Passport) => Promise<void>
+		onSave: (identity: Identity) => Promise<void>
+		onDelete: (identity: Identity) => Promise<void>
 	}
 
 	export type Delete = {
 		kind: "delete"
-		passports: Passport[]
+		identities: Identity[]
 		onBack: () => Promise<void>
 		onDelete: (ids: string[]) => Promise<void>
-	}
-
-	export type Egress = {
-		kind: "egress"
-		passports: Passport[]
-		onBack: () => Promise<void>
 	}
 
 	export type Ingress = {
 		kind: "ingress"
 		problems: string[]
-		passports: Passport[]
+		identities: Identity[]
 		onBack: () => Promise<void>
-		onSave: (passports: Passport[]) => Promise<void>
+		onSave: (identities: Identity[]) => Promise<void>
 	}
 
 	////////////////////////////////
 
-	export type Any = List | Create | Edit | Delete | Egress | Ingress
+	export type Any = List | Create | Edit | Delete | Ingress
 }
 

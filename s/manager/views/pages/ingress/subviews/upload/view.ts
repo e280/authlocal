@@ -6,12 +6,12 @@ import themeCss from "../../../../../../common/theme.css.js"
 
 import {Summary} from "../../../../common/summary/view.js"
 import {Problematic} from "../../../../common/problems/problematic.js"
-import {hydratePassports, Passport} from "../../../../../../core/passport.js"
+import {hydrateIdentities, Identity} from "../../../../../../core/identity.js"
 
 export type UploadOptions = {
-	passports: Passport[]
+	identities: Identity[]
 	problems: string[]
-	onSave: (passports: Passport[]) => Promise<void>
+	onSave: (identities: Identity[]) => Promise<void>
 	onBack: () => Promise<void>
 }
 
@@ -19,24 +19,24 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 	use.name("upload")
 	use.styles([themeCss, stylesCss])
 
-	const passports = use.signal<Passport[]>(options.passports)
+	const identities = use.signal<Identity[]>(options.identities)
 	const problematic = use.once(() => new Problematic())
-	const hasValidPassports = passports.value.length > 0
+	const hasValidPassports = identities.value.length > 0
 
 	async function handleUpload(event: InputEvent) {
-		passports.value = []
+		identities.value = []
 		const input = event.currentTarget as HTMLInputElement
 		const files = Array.from(input.files ?? [])
 		for (const file of files) {
 			await problematic.captureProblems(async() => {
 				const text = await file.text()
-				passports.value = await hydratePassports(text)
+				identities.value = await hydrateIdentities(text)
 			})
 		}
 	}
 
 	function accept() {
-		options.onSave(passports.value)
+		options.onSave(identities.value)
 		options.onBack()
 	}
 
@@ -54,7 +54,7 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 		</section>
 
 		${hasValidPassports
-			? Summary([passports.value])
+			? Summary([identities.value])
 			: null}
 
 		<footer theme-buttons>
@@ -66,7 +66,7 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 
 			${hasValidPassports ? html`
 				<button theme-button=happy @click="${accept}">
-					Import Passport${passports.value.length === 1 ?"" :"s"}
+					Import {identities.value.length === 1 ?"Identity" :"Identities"}
 				</button>
 			` : null}
 		</footer>

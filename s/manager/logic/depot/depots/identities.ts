@@ -1,25 +1,25 @@
 
 import {Kv} from "@e280/kv"
 import {signal} from "@benev/slate"
-import {dehydratePassports, Passport} from "../../../../core/passport.js"
+import {dehydrateIdentities, Identity} from "../../../../core/identity.js"
 
 export type Permit = {
-	passport: Passport
+	identity: Identity
 	seed: string
 }
 
-export class PassportsDepot {
+export class IdentitiesDepot {
 	permits = signal<Permit[]>([])
 
-	constructor(public kv: Kv<Passport>) {}
+	constructor(public kv: Kv<Identity>) {}
 
 	async list() {
-		const passports = await Kv.collect(this.kv.values())
-		this.permits.value = await Promise.all(passports.map(async passport => ({
-			passport,
-			seed: await dehydratePassports([passport])
+		const identities = await Kv.collect(this.kv.values())
+		this.permits.value = await Promise.all(identities.map(async identity => ({
+			identity,
+			seed: await dehydrateIdentities([identity])
 		})))
-		return passports
+		return identities
 	}
 
 	async #refreshAfter<T>(fn: () => Promise<T>) {
@@ -28,10 +28,10 @@ export class PassportsDepot {
 		return value
 	}
 
-	async save(...passports: Passport[]) {
+	async save(...identities: Identity[]) {
 		this.#refreshAfter(async() =>
 			await this.kv.sets(
-				...passports.map(p => [p.id, p] as [string, Passport])
+				...identities.map(p => [p.id, p] as [string, Identity])
 			)
 		)
 	}

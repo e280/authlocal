@@ -1,7 +1,7 @@
 
 export * from "./core/crypto.js"
 export * from "./core/login.js"
-export * from "./core/passport.js"
+export * from "./core/identity.js"
 export * from "./core/proof.js"
 export * from "./core/seed.js"
 export * from "./core/session.js"

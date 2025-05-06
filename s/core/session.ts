@@ -1,5 +1,5 @@
 
-import {Passport} from "./passport.js"
+import {Identity} from "./identity.js"
 import {generateKeypair} from "./crypto.js"
 import {Proof, ProofPayload, signProof, verifyProof} from "./proof.js"
 import {Token, TokenParams, TokenPayload, TokenVerifications} from "./token.js"
@@ -20,16 +20,16 @@ export type ClaimPayload<C> = {
 	data: {claim: C, proofToken: string}
 } & TokenPayload
 
-export async function generateSession(passport: Passport, proofTokenParams: TokenParams): Promise<Session> {
+export async function generateSession(identity: Identity, proofTokenParams: TokenParams): Promise<Session> {
 	const sessionKeypair = await generateKeypair()
 	const proof: Proof = {
 		scope: "proof",
 		sessionId: sessionKeypair.id,
-		passport: {id: passport.id, label: passport.label},
+		nametag: {id: identity.id, label: identity.label},
 	}
 	return {
 		secret: sessionKeypair.secret,
-		proofToken: await signProof(passport.secret, proof, proofTokenParams),
+		proofToken: await signProof(identity.secret, proof, proofTokenParams),
 	}
 }
 
@@ -37,7 +37,7 @@ export async function signClaim<C>(session: Session, claim: C, params: TokenPara
 	const proof = Token.decode<ProofPayload>(session.proofToken).payload.data
 	return Token.sign<ClaimPayload<C>>(session.secret, {
 		...Token.params(params),
-		sub: proof.passport.id,
+		sub: proof.nametag.id,
 		data: {
 			claim,
 			proofToken: session.proofToken,
