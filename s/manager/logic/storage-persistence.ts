@@ -9,7 +9,8 @@ export class StoragePersistence {
 	}
 
 	async request() {
-		return this.persisted.value = await navigator.storage.persist()
+		if (!await this.check())
+			return this.persisted.value = await navigator.storage.persist()
 	}
 }
 

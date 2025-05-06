@@ -5,11 +5,11 @@ import stylesCss from "./styles.css.js"
 import themeCss from "../../../common/theme.css.js"
 
 import {manager} from "../../context.js"
-import {EditPage} from "../pages/edit/view.js"
-import {ListPage} from "../pages/list/view.js"
-import {CreatePage} from "../pages/create/view.js"
-import {DeletePage} from "../pages/delete/view.js"
-import {IngressPage} from "../pages/ingress/view.js"
+import {EditPage} from "../../views/pages/edit/view.js"
+import {ListPage} from "../../views/pages/list/view.js"
+import {CreatePage} from "../../views/pages/create/view.js"
+import {DeletePage} from "../../views/pages/delete/view.js"
+import {IngressPage} from "../../views/pages/ingress/view.js"
 import {dehydratePassports, generatePassport, Passport} from "../../../core/passport.js"
 
 export const AuthManager = shadowComponent(use => {
