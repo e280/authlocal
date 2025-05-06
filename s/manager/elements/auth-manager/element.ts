@@ -37,7 +37,7 @@ export const AuthManager = shadowComponent(use => {
 		await situationOp.load(async() => {
 			const identities = await depot.identities.list()
 			const initialIdentity = await generateIdentity()
-			const initialIdentitySeed = await dehydrateIdentities([initialIdentity])
+			const initialIdentitySeed = await dehydrateIdentities(initialIdentity)
 			const onboardingMode = identities.length === 0
 			return {
 				kind: "create",
@@ -72,7 +72,7 @@ export const AuthManager = shadowComponent(use => {
 	}
 
 	async function gotoEdit(identity: Identity) {
-		const seed = await dehydrateIdentities([identity])
+		const seed = await dehydrateIdentities(identity)
 		await situationOp.load(async() => ({
 			kind: "edit",
 			seed,

@@ -36,7 +36,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			const identity = draft.getValidEditedIdentity()
 			if (identity) {
 				await situation.onSave(identity)
-				const seed = await dehydrateIdentities([identity])
+				const seed = await dehydrateIdentities(identity)
 				finalized.value = {identity: identity, seed}
 				wizard.value = "seeder"
 			}

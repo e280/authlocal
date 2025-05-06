@@ -17,7 +17,7 @@ export class IdentitiesDepot {
 		const identities = await Kv.collect(this.kv.values())
 		this.permits.value = await Promise.all(identities.map(async identity => ({
 			identity,
-			seed: await dehydrateIdentities([identity])
+			seed: await dehydrateIdentities(identity)
 		})))
 		return identities
 	}

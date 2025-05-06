@@ -21,12 +21,12 @@ const sampleIdentities: Identity[] = [
 export default Science.suite({
 	"dehydrate": test(async() => {
 		const [identity] = sampleIdentities
-		const text = await dehydrateIdentities([identity])
+		const text = await dehydrateIdentities(identity)
 		expect(text.length).gt(100)
 	}),
 
 	"dehydrate+hydrate": test(async() => {
-		const text = await dehydrateIdentities(sampleIdentities)
+		const text = await dehydrateIdentities(...sampleIdentities)
 		const identities = await hydrateIdentities(text)
 		expect(identities.length).is(sampleIdentities.length)
 

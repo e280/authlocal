@@ -22,7 +22,7 @@
   ```html
   <script defer>
     authlocal.then(({auth}) => {
-      auth.onChange(login => {
+      auth.on(login => {
         if (login) console.log("logged in", login.label)
         else console.log("logged out")
       })

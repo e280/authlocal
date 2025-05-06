@@ -26,7 +26,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 		const identity = draft.getValidEditedIdentity()
 		if (identity) {
 			draft.identity = identity
-			seed.value = await dehydrateIdentities([identity])
+			seed.value = await dehydrateIdentities(identity)
 			await situation.onSave(identity)
 		}
 	}

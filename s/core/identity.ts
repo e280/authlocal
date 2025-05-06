@@ -37,7 +37,7 @@ export function toNametag({id, label}: Identity): Nametag {
 	return {id, label}
 }
 
-export async function dehydrateIdentities(identities: Identity[]) {
+export async function dehydrateIdentities(...identities: Identity[]) {
 	const texts = await Promise.all(identities.map(dehydrateIdentity))
 	return texts.join("\n\n")
 }

@@ -32,40 +32,38 @@ export class Auth {
 	}
 
 	src: string
-	onChange = sub<[Login | null]>()
+	on = sub<[Login | null]>()
+	loginSignal = signal<Login | null>(null)
 	wait: Promise<Login | null> = Promise.resolve(null)
 	dispose: () => void
 
 	#options: AuthOptions
 	#stores: AuthStores
-	#login = signal<Login | null>(null)
 	#ready: Promise<void>
-	#lastLogin: Login | null = null
 
 	constructor(options: Partial<AuthOptions> = {}) {
 		this.#options = Auth.defaults(options)
 		this.src = this.#options.src
 		this.#stores = new AuthStores(this.#options.kv)
 		this.#ready = this.#stores.versionMigration(Auth.version)
-		this.#login.on(async login => {
-			const isChanged = login?.sessionId !== this.#lastLogin?.sessionId
-			this.#lastLogin = login
-			if (isChanged)
-				await this.onChange.pub(login)
-		})
-		this.dispose = ev(window, {storage: () => this.loadLogin()})
+		this.dispose = (() => {
+			const detachOn = this.loginSignal.on(login => this.on.pub(login))
+			const detachStorage = ev(window, {storage: () => this.loadLogin()})
+			return () => {
+				detachOn()
+				detachStorage()
+			}
+		})()
 	}
 
 	async loadLogin(): Promise<Login | null> {
 		this.wait = this.#getStoredLogin()
-		this.#login.value = await this.wait
-		return this.#login.value
+		return this.#updateLoginSignal(await this.wait)
 	}
 
 	async saveLogin(login: Login | null) {
 		this.wait = this.#setStoredLogin(login)
-		this.#login.value = await this.wait
-		return this.#login.value
+		return this.#updateLoginSignal(await this.wait)
 	}
 
 	async logout() {
@@ -73,10 +71,10 @@ export class Auth {
 	}
 
 	get login() {
-		const login = this.#login.value
+		const login = this.loginSignal.value
 		if (login && login.isExpired())
-			this.#login.value = null
-		return this.#login.value
+			this.loginSignal.value = null
+		return this.loginSignal.value
 	}
 
 	async popup(src = this.src) {
@@ -113,6 +111,13 @@ export class Auth {
 				resolve(this.login)
 			}
 		})
+	}
+
+	#updateLoginSignal(login: Login | null) {
+		const hasChanged = login?.sessionId !== this.loginSignal.value?.sessionId
+		if (hasChanged)
+			this.loginSignal.value = login
+		return login
 	}
 
 	async #verify(session: Session) {
