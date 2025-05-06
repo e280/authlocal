@@ -8,6 +8,8 @@
 
 	--prime: lime;
 	--alpha: #00ff93;
+	--text: color-mix(in lch, var(--alpha), white 50%);
+
 	--seed: #ff6800;
 	--passport: #20563c33;
 	--passport-select: #00ff8433;
@@ -79,7 +81,7 @@ body {
 	max-width: 100%;
 	padding: 0.5em;
 
-	color: color-mix(in lch, var(--alpha), white 50%);
+	color: var(--text);
 
 	display: flex;
 	flex-direction: column;
