@@ -13,6 +13,7 @@ import {PassportWidget, PassportWidgetOptions} from "../../common/passport-widge
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../common/theme.css.js"
+import { hostcode } from "../../../utils/hostcode.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
@@ -194,13 +195,7 @@ export const ListPage = shadowView(use => (
 				${purpose.kind === "login" ? html`
 					<h2>
 						<span>Login for</span>
-						<code theme-login class=logincode>
-							${purpose.hostname
-								.split(".")
-								.map((part, index) => index === 0
-									? html`<span>${part}</span>`
-									: html`<span>.${part}</span>`)}
-						</code>
+						${hostcode(purpose.hostname)}
 					</h2>
 					<p>This website is requesting your login</p>
 				` : html`

@@ -230,7 +230,7 @@ button {
 	font-weight: bold;
 }
 
-:is(code, [theme-code]) {
+[theme-code] {
 	padding: 0.1em 0.5em;
 	color: var(--code);
 	text-shadow: .1em .1em .2em #0008;
@@ -239,8 +239,14 @@ button {
 	border: 0.1em solid color-mix(in lch, transparent, currentColor 50%);
 	font-weight: bold;
 
-	&[theme-login] {
+	&[theme-code=login] {
+		display: inline-flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		color: var(--login);
+		> span {
+			word-break: break-all;
+		}
 	}
 }
 

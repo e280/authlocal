@@ -11,6 +11,7 @@ import {PassportDraft} from "../../common/passport-widget/draft.js"
 import {PassportWidget} from "../../common/passport-widget/view.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
 import {dehydratePassports, generatePassport} from "../../../../core/passport.js"
+import { hostcode } from "../../../utils/hostcode.js"
 
 export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	use.name("create-page")
@@ -45,13 +46,11 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			return html`
 				<div theme-group>
 					<h2>
-						${purpose.kind === "login" ? html`
-							Create a passport for <code theme-login>${purpose.hostname}</code>
-						` : (
-							first
-								? html`Create your first login passport`
-								: html`Create a new login passport`
-						)}
+						${purpose.kind === "login"
+						? html`Create a passport for ${hostcode(purpose.hostname)}`
+						: (first
+							? html`Create your first login passport`
+							: html`Create a new login passport`)}
 					</h2>
 					<p>The name you choose is public</p>
 				</div>
@@ -102,6 +101,9 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			const {passport, seed} = finalized.value
 			return html`
 				<section theme-group class=seed>
+					${purpose.kind === "login"
+						? html`<h2>${hostcode(purpose.hostname)}</h2>`
+						: null}
 					<h2>Save your recovery seed</h2>
 					<p>Download or copy it, and keep it safe — if you lose it, it's gone forever.</p>
 				</section>
@@ -112,6 +114,9 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 				<footer theme-buttons>
 					${purpose.kind === "login" ? html`
+						<button theme-button=back @click="${clickDone}">
+							Done
+						</button>
 						<button theme-button=login @click="${login}">
 							Login
 						</button>
