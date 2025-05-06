@@ -11,13 +11,11 @@ export default css`
 	}
 }
 
-[x-purpose="login"] {
-	.edit {
-		opacity: 0.5;
-		border: none;
-		box-shadow: none;
-		background: transparent;
-	}
+.edit {
+	opacity: 0.5;
+	border: none;
+	box-shadow: none;
+	background: transparent;
 }
 
 .passports {
