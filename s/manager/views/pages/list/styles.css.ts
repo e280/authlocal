@@ -2,6 +2,15 @@
 import {css} from "@benev/slate"
 export default css`
 
+[x-purpose="login"] {
+	.edit {
+		opacity: 0.5;
+		border: none;
+		box-shadow: none;
+		background: transparent;
+	}
+}
+
 .passports {
 	display: flex;
 	flex-direction: column;

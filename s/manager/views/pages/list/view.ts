@@ -74,12 +74,6 @@ export const ListPage = shadowView(use => (
 			</div>
 
 			<footer theme-buttons>
-				${purpose.kind === "login" ? html`
-					<button theme-button=angry @click="${() => purpose.onDeny()}">
-						Deny Login
-					</button>
-				` : null}
-
 				<button theme-button @click="${clickSelectMode}">
 					Select
 				</button>
