@@ -2,6 +2,15 @@
 import {css} from "@benev/slate"
 export default css`
 
+.logincode {
+	display: inline-flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	> span {
+		word-break: break-all;
+	}
+}
+
 [x-purpose="login"] {
 	.edit {
 		opacity: 0.5;

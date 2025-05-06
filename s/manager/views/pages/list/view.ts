@@ -192,7 +192,16 @@ export const ListPage = shadowView(use => (
 
 			<div theme-group>
 				${purpose.kind === "login" ? html`
-					<h2>Login for <code theme-login>${purpose.hostname}</code></h2>
+					<h2>
+						<span>Login for</span>
+						<code theme-login class=logincode>
+							${purpose.hostname
+								.split(".")
+								.map((part, index) => index === 0
+									? html`<span>${part}</span>`
+									: html`<span>.${part}</span>`)}
+						</code>
+					</h2>
 					<p>This website is requesting your login</p>
 				` : html`
 					<h2>Your login passports</h2>
