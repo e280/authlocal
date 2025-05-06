@@ -1,9 +1,17 @@
 
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+	scrollbar-width: thin;
+	scrollbar-color: #333 transparent;
+}
+
 :root {
 	color-scheme: dark;
 
-	--authlocal: #71ff82;
-	--bg: #000;
+	--bg: #06141d;
 	--link: cyan;
 
 	--prime: lime;
@@ -21,15 +29,6 @@
 	--login: yellow;
 	--back: #00bbff;
 	--code: magenta;
-}
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-
-	scrollbar-width: thin;
-	scrollbar-color: #333 transparent;
 }
 
 ::-webkit-scrollbar { width: 8px; }

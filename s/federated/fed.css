@@ -1,4 +1,9 @@
 
+:root {
+	--authlocal-login: green;
+	--authlocal-logout: #555;
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -7,11 +12,6 @@
 	scrollbar-width: thin;
 	scrollbar-color: #333 transparent;
 }
-
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #333; border-radius: 1em; }
-::-webkit-scrollbar-thumb:hover { background: #444; }
 
 :root {
 	color-scheme: dark;
@@ -25,7 +25,7 @@
 
 	color: #aaa;
 	background: #222;
-	--authlocal: #71ff82;
+	--link: cyan;
 }
 
 body {
@@ -34,6 +34,11 @@ body {
 	align-items: center;
 	gap: 1em;
 }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 1em; }
+::-webkit-scrollbar-thumb:hover { background: #444; }
 
 a {
 	color: var(--link);

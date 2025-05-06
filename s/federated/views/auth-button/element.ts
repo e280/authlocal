@@ -16,14 +16,22 @@ export class AuthButton extends ShadowElement {
 	render() {
 		const {auth} = this
 		const {login} = auth
-		if (login) {
-			const logout = async() => auth.saveLogin(null)
-			return html`<button part=button class=logout @click="${logout}">Logout</button>`
-		}
-		else {
-			const popup = async() => auth.popup(this.#attrs.src)
-			return html`<button part=button class=login @click="${popup}">Login</button>`
-		}
+		return login
+			? html`
+				<button
+					class=logout
+					part=button
+					@click="${() => auth.saveLogin(null)}">
+						Logout
+				</button>`
+
+			: html`
+				<button
+					class=login
+					part=button
+					@click="${() => auth.popup(this.#attrs.src)}">
+						Login
+				</button>`
 	}
 }
 

@@ -11,8 +11,8 @@ export default css`
 :host {
 	color: white;
 	text-shadow: .04em .08em .06em #0008;
-	--login-bg: var(--authlocal, #80f);
-	--logout-bg: var(--authlocal-logout, #555);
+	--login: var(--authlocal-login, #71ff82);
+	--logout: var(--authlocal-logout, #555);
 }
 
 button {
@@ -21,7 +21,7 @@ button {
 	padding: 0.6em;
 	border: none;
 	border-radius: 0.3em;
-	background: var(--logout-bg);
+	background: var(--logout);
 	font: inherit;
 	color: inherit;
 	font-weight: bold;
@@ -29,7 +29,7 @@ button {
 	box-shadow: .1em .2em .3em #0002;
 
 	&.login {
-		background: var(--login-bg);
+		background: var(--login);
 	}
 
 	&:is(:hover, :focus) { filter: brightness(120%); }
