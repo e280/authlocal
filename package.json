@@ -23,18 +23,19 @@
 		"renraku": "^0.5.0-10"
 	},
 	"devDependencies": {
-		"@benev/turtle": "^0.6.11",
+		"@benev/turtle": "^0.6.12",
 		"http-server": "^14.1.1",
 		"npm-run-all": "^4.1.5",
 		"typescript": "^5.8.3"
 	},
 	"scripts": {
-		"build": "rm -rf x && run-s _code _ssg _ln",
+		"build": "rm -rf x && mkdir x && run-s _ln _code _ssg",
 		"test": "node x/tests.test.js",
 		"start": "run-p _http _watch _test:watch",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
 		"devlinks": "run-s devlinks-slate devlinks-renraku",
 		"devlinks-slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
+		"devlinks-turtle": "rm -rf node_modules/@benev/turtle && ln -s \"$(realpath ../../@benev/turtle)\" node_modules/@benev/turtle",
 		"devlinks-renraku": "rm -rf node_modules/renraku && ln -s \"$(realpath ../../chase-moskal/renraku)\" node_modules/renraku",
 		"_clean": "rm -rf x",
 		"_code": "turtle build --out=x",
