@@ -2,12 +2,12 @@
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import themeCss from "../../../../common/theme.css.js"
+import themeCss from "../../../theme.css.js"
 
 import {Upload} from "./subviews/upload/view.js"
 import {Recovery} from "./subviews/recovery/view.js"
 import {Situation} from "../../../logic/situation.js"
-import {Tabby} from "../../../../common/views/tabby/view.js"
+import {Tabby} from "../../common/tabby/view.js"
 
 export const IngressPage = shadowView(use => (situation: Situation.Ingress) => {
 	use.name("ingress-page")

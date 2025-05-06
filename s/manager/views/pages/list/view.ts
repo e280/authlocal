@@ -3,7 +3,7 @@ import {is} from "@e280/stz"
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import themeCss from "../../../../common/theme.css.js"
+import themeCss from "../../../theme.css.js"
 
 import {manager} from "../../../context.js"
 import {hostcode} from "../../../utils/hostcode.js"

@@ -11,7 +11,7 @@
   ```
   You can change the `authlocal-theme` attribute there
   - `basic` — default theme
-  - `plain` — no styling
+  - `none` — no styling
   - `e280` — matches authlocal.org's aesthetic
 1. Put these authlocal web components into your html `body`
   ```html

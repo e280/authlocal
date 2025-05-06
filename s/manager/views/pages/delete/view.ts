@@ -2,7 +2,7 @@
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import themeCss from "../../../../common/theme.css.js"
+import themeCss from "../../../theme.css.js"
 
 import {Situation} from "../../../logic/situation.js"
 import {Confirmer} from "../../common/confirmer/view.js"

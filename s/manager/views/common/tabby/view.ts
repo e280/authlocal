@@ -1,7 +1,7 @@
 
 import {Content, html, shadowView, signal} from "@benev/slate"
 import stylesCss from "./styles.css.js"
-import themeCss from "../../theme.css.js"
+import themeCss from "../../../theme.css.js"
 
 export type Tab = {
 	button: () => Content

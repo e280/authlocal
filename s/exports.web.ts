@@ -3,7 +3,7 @@ export * from "./exports.core.js"
 
 export {register_to_dom, apply, mixin, nexus} from "@benev/slate"
 
-export {default as themeCss} from "./common/theme.css.js"
+export {default as themeCss} from "./manager/theme.css.js"
 export * from "./common/views/id/view.js"
 export * from "./common/views/id/render-id.js"
 

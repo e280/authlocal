@@ -1,7 +1,7 @@
 
 import {css} from "@benev/slate"
 
-export const plain = css`
+export const none = css`
 
 `
 

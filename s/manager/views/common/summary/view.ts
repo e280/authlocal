@@ -2,7 +2,7 @@
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import themeCss from "../../../../common/theme.css.js"
+import themeCss from "../../../theme.css.js"
 
 import {Identity} from "../../../../core/identity.js"
 import {idPreview} from "../../../../tools/id-preview.js"

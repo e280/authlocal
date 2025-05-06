@@ -2,7 +2,7 @@
 import {shadowComponent, loading, nap} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import themeCss from "../../../common/theme.css.js"
+import themeCss from "../../theme.css.js"
 
 import {manager} from "../../context.js"
 import {EditPage} from "../../views/pages/edit/view.js"

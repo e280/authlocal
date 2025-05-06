@@ -2,7 +2,7 @@
 import {html, shadowComponent, svgSlate} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import themeCss from "../../../common/theme.css.js"
+import themeCss from "../../theme.css.js"
 import shieldOffIcon from "../../../common/icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-filled.icon.js"
 

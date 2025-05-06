@@ -2,7 +2,7 @@
 import {html, shadowView, svgSlate} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import themeCss from "../../../../common/theme.css.js"
+import themeCss from "../../../theme.css.js"
 
 import {IdentityDraft} from "./draft.js"
 import {Identity} from "../../../../core/identity.js"
