@@ -23,11 +23,11 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 
 	const clickBack = () => situation.onBack()
 	const clickSave = async() => {
-		const passport = draft.getValidEditedIdentity()
-		if (passport) {
-			draft.identity = passport
-			seed.value = await dehydrateIdentities([passport])
-			await situation.onSave(passport)
+		const identity = draft.getValidEditedIdentity()
+		if (identity) {
+			draft.identity = identity
+			seed.value = await dehydrateIdentities([identity])
+			await situation.onSave(identity)
 		}
 	}
 
@@ -62,7 +62,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 		{button: () => html`Deletion`, panel: () => html`
 			${identityWidget(draft.identity)}
 			<section theme-zone=danger>
-				<h2>Delete this passport</h2>
+				<h2>Delete this identity</h2>
 				${Confirmer([{
 					buttonLabel: () => "Delete",
 					requiredText: idPreview(draft.identity.id),

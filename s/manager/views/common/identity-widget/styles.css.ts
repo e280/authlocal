@@ -16,7 +16,7 @@ export default css`
 	gap: 0.5em;
 	min-height: 4.5em;
 
-	background: var(--passport);
+	background: var(--identity);
 	border-radius: 0.5em;
 	border: 0.15em solid color-mix(in srgb, transparent, var(--alpha) 20%);
 	border-top: 0.15em solid color-mix(in srgb, transparent, var(--alpha) 60%);
@@ -27,7 +27,7 @@ export default css`
 	}
 
 	&[x-selected] {
-		background: var(--passport-select);
+		background: var(--identity-select);
 		border: 0.15em solid color-mix(in lch, transparent, var(--select) 60%);
 		box-shadow: 0 0 2em color-mix(in srgb, transparent, var(--select) 10%);
 	}

@@ -22,22 +22,22 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	const purpose = manager.purpose.value
 	const wizard = use.signal<"editor" | "seeder">("editor")
 	const finalized = use.signal({
-		passport: situation.initialIdentity,
+		identity: situation.initialIdentity,
 		seed: situation.initialIdentitySeed,
 	})
 
 	const editor = use.once(() => {
 		async function reroll() {
-			const freshPassport = await generateIdentity()
-			draft.identity = freshPassport
+			const freshIdentity = await generateIdentity()
+			draft.identity = freshIdentity
 		}
 
 		async function clickCreate() {
-			const passport = draft.getValidEditedIdentity()
-			if (passport) {
-				await situation.onSave(passport)
-				const seed = await dehydrateIdentities([passport])
-				finalized.value = {passport, seed}
+			const identity = draft.getValidEditedIdentity()
+			if (identity) {
+				await situation.onSave(identity)
+				const seed = await dehydrateIdentities([identity])
+				finalized.value = {identity: identity, seed}
 				wizard.value = "seeder"
 			}
 		}
@@ -47,10 +47,10 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				<div theme-group>
 					<h2>
 						${purpose.kind === "login"
-						? html`Create a passport for ${hostcode(purpose.hostname)}`
+						? html`Create a identity for ${hostcode(purpose.hostname)}`
 						: (first
-							? html`Create your first login passport`
-							: html`Create a new login passport`)}
+							? html`Create your first login identity`
+							: html`Create a new login identity`)}
 					</h2>
 					<p>The name you choose is public</p>
 				</div>
@@ -86,9 +86,9 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 	const seeder = use.once(() => {
 		function login() {
-			const passport = editor.draft.getValidEditedIdentity()
-			if (purpose.kind === "login" && passport)
-				purpose.onIdentity(passport)
+			const identity = editor.draft.getValidEditedIdentity()
+			if (purpose.kind === "login" && identity)
+				purpose.onIdentity(identity)
 		}
 
 		async function clickDone() {
@@ -98,7 +98,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 		}
 
 		function render() {
-			const {passport, seed} = finalized.value
+			const {identity, seed} = finalized.value
 			return html`
 				<section theme-group class=seed>
 					${purpose.kind === "login"
@@ -109,7 +109,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				</section>
 
 				<section theme-group>
-					${SeedReveal([seed, crushUsername(passport.label) + ".authlocal"])}
+					${SeedReveal([seed, crushUsername(identity.label) + ".authlocal"])}
 				</section>
 
 				<footer theme-buttons>

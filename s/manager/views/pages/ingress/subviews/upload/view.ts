@@ -21,7 +21,7 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 
 	const identities = use.signal<Identity[]>(options.identities)
 	const problematic = use.once(() => new Problematic())
-	const hasValidPassports = identities.value.length > 0
+	const hasValidIdentities = identities.value.length > 0
 
 	async function handleUpload(event: InputEvent) {
 		identities.value = []
@@ -53,7 +53,7 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 			${problematic.renderProblems()}
 		</section>
 
-		${hasValidPassports
+		${hasValidIdentities
 			? Summary([identities.value])
 			: null}
 
@@ -64,7 +64,7 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 					Back
 			</button>
 
-			${hasValidPassports ? html`
+			${hasValidIdentities ? html`
 				<button theme-button=happy @click="${accept}">
 					Import {identities.value.length === 1 ?"Identity" :"Identities"}
 				</button>

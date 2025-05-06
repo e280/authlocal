@@ -10,7 +10,7 @@ export default css`
 	background: transparent;
 }
 
-.passports {
+.identities {
 	display: flex;
 	flex-direction: column;
 	align-items: center;

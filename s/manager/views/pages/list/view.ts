@@ -23,9 +23,9 @@ export const ListPage = shadowView(use => (
 	use.styles([themeCss, stylesCss])
 
 	const permits = manager.depot.identities.permits.value
-	const passports = permits.map(p => p.identity)
+	const identities = permits.map(p => p.identity)
 	const seedMap = new Map(permits.map(p => [p.identity.id, p.seed]))
-	const passportMap = new Map(permits.map(p => [p.identity.id, p.identity]))
+	const identityMap = new Map(permits.map(p => [p.identity.id, p.identity]))
 
 	const purpose = manager.purpose.value
 	const selectMode = use.signal(false)
@@ -37,21 +37,21 @@ export const ListPage = shadowView(use => (
 
 	const clickSelectMode = () => {
 		selected.clear()
-		// passports.map(p => p.id).forEach(id => selected.add(id))
+		// identities.map(p => p.id).forEach(id => selected.add(id))
 		selectMode.value = !selectMode.value
 	}
 
 	function renderNormalMode() {
-		const renderPassport = (passport: Identity) => {
-			const clickEdit = () => situation.onEdit(passport)
+		const renderIdentity = (identity: Identity) => {
+			const clickEdit = () => situation.onEdit(identity)
 			const options: IdentityWidgetOptions = {
 				selected: false,
 				onClick: purpose.kind === "login"
-					// ? () => purpose.onPassport(passport)
+					// ? () => purpose.onIdentity(identity)
 					? undefined
 					: clickEdit,
 			}
-			return IdentityWidget([new IdentityDraft(passport), options], {content: html`
+			return IdentityWidget([new IdentityDraft(identity), options], {content: html`
 				<button
 					theme-button
 					class=edit
@@ -63,15 +63,15 @@ export const ListPage = shadowView(use => (
 					<button
 						class=login
 						theme-button=login
-						@click="${() => purpose.onIdentity(passport)}">
+						@click="${() => purpose.onIdentity(identity)}">
 							Login
 					</button>
 				` : null}
 			`})
 		}
 		return html`
-			<div class=passports>
-				${passports.map(renderPassport)}
+			<div class=identities>
+				${identities.map(renderIdentity)}
 			</div>
 
 			<footer theme-buttons>
@@ -91,19 +91,19 @@ export const ListPage = shadowView(use => (
 	}
 
 	function renderSelectMode() {
-		const renderPassport = (passport: Identity) => {
+		const renderIdentity = (identity: Identity) => {
 			const toggle = () => {
-				const already = selected.has(passport.id)
-				if (already) selected.delete(passport.id)
-				else selected.add(passport.id)
+				const already = selected.has(identity.id)
+				if (already) selected.delete(identity.id)
+				else selected.add(identity.id)
 				use.rerender()
 			}
-			const isSelected = selected.has(passport.id)
+			const isSelected = selected.has(identity.id)
 			const options: IdentityWidgetOptions = {
 				selected: isSelected,
 				onClick: toggle,
 			}
-			return IdentityWidget([new IdentityDraft(passport), options], {content: html`
+			return IdentityWidget([new IdentityDraft(identity), options], {content: html`
 				<button
 					theme-button
 					x-check
@@ -115,7 +115,7 @@ export const ListPage = shadowView(use => (
 		}
 
 		const selectAll = () => {
-			passports.map(p => p.id).forEach(id => selected.add(id))
+			identities.map(p => p.id).forEach(id => selected.add(id))
 			use.rerender()
 		}
 
@@ -125,23 +125,23 @@ export const ListPage = shadowView(use => (
 		}
 
 		const renderSelectedButtons = () => {
-			const selectedPassportIds = [...selected]
-			const selectedSeeds = selectedPassportIds
+			const selectedIdentityIds = [...selected]
+			const selectedSeeds = selectedIdentityIds
 				.map(id => seedMap.get(id))
 				.filter(is.available)
-			const selectedPassports = selectedPassportIds
-				.map(id => passportMap.get(id))
+			const selectedIdentities = selectedIdentityIds
+				.map(id => identityMap.get(id))
 				.filter(is.available)
 
 			downloader.text = selectedSeeds.join("\n\n")
-			const filename = selectedPassportIds.length === 1
-				? crushUsername(idPreview(selectedPassportIds.at(0)!))
-				: `passports-${selected.size}.authlocal`
+			const filename = selectedIdentityIds.length === 1
+				? crushUsername(idPreview(selectedIdentityIds.at(0)!))
+				: `identities-${selected.size}.authlocal`
 
 			return html`
 				<button
 					theme-button=angry
-					@click="${() => situation.onDelete(selectedPassports)}">
+					@click="${() => situation.onDelete(selectedIdentities)}">
 						Delete
 				</button>
 
@@ -158,8 +158,8 @@ export const ListPage = shadowView(use => (
 		}
 
 		return html`
-			<div class=passports>
-				${passports.map(renderPassport)}
+			<div class=identities>
+				${identities.map(renderIdentity)}
 			</div>
 
 			<p>${selected.size} selected</p>
@@ -199,7 +199,7 @@ export const ListPage = shadowView(use => (
 					</h2>
 					<p>This website is requesting your login</p>
 				` : html`
-					<h2>Your login passports</h2>
+					<h2>Your identities</h2>
 				`}
 			</div>
 

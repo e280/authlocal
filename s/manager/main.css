@@ -19,8 +19,8 @@
 	--text: color-mix(in lch, var(--alpha), white 50%);
 
 	--seed: #ff6800;
-	--passport: #20563c33;
-	--passport-select: #00ff8433;
+	--identity: #20563c33;
+	--identity-select: #00ff8433;
 
 	--select: #d9ffea;
 	--happy: lime;

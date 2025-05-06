@@ -7,16 +7,16 @@ import themeCss from "../../../../common/theme.css.js"
 import {Identity} from "../../../../core/identity.js"
 import {idPreview} from "../../../../tools/id-preview.js"
 
-export const Summary = shadowView(use => (passports: Identity[]) => {
+export const Summary = shadowView(use => (identities: Identity[]) => {
 	use.name("summary")
 	use.styles([themeCss, stylesCss])
 
 	return html`
-		<ul class=passports>
-			${passports.map(passport => html`
-				<li x-id="${passport.id}">
-					<span class=label>${passport.label}</span>
-					<span class=id>${idPreview(passport.id)}</span>
+		<ul class=identities>
+			${identities.map(identity => html`
+				<li x-id="${identity.id}">
+					<span class=label>${identity.label}</span>
+					<span class=id>${idPreview(identity.id)}</span>
 				</li>
 			`)}
 		</ul>

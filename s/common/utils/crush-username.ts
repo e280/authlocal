@@ -8,6 +8,6 @@ export function crushUsername(username: string, maxLength = maxLabelLength): str
 		.replace(/[^a-z0-9]/gi, "_")
 		.slice(0, maxLength)
 		.replace(/^_+|_+$/g, "")
-	return sanitized || "passport"
+	return sanitized || "identity"
 }
 

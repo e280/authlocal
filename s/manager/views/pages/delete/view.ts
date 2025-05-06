@@ -13,15 +13,15 @@ export const DeletePage = shadowView(use => (situation: Situation.Delete) => {
 	use.name("delete-page")
 	use.styles([themeCss, stylesCss])
 
-	const {identities: passports} = situation
+	const {identities} = situation
 	const requiredText = use.once(() => randomDigits(5))
 
 	return html`
 		<section theme-plate>
 			<section theme-zone=danger>
-				<h2>Delete ${passports.length} passport${passports.length === 1 ?"" :"s"}</h2>
+				<h2>Delete ${identities.length} ${identities.length === 1 ?"identity" :"identities"}</h2>
 
-				${Summary([passports])}
+				${Summary([identities])}
 
 				${Confirmer([{
 					requiredText,
