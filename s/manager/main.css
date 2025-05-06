@@ -68,24 +68,10 @@ html {
 	font-family: sans-serif;
 	background: var(--bg);
 
-	/* --tint: #1b060040; */
 	--tint: #00061b5e;
-
 	background:
 		linear-gradient(to bottom, var(--tint), var(--tint)),
-		var(--bg) url("https://i.imgur.com/QrRX9gp.png") center center / cover;
-
-	/* background: */
-	/* 	linear-gradient(to bottom, var(--tint), var(--tint)), */
-	/* 	var(--bg) url("https://i.imgur.com/jce3Nn7.png") center center / cover; */
-
-	/* background: */
-	/* 	linear-gradient(to bottom, var(--tint), var(--tint)), */
-	/* 	var(--bg) url("https://i.imgur.com/SemsH0I.png") center center / cover; */
-
-	/* background: */
-	/* 	linear-gradient(to bottom, var(--tint), var(--tint)), */
-	/* 	var(--bg) url("https://i.imgur.com/hRf3Hae.png") center center / cover; */
+		var(--bg) url("/assets/1dea2105.avif") center center / cover;
 }
 
 body {

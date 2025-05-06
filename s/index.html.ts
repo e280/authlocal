@@ -11,13 +11,14 @@ const version = (await read_json("package.json")).version
 export default template(async basic => {
 	const path = basic.path(import.meta.url)
 	const hash = await git_commit_hash()
+	const faviconVersioned = await path.version.root(favicon)
 
 	return easypage({
 		path,
 		dark: true,
 		title: "Authlocal",
 		head: html`
-			<link rel="icon" href="${favicon}"/>
+			<link rel="icon" href="${faviconVersioned}"/>
 			<style>${unsanitized(await read_file("x/manager/main.css"))}</style>
 			<meta data-commit-hash="${hash}"/>
 			<meta data-version="${version}"/>
@@ -27,7 +28,7 @@ export default template(async basic => {
 				siteName: domain,
 				title: "Authlocal – user-sovereign login system",
 				description: "Own your identity. No emails, no passwords, no databases. Open-source. Privacy-focused.",
-				image: `https://${domain}${favicon}`,
+				image: `https://${domain}${faviconVersioned}`,
 				url: `https://${domain}/`,
 			})}
 
