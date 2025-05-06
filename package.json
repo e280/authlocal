@@ -1,7 +1,8 @@
 {
 	"name": "@authlocal/authlocal",
 	"version": "0.2.0-17",
-	"description": "User-sovereign login system",
+	"description": "User-sovereign auth",
+	"license": "MIT",
 	"main": "./x/exports.web.js",
 	"type": "module",
 	"files": [
@@ -12,6 +13,20 @@
 		".": "./x/exports.web.js",
 		"./core": "./x/exports.core.js",
 		"./*": "./*"
+	},
+	"dependencies": {
+		"@benev/slate": "^0.3.2",
+		"@e280/kv": "^0.0.0-5",
+		"@e280/science": "^0.0.4",
+		"@e280/stz": "^0.0.0-11",
+		"@noble/ed25519": "^2.2.3",
+		"renraku": "^0.5.0-10"
+	},
+	"devDependencies": {
+		"@benev/turtle": "^0.6.11",
+		"http-server": "^14.1.1",
+		"npm-run-all": "^4.1.5",
+		"typescript": "^5.8.3"
 	},
 	"scripts": {
 		"build": "rm -rf x && run-s _code _ssg _ln",
@@ -31,24 +46,9 @@
 		"_ln:s": "ln -s \"$(realpath s)\" x/s",
 		"_ln:assets": "ln -s \"$(realpath assets)\" x/assets"
 	},
-	"dependencies": {
-		"@benev/slate": "^0.3.2",
-		"@e280/kv": "^0.0.0-5",
-		"@e280/science": "^0.0.4",
-		"@e280/stz": "^0.0.0-11",
-		"@noble/ed25519": "^2.2.3",
-		"renraku": "^0.5.0-10"
-	},
-	"devDependencies": {
-		"@benev/turtle": "^0.6.11",
-		"http-server": "^14.1.1",
-		"npm-run-all": "^4.1.5",
-		"typescript": "^5.8.3"
-	},
-	"license": "MIT",
-	"author": "Chase Moskal <chasemoskal@gmail.com>",
 	"keywords": [
 		"auth",
+		"authentication",
 		"zero-cost",
 		"privacy-focused",
 		"user-sovereign",
@@ -57,7 +57,15 @@
 		"decentralized",
 		"protocol",
 		"free",
-		"open-source",
-		"foss"
-	]
+		"open-source"
+	],
+	"author": "Chase Moskal <chasemoskal@gmail.com>",
+	"homepage": "https://github.com/authlocal/authlocal#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/authlocal/authlocal.git"
+	},
+	"bugs": {
+		"url": "https://github.com/authlocal/authlocal/issues"
+	}
 }
