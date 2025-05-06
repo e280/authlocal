@@ -47,7 +47,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				<div theme-group>
 					<h2>
 						${purpose.kind === "login"
-						? html`Create a identity for ${hostcode(purpose.hostname)}`
+						? html`Create a identity for ${hostcode(purpose.appOrigin)}`
 						: (first
 							? html`Create your first login identity`
 							: html`Create a new login identity`)}
@@ -102,7 +102,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			return html`
 				<section theme-group class=seed>
 					${purpose.kind === "login"
-						? html`<h2>${hostcode(purpose.hostname)}</h2>`
+						? html`<h2>${hostcode(purpose.appOrigin)}</h2>`
 						: null}
 					<h2>Save your recovery seed</h2>
 					<p>Download or copy it, and keep it safe — if you lose it, it's gone forever.</p>

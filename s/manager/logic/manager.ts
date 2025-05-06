@@ -37,18 +37,17 @@ export class Manager {
 				appWindow,
 				appWindow.origin,
 			)
-			const audience = window.opener.origin
-			const {hostname} = new URL(audience)
+			const appOrigin = window.opener.origin
 			purpose.value = {
 				kind: "login",
-				audience,
-				hostname,
+				appOrigin,
 				onDeny: async() => app.v3.login(null),
 				onIdentity: async identity => {
-					const session = await generateSession(identity, {
+					const session = await generateSession({
+						identity,
+						appOrigin,
+						providerOrigin: popupWindow.origin,
 						expiresAt: Future.days(7),
-						issuer: popupWindow.origin,
-						audience,
 					})
 					await app.v3.login(session)
 				},
@@ -56,12 +55,10 @@ export class Manager {
 		}
 
 		else if (isDebugLoginMode) {
-			const audience = window.origin
-			const {hostname} = new URL(audience)
+			const appOrigin = window.origin
 			purpose.value = {
 				kind: "login",
-				audience,
-				hostname,
+				appOrigin,
 				onDeny: async() => console.log("DENIED LOGIN"),
 				onIdentity: async identity => console.log("LOGIN", identity.id),
 			}

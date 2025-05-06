@@ -1,4 +1,10 @@
 
+//
+// toolkit of core environment-agnostic functionality
+//  - browser, node, deno, bun, etc
+//  - provides crypto fns for verifying claims, etc
+//
+
 export * from "./core/crypto.js"
 export * from "./core/login.js"
 export * from "./core/identity.js"

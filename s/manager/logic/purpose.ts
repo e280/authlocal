@@ -12,8 +12,7 @@ export namespace Purpose {
 	/** the app was opened for the user to select a identity to login with */
 	export type Login = {
 		kind: "login"
-		audience: string
-		hostname: string
+		appOrigin: string
 		onDeny: () => Promise<void>
 		onIdentity: (identity: Identity) => Promise<void>
 	}

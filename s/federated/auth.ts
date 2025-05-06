@@ -1,10 +1,9 @@
 
 import {Pipe, sub} from "@e280/stz"
-import {apply, ev, signal} from "@benev/slate"
+import {apply, register, signal} from "@benev/slate"
 
 import {Login} from "../core/login.js"
-import {AuthOptions} from "./types.js"
-import {themes} from "./themes/themes.js"
+import {Future} from "../tools/future.js"
 import {Session} from "../core/session.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
@@ -12,48 +11,47 @@ import {openPopup} from "./parts/open-popup.js"
 import {setupInApp} from "./api/setup-in-app.js"
 import {components} from "./views/components.js"
 import {AuthSingleton} from "./parts/singleton.js"
-import {detectTheme} from "./parts/detect-theme.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
+import {AuthComponentOptions, AuthInstallOptions, AuthOptions} from "./types.js"
 
 export class Auth {
 	static version = 1
 	static defaults = defaults
 
+	static Future = Future
+
 	static #singleton = new AuthSingleton()
 	static get = this.#singleton.get
-	static install = this.#singleton.install
+	static initialize = this.#singleton.initialize
 
-	static themes = themes
-	static components(theme = detectTheme()) {
+	static components({theme = []}: Partial<AuthComponentOptions> = {}) {
 		return Pipe.with(components)
 			.to(apply.css(theme))
 			.to(apply.reactive())
 			.done()
 	}
 
+	static async install(options?: Partial<AuthInstallOptions>) {
+		await this.initialize(options)
+		register(this.components(options))
+	}
+
 	src: string
 	on = sub<[Login | null]>()
-	loginSignal = signal<Login | null>(null)
 	wait: Promise<Login | null> = Promise.resolve(null)
-	dispose: () => void
 
 	#options: AuthOptions
 	#stores: AuthStores
 	#ready: Promise<void>
+	#login = signal<Login | null>(null)
 
 	constructor(options: Partial<AuthOptions> = {}) {
 		this.#options = Auth.defaults(options)
 		this.src = this.#options.src
 		this.#stores = new AuthStores(this.#options.kv)
 		this.#ready = this.#stores.versionMigration(Auth.version)
-		this.dispose = (() => {
-			const detachOn = this.loginSignal.on(login => this.on.pub(login))
-			const detachStorage = ev(window, {storage: () => this.loadLogin()})
-			return () => {
-				detachOn()
-				detachStorage()
-			}
-		})()
+		this.#login.on(login => this.on.pub(login))
+		this.#options.onStorageChange(() => void this.loadLogin())
 	}
 
 	async loadLogin(): Promise<Login | null> {
@@ -71,10 +69,10 @@ export class Auth {
 	}
 
 	get login() {
-		const login = this.loginSignal.value
+		const login = this.#login.value
 		if (login && login.isExpired())
-			this.loginSignal.value = null
-		return this.loginSignal.value
+			this.#login.value = null
+		return this.#login.value
 	}
 
 	async popup(src = this.src) {
@@ -114,15 +112,16 @@ export class Auth {
 	}
 
 	#updateLoginSignal(login: Login | null) {
-		const hasChanged = login?.sessionId !== this.loginSignal.value?.sessionId
+		const hasChanged = login?.sessionId !== this.#login.value?.sessionId
 		if (hasChanged)
-			this.loginSignal.value = login
+			this.#login.value = login
 		return login
 	}
 
 	async #verify(session: Session) {
-		return nullcatch(async() => Login.verify(session, {
-			allowedAudiences: [window.origin],
+		return nullcatch(async() => Login.verify({
+			session,
+			appOrigins: [window.origin],
 		}))
 	}
 

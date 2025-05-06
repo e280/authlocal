@@ -1,17 +1,21 @@
 
+//
+// functionality exposed to federated apps
+//  - web browser support (not node/bun/deno etc)
+//  - provides web components and such
+//
+
 export * from "./exports.core.js"
 
-export {register_to_dom, apply, mixin, nexus} from "@benev/slate"
+export {register, apply, mixin, css, CSSResultGroup} from "@benev/slate"
 
-export {default as themeCss} from "./manager/theme.css.js"
+export * from "./federated/auth.js"
+export {Auth as default} from "./federated/auth.js"
+
+export * from "./federated/types.js"
+export * from "./federated/views/auth-user/element.js"
+export * from "./federated/views/auth-button/element.js"
+
 export * from "./common/views/id/view.js"
 export * from "./common/views/id/render-id.js"
-
-// export * from "./federated/utils/login.js"
-// export * from "./federated/auth.js"
-// export * from "./federated/views/components.js"
-// export * from "./federated/views/auth-user/element.js"
-// export * from "./federated/views/auth-button/element.js"
-
-export * from "./tools/storage-signal.js"
 
