@@ -13,6 +13,8 @@ export class Login {
 		public proof: Proof,
 	) {}
 
+	get id() { return this.proof.passport.id }
+	get label() { return this.proof.passport.label }
 	get proofToken() { return this.session.proofToken }
 	get passport() { return this.proof.passport }
 	get sessionId() { return this.proof.sessionId }

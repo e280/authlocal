@@ -1,5 +1,5 @@
 
-import {ShadowElement, attributes, html, mixin} from "@benev/slate"
+import {ShadowElement, TemplateResult, attributes, html, mixin} from "@benev/slate"
 
 import {Auth} from "../../auth.js"
 import stylesCss from "./styles.css.js"
@@ -9,11 +9,12 @@ import stylesCss from "./styles.css.js"
 export class AuthButton extends ShadowElement {
 	auth = Auth.get()
 
-	#attrs = attributes(this, {"src": String})
-	get src() { return this.#attrs.src }
-	set src(src: string | undefined) { this.#attrs.src = src }
+	attrs = attributes(this, {
+		"src": String,
+		"theme": String,
+	})
 
-	render() {
+	render(): TemplateResult {
 		const {auth} = this
 		const {login} = auth
 		return login
@@ -21,16 +22,16 @@ export class AuthButton extends ShadowElement {
 				<button
 					class=logout
 					part=button
-					@click="${() => auth.saveLogin(null)}">
-						Logout
+					@click="${() => auth.logout()}">
+						<slot name=logout>Logout</slot>
 				</button>`
 
 			: html`
 				<button
 					class=login
 					part=button
-					@click="${() => auth.popup(this.#attrs.src)}">
-						Login
+					@click="${() => auth.popup(this.attrs.src)}">
+						<slot>Login</slot>
 				</button>`
 	}
 }

@@ -1,15 +1,18 @@
 
-import {sub} from "@e280/stz"
-import {signal} from "@benev/slate"
+import {Pipe, sub} from "@e280/stz"
+import {apply, ev, signal} from "@benev/slate"
 
 import {Login} from "../core/login.js"
 import {AuthOptions} from "./types.js"
+import {themes} from "./themes/themes.js"
 import {Session} from "../core/session.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
 import {openPopup} from "./parts/open-popup.js"
 import {setupInApp} from "./api/setup-in-app.js"
+import {components} from "./views/components.js"
 import {AuthSingleton} from "./parts/singleton.js"
+import {detectTheme} from "./parts/detect-theme.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
 
 export class Auth {
@@ -20,8 +23,18 @@ export class Auth {
 	static get = this.#singleton.get
 	static install = this.#singleton.install
 
+	static themes = themes
+	static components(theme = detectTheme()) {
+		return Pipe.with(components)
+			.to(apply.css(theme))
+			.to(apply.reactive())
+			.done()
+	}
+
+	src: string
 	onChange = sub<[Login | null]>()
 	wait: Promise<Login | null> = Promise.resolve(null)
+	dispose: () => void
 
 	#options: AuthOptions
 	#stores: AuthStores
@@ -31,6 +44,7 @@ export class Auth {
 
 	constructor(options: Partial<AuthOptions> = {}) {
 		this.#options = Auth.defaults(options)
+		this.src = this.#options.src
 		this.#stores = new AuthStores(this.#options.kv)
 		this.#ready = this.#stores.versionMigration(Auth.version)
 		this.#login.on(async login => {
@@ -39,14 +53,7 @@ export class Auth {
 			if (isChanged)
 				await this.onChange.pub(login)
 		})
-	}
-
-	get src() {
-		return this.#options.src
-	}
-
-	set src(url: string) {
-		this.#options.src = url
+		this.dispose = ev(window, {storage: () => this.loadLogin()})
 	}
 
 	async loadLogin(): Promise<Login | null> {
@@ -61,6 +68,10 @@ export class Auth {
 		return this.#login.value
 	}
 
+	async logout() {
+		return this.saveLogin(null)
+	}
+
 	get login() {
 		const login = this.#login.value
 		if (login && login.isExpired())
@@ -68,9 +79,9 @@ export class Auth {
 		return this.#login.value
 	}
 
-	async popup(url = this.src) {
-		const popupWindow = openPopup(url)
-		const popupOrigin = new URL(url, window.location.href).origin
+	async popup(src = this.src) {
+		const popupWindow = openPopup(src)
+		const popupOrigin = new URL(src, window.location.href).origin
 
 		if (!popupWindow)
 			return null

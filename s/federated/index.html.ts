@@ -16,8 +16,8 @@ export default template(async basic => {
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("federated/install.bundle.js"),
-				prodModulePath: await path.version.root("federated/install.bundle.min.js"),
+				devModulePath: await path.version.root("install.bundle.js"),
+				prodModulePath: await path.version.root("install.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
@@ -25,7 +25,7 @@ export default template(async basic => {
 			<h1>Example app using Authlocal</h1>
 			<p>This page is a test for a typical federated auth integration with <a href="/">Authlocal</a></p>
 			<auth-user></auth-user>
-			<auth-button src="/"></auth-button>
+			<auth-button src="/" theme="basic"></auth-button>
 		`,
 	})
 })
