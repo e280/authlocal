@@ -15,6 +15,7 @@ export default css`
 	opacity: 0.5;
 	border: none;
 	box-shadow: none;
+	text-shadow: none;
 	background: transparent;
 }
 
