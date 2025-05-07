@@ -147,3 +147,25 @@ proof.nametag.label
 - You can verify claims on the clientside or serverside.
 - You must specify what `appOrigins` you expect to receive claims from (this prevents phishing attacks).
 
+<br/>
+
+## Strategies for user-sovereign auth
+
+### Users will lose their identities, have a recovery plan
+
+When you sell a service or digital good to a user's Authlocal identity, you'll need to have a recovery mechanism, or people will get cranky.
+
+It may be wise to sell the digital goods to an email address, which can be used for recovery (simply resetting which Authlocal id owns the goods in your database). This would be a case where you are allowing the user to trade some privacy (email address, payment method) to afford this recovery safety.
+
+<br/>
+
+## 💖 [Authlocal](https://authlocal.org/) is free and open source
+
+My name is Chase Moskal, and I built Authlocal because I wanted free user-centric auth to power [benevolent.games](http://benevolent.games/).
+
+Got questions or feedback? Don't hesitate to open a github issue or discussion anytime.
+
+Like the project? Star it on github, it's the only way I'm paid.
+
+Authlocal is associated with my project [e280.org](https://e280.org/), the buildercore collective.
+
