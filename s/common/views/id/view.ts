@@ -1,11 +1,11 @@
 
 import {debounce, html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
-import themeCss from "../../theme.css.js"
+import {common} from "../../common.js"
 
 export const IdView = shadowView(use => (payload: string, preview?: string) => {
 	use.name("id")
-	use.styles(themeCss, stylesCss)
+	use.styles(common.theme, stylesCss)
 
 	const truncated = payload.slice(0, 24)
 	const copyStatus = use.signal<"good" | "bad" | undefined>(undefined)

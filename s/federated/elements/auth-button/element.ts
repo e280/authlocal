@@ -5,8 +5,8 @@ import stylesCss from "./styles.css.js"
 
 import {Auth} from "../../auth.js"
 
-@mixin.css(stylesCss)
 @mixin.reactive()
+@mixin.css(stylesCss)
 export class AuthButton extends ShadowElement {
 	auth = Auth.get()
 

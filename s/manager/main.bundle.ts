@@ -1,7 +1,16 @@
 
 import {register} from "@benev/slate"
-import {AuthManager} from "./elements/auth-manager/element.js"
-import {AuthPersistence} from "./elements/auth-persistence/element.js"
 
-register({AuthManager, AuthPersistence})
+import basicCss from "../themes/basic.css.js"
+
+import {common} from "../common/common.js"
+import {managerElements} from "./elements/elements.js"
+import {commonElements} from "../common/elements/elements.js"
+
+common.theme = basicCss
+
+register({
+	...commonElements,
+	...managerElements,
+})
 

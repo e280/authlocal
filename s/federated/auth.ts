@@ -6,14 +6,15 @@ import underlayCss from "./underlay.css.js"
 
 import {Login} from "../core/login.js"
 import {Future} from "../tools/future.js"
+import {common} from "../common/common.js"
 import {Session} from "../core/session.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
-import {elements} from "./elements/elements.js"
 import {openPopup} from "./parts/open-popup.js"
 import {setupInApp} from "./api/setup-in-app.js"
 import {AuthSingleton} from "./parts/singleton.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
+import {federatedElements} from "./elements/elements.js"
 import {AuthComponentOptions, AuthInstallOptions, AuthOptions} from "./types.js"
 
 export class Auth {
@@ -27,8 +28,8 @@ export class Auth {
 	static initialize = this.#singleton.initialize
 
 	static elements({theme = []}: Partial<AuthComponentOptions> = {}) {
-		return Pipe.with(elements)
-			.to(apply.css([underlayCss, theme]))
+		return Pipe.with(federatedElements)
+			.to(apply.css([underlayCss, common.theme]))
 			.to(apply.reactive())
 			.done()
 	}

@@ -6,8 +6,8 @@ import stylesCss from "./styles.css.js"
 import {Auth} from "../../auth.js"
 import {idPreview} from "../../../tools/id-preview.js"
 
-@mixin.css(stylesCss)
 @mixin.reactive()
+@mixin.css(stylesCss)
 export class AuthUser extends ShadowElement {
 	auth = Auth.get()
 
