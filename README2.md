@@ -74,6 +74,13 @@ This will allow users to login to your website using the Authlocal federated pop
   `})
   ```
 
+### Anatomy of a `login`
+- `login.id` — unique id for a user
+  - looks like `"a08263e70a0a48a07e988a7c0931ada6b0a38fa84bf367087b810c614a4c2070"`
+  - *(it's actually the user identity public key)*
+- `login.label` — user's chosen nickname
+  - looks like `"Michael Scott"`
+
 <br/>
 
 ## Authlocal claims
@@ -92,7 +99,7 @@ Claims are secured cryptographically.
 - Claims contain cryptographic proof that they stem from a user's login.
 - No attacker can spoof a claim for somebody else's identity.
 
-### Sign a claim, on the clientside
+### Sign a claim
 ```js
 import {future} from "@authlocal/authlocal"
 
