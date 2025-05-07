@@ -97,7 +97,7 @@ export async function verifyClaim<C>({claimToken, appOrigins}: VerifyClaimOption
 		proof.sessionId,
 		claimToken,
 
-		// claim must have been issued on your app
+		// claim must have been issued by your app
 		{allowedIssuers: appOrigins},
 	)
 

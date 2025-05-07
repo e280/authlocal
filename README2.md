@@ -74,53 +74,59 @@ This will allow users to login to your website using the Authlocal federated pop
   `})
   ```
 
-### CSS themes *(optional)*
-
 <br/>
 
 ## Authlocal claims
 
 Okay, so you have a user's `login`. Now what?
-- The login is automatically persisted in `localStorage`.
+- The purpose of a login is to *sign claims* on the user's behalf.
 - You must *never* send the login data anywhere. It should stay on the user's clientside device.
-- What the login is for, is *signing claims* on the user's behalf.
-- When a user provides you with a `login`, they are consenting to your app signing claims on their behalf.
-- Claims are scoped to your app's origin.
+- The login is automatically persisted in `localStorage`.
 
-### Sign a claim
-- On the clientside, you can use a user's login to sign a claim:
-  ```js
-  import {future} from "@authlocal/authlocal"
+The purpose of a claim is to say *"on behalf of this user, my frontend says..."*
+- "...they want to post this message"
+- "...they want to change their avatar"
+- "...they want to buy this microtransaction"
 
-  const claimToken = await login.signClaim({
-    claim: {message: "i love ice cream"},
-    expiresAt: future.hours(24),
-  })
-  ```
-- The claim can contain *any json-friendly data you want*
-- The purpose of a claim is to say *"on behalf of this user, my frontend says..."*
-  - "...they want to post this message"
-  - "...they want to change their avatar"
-  - "...they want to buy this microtransaction"
-- Now your server can accept a claim token, and *verify* that it was indeed consented by the user's identity (and not some scammer sending you anonymous requests trying to change other people's avatars or whatever)
-  - Said differently, no attacker can spoof a claim for another user whose secret key they do not own
+Claims are secured cryptographically.
+- Claims contain cryptographic proof that they stem from a user's login.
+- No attacker can spoof a claim for somebody else's identity.
+
+### Sign a claim, on the clientside
+```js
+import {future} from "@authlocal/authlocal"
+
+const claimToken = await login.signClaim({
+
+  // any json-friendly data you want
+  claim: {message: "i love ice cream"},
+
+  // when should this claim expire?
+  expiresAt: future.hours(24),
+})
+```
 
 ### Verify a claim
-  - On your serverside (or clientside, wherever really), you can verify a claim:
-  ```js
-  import {verifyClaim} from "@authlocal/authlocal"
+```js
+import {verifyClaim} from "@authlocal/authlocal"
 
-  const {claim} = await verifyClaim({
-    claimToken,
-    appOrigins: ["https://example.e280.org"],
-  })
-  ```
-  - `appOrigins` is an array of origins that you'll allow claims from
+const {claim, proof} = await verifyClaim({
+  claimToken,
+  appOrigins: ["https://example.e280.org"],
+})
 
+proof.sessionId
+  // id for this login session, looks like:
+  // "ff730fe2d725aa5210152975212d1068d7fe28ae22b5e62337a4cde42215187a"
 
+proof.nametag.id
+  // user identity id, looks like:
+  // "a08263e70a0a48a07e988a7c0931ada6b0a38fa84bf367087b810c614a4c2070"
 
-
-
-
-
+proof.nametag.label
+  // user identity nickname, looks like:
+  // "Michael Scott"
+```
+- You can verify claims on the clientside or serverside.
+- You must specify what `appOrigins` you expect to receive claims from (this prevents phishing attacks).
 

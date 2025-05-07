@@ -27,6 +27,13 @@ export class Login {
 	get id() { return this.proof.nametag.id }
 	get label() { return this.proof.nametag.label }
 
+	get expiresAt() {
+		const expiresAt = Token.expiresAt(this.proofToken)
+		if (expiresAt === undefined)
+			throw new Error("misconfigured proof token will never expire")
+		return expiresAt
+	}
+
 	isExpired(time = Date.now()) {
 		return Token.isExpired(this.proofToken, time)
 	}
