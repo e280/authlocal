@@ -16,8 +16,8 @@ export default template(async basic => {
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("install.bundle.js"),
-				prodModulePath: await path.version.root("install.bundle.min.js"),
+				devModulePath: await path.version.local("fed.bundle.js"),
+				prodModulePath: await path.version.local("fed.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,

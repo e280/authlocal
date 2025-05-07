@@ -2,6 +2,8 @@
 import {Pipe, sub} from "@e280/stz"
 import {apply, register, signal} from "@benev/slate"
 
+import underlayCss from "./underlay.css.js"
+
 import {Login} from "../core/login.js"
 import {Future} from "../tools/future.js"
 import {Session} from "../core/session.js"
@@ -26,14 +28,15 @@ export class Auth {
 
 	static components({theme = []}: Partial<AuthComponentOptions> = {}) {
 		return Pipe.with(components)
-			.to(apply.css(theme))
+			.to(apply.css([underlayCss, theme]))
 			.to(apply.reactive())
 			.done()
 	}
 
 	static async install(options?: Partial<AuthInstallOptions>) {
-		await this.initialize(options)
+		const auth = await this.initialize(options)
 		register(this.components(options))
+		return auth
 	}
 
 	src: string
