@@ -18,21 +18,26 @@ export class AuthButton extends ShadowElement {
 		const {auth} = this
 		const {login} = auth
 		return login
+
 			? html`
 				<button
 					class=logout
-					part=button
+					theme-button=logout
+					part="button button-logout"
 					@click="${() => auth.logout()}">
 						<slot name=logout>Logout</slot>
-				</button>`
+				</button>
+			`
 
 			: html`
 				<button
 					class=login
-					part=button
+					theme-button=login
+					part="button button-login"
 					@click="${() => auth.popup(this.attrs.src)}">
 						<slot>Login</slot>
-				</button>`
+				</button>
+			`
 	}
 }
 

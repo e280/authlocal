@@ -20,7 +20,7 @@ export class AuthUser extends ShadowElement {
 				<span class=label>${login.nametag.label}</span>
 				<small>${idPreview(login.sessionId)}</small>
 			</div>
-		` : html``
+		` : null
 	}
 }
 
