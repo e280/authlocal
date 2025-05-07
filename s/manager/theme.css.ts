@@ -177,6 +177,10 @@ button {
 	flex-direction: column;
 	justify-content: center;
 	gap: 0.5em;
+
+	&[theme-group=tight] {
+		gap: 0.2em;
+	}
 }
 
 [theme-buttons] {

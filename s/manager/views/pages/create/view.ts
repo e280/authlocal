@@ -100,12 +100,15 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 		function render() {
 			const {identity, seed} = finalized.value
 			return html`
-				<section theme-group class=seed>
+				<section theme-group=tight class=seed>
 					${purpose.kind === "login"
 						? html`<h2>${hostcode(purpose.appOrigin)}</h2>`
 						: null}
 					<h2>Save your recovery seed</h2>
-					<p>Download or copy it, and keep it safe — if you lose it, it's gone forever.</p>
+					<p>
+						Keep it safe. Never share it.<br/>
+						Only trust authlocal.org with it.
+					</p>
 				</section>
 
 				<section theme-group>
