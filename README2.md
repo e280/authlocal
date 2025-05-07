@@ -17,8 +17,6 @@
 
 ## Authlocal installation and setup
 
-This will allow users to login to your website using the Authlocal federated popup flow.
-
 ### Quick start
 1. Pick one of these install techniques
     1. **HTML install technique**  
