@@ -6,6 +6,7 @@ import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
 import {manager} from "../../../context.js"
+import {constants} from "../../../../constants.js"
 import {hostcode} from "../../../utils/hostcode.js"
 import {Situation} from "../../../logic/situation.js"
 import {Identity} from "../../../../core/identity.js"
@@ -136,7 +137,7 @@ export const ListPage = shadowView(use => (
 			downloader.text = selectedSeeds.join("\n\n")
 			const filename = selectedIdentityIds.length === 1
 				? crushUsername(idPreview(selectedIdentityIds.at(0)!))
-				: `identities-${selected.size}.authlocal`
+				: `identities-${selected.size}` + constants.seedExtension
 
 			return html`
 				<button

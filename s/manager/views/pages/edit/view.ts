@@ -4,11 +4,12 @@ import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
+import {Tabby} from "../../common/tabby/view.js"
+import {constants} from "../../../../constants.js"
 import {Situation} from "../../../logic/situation.js"
 import {Confirmer} from "../../common/confirmer/view.js"
 import {idPreview} from "../../../../tools/id-preview.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
-import {Tabby} from "../../common/tabby/view.js"
 import {dehydrateIdentities} from "../../../../core/identity.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
@@ -54,7 +55,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 			<section theme-group class=seedtext>
 				${SeedReveal([
 					seed.value,
-					`${crushUsername(label)}.authlocal`,
+					crushUsername(label) + constants.seedExtension,
 				])}
 			</section>
 		`},

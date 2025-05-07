@@ -5,6 +5,7 @@ import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
 import {manager} from "../../../context.js"
+import {constants} from "../../../../constants.js"
 import {hostcode} from "../../../utils/hostcode.js"
 import {Situation} from "../../../logic/situation.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
@@ -112,7 +113,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				</section>
 
 				<section theme-group>
-					${SeedReveal([seed, crushUsername(identity.label) + ".authlocal"])}
+					${SeedReveal([seed, crushUsername(identity.label) + constants.seedExtension])}
 				</section>
 
 				<footer theme-buttons>

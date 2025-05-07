@@ -4,6 +4,7 @@ import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../../theme.css.js"
 
+import {constants} from "../../../../../../constants.js"
 import {Summary} from "../../../../common/summary/view.js"
 import {Problematic} from "../../../../common/problems/problematic.js"
 import {hydrateIdentities, Identity} from "../../../../../../core/identity.js"
@@ -46,7 +47,7 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 				<input
 					type="file"
 					multiple
-					accept=".authlocal"
+					accept="${constants.seedExtension}"
 					@change="${handleUpload}"
 					/>
 			</section>
