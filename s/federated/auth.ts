@@ -9,9 +9,9 @@ import {Future} from "../tools/future.js"
 import {Session} from "../core/session.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
+import {elements} from "./elements/elements.js"
 import {openPopup} from "./parts/open-popup.js"
 import {setupInApp} from "./api/setup-in-app.js"
-import {components} from "./views/components.js"
 import {AuthSingleton} from "./parts/singleton.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
 import {AuthComponentOptions, AuthInstallOptions, AuthOptions} from "./types.js"
@@ -26,8 +26,8 @@ export class Auth {
 	static get = this.#singleton.get
 	static initialize = this.#singleton.initialize
 
-	static components({theme = []}: Partial<AuthComponentOptions> = {}) {
-		return Pipe.with(components)
+	static elements({theme = []}: Partial<AuthComponentOptions> = {}) {
+		return Pipe.with(elements)
 			.to(apply.css([underlayCss, theme]))
 			.to(apply.reactive())
 			.done()
@@ -35,7 +35,7 @@ export class Auth {
 
 	static async install(options?: Partial<AuthInstallOptions>) {
 		const auth = await this.initialize(options)
-		register(this.components(options))
+		register(this.elements(options))
 		return auth
 	}
 

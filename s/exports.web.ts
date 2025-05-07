@@ -13,8 +13,8 @@ export * from "./federated/auth.js"
 export {Auth as default} from "./federated/auth.js"
 
 export * from "./federated/types.js"
-export * from "./federated/views/auth-user/element.js"
-export * from "./federated/views/auth-button/element.js"
+export * from "./federated/elements/auth-user/element.js"
+export * from "./federated/elements/auth-button/element.js"
 
 export * from "./common/views/id/view.js"
 export * from "./common/views/id/render-id.js"

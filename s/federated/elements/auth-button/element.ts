@@ -1,8 +1,9 @@
 
 import {ShadowElement, TemplateResult, attributes, html, mixin} from "@benev/slate"
 
-import {Auth} from "../../auth.js"
 import stylesCss from "./styles.css.js"
+
+import {Auth} from "../../auth.js"
 
 @mixin.css(stylesCss)
 @mixin.reactive()
