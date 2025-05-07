@@ -1,37 +1,55 @@
 
 # 🔒 [Authlocal.org](https://authlocal.org/) User Guide
-> ***For devs,*** see also the [Developer Readme](README.md) instead.
+> ***Developers,*** see also the [Developer README.md](README.md)
 
 🔑 **Cryptographic** – no emails, no passwords  
-🗽 **User-sovereign** – users own their identity  
+🗽 **User-sovereign** – you own your identity  
 🥷 **Privacy-focused** – no databases, not collecting data  
-🥞 **Easy as pancakes** – logins are fast and painless for users  
-💖 **Free and open-source** – zero-cost at worldwide scale  
+🥞 **Easy as pancakes** – logins are fast and painless  
+💖 **Free and open-source** – zero-cost at global scale  
+
+**[Authlocal.org](https://authlocal.org/)** is an app where you can manage your digital identities.
+
+Any website can spawn a popup asking for you to login via Authlocal. Your identities are based on a cryptographic seed, which Authlocal will *never* share with any website. Your identity seeds are between you and Authlocal only. Third-party websites are requesting a *login session* (not a seed).
 
 <br/>
 
 ## 🤔 Authlocal FAQ
 
 ### What if I lose my identity file or seed?
-- Then it's gone. You'll have to generate a new identity.
-- Responsible app devs selling goods to Authlocal IDs will provide a recovery mechanism, to relink your new ID.
+- It's gone. Generate a new one.
+- The app you're using should provide a recovery mechanism for anything important.
 
 ### How do I recover my identity from a seed?
-- Go to https://authlocal.org/ and click the `Import` button.
+- Go to https://authlocal.org/ and click the `Import` button. You can upload a seed file, or paste one in.
 - This is also how you move identities between your devices.
 
+### What if some other website asks for my seed?
+- It's a scam! Never share your seed with anybody or anywhere except https://authlocal.org/
+
+### What's with the weird names like "`narnyl.tabtyd`"?
+- That's an identity's permanent *sigil*. It's a preview of the full cryptographic thumbprint.
+- Names are just labels. A hundred people could call themselves "`Steve`".
+- Every identity also has a permanent unique cryptographic thumbprint.
+  - Thumbprint: "`narnyl.tabtyd::2BFH296SFgeKP4VA2uoYjiDRj43JxgGg58AYgwN`"
+  - There are more possible thumbprints than atoms in the galaxy (256 bits). No two people will have the same thumbprint.
+- The *sigil* is just the first four bytes of the thumbprint. We display it to help you differentiate who's *really* who.
+  - Sigil: "`narnyl.tabtyd`"
+  - There are 4.2 billion possible sigils. Rarely, two people could have the same fingerprint, so check the full thumbprint if you're suspicious.
+
 ### What does "Persistence off" mean?
+- You may see this in the footer of [authlocal.org](https://authlocal.org/).
 - It means your browser might delete your identities from authlocal.org any time.
-- Conversely, "Persistence on" means the browser is making a pinky-swear to keep your identities safe.
-- If you click "Persistence off", Authlocal will request it. Firefox will nicely ask your permission. Chrome and Safari will usually ignore it.
-- On Safari, with persistence off, there is a 7-day inactive data deletion policy. Apple users sometimes have to re-import their identities.
+- Conversely, "Persistence on" means the browser pinky-swears to keep your identities safe.
+- If you click "Persistence off", Authlocal will request persistence. Firefox will nicely ask your permission. Chrome and Safari will usually ignore you.
+- On Safari, with persistence off, there is a 7-day inactive data deletion policy. Apple users often need to re-import their identities.
 
-### Zero-cost at worldwide scale? How is it technically possible!?
-- [Authlocal.org](https://authlocal.org/) is a 100% static http deployment. Dirt cheap to host.
-- No api servers or microservices or anything like that. It runs clientside, using postMessage.
-- And it's open source, which means GitHub Pages is willing to host it for free.
+### Zero-cost at global scale? How is it technically possible!?
+- [Authlocal.org](https://authlocal.org/) is a static http deployment. Dirt cheap hosting.
+- No api servers or microservices. Runs clientside, using postMessage.
+- It's open source, so GitHub Pages is willing to host it for free.
 
-### Who am I really trusting with my identity keys?
+### Who am I really trusting with my identity seeds?
 - Yourself.
 - Your web browser, operating system, and hardware.
 - GitHub and GitHub Pages, which hosts the source and app for free.

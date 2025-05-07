@@ -1,17 +1,22 @@
 
 # 🔒 [Authlocal.org](https://authlocal.org/) Developer Readme
-> ***Not a developer?*** See the [User Guide](GUIDE.md) instead.
+> ***Not a developer?*** See the [User Guide](GUIDE.md) instead
 
 🏛️ **Federated** – your app gets user logins from [authlocal.org](https://authlocal.org/) popup  
 📱 **Clientside** – statically deployed, no api servers  
 📜 **Protocol** – permissionless integration, you can do it your way  
 🥧 **Easy as pie** – setup your app with an easy snippet  
 
-### Authlocal is a free login system for your website!
+### A cryptographic login system for the world wide web
+Authlocal can provide free auth for everybody.
+
+### A free login system for your website
 - Try out the example integration live demo here: https://authlocal.org/federated/
 - Your users click "Login", pick an identity, then *boom!* — they're logged into your site.
 - Next, you can use claim tokens, for your server to verify user requests.
 - And all this costs you nothing.
+
+### What
 
 <br/>
 
