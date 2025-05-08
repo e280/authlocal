@@ -12,6 +12,11 @@ function scrutinizeIdentity(identity: Identity) {
 	expect(identity.secret.length).is(64)
 }
 
+async function readSeeds(seed: string) {
+	const promises = hydrateIdentities(seed)
+	return Promise.all(promises)
+}
+
 const sampleIdentities: Identity[] = [
 	{"label":"ligrex.nolwyd","id":"6f58d836a227dd44459f4f4ce98fd75758cf858eb88eebe63cc5e0522f88a267","secret":"dc738b54ddd700d4295147104a20e0a2ab29999135fbdf6cdb2a2c3d89452c84"},
 	{"label":"dalryd.motryn","id":"25cc5293e75ca31a5eb8052e021fb9799579cd46de6e5909980fe44bc2b3aa07","secret":"539534b1c307985d4fa0586541916873b2fa169f2081173afa21bdf3e5ee539d"},
@@ -27,7 +32,7 @@ export default Science.suite({
 
 	"dehydrate+hydrate": test(async() => {
 		const text = await dehydrateIdentities(...sampleIdentities)
-		const identities = await hydrateIdentities(text)
+		const identities = await readSeeds(text)
 		expect(identities.length).is(sampleIdentities.length)
 
 		for (const identity of identities)
@@ -41,13 +46,13 @@ export default Science.suite({
 
 	"hydrate": Science.suite({
 		"simple": test(async() => {
-			const identities = await hydrateIdentities(`"fadpec.tabnel" pachul.migryd.ripren.ritret misreg.tarnep.rabnul.panhep lonfyr.larler.sigwep.filmeg dotreg.filtyp.nosnus.siptev divder`)
+			const identities = await readSeeds(`"fadpec.tabnel" pachul.migryd.ripren.ritret misreg.tarnep.rabnul.panhep lonfyr.larler.sigwep.filmeg dotreg.filtyp.nosnus.siptev divder`)
 			expect(identities.length).is(1)
 			scrutinizeIdentity(identities[0])
 		}),
 
 		"multiline": test(async() => {
-			const identities = await hydrateIdentities(`
+			const identities = await readSeeds(`
 				"minref.lagner"
 					midsen.picmyn.widrep.baclut
 					somreg.sivler.havrun.tapfeb
@@ -60,7 +65,7 @@ export default Science.suite({
 		}),
 
 		"polluted": test(async() => {
-			const identities = await hydrateIdentities(`
+			const identities = await readSeeds(`
 				"🤖 Robocop 5000.,,'"
 					$midsen_picmyn widrep.baclut
 					somreg@sivler#havrun&tapfeb
@@ -73,7 +78,7 @@ export default Science.suite({
 		}),
 
 		"multiples": test(async() => {
-			const identities = await hydrateIdentities(`
+			const identities = await readSeeds(`
 				"minref.lagner"
 					midsen.picmyn.widrep.baclut
 					somreg.sivler.havrun.tapfeb
@@ -93,7 +98,7 @@ export default Science.suite({
 		}),
 
 		"multiples, jumbled": test(async() => {
-			const identities = await hydrateIdentities(`
+			const identities = await readSeeds(`
 				"minref.lagner" midsen.picmyn.widrep.baclut somreg.sivler.havrun.tapfeb
 					ticpem.hanlev.topbec.lorreb sipsyp.sarred.dassyn.barlug
 					pitber "Johnny Johnson"
@@ -108,7 +113,7 @@ export default Science.suite({
 		}),
 
 		"no label": test(async() => {
-			const identities = await hydrateIdentities(`
+			const identities = await readSeeds(`
 				""
 					rovmes.fiddyl.dottev.halryc
 					mosfeb.dopryl.faldex.molwyl
@@ -122,12 +127,12 @@ export default Science.suite({
 
 		"invalid": Science.suite({
 			"empty": test(async() => {
-				const identities = await hydrateIdentities(``)
+				const identities = await readSeeds(``)
 				expect(identities.length).is(0)
 			}),
 
 			"missing endquote": test(async() => {
-				const identities = await hydrateIdentities(`
+				const identities = await readSeeds(`
 					"minref.lagner
 						midsen.picmyn.widrep.baclut
 						somreg.sivler.havrun.tapfeb
@@ -139,7 +144,7 @@ export default Science.suite({
 			}),
 
 			"missing startquote": test(async() => {
-				const identities = await hydrateIdentities(`
+				const identities = await readSeeds(`
 					minref.lagner"
 						midsen.picmyn.widrep.baclut
 						somreg.sivler.havrun.tapfeb
@@ -151,7 +156,7 @@ export default Science.suite({
 			}),
 
 			"missing quotes": test(async() => {
-				const identities = await hydrateIdentities(`
+				const identities = await readSeeds(`
 					minref.lagner
 						midsen.picmyn.widrep.baclut
 						somreg.sivler.havrun.tapfeb
@@ -163,7 +168,7 @@ export default Science.suite({
 			}),
 
 			"missing label": test(async() => {
-				const identities = await hydrateIdentities(`
+				const identities = await readSeeds(`
 					midsen.picmyn.widrep.baclut
 					somreg.sivler.havrun.tapfeb
 					ticpem.hanlev.topbec.lorreb
@@ -174,7 +179,7 @@ export default Science.suite({
 			}),
 
 			"failed checksum": test(async() => {
-				expect(async() => await hydrateIdentities(`
+				expect(async() => await readSeeds(`
 					"minref.lagner"
 						midsen.picmyn.widrep.baclut
 						somreg.sivler.havrun.tapfeb

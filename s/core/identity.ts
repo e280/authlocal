@@ -2,6 +2,7 @@
 import {Bytename, Hex} from "@e280/stz"
 import {dehydrate, hydrate} from "./seed.js"
 import {deriveId, generateKeypair} from "./crypto.js"
+import { distinguishOkAndErr } from "../tools/errors.js"
 
 /** a user's identity */
 export type Identity = {
@@ -37,23 +38,25 @@ export function toNametag({id, label}: Identity): Nametag {
 	return {id, label}
 }
 
+/** convert identities to a seed text */
 export async function dehydrateIdentities(...identities: Identity[]) {
 	const texts = await Promise.all(identities.map(
 		async identity =>
 			JSON.stringify(identity.label)
 				+ (await dehydrate(identity.secret))
 					.split(" ")
-					.map(s => `\n  ${s}`)
+					.map(s => `\n ${s}`)
 					.join("")
 	))
 	return texts.join("\n\n")
 }
 
-export async function hydrateIdentities(seeds: string) {
-	seeds = seeds.trim()
+/** read identities from seed text. returns an array of promises, one for each seed in the text. */
+export function hydrateIdentities(seedtext: string) {
+	seedtext = seedtext.trim()
 	const regex = /("[^"]*")([^"]+)/gm
-	const matches = [...seeds.matchAll(regex)]
-	return await Promise.all(matches.map(
+	const matches = [...seedtext.matchAll(regex)]
+	return matches.map(
 		async([, labelstring, bytename]) => {
 			const label = labelstring ? JSON.parse(labelstring) : ""
 			const secret = await hydrate(bytename)
@@ -64,6 +67,11 @@ export async function hydrateIdentities(seeds: string) {
 				label: label || (labelize(id)),
 			}
 		}
-	))
+	)
+}
+
+export function dedupeIdentities(identities: Identity[]) {
+	const map = new Map(identities.map(ident => [ident.id, ident]))
+	return [...map.values()]
 }
 
