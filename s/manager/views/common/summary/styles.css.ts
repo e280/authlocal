@@ -29,7 +29,15 @@ ul {
 			font-size: 0.7em;
 			font-family: monospace;
 		}
+
+		&[x-overwrite] {
+			border-color: var(--overwrite);
+		}
 	}
+}
+
+.overwrite {
+	color: var(--overwrite);
 }
 
 `
