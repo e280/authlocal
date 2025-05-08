@@ -2,11 +2,12 @@
 import {ShadowElement, TemplateResult, attributes, html, mixin} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
+import underCss from "../../../common/under.css.js"
 
 import {Auth} from "../../auth.js"
 
 @mixin.reactive()
-@mixin.css(stylesCss)
+@mixin.css(underCss, stylesCss)
 export class AuthButton extends ShadowElement {
 	auth = Auth.get()
 

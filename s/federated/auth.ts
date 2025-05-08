@@ -1,12 +1,10 @@
 
-import {Pipe, sub} from "@e280/stz"
-import {apply, register, signal} from "@benev/slate"
+import {sub} from "@e280/stz"
+import {register, signal} from "@benev/slate"
 
-import underlayCss from "./underlay.css.js"
-
+import {AuthOptions} from "./types.js"
 import {Login} from "../core/login.js"
 import {Future} from "../tools/future.js"
-import {common} from "../common/common.js"
 import {Session} from "../core/session.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
@@ -15,7 +13,6 @@ import {setupInApp} from "./api/setup-in-app.js"
 import {AuthSingleton} from "./parts/singleton.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
 import {federatedElements} from "./elements/elements.js"
-import {AuthComponentOptions, AuthInstallOptions, AuthOptions} from "./types.js"
 
 export class Auth {
 	static version = 1
@@ -27,16 +24,13 @@ export class Auth {
 	static get = this.#singleton.get
 	static initialize = this.#singleton.initialize
 
-	static elements({theme = []}: Partial<AuthComponentOptions> = {}) {
-		return Pipe.with(federatedElements)
-			.to(apply.css([underlayCss, common.theme]))
-			.to(apply.reactive())
-			.done()
+	static elements() {
+		return federatedElements
 	}
 
-	static async install(options?: Partial<AuthInstallOptions>) {
+	static async install(options?: Partial<AuthOptions>) {
 		const auth = await this.initialize(options)
-		register(this.elements(options))
+		register(this.elements())
 		return auth
 	}
 

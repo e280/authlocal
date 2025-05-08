@@ -5,6 +5,8 @@
 //  - provides crypto fns for verifying claims, etc
 //
 
+export {Thumbprint, Bytename, Hex, Base58, sub} from "@e280/stz"
+
 export * from "./core/crypto.js"
 export * from "./core/login.js"
 export * from "./core/identity.js"
@@ -14,6 +16,5 @@ export * from "./core/session.js"
 export * from "./core/token.js"
 
 export * from "./tools/future.js"
-export * from "./tools/id-preview.js"
 export * from "./tools/whence.js"
 

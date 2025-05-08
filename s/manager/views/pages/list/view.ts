@@ -1,5 +1,5 @@
 
-import {is} from "@e280/stz"
+import {is, Thumbprint} from "@e280/stz"
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
@@ -11,7 +11,6 @@ import {hostcode} from "../../../utils/hostcode.js"
 import {Situation} from "../../../logic/situation.js"
 import {Identity} from "../../../../core/identity.js"
 import {Downloader} from "../../../utils/downloader.js"
-import {idPreview} from "../../../../tools/id-preview.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
 import {IdentityWidget, IdentityWidgetOptions} from "../../common/identity-widget/view.js"
@@ -136,7 +135,7 @@ export const ListPage = shadowView(use => (
 
 			downloader.text = selectedSeeds.join("\n\n")
 			const filename = selectedIdentityIds.length === 1
-				? crushUsername(idPreview(selectedIdentityIds.at(0)!))
+				? crushUsername(Thumbprint.hexsigil(selectedIdentityIds.at(0)!))
 				: `identities-${selected.size}` + constants.seedExtension
 
 			return html`

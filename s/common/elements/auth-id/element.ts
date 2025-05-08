@@ -3,11 +3,10 @@ import {debounce} from "@e280/stz"
 import {ShadowElement, TemplateResult, attributes, html, mixin, signal} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-
-import {common} from "../../common.js"
+import underCss from "../../under.css.js"
 
 @mixin.reactive()
-@mixin.css_deferred(() => [common.theme, stylesCss])
+@mixin.css(underCss, stylesCss)
 export class AuthId extends ShadowElement {
 
 	attrs = attributes(this, {

@@ -1,11 +1,9 @@
 
-import {Thumbprint, Hex} from "@e280/stz"
+import {Thumbprint} from "@e280/stz"
 import {IdView} from "./view.js"
 
 export const renderId = (id: string) => {
-	const bytes = Hex.bytes(id)
-	const thumbprint = Thumbprint.string(bytes)
-	const {sigil} = Thumbprint.parse(thumbprint)
+	const {thumbprint, sigil} = Thumbprint.build.fromHex(id)
 	return IdView([thumbprint, sigil])
 }
 
