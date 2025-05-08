@@ -2,6 +2,16 @@
 import {css} from "@benev/slate"
 export default css`
 
+.zone {
+	box-sizing: content-box;
+	border: 0.5em dashed transparent;
+	border-radius: 1em;
+
+	&[x-drop-indicator] {
+		border-color: var(--dropzone);
+	}
+}
+
 footer {
 	margin-top: 4em;
 	display: flex;

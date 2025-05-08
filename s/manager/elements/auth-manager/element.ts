@@ -1,15 +1,17 @@
 
-import {shadowComponent, loading, nap} from "@benev/slate"
+import {shadowComponent, loading, nap, html, ShockDrop, drag_has_files, dropped_files} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../theme.css.js"
 
 import {manager} from "../../context.js"
+import {Situation} from "../../logic/situation.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
 import {IngressPage} from "../../views/pages/ingress/view.js"
+import {IngressEndeavor} from "../../views/pages/ingress/endeavor.js"
 import {dehydrateIdentities, generateIdentity, Identity} from "../../../core/identity.js"
 
 export const AuthManager = shadowComponent(use => {
@@ -17,6 +19,21 @@ export const AuthManager = shadowComponent(use => {
 	const {depot, storagePersistence, situationOp} = manager
 
 	use.once(() => storagePersistence.check())
+
+	const {shockdrop, endeavor} = use.once(() => {
+		const endeavor = new IngressEndeavor()
+		const shockdrop = new ShockDrop({
+			predicate: event => drag_has_files(event),
+			handle_drop: async event => {
+				const files = dropped_files(event)
+				endeavor.clear()
+				await gotoIngress()
+				await endeavor.ingestFiles(files)
+			},
+		})
+		window.addEventListener("blur", () => shockdrop.reset_indicator())
+		return {shockdrop, endeavor}
+	})
 
 	async function resetScroll() {
 		await nap(0)
@@ -103,11 +120,10 @@ export const AuthManager = shadowComponent(use => {
 		await resetScroll()
 	}
 
-	async function gotoIngress(identities: Identity[] = [], problems: string[] = []) {
+	async function gotoIngress() {
 		await situationOp.load(async() => ({
 			kind: "ingress",
-			problems,
-			identities,
+			endeavor,
 			onBack: gotoHome,
 			onSave: async identities => {
 				await depot.identities.save(...identities)
@@ -119,24 +135,37 @@ export const AuthManager = shadowComponent(use => {
 
 	use.once(gotoHome)
 
-	return loading.braille(situationOp, situation => {switch (situation.kind) {
-		case "list":
-			return ListPage([situation])
+	const choosePage = (situation: Situation.Any) => {
+		switch (situation.kind) {
+			case "list":
+				return ListPage([situation])
 
-		case "create":
-			return CreatePage([situation])
+			case "create":
+				return CreatePage([situation])
 
-		case "edit":
-			return EditPage([situation])
+			case "edit":
+				return EditPage([situation])
 
-		case "ingress":
-			return IngressPage([situation])
+			case "ingress":
+				return IngressPage([situation])
 
-		case "delete":
-			return DeletePage([situation])
+			case "delete":
+				return DeletePage([situation])
 
-		default:
-			throw new Error("unknown situation")
-	}})
+			default:
+				throw new Error("unknown situation")
+		}
+	}
+
+	return loading.braille(situationOp, situation => html`
+		<section
+			class=zone
+			?x-drop-indicator="${shockdrop.indicator}"
+			@dragover="${shockdrop.dragover}"
+			@dragleave="${shockdrop.dragleave}"
+			@drop="${shockdrop.drop}">
+			${choosePage(situation)}
+		<section>
+	`)
 })
 

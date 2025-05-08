@@ -1,5 +1,7 @@
 
+import {sub} from "@e280/stz"
 import {Content, html, shadowView, signal} from "@benev/slate"
+
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
@@ -10,6 +12,7 @@ export type Tab = {
 
 export class Tabby {
 	#activeIndex = signal(0)
+	on = sub<[number]>()
 
 	constructor(public startIndex: number) {
 		this.#activeIndex.value = startIndex
@@ -21,10 +24,11 @@ export class Tabby {
 
 	set activeIndex(index: number) {
 		this.#activeIndex.value = index
+		this.on.pub(index)
 	}
 
 	goto(index: number) {
-		this.#activeIndex.value = index
+		this.activeIndex = index
 	}
 
 	render(tabs: Tab[]) {

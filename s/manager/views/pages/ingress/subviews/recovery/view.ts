@@ -23,6 +23,7 @@ export const Recovery = shadowView(use => (options: RecoveryOptions) => {
 
 	const ingest = debounce(100, async() => {
 		identities.value = []
+		problematic.clear()
 		await problematic.captureProblems(async() => {
 			const textarea = use.shadow.querySelector("textarea")!
 			const text = textarea.value

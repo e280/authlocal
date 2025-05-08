@@ -5,13 +5,20 @@ import {Problems} from "./view.js"
 export class Problematic {
 	problems = signal<string[]>([])
 
+	constructor(startWithProblems: string[] = []) {
+		this.problems.value = startWithProblems
+	}
+
 	add(...problems: string[]) {
 		this.problems.value = [...this.problems.value, ...problems]
 	}
 
+	clear() {
+		this.problems.value = []
+	}
+
 	async captureProblems<T>(fn: () => Promise<T>) {
 		try {
-			this.problems.value = []
 			return await fn()
 		}
 		catch (error) {
