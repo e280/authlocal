@@ -5,9 +5,9 @@ import {maxLabelLength} from "./validation.js"
 export function crushUsername(username: string, maxLength = maxLabelLength): string {
 	const sanitized = username
 		.toLowerCase()
-		.replace(/[^a-z0-9]/gi, "_")
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-+|-+$/g, "")
 		.slice(0, maxLength)
-		.replace(/^_+|_+$/g, "")
 	return sanitized || "identity"
 }
 
