@@ -1,5 +1,5 @@
 
-import {shadowComponent, loading, nap, html, ShockDrop, drag_has_files, dropped_files} from "@benev/slate"
+import {shadowComponent, loading, nap, html, ShockDrop, drag_has_files, dropped_files, ev} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../theme.css.js"
@@ -8,10 +8,10 @@ import {manager} from "../../context.js"
 import {Situation} from "../../logic/situation.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {ListPage} from "../../views/pages/list/view.js"
+import {Intake} from "../../views/pages/ingress/intake.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
 import {IngressPage} from "../../views/pages/ingress/view.js"
-import {IngressEndeavor} from "../../views/pages/ingress/endeavor.js"
 import {dehydrateIdentities, generateIdentity, Identity} from "../../../core/identity.js"
 
 export const AuthManager = shadowComponent(use => {
@@ -20,19 +20,22 @@ export const AuthManager = shadowComponent(use => {
 
 	use.once(() => storagePersistence.check())
 
-	const {shockdrop, endeavor} = use.once(() => {
-		const endeavor = new IngressEndeavor()
+	const {shockdrop, intake} = use.once(() => {
+		const intake = new Intake()
 		const shockdrop = new ShockDrop({
 			predicate: event => drag_has_files(event),
 			handle_drop: async event => {
 				const files = dropped_files(event)
-				endeavor.clear()
-				await gotoIngress()
-				await endeavor.ingestFiles(files)
+				await gotoIngress(files)
 			},
 		})
-		window.addEventListener("blur", () => shockdrop.reset_indicator())
-		return {shockdrop, endeavor}
+		ev(document.documentElement, {
+			dragover: shockdrop.dragover,
+			dragleave: shockdrop.dragleave,
+			drop: shockdrop.drop,
+			blur: shockdrop.reset_indicator,
+		})
+		return {shockdrop, intake}
 	})
 
 	async function resetScroll() {
@@ -120,10 +123,14 @@ export const AuthManager = shadowComponent(use => {
 		await resetScroll()
 	}
 
-	async function gotoIngress() {
+	async function gotoIngress(files?: File[]) {
+		intake.tabby.goto(0) // upload tab
+		intake.clear()
+		if (files)
+			await intake.ingestFiles(files)
 		await situationOp.load(async() => ({
 			kind: "ingress",
-			endeavor,
+			intake,
 			onBack: gotoHome,
 			onSave: async identities => {
 				await depot.identities.save(...identities)
@@ -158,12 +165,7 @@ export const AuthManager = shadowComponent(use => {
 	}
 
 	return loading.braille(situationOp, situation => html`
-		<section
-			class=zone
-			?x-drop-indicator="${shockdrop.indicator}"
-			@dragover="${shockdrop.dragover}"
-			@dragleave="${shockdrop.dragleave}"
-			@drop="${shockdrop.drop}">
+		<section class=zone ?x-drop-indicator="${shockdrop.indicator}">
 			${choosePage(situation)}
 		<section>
 	`)

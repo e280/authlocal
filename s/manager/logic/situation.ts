@@ -1,6 +1,6 @@
 
 import {Identity} from "../../core/identity.js"
-import { IngressEndeavor } from "../views/pages/ingress/endeavor.js"
+import {Intake} from "../views/pages/ingress/intake.js"
 
 export namespace Situation {
 	export type List = {
@@ -9,7 +9,7 @@ export namespace Situation {
 		onEdit: (identity: Identity) => Promise<void>
 		onDelete: (identities: Identity[]) => Promise<void>
 		onEgress: (identities: Identity[]) => Promise<void>
-		onIngress: (identities?: Identity[]) => Promise<void>
+		onIngress: () => Promise<void>
 	}
 
 	export type Create = {
@@ -41,7 +41,7 @@ export namespace Situation {
 
 	export type Ingress = {
 		kind: "ingress"
-		endeavor: IngressEndeavor
+		intake: Intake
 		onBack: () => Promise<void>
 		onSave: (identities: Identity[]) => Promise<void>
 	}

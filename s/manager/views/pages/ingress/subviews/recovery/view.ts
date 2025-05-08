@@ -4,11 +4,13 @@ import {debounce, html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../../theme.css.js"
 
+import {Intake} from "../../intake.js"
 import {Summary} from "../../../../common/summary/view.js"
-import {Problematic} from "../../../../common/problems/problematic.js"
-import {hydrateIdentities, Identity} from "../../../../../../core/identity.js"
+import {Identity} from "../../../../../../core/identity.js"
+import { Problems } from "../../../../common/problems/view.js"
 
 export type RecoveryOptions = {
+	intake: Intake
 	onBack: () => Promise<void>
 	onSave: (identities: Identity[]) => Promise<void>
 }
@@ -17,24 +19,17 @@ export const Recovery = shadowView(use => (options: RecoveryOptions) => {
 	use.name("recovery")
 	use.styles([themeCss, stylesCss])
 
-	const identities = use.signal<Identity[]>([])
-	const problematic = use.once(() => new Problematic())
-	const hasValidIdentities = identities.value.length > 0
+	const {intake} = options
 
 	const ingest = debounce(100, async() => {
-		identities.value = []
-		problematic.clear()
-		await problematic.captureProblems(async() => {
-			const textarea = use.shadow.querySelector("textarea")!
-			const text = textarea.value
-			identities.value = await hydrateIdentities(text)
-			if (text.length > 0 && identities.value.length === 0)
-				problematic.add("No valid seeds detected")
-		})
+		intake.clear()
+		const textarea = use.shadow.querySelector("textarea")!
+		const text = textarea.value
+		await intake.ingestSeedText(text)
 	})
 
 	async function clickSave() {
-		await options.onSave(identities.value)
+		await options.onSave(intake.identities.value)
 		await options.onBack()
 	}
 
@@ -52,11 +47,13 @@ export const Recovery = shadowView(use => (options: RecoveryOptions) => {
 				@input="${ingest}"
 			></textarea>
 
-			${problematic.renderProblems()}
+			${intake.problems.value.length > 0
+				? Problems([intake.problems.value])
+				: null}
 		</section>
 
-		${hasValidIdentities
-			? Summary([identities.value])
+		${intake.identities.value.length > 0
+			? Summary([intake.identities.value])
 			: null}
 
 		<footer theme-buttons>
@@ -68,7 +65,7 @@ export const Recovery = shadowView(use => (options: RecoveryOptions) => {
 
 			<button
 				theme-button=happy
-				?disabled="${!hasValidIdentities}"
+				?disabled="${intake.identities.value.length === 0}"
 				@click="${clickSave}">
 					Import
 			</button>

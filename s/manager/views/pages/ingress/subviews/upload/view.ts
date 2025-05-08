@@ -4,13 +4,14 @@ import {html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../../theme.css.js"
 
+import {Intake} from "../../intake.js"
 import {constants} from "../../../../../../constants.js"
-import {IngressEndeavor} from "../../endeavor.js"
 import {Summary} from "../../../../common/summary/view.js"
-import {hydrateIdentities, Identity} from "../../../../../../core/identity.js"
+import {Identity} from "../../../../../../core/identity.js"
+import {Problems} from "../../../../common/problems/view.js"
 
 export type UploadOptions = {
-	endeavor: IngressEndeavor
+	intake: Intake
 	onSave: (identities: Identity[]) => Promise<void>
 	onBack: () => Promise<void>
 }
@@ -19,25 +20,16 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 	use.name("upload")
 	use.styles([themeCss, stylesCss])
 
-	const {identities, problematic, validIdentityCount} = options.endeavor
+	const {intake} = options
 
 	async function handleUpload(event: InputEvent) {
-		identities.value = []
-		problematic.clear()
-
 		const input = event.currentTarget as HTMLInputElement
 		const files = Array.from(input.files ?? [])
-
-		for (const file of files) {
-			await problematic.captureProblems(async() => {
-				const text = await file.text()
-				identities.value = await hydrateIdentities(text)
-			})
-		}
+		await intake.ingestFiles(files)
 	}
 
 	function accept() {
-		options.onSave(identities.value)
+		options.onSave(intake.identities.value)
 		options.onBack()
 	}
 
@@ -51,11 +43,13 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 					@change="${handleUpload}"
 					/>
 			</section>
-			${problematic.renderProblems()}
+			${intake.problems.value.length > 0
+				? Problems([intake.problems.value])
+				: null}
 		</section>
 
-		${validIdentityCount
-			? Summary([identities.value])
+		${intake.identities.value.length > 0
+			? Summary([intake.identities.value])
 			: null}
 
 		<footer theme-buttons>
@@ -65,9 +59,9 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 					Back
 			</button>
 
-			${validIdentityCount ? html`
+			${intake.identities.value.length > 0 ? html`
 				<button theme-button=happy @click="${accept}">
-					Import ${identities.value.length === 1 ?"Identity" :"Identities"}
+					Import ${intake.identities.value.length === 1 ?"Identity" :"Identities"}
 				</button>
 			` : null}
 		</footer>
