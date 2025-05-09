@@ -1,6 +1,6 @@
 {
 	"name": "@authlocal/authlocal",
-	"version": "0.2.0-17",
+	"version": "0.2.0-18",
 	"description": "User-sovereign auth",
 	"license": "MIT",
 	"main": "./x/exports.web.js",
