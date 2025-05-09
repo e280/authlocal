@@ -41,7 +41,7 @@ export class Manager {
 			purpose.value = {
 				kind: "login",
 				appOrigin,
-				onDeny: async() => app.v3.login(null),
+				onDeny: async() => app.v1.login(null),
 				onIdentity: async identity => {
 					const session = await generateSession({
 						identity,
@@ -49,7 +49,7 @@ export class Manager {
 						providerOrigin: popupWindow.origin,
 						expiresAt: Future.days(7),
 					})
-					await app.v3.login(session)
+					await app.v1.login(session)
 				},
 			}
 		}

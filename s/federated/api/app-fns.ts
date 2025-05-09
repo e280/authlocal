@@ -2,7 +2,7 @@
 import {Session} from "../../core/session.js"
 
 export type AppFns = {
-	v3: {
+	v1: {
 		login: (session: Session | null) => Promise<void>
 	}
 }
@@ -12,7 +12,7 @@ export const makeAppFns = (
 	): AppFns => {
 
 	return {
-		v3: {login},
+		v1: {login},
 	}
 }
 
