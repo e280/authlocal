@@ -2,7 +2,7 @@
 import {Bytename, Hex} from "@e280/stz"
 import {dehydrate, hydrate} from "./seed.js"
 import {deriveId, generateKeypair} from "./crypto.js"
-import { distinguishOkAndErr } from "../tools/errors.js"
+import {validLabel} from "../common/utils/validation.js"
 
 /** a user's identity */
 export type Identity = {
@@ -64,7 +64,9 @@ export function hydrateIdentities(seedtext: string) {
 			return <Identity>{
 				id,
 				secret,
-				label: label || (labelize(id)),
+				label: (label && validLabel(label))
+					? label
+					: labelize(id),
 			}
 		}
 	)
