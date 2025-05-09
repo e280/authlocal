@@ -10,27 +10,25 @@ import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
 import {openPopup} from "./parts/open-popup.js"
 import {setupInApp} from "./api/setup-in-app.js"
-import {AuthSingleton} from "./parts/singleton.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
 import {federatedElements} from "./elements/elements.js"
+import {commonElements} from "../common/elements/elements.js"
 
 export class Auth {
 	static version = 1
 	static defaults = defaults
-
 	static Future = Future
 
-	static #singleton = new AuthSingleton()
-	static get = this.#singleton.get
-	static initialize = this.#singleton.initialize
-
-	static elements() {
-		return federatedElements
+	static async prepare(options?: Partial<AuthOptions>) {
+		const auth = new Auth(options)
+		const elements = {...commonElements, ...federatedElements(auth)}
+		return {auth, elements}
 	}
 
 	static async install(options?: Partial<AuthOptions>) {
-		const auth = await this.initialize(options)
-		register(this.elements())
+		const {auth, elements} = await this.prepare(options)
+		await auth.loadLogin()
+		register(elements)
 		return auth
 	}
 

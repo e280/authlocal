@@ -3,8 +3,8 @@ import {debounce, html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import underCss from "../../under.css.js"
 
-export const IdView = shadowView(use => (payload: string, preview?: string) => {
-	use.name("id")
+export const Copier = shadowView(use => (payload: string, preview?: string) => {
+	use.name("copier")
 	use.styles(underCss, stylesCss)
 
 	const truncated = payload.slice(0, 24)

@@ -12,12 +12,12 @@ export default template(async basic => {
 		title: "Authlocal Federated Test",
 		head: html`
 			<link rel="icon" href="/assets/favicon.png"/>
-			<style>${unsanitized(await read_file("x/federated/fed.css"))}</style>
+			<style>${unsanitized(await read_file("x/federated/demo.css"))}</style>
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.local("fed.bundle.js"),
-				prodModulePath: await path.version.local("fed.bundle.min.js"),
+				devModulePath: await path.version.local("demo.bundle.js"),
+				prodModulePath: await path.version.local("demo.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,

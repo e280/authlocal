@@ -8,7 +8,7 @@ import {IdentityDraft} from "./draft.js"
 import {Identity} from "../../../../core/identity.js"
 import {idHue} from "../../../../common/utils/id-hue.js"
 import {inputString} from "../../../../tools/input-string.js"
-import {renderId} from "../../../../common/views/id/render-id.js"
+import {renderId} from "../../../../common/views/copier/render-id.js"
 import {maxLabelLength} from "../../../../common/utils/validation.js"
 
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
@@ -72,7 +72,9 @@ export const IdentityWidget = shadowView(use => (
 				<slot></slot>
 			</div>
 
-			<div class=id>${renderId(draft.identity.id)}</div>
+			<div class=id>
+				<auth-id hex="${draft.identity.id}"></auth-id>
+			</div>
 		</section>
 	`
 })
