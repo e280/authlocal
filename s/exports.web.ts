@@ -16,6 +16,6 @@ export * from "./federated/types.js"
 export * from "./federated/elements/auth-user/element.js"
 export * from "./federated/elements/auth-button/element.js"
 
-export * from "./common/views/copier/view.js"
-export * from "./common/views/copier/render-id.js"
+export * from "./common/views/copyable/view.js"
+export * from "./common/elements/auth-id/element.js"
 

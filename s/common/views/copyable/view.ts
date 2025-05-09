@@ -3,8 +3,8 @@ import {debounce, html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import underCss from "../../under.css.js"
 
-export const Copier = shadowView(use => (payload: string, preview?: string) => {
-	use.name("copier")
+export const Copyable = shadowView(use => (payload: string) => {
+	use.name("copyable")
 	use.styles(underCss, stylesCss)
 
 	const truncated = payload.slice(0, 24)
@@ -25,7 +25,7 @@ export const Copier = shadowView(use => (payload: string, preview?: string) => {
 
 	return html`
 		<span x-copy="${copyStatus}" title="${tooltip}">
-			<span x-text @click="${copy}">${preview ?? truncated}</span>
+			<slot @click="${copy}"></slot>
 			<span x-notify=good>Copied</span>
 			<span x-notify=bad>Copy Failed</span>
 		</span>

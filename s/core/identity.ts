@@ -1,5 +1,5 @@
 
-import {Bytename, Hex} from "@e280/stz"
+import {Thumbprint} from "@e280/stz"
 import {dehydrate, hydrate} from "./seed.js"
 import {deriveId, generateKeypair} from "./crypto.js"
 import {validLabel} from "../common/utils/validation.js"
@@ -23,14 +23,9 @@ export type Nametag = {
 	label: string
 }
 
-export function labelize(id: string) {
-	const idBytes = Hex.bytes(id)
-	return Bytename.string(idBytes.slice(0, 4))
-}
-
 export async function generateIdentity(): Promise<Identity> {
 	const {id, secret} = await generateKeypair()
-	const label = labelize(id)
+	const label = Thumbprint.sigil.fromHex(id, {sigilByteCount: 4})
 	return {label, id, secret}
 }
 
@@ -66,7 +61,7 @@ export function hydrateIdentities(seedtext: string) {
 				secret,
 				label: (label && validLabel(label))
 					? label
-					: labelize(id),
+					: Thumbprint.sigil.fromHex(id),
 			}
 		}
 	)

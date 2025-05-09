@@ -6,10 +6,12 @@ export default css`
 	user-select: none;
 	position: relative;
 
-	[x-text] {
+	slot {
+		display: block;
 		cursor: copy;
-		&:hover { filter: brightness(120%); }
-		&:active { filter: brightness(80%); }
+		opacity: 0.8;
+		&:is(:hover, :focus) { opacity: 1; }
+		&:active { opacity: 0.6; }
 	}
 
 	[x-notify] {

@@ -122,7 +122,7 @@ export default Science.suite({
 					sanmus
 			`)
 			scrutinizeIdentity(identities[0])
-			expect(identities[0].label.length).is(13) // default'd
+			expect(identities[0].label.length).gt(0)
 		}),
 
 		"invalid": Science.suite({

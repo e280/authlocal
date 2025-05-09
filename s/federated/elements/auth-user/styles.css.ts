@@ -51,8 +51,6 @@ export default css`
 
 [part="id"] {
 	font-size: 0.8em;
-	color: color-mix(in srgb, currentColor, transparent 50%);
-	font-family: monospace;
 }
 
 `
