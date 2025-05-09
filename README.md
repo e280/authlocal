@@ -2,6 +2,7 @@
 # 🔒 [Authlocal.org](https://authlocal.org/) Developer Readme
 > ***Not a developer?*** See the [User Guide](GUIDE.md) instead
 
+🔑 **Elliptic** – identities are [`@noble/ed25519`](https://github.com/paulmillr/noble-ed25519) keypairs  
 🏛️ **Federated** – your app gets user logins from [authlocal.org](https://authlocal.org/) popup  
 📱 **Clientside** – statically deployed, no api servers  
 📜 **Protocol** – permissionless integration, you can do it your way  
@@ -28,15 +29,13 @@ Authlocal can provide free auth for everybody.
         Put this into your html `<head>`:
         ```html
         <script type="module">
-          import Auth from "https://authlocal.org/install.bundle.min.js"
-          import theme from "https://authlocal.org/themes/e280.css.js"
-
-          const auth = await Auth.install({theme})
+          import {Auth} from "https://authlocal.org/install.bundle.min.js"
+          const auth = await Auth.install()
 
           // Handle user logins and logouts
           auth.on(login => {
-            if (login) console.log("login", login.label)
-            else console.log("logout")
+            if (login) console.log("logged in", login.label)
+            else console.log("logged out")
           })
         </script>
         ```
@@ -47,15 +46,13 @@ Authlocal can provide free auth for everybody.
         ```
         Write this in your app's js entrypoint (like `main.ts`):
         ```ts
-        import Auth from "@authlocal/authlocal"
-        import theme from "@authlocal/authlocal/x/themes/e280.css.js"
-
-        const auth = await Auth.install({theme})
+        import {Auth} from "@authlocal/authlocal"
+        const auth = await Auth.install()
 
         // Handle user logins and logouts
         auth.on(login => {
-          if (login) console.log("login", login.label)
-          else console.log("logout")
+          if (login) console.log("logged in", login.label)
+          else console.log("logged out")
         })
         ```
 1. Place the UI elements into your html `<body>`:

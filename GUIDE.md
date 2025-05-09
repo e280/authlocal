@@ -2,8 +2,8 @@
 # 🔒 [Authlocal.org](https://authlocal.org/) User Guide
 > ***Developers,*** see also the [Developer README.md](README.md)
 
-🔑 **Cryptographic** – no emails, no passwords  
 🗽 **User-sovereign** – you own your identity  
+🔑 **Cryptographic** – no emails, no passwords  
 🥷 **Privacy-focused** – no databases, not collecting data  
 🥞 **Easy as pancakes** – logins are fast and painless  
 💖 **Free and open-source** – zero-cost at global scale  
