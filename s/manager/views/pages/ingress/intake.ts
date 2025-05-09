@@ -1,7 +1,7 @@
 
 import {signal} from "@benev/slate"
 import {Tabby} from "../../common/tabby/view.js"
-import {distinguishOkAndErr, problematize} from "../../../../tools/errors.js"
+import {okErr, problematize} from "../../../../tools/errors.js"
 import {dedupeIdentities, hydrateIdentities, Identity} from "../../../../core/identity.js"
 
 export class Intake {
@@ -24,7 +24,7 @@ export class Intake {
 
 	async #hydrate(seedtext: string) {
 		const promises = hydrateIdentities(seedtext)
-		const {ok, err} = await distinguishOkAndErr(promises)
+		const {ok, err} = await okErr(promises)
 		this.addProblems(...err.map(problematize))
 		return ok
 	}
@@ -37,10 +37,10 @@ export class Intake {
 		for (const file of files) {
 			const seedtext = await file.text()
 			const idents = await this.#hydrate(seedtext)
-			identities.push(...dedupeIdentities(idents))
+			identities.push(...idents)
 		}
 
-		this.identities.value = identities
+		this.identities.value = dedupeIdentities(identities)
 	}
 
 	async ingestSeedText(seedtext: string) {

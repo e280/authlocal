@@ -33,7 +33,7 @@ export const Summary = shadowView(use => (identities: Identity[]) => {
 			${identities.map(identity => html`
 				<li x-id="${identity.id}" ?x-overwrite="${overwrites.has(identity.id)}">
 					<span class=label>${identity.label}</span>
-					<span class=id>${Thumbprint.hexsigil(identity.id)}</span>
+					<span class=id>${Thumbprint.sigil.fromHex(identity.id)}</span>
 				</li>
 			`)}
 		</ul>

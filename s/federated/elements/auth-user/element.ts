@@ -18,7 +18,7 @@ export class AuthUser extends AuthElement {
 		return html`
 			<div part=box ?data-logged-in="${!!login}">
 				<span class=label>${login.nametag.label}</span>
-				<small>${Thumbprint.hexsigil(login.sessionId)}</small>
+				<small>${Thumbprint.sigil.fromHex(login.sessionId)}</small>
 			</div>
 		`
 	}

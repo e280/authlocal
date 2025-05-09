@@ -66,7 +66,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 				<h2>Delete this identity</h2>
 				${Confirmer([{
 					buttonLabel: () => "Delete",
-					requiredText: Thumbprint.hexsigil(draft.identity.id),
+					requiredText: Thumbprint.sigil.fromHex(draft.identity.id),
 					onConfirmed: async() => {
 						await situation.onDelete(draft.identity)
 						await situation.onBack()

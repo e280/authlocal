@@ -1,5 +1,5 @@
 
-export async function distinguishOkAndErr<T>(promises: Promise<T>[]) {
+export async function okErr<T>(promises: Promise<T>[]) {
 	const settled = await Promise.allSettled(promises)
 	return {
 

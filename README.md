@@ -111,7 +111,7 @@ Authlocal can provide free auth for everybody.
 
 ### Sign a claim
 ```js
-import {future} from "@authlocal/authlocal"
+import {Future} from "@authlocal/authlocal"
 
 const claimToken = await login.signClaim({
 
@@ -119,7 +119,7 @@ const claimToken = await login.signClaim({
   claim: {message: "i love ice cream"},
 
   // when should this claim expire?
-  expiresAt: future.hours(24),
+  expiresAt: Future.hours(24),
 })
 ```
 
@@ -149,67 +149,96 @@ proof.nametag.label
 
 <br/>
 
-## Seed format
+## Glossary
+- **Keypair** — an ed25519 keypair
+  - `.id` is the public key (64 character hex string)
+  - `.secret` is the private key (64 character hex string)
+- **Identity** — a keypair with a label string
+- **Seed** — text snippet or `.seed` file that stores an identity
+- **Nametag** — the public data associated with a user's identity
+    - `.id` is the public key (64 character hex string)
+    - `.label` is a nickname (max 32 character string)
+- **Thumbprint** — easier-to-read version of an id
+    - looks like: `dozmut.winpex::2qeewYscUfjLDzTyMADvruUN8kxzTkMVg7WTSv8`
+    - `sigil` is the first part: `dozmut.winpex`
+    - `bulk` is the second part: `2qeewYscUfjLDzTyMADvruUN8kxzTkMVg7WTSv8`
+- **Login** — a login session
+    - is private, should never leave the user's device
+    - `.nametag` contains the identity's id and label
+    - `.expiresAt` js time of the moment this login expires
+    - `.isExpired()` returns true if the login is now expired
+- **Proof** — provenance for login
+    - is a token signed by an identity
+    - is public, can be shared around
+    - `.nametag` contains the identity's id and label
+    - `.sessionId` proves a login session is blessed by an identity
+- **Claim** — arbitrary claim your frontend can make
+    - is a token signed by the login session, verifiable on your server
+    - is public, can be shared around
+    - includes the proof token (thus nametag and sessionId)
+    - includes any arbitrary claim data you want
 
-### Seeds can be copy-pasted, or live in a `my-identity.seed` file
-```
-"mopfed.nimrut"
- linler.torhul.datmyn.binwep
- dilmyr.lagruc.nopwyl.witfur
- fasnes.sonpes.fostyr.foddur
- datter.diswyl.dotfer.wannul
- nomsum
-```
+<br/>
 
-### Seeds have three parts:
-- **the label** is a handy nickname that the user assigned, expressed in *json* format.
+## Common code snippets
+
+You can do these on the clientside or serverside.
+
+#### Thumbprint conversions
+```ts
+import {Thumbprint} from "@authlocal/authlocal"
+```
+- **id to thumbprint**
+    ```ts
+    Thumbprint.fromHex("005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed")
+      // "dozmut.winpex::2qeewYscUfjLDzTyMADvruUN8kxzTkMVg7WTSv8"
+    ```
+- **id to sigil**
+    ```ts
+    Thumbprint.sigil.fromHex("005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed")
+      // "dozmut.winpex"
+    ```
+- **thumbprint to id**
+    ```ts
+    Thumbprint.toHex("dozmut.winpex::2qeewYscUfjLDzTyMADvruUN8kxzTkMVg7WTSv8")
+      // "005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed"
+    ```
+
+<br/>
+
+## Seed text format
+
+### Seed text format
+- Seeds can be copy-pasted, or live in a `my-identity.seed` file. Seed text looks like this:
     ```
     "mopfed.nimrut"
+     linler.torhul.datmyn.binwep
+     dilmyr.lagruc.nopwyl.witfur
+     fasnes.sonpes.fostyr.foddur
+     datter.diswyl.dotfer.wannul
+     nomsum
     ```
-    - forbidden: longer than 32 characters
-    - forbidden: leading or trailing whitespace
-    - forbidden: consecutive spaces
-    - forbidden: any whitespace other than ordinary spaces
-    - forbidden: any control characters
-    - allowed: emojis, obscure languages, funky unicode glyphs
-- **the 256-bit ed25519 private key**, expressed as 16 *bytename* words.
-    ```
-    linler.torhul.datmyn.binwep
-    dilmyr.lagruc.nopwyl.witfur
-    fasnes.sonpes.fostyr.foddur
-    datter.diswyl.dotfer.wannul
-    ```
-- **the 2-byte sha256 checksum** ensures the private key wasn't mistyped.
-    ```
-    nomsum
-    ```
-
-### Seed text may contain multiple seeds
-```
-"mopfed.nimrut"
- linler.torhul.datmyn.binwep
- dilmyr.lagruc.nopwyl.witfur
- fasnes.sonpes.fostyr.foddur
- datter.diswyl.dotfer.wannul
- nomsum
-
-"naltex.livzod"
- solweb.dassef.lacmus.latpel
- pannyt.sipfex.divmeb.harwyt
- dignyx.fabhet.ponbyl.laddyr
- dasbyr.rabnyd.timtem.nolfed
- lopwel
-```
-
-### Seed parsing
-- the format is minimal so that it's eas
-- the json string in the quotes *does* matter, is used to detect the boundary between seeds
-- whitespace doesn't matter
-- non-alphabetic characters don't matter (the dots are aesthetic)
-- a minimal valid seed looks like this:
+- There can be any number of seeds in the text
+- Whitespace and funky characters are ignored. this is a valid seed:
     ```
     ""linlertorhuldatmynbinwepdilmyrlagrucnopwylwitfurfasnessonpesfostyrfoddurdatterdiswyldotferwannulnomsum
     ```
+- Seeds have three parts:
+    - **the label** is a handy nickname that the user assigned, expressed in *json* format.
+        ```
+        "mopfed.nimrut"
+        ```
+    - **the 256-bit ed25519 private key**, expressed as 16 [*bytename*](https://github.com/e280/stz?tab=readme-ov-file#bytename) words.
+        ```
+        linler.torhul.datmyn.binwep
+        dilmyr.lagruc.nopwyl.witfur
+        fasnes.sonpes.fostyr.foddur
+        datter.diswyl.dotfer.wannul
+        ```
+    - **the 2-byte sha256 checksum** ensures the private key wasn't mistyped.
+        ```
+        nomsum
+        ```
 
 <br/>
 
