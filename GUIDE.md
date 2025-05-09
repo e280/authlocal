@@ -1,6 +1,6 @@
 
 # 🔒 [Authlocal.org](https://authlocal.org/) User Guide
-> ***Developers,*** see also the [Developer README.md](README.md)
+> ***Developers,*** also see the [README.md](README.md)
 
 🗽 **User-sovereign** – you own your identity  
 🔑 **Cryptographic** – no emails, no passwords  

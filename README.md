@@ -17,8 +17,6 @@ Authlocal can provide free auth for everybody.
 - Next, you can use claim tokens, for your server to verify user requests.
 - And all this costs you nothing.
 
-### What
-
 <br/>
 
 ## Authlocal installation and setup
@@ -151,13 +149,77 @@ proof.nametag.label
 
 <br/>
 
+## Seed format
+
+### Seeds can be copy-pasted, or live in a `my-identity.seed` file
+```
+"mopfed.nimrut"
+ linler.torhul.datmyn.binwep
+ dilmyr.lagruc.nopwyl.witfur
+ fasnes.sonpes.fostyr.foddur
+ datter.diswyl.dotfer.wannul
+ nomsum
+```
+
+### Seeds have three parts:
+- **the label** is a handy nickname that the user assigned, expressed in *json* format.
+    ```
+    "mopfed.nimrut"
+    ```
+    - forbidden: longer than 32 characters
+    - forbidden: leading or trailing whitespace
+    - forbidden: consecutive spaces
+    - forbidden: any whitespace other than ordinary spaces
+    - forbidden: any control characters
+    - allowed: emojis, obscure languages, funky unicode glyphs
+- **the 256-bit ed25519 private key**, expressed as 16 *bytename* words.
+    ```
+    linler.torhul.datmyn.binwep
+    dilmyr.lagruc.nopwyl.witfur
+    fasnes.sonpes.fostyr.foddur
+    datter.diswyl.dotfer.wannul
+    ```
+- **the 2-byte sha256 checksum** ensures the private key wasn't mistyped.
+    ```
+    nomsum
+    ```
+
+### Seed text may contain multiple seeds
+```
+"mopfed.nimrut"
+ linler.torhul.datmyn.binwep
+ dilmyr.lagruc.nopwyl.witfur
+ fasnes.sonpes.fostyr.foddur
+ datter.diswyl.dotfer.wannul
+ nomsum
+
+"naltex.livzod"
+ solweb.dassef.lacmus.latpel
+ pannyt.sipfex.divmeb.harwyt
+ dignyx.fabhet.ponbyl.laddyr
+ dasbyr.rabnyd.timtem.nolfed
+ lopwel
+```
+
+### Seed parsing
+- the format is minimal so that it's eas
+- the json string in the quotes *does* matter, is used to detect the boundary between seeds
+- whitespace doesn't matter
+- non-alphabetic characters don't matter (the dots are aesthetic)
+- a minimal valid seed looks like this:
+    ```
+    ""linlertorhuldatmynbinwepdilmyrlagrucnopwylwitfurfasnessonpesfostyrfoddurdatterdiswyldotferwannulnomsum
+    ```
+
+<br/>
+
 ## Strategies for user-sovereign auth
 
-### Users will lose their identities, have a recovery plan
+### Users will lose their identities, so have a recovery plan
 
-When you sell a service or digital good to a user's Authlocal identity, you'll need to have a recovery mechanism, or people will get cranky.
+When you sell a service or digital goods to a user's Authlocal identity, you'll need to have a recovery mechanism, or people will get cranky.
 
-It may be wise to sell the digital goods to an email address, which can be used for recovery (simply resetting which Authlocal id owns the goods in your database). This would be a case where you are allowing the user to trade some privacy (email address, payment method) to afford this recovery safety.
+It may be wise to sell the digital goods to an email address, which can be used for recovery (email flow to reset goods ownership to new authlocal id). In this case, you allow the user to trade some privacy (email address, payment method) to buy stuff with recovery safety.
 
 <br/>
 
