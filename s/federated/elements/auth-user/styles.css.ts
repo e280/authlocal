@@ -9,34 +9,50 @@ export default css`
 }
 
 :host {
-	text-shadow: .04em .08em .06em #0008;
-	--id-color: color-mix(in srgb, currentColor, transparent 50%);
-	--id-size: 0.8em;
+	display: contents;
+	--icon-size: var(--auth-user-icon-size, 3em);
+	--label-max-width: var(--auth-user-label-max-width, 4em);
 }
 
-[part="box"] {
+[part="shell"] {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 0.5em;
+
+	padding: 1em;
+	border-radius: 0.5em;
+	background: #333;
+}
+
+.icon {
+	svg {
+		width: var(--icon-size);
+		height: var(--icon-size);
+	}
+}
+
+.box {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: end;
+	align-items: start;
 	gap: 0.2em;
+}
 
-	max-width: 12em;
-	padding: 0 .5em;
-	border-radius: 0.3em;
+[part="label"] {
+	font-size: 1.2em;
+	width: 100%;
+	max-width: 20em;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
 
-	.label {
-		width: 100%;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-
-	small {
-		color: var(--id-color);
-		font-size: var(--id-size);
-		font-family: monospace;
-	}
+[part="id"] {
+	font-size: 0.8em;
+	color: color-mix(in srgb, currentColor, transparent 50%);
+	font-family: monospace;
 }
 
 `

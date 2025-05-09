@@ -1,10 +1,11 @@
 
-import {Thumbprint} from "@e280/stz"
-import {html, mixin} from "@benev/slate"
+import {html, mixin, svgSlate} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import underCss from "../../../common/under.css.js"
 import {AuthElement} from "../framework.js"
+import userIcon from "../../../common/icons/tabler/user.icon.js"
+import { idHsl } from "../../../common/utils/id-hue.js"
 
 @mixin.css(underCss, stylesCss)
 export class AuthUser extends AuthElement {
@@ -15,10 +16,17 @@ export class AuthUser extends AuthElement {
 		if (!login)
 			return html``
 
+		const {id, label} = login.nametag
+
 		return html`
-			<div part=box ?data-logged-in="${!!login}">
-				<span class=label>${login.nametag.label}</span>
-				<small>${Thumbprint.sigil.fromHex(login.sessionId)}</small>
+			<div part=shell>
+				<div class=icon style="color: ${idHsl(id)};">
+					${svgSlate(userIcon)}
+				</div>
+				<div class=box>
+					<div part=label>${label}</div>
+					<auth-id part=id hex="${id}"></auth-id>
+				</div>
 			</div>
 		`
 	}

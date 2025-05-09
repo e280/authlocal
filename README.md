@@ -24,65 +24,45 @@ Authlocal can provide free auth for everybody.
 ### Quick start
 1. Pick one of these install techniques
     1. **HTML install technique**  
-        Put this into your html `<head>`:
+        Put this script into your html `<head>`:
         ```html
         <script type="module">
-          import {Auth} from "https://authlocal.org/install.bundle.min.js"
+          import Auth from "https://authlocal.org/install.bundle.min.js"
           const auth = await Auth.install()
 
           // Handle user logins and logouts
           auth.on(login => {
-            if (login) console.log("logged in", login.label)
+            if (login) console.log("logged in", login.nametag)
             else console.log("logged out")
           })
         </script>
         ```
     1. **Webdev install technique**  
-        Install the package into your npm project:
+        Install the package into your project:
         ```sh
         npm install @authlocal/authlocal
         ```
         Write this in your app's js entrypoint (like `main.ts`):
         ```ts
-        import {Auth} from "@authlocal/authlocal"
+        import Auth from "@authlocal/authlocal"
         const auth = await Auth.install()
 
         // Handle user logins and logouts
         auth.on(login => {
-          if (login) console.log("logged in", login.label)
+          if (login) console.log("logged in", login.nametag)
           else console.log("logged out")
         })
         ```
-1. Place the UI elements into your html `<body>`:
+1. Put this stylesheet into your html `<head>`:
+    ```html
+    <link rel="stylesheet" href="https://authlocal.org/themes/basic.css"/>
+    ```
+1. Place these new auth elements anywhere in your html `<body>`:
     ```html
     <auth-user></auth-user>
     <auth-button></auth-button>
     ```
-1. It's ready, take it for a spin!
-     - You should now be able to login, and logout
-
-### More about CSS themes
-- See that `e280.css.js` theme in the install snippet? You can swap it out!
-  - `basic.css.js` — simple high-contrast theme
-  - `e280.css.js` — neon buildercore aesthetic
-- You can actually omit the theme, and it will look all browser-defaulty and ugly:
-  ```ts
-  const auth = await Auth.install()
-  ```
-- If you must, you can put on your mud boots and write your own custom css like this:
-  ```ts
-  import {Auth, css} from "@authlocal/authlocal"
-  import theme from "@authlocal/authlocal/x/themes/basic.css.js"
-
-  const auth = await Auth.install({theme: css`
-
-    /* You can extend one of the preset themes */
-    ${theme}
-
-    /* Just write your own CSS as you wish */
-    button { color: red; }
-  `})
-  ```
+1. Take it for a spin! You should be able to login and logout.
 
 ### Anatomy of a `login`
 - **`login.id` unique id for a user**

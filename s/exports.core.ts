@@ -15,6 +15,9 @@ export * from "./core/seed.js"
 export * from "./core/session.js"
 export * from "./core/token.js"
 
+export * from "./common/utils/id-hue.js"
+export * from "./common/utils/validation.js"
+
 export * from "./tools/errors.js"
 export * from "./tools/future.js"
 export * from "./tools/whence.js"

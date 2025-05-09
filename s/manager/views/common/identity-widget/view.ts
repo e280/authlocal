@@ -6,9 +6,8 @@ import themeCss from "../../../theme.css.js"
 
 import {IdentityDraft} from "./draft.js"
 import {Identity} from "../../../../core/identity.js"
-import {idHue} from "../../../../common/utils/id-hue.js"
+import {idHsl} from "../../../../common/utils/id-hue.js"
 import {inputString} from "../../../../tools/input-string.js"
-import {renderId} from "../../../../common/views/copier/render-id.js"
 import {maxLabelLength} from "../../../../common/utils/validation.js"
 
 import userIcon from "../../../../common/icons/tabler/user.icon.js"
@@ -32,8 +31,6 @@ export const IdentityWidget = shadowView(use => (
 	use.name("identity-widget")
 	use.styles([themeCss, stylesCss])
 
-	const hsl = `hsl(${idHue(draft.identity.id)}deg, 100%, 75%)`
-
 	function handleCardClick(event: MouseEvent) {
 		if (!options.onClick) return undefined
 		const slot = use.shadow.querySelector("slot")!
@@ -50,7 +47,7 @@ export const IdentityWidget = shadowView(use => (
 				?x-selected="${!!options.selected}"
 				@click="${handleCardClick}">
 
-				<div class=icon style="color: ${hsl};">
+				<div class=icon style="color: ${idHsl(draft.identity.id)};">
 					${svgSlate(userIcon)}
 				</div>
 
