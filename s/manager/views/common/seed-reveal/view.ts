@@ -8,12 +8,12 @@ import { Downloader } from "../../../utils/downloader.js"
 
 const demoSeed = `
 "fakely.demoly"
-	midsen.picmyn.widrep.baclut
-	somreg.sivler.havrun.tapfeb
-	ticpem.hanlev.topbec.lorreb
-	sipsyp.sarred.dassyn.barlug
-	pitber
-`.replaceAll("\t", "  ").trim()
+ midsen.picmyn.widrep.baclut
+ somreg.sivler.havrun.tapfeb
+ ticpem.hanlev.topbec.lorreb
+ sipsyp.sarred.dassyn.barlug
+ pitber
+`.trim()
 
 export const SeedReveal = shadowView(use => (seed: string, filename: string) => {
 	use.name("seed-viewer")

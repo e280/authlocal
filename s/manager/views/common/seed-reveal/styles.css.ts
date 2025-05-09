@@ -60,7 +60,13 @@ footer {
 
 	.reveal {
 		color: var(--seed);
-		min-width: 12ch;
+		min-width: 9ch;
+	}
+
+	[theme-button] {
+		border: none;
+		background: none;
+		box-shadow: none;
 	}
 }
 
