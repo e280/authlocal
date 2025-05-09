@@ -10,7 +10,7 @@
 
 **[Authlocal.org](https://authlocal.org/)** is an app where you can manage your digital identities.
 
-Any website can spawn a popup asking for you to login via Authlocal. Your identities are based on a cryptographic seed, which Authlocal will *never* share with any website. Your identity seeds are between you and Authlocal only. Third-party websites are requesting a *login session* (not a seed).
+Any website can spawn a popup asking for you to login via Authlocal. Your identities are based on a cryptographic seed, which Authlocal will *never* share with any website. Your identity seeds are between you and Authlocal only. Third-party websites may requesting a *login session* via Authlocal, but they should never ask for your identity seed.
 
 <br/>
 
