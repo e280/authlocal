@@ -1,16 +1,25 @@
 
-# 🔒 [Authlocal.org](https://authlocal.org/) User Guide
-> ***Developers,*** also see the [README.md](README.md)
+![](https://i.imgur.com/Ao6piCO.png)
 
+# 🔒 [Authlocal.org](https://authlocal.org/) User Guide
+> ***Developers,*** also see the technical [README.md](README.md)
+
+📒 **Manage your identities** – at https://authlocal.org/  
 🗽 **User-sovereign** – you own your identity  
 🔑 **Cryptographic** – no emails, no passwords  
-🥷 **Privacy-focused** – no databases, not collecting data  
-🥞 **Easy as pancakes** – logins are fast and painless  
+🥷 **Privacy-focused** – device-local, no databases  
+🥞 **Easy as pancakes** – login with two clicks  
 💖 **Free and open-source** – zero-cost at global scale  
 
-**[Authlocal.org](https://authlocal.org/)** is an app where you can manage your digital identities.
+### You hold the keys
 
-Any website can spawn a popup asking for you to login via Authlocal. Your identities are based on a cryptographic seed, which Authlocal will *never* share with any website. Your identity seeds are between you and Authlocal only. Third-party websites may requesting a *login session* via Authlocal, but they should never ask for your identity seed.
+Authlocal stores identities *locally* in your web browser, on your device.
+
+You must keep your keys safe, because some web browsers have a habit of unexpectedly wiping your web storage *(Safari, we see you).*
+
+### Any third-party website can request your login from https://authlocal.org/
+
+You can approve login requests in the Authlocal popup. Third-party websites *never* see your seed.
 
 <br/>
 
@@ -18,56 +27,63 @@ Any website can spawn a popup asking for you to login via Authlocal. Your identi
 
 ### What if I lose my identity file or seed?
 - It's gone. Generate a new one.
-- The app you're using should provide a recovery mechanism for anything important.
+- If an app ties important goods or services to your identity, they should provide a recovery mechanism.
 
 ### How do I recover my identity from a seed?
+- You can download your seeds, or copy-paste them yourself.
+- Transfer the seed to your new device any way you want.
 - Go to https://authlocal.org/ and click the `Import` button. You can upload a seed file, or paste one in.
 - This is also how you move identities between your devices.
 
-### What if some other website asks for my seed?
-- It's a scam! Never share your seed with anybody or anywhere except https://authlocal.org/
+### Somebody, or some website, asked for my seed?
+- It's a scam! Never share your seed with anybody anywhere except https://authlocal.org/
 
-### What's with the weird names like "`narnyl.tabtyd`"?
-- That's an identity's permanent *sigil*. It's a preview of the full cryptographic thumbprint.
-- Names are just labels. A hundred people could call themselves "`Steve`".
-- Every identity also has a permanent unique cryptographic thumbprint.
-  - Thumbprint: "`narnyl.tabtyd::2BFH296SFgeKP4VA2uoYjiDRj43JxgGg58AYgwN`"
-  - There are more possible thumbprints than atoms in the galaxy (256 bits). No two people will have the same thumbprint.
-- The *sigil* is just the first four bytes of the thumbprint. We display it to help you differentiate who's *really* who.
-  - Sigil: "`narnyl.tabtyd`"
-  - There are 4.2 billion possible sigils. Rarely, two people could have the same fingerprint, so check the full thumbprint if you're suspicious.
+### What's with the weird names like "`dozmut.winpex`"?
+- That's a *sigil*, the shorthand for a full cryptographic thumbprint.
+- Anybody can name their identity "`steve`", but sigils and thumbprints prove who's really who.
+- Thumbprint: "`dozmut.winpex::2qeewYscUfjLDzTyMADvruUN8kxzTkMVg7WTSv8`"
+  - More possible thumbprints than atoms in the entire galaxy... And there are quintillion atoms in a grain of sand, I mean, think about that for awhile
+  - No two identities will ever have the same thumbprint.
+- Sigil: "`dozmut.winpex`"
+  - Thumbprint's first four bytes. 4.2 billion possible sigils. Rarely, two identities could have the same sigil, so check the full thumbprint if you're suspicious.
+
+### Can I change the color associated with my identity?
+- No. It's derived from the identity's cryptographic thumbprint.
 
 ### What does "Persistence off" mean?
-- You may see this in the footer of [authlocal.org](https://authlocal.org/).
 - It means your browser might delete your identities from authlocal.org any time.
 - Conversely, "Persistence on" means the browser pinky-swears to keep your identities safe.
 - If you click "Persistence off", Authlocal will request persistence. Firefox will nicely ask your permission. Chrome and Safari will usually ignore you.
-- On Safari, with persistence off, there is a 7-day inactive data deletion policy. Apple users often need to re-import their identities.
+- On Safari, with persistence off, there is a 7-day inactive data deletion policy, so Safari users often need to re-import their identities.
 
 ### Zero-cost at global scale? How is it technically possible!?
 - [Authlocal.org](https://authlocal.org/) is a static http deployment. Dirt cheap hosting.
 - No api servers or microservices. Runs clientside, using postMessage.
 - It's open source, so GitHub Pages is willing to host it for free.
 
-### Who am I really trusting with my identity seeds?
+### How many people are using Authlocal?
+- We don't know.
+- We don't collect data or track analytics.
+- Star this project on GitHub to give us a clue.
+
+### What vectors threaten my keys on [authlocal.org](https://authlocal.org/)?
 - Yourself.
 - Your web browser, operating system, and hardware.
 - GitHub and GitHub Pages, which hosts the source and app for free.
-- Authlocal maintainers: https://github.com/authlocal/
-  - [Chase Moskal](https://github.com/chase-moskal/), creator. Victoria BC, Canada. He says:  
-    > *On pain of death, I swear Authlocal will always be free, open, user-sovereign, and privacy-focused.*
-- Dependency maintainers:
+  - They surely record their own pageview analytics, and a compromised Microsoft could inject a trojan to steal keys on authlocal.org.
+  - In the future, we may need to secure funding to host Authlocal on its own security hardened servers.
+- Maintainers of e280: https://github.com/e280/
+  - [Chase Moskal](https://github.com/chase-moskal/)
+  - [Przemysław Gałęzki](https://github.com/zenkyuv),
+- Maintainers of dependencies:
   - [`@noble/ed25519`](https://github.com/paulmillr/noble-ed25519) — [Paul Miller](https://github.com/paulmillr)
-  - [`@e280`](https://github.com/orgs/e280) — [Chase Moskal](https://github.com/chase-moskal/), [Przemysław Gałęzki](https://github.com/zenkyuv)
   - [`@benev`](https://github.com/benevolent-games) — [Chase Moskal](https://github.com/chase-moskal/), [Lonnie Ralfs](https://github.com/lonnie-ralfs/)
+  - Technical people can investigate the dependencies in the [package.json](package.json)
 
 <br/>
 
 ## 💖 Authlocal is free and open source
-
-My name is Chase Moskal, and I built Authlocal to power [benevolent.games](http://benevolent.games/).
-
-Got questions or feedback? Don't hesitate to open a github issue or discussion anytime.
-
-Like the project? Star it on github, it's the only way I'm paid.
+- Authlocal is an https://e280.org/ project
+- Got questions or feedback? Don't hesitate to open a github issue or discussion anytime!
+- Like the project? Star it on github, it's the only way we're paid.
 

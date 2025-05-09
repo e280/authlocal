@@ -1,4 +1,6 @@
 
+![](https://i.imgur.com/Ao6piCO.png)
+
 # 🔒 [Authlocal.org](https://authlocal.org/) Developer Readme
 > ***Not a developer?*** See the [User Guide](GUIDE.md) instead
 
