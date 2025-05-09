@@ -64,7 +64,7 @@ export const AuthManager = shadowComponent(use => {
 				identities,
 				initialIdentity,
 				initialIdentitySeed,
-				onIngress: gotoIngress,
+				onIngress: () => gotoIngress(),
 				onSave: async identity => {
 					await depot.identities.save(identity)
 					await storagePersistence.request()
@@ -85,7 +85,7 @@ export const AuthManager = shadowComponent(use => {
 			onEdit: gotoEdit,
 			onCreate: gotoCreate,
 			onDelete: gotoDelete,
-			onIngress: gotoIngress,
+			onIngress: () => gotoIngress(),
 			onEgress: async() => {},
 		}))
 		await resetScroll()
