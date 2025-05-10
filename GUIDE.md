@@ -39,13 +39,11 @@ You can approve login requests in the Authlocal popup. Third-party websites *nev
 ### Somebody, or some website, asked for my seed?
 - It's a scam! Never share your seed with anybody anywhere except https://authlocal.org/
 
-### What's with the weird names like "`dozmut.winpex.linner`"?
+### What's with the weird names like "`dozmut.winpex`"?
 - That's a *sigil*, the shorthand for an identity's cryptographic thumbprint.
-- Thumbprint: "`dozmut.winpex.linner::2Y3rjac1sCaAAbhThwvshr2Rs3X4HxGMjMF2`"
-  - The full and precise way to identify somebody.
-  - There are more possible thumbprints than atoms in the entire galaxy. And there are a quintillion atoms in a grain of sand... I mean, think about that for awhile.. That's a lot of atoms.
-- Sigil: "`dozmut.winpex.linner`"
-  - It's just an 8-byte preview of the thumbprint.
+- Thumbprint: "`dozmut.winpex.linner.forsep.KgisJ8Pdgey1HC4o8cG59NaLYSoRTiHfA`"
+  - This is the full-size and formal public identifier.
+  - There are more possible thumbprints than atoms in the entire galaxy. And there are a quintillion atoms in a grain of sand... I mean, think about that for awhile.. There are a lot of atoms...
 
 ### Can I change the color associated with my identity?
 - No. It's derived from the identity's cryptographic thumbprint.

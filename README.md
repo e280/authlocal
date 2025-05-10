@@ -131,7 +131,7 @@ If the user clicks the sigil, the full thumbprint is copied to the clipboard.
 
 <br/>
 
-## Logins are about signing claims
+## Logins are really about signing claims
 
 #### Okay, so you have a user's `login`. Now what?
 - The purpose of a login is to *sign claims* on the user's behalf.
@@ -196,9 +196,10 @@ proof.nametag.label
     - `.id` is the public key (64 character hex string)
     - `.label` is a nickname (max 32 character string)
 - **Thumbprint** — easier-to-read version of an id
-    - `thumbprint` => `dozmut.winpex.linner::2Y3rjac1sCaAAbhThwvshr2Rs3X4HxGMjMF2`
-    - `sigil` (first part) =>`dozmut.winpex.linner`
-    - `bulk` (second part) => `2Y3rjac1sCaAAbhThwvshr2Rs3X4HxGMjMF2`
+    - `thumbprint` => `dozmut.winpex.linner.forsep.KgisJ8Pdgey1HC4o8cG59NaLYSoRTiHfA`
+    - `sigil` (first two words) => `dozmut.winpex`
+    - `preview` (first four words) => `dozmut.winpex.linner.forsep`
+    - `bulk` (second part) => `KgisJ8Pdgey1HC4o8cG59NaLYSoRTiHfA`
 - **Login** — a login session
     - is private, should never leave the user's device
     - `.nametag` contains the identity's id and label
@@ -226,16 +227,16 @@ import {Thumbprint} from "@authlocal/authlocal"
 - **id to thumbprint**
     ```ts
     Thumbprint.fromHex("005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed")
-      // "dozmut.winpex.linner::2Y3rjac1sCaAAbhThwvshr2Rs3X4HxGMjMF2"
+      // "dozmut.winpex.linner.forsep.KgisJ8Pdgey1HC4o8cG59NaLYSoRTiHfA"
     ```
 - **id to sigil**
     ```ts
     Thumbprint.sigil.fromHex("005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed")
-      // "dozmut.winpex.linner"
+      // "dozmut.winpex"
     ```
 - **thumbprint to id**
     ```ts
-    Thumbprint.toHex("dozmut.winpex.linner::2Y3rjac1sCaAAbhThwvshr2Rs3X4HxGMjMF2")
+    Thumbprint.toHex("dozmut.winpex.linner.forsep.KgisJ8Pdgey1HC4o8cG59NaLYSoRTiHfA")
       // "005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed"
     ```
 
