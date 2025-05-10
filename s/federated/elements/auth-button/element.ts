@@ -1,16 +1,27 @@
 
+import {sub} from "@e280/stz"
 import {TemplateResult, attributes, html, mixin} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import underCss from "../../../common/under.css.js"
 import {AuthElement} from "../framework.js"
+import {Login} from "../../../core/login.js"
 
 @mixin.css(underCss, stylesCss)
 export class AuthButton extends AuthElement {
 	attrs = attributes(this, {
 		"src": String,
-		"theme": String,
 	})
+
+	on = sub<[Login | null]>()
+
+	#clickLogout = async() => this.on.pub(
+		await this.auth.logout()
+	)
+
+	#clickLogin = async() => this.on.pub(
+		await this.auth.popup(this.attrs.src)
+	)
 
 	render(): TemplateResult {
 		const {auth} = this
@@ -22,7 +33,7 @@ export class AuthButton extends AuthElement {
 					class=logout
 					theme-button=logout
 					part="button button-logout"
-					@click="${() => auth.logout()}">
+					@click="${this.#clickLogout}">
 						<slot name=logout>Logout</slot>
 				</button>
 			`
@@ -32,7 +43,7 @@ export class AuthButton extends AuthElement {
 					class=login
 					theme-button=login
 					part="button button-login"
-					@click="${() => auth.popup(this.attrs.src)}">
+					@click="${this.#clickLogin}">
 						<slot>Login</slot>
 				</button>
 			`

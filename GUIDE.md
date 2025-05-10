@@ -83,7 +83,7 @@ You can approve login requests in the Authlocal popup. Third-party websites *nev
 <br/>
 
 ## 💖 Authlocal is free and open source
-- Authlocal is an https://e280.org/ project
+- Authlocal is an https://e280.org/ project.
 - Got questions or feedback? Don't hesitate to open a github issue or discussion anytime!
 - Like the project? Star it on github, it's the only way we're paid.
 

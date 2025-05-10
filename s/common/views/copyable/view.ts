@@ -21,8 +21,8 @@ export const Copyable = shadowView(use => (payload: string, tooltipMax = 64) => 
 	}
 
 	const tooltip = tooltipMax < payload.length
-		? `Copy "${payload.slice(0, tooltipMax)}..."`
-		: `Copy "${payload}"`
+		? payload.slice(0, tooltipMax) + "..."
+		: payload
 
 	return html`
 		<span x-copy="${copyStatus}" title="${tooltip}">

@@ -4,39 +4,31 @@
 # 🔒 [Authlocal.org](https://authlocal.org/) Developer Readme
 > ***Not a developer?*** See the [User Guide](GUIDE.md) instead
 
-🔑 **Elliptic** – identities are [`@noble/ed25519`](https://github.com/paulmillr/noble-ed25519) keypairs  
 🏛️ **Federated** – your app gets user logins from [authlocal.org](https://authlocal.org/) popup  
+🔑 **Elliptic** – identities are [`@noble/ed25519`](https://github.com/paulmillr/noble-ed25519) keypairs  
 📱 **Clientside** – statically deployed, no api servers  
-📜 **Protocol** – permissionless integration, you can do it your way  
-🥧 **Easy as pie** – setup your app with an easy snippet  
+📜 **Protocol** – permissionless integration, do it your way  
+🥧 **Easy as pie** – setup your app with two easy snippets  
+💖 **MIT Licensed** – totally free and open source  
 
-### A cryptographic login system for the world wide web
-Authlocal can provide free auth for everybody.
-
-### A free login system for your website
+### A free login system for the world wide web
 - Try out the example integration live demo here: https://authlocal.org/federated/
 - Your users click "Login", pick an identity, then *boom!* — they're logged into your site.
 - Next, you can use claim tokens, for your server to verify user requests.
-- And all this costs you nothing.
 
 <br/>
 
 ## Authlocal installation and setup
 
 ### Quick start
-1. Pick one of these install techniques
+1. Pick one of these javascript install techniques
     1. **HTML install technique**  
         Put this script into your html `<head>`:
         ```html
         <script type="module">
           import Auth from "https://authlocal.org/install.bundle.min.js"
           const auth = await Auth.install()
-
-          // Handle user logins and logouts
-          auth.on(login => {
-            if (login) console.log("logged in", login.nametag)
-            else console.log("logged out")
-          })
+          auth.on(login => console.log("auth", login))
         </script>
         ```
     1. **Webdev install technique**  
@@ -48,12 +40,7 @@ Authlocal can provide free auth for everybody.
         ```ts
         import Auth from "@authlocal/authlocal"
         const auth = await Auth.install()
-
-        // Handle user logins and logouts
-        auth.on(login => {
-          if (login) console.log("logged in", login.nametag)
-          else console.log("logged out")
-        })
+        auth.on(login => console.log("auth", login))
         ```
 1. Put this stylesheet into your html `<head>`:
     ```html
@@ -64,21 +51,91 @@ Authlocal can provide free auth for everybody.
     <auth-user></auth-user>
     <auth-button></auth-button>
     ```
-1. Take it for a spin! You should be able to login and logout.
+1. Take it for a spin! You can now login, and logout.
 
-### Anatomy of a `login`
+### Understanding logins
+
+You must *never* send the *login* data anywhere, it stays on the user's device.
+
+The login is automatically persisted in `localStorage` for 7 days.
+
+If you don't want to use authlocal's auth-button ui, you can trigger a login popup in javascript:
+```js
+myButton.onclick = async() => {
+  await auth.popup()
+}
+```
+- but remember, the call must originate from a user action like clicking a button, otherwise the browser's popup browser will ignore it.
+
+The anatomy of a login:
 - `login.sessionId` — id of the login session hex string
 - `login.nametag.id` — user identity public key hex string
 - `login.nametag.label` — user's chosen nickname
+- `login.expiresAt` — js timestamp of when this login expires
+- `login.isExpired()` — returns true if the login is expired now
 
 <br/>
 
-## Authlocal claims
+## Authlocal's custom html elements
+
+### auth-button
+
+![](https://i.imgur.com/U9q3K9B.png)
+
+![](https://i.imgur.com/1nExBR4.png)
+
+```html
+<auth-button></auth-button>
+```
+
+It's a "Login" button, that when clicked, spawns an Authlocal popup.
+
+When the user is logged in, the button changes to a "Logout" button, which when clicked, will log the user out.
+
+In javascript you can listen for logins/logouts via the button like this:
+```js
+const authButton = document.querySelector("auth-button")
+
+authButton.on(login => console.log("auth", login))
+  //       👆
+  // listen to *this* specific button
+
+authButton.auth.on(login => console.log("auth", login))
+  //        👆
+  // listen to *any* button
+```
+
+### auth-user
+
+![](https://i.imgur.com/EzWVjva.png)
+
+```html
+<auth-user></auth-user>
+```
+
+Displays the user's own logged-in identity. Shows nothing when logged-out.
+
+### auth-sigil
+
+![](https://i.imgur.com/xwa8DwY.png)
+
+```html
+<auth-sigil hex="c9185ef07bc9f24ca856f2a178e59f85d0d53d22a14b26b434b58a22c9a872fb"></auth-sigil>
+```
+
+Take a hex-encoded id, and present to the user as a sigil.
+
+If the user hovers over the sigil, the full thumbprint is shown in the tooltip.
+
+If the user clicks the sigil, the full thumbprint is copied to the clipboard.
+
+<br/>
+
+## Logins are about signing claims
 
 #### Okay, so you have a user's `login`. Now what?
 - The purpose of a login is to *sign claims* on the user's behalf.
-- You must *never* send the login data anywhere. It should stay on the user's clientside device.
-- The login is automatically persisted in `localStorage`.
+- You can then send claims to your server, and verify them.
 
 #### The purpose of a claim is to say *"on behalf of this user, my frontend says..."*
 - "...they want to post this message"
@@ -129,7 +186,7 @@ proof.nametag.label
 
 <br/>
 
-## Glossary
+## Authlocal glossary
 - **Keypair** — an ed25519 keypair
   - `.id` is the public key (64 character hex string)
   - `.secret` is the private key (64 character hex string)
@@ -162,8 +219,6 @@ proof.nametag.label
 
 ## Common code snippets
 
-You can do these on the clientside or serverside.
-
 #### Thumbprint conversions
 ```ts
 import {Thumbprint} from "@authlocal/authlocal"
@@ -186,9 +241,7 @@ import {Thumbprint} from "@authlocal/authlocal"
 
 <br/>
 
-## Seed text format
-
-### Seed text format
+## Authlocal seed text format
 - Seeds can be copy-pasted, or live in a `my-identity.seed` file. Seed text looks like this:
     ```
     "mopfed.nimrut"
@@ -226,19 +279,12 @@ import {Thumbprint} from "@authlocal/authlocal"
 
 ### Users will lose their identities, so have a recovery plan
 
-When you sell a service or digital goods to a user's Authlocal identity, you'll need to have a recovery mechanism, or people will get cranky.
-
-It may be wise to sell the digital goods to an email address, which can be used for recovery (email flow to reset goods ownership to new authlocal id). In this case, you allow the user to trade some privacy (email address, payment method) to buy stuff with recovery safety.
+When you sell a service or digital goods to a user's Authlocal identity, you should have a recovery mechanism, or people will get cranky.
 
 <br/>
 
 ## 💖 [Authlocal](https://authlocal.org/) is free and open source
-
-My name is Chase Moskal, and I built Authlocal because I wanted free user-centric auth to power [benevolent.games](http://benevolent.games/).
-
-Got questions or feedback? Don't hesitate to open a github issue or discussion anytime.
-
-Like the project? Star it on github, it's the only way I'm paid.
-
-Authlocal is associated with my project [e280.org](https://e280.org/), the buildercore collective.
+- Authlocal is an https://e280.org/ project.
+- Open github issues or discussions if you have any questions.
+- Like the project? Star it on github, it's the only way we're paid.
 
