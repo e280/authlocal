@@ -12,7 +12,6 @@ export class AuthId extends ShadowElement {
 
 	attrs = attributes(this, {
 		"hex": String,
-		"short": Boolean,
 	})
 
 	clearStatus = debounce(1000, () => {
@@ -20,26 +19,17 @@ export class AuthId extends ShadowElement {
 	})
 
 	render(): Content {
-		let {hex, short} = this.attrs
+		let {hex} = this.attrs
 
 		if (hex === undefined) {
 			console.error(`<auth-id> element attr [hex] is required`)
 			hex = ""
 		}
 
-		const delimiter = "."
 		const {sigil, thumbprint} = Thumbprint.build.fromHex(hex)
-		const [a, b, c, d] = sigil.split(delimiter)
-
-		const strong = html`<span part="strong">${[a, b].join(delimiter)}</span>`
-		const weak = short
-			? null
-			: html`<span part="weak">.${[c, d].join(delimiter)}</span>`
 
 		return Copyable([thumbprint], {content: html`
-			<div part="copybox">
-				${strong}${weak}
-			</div>
+			<div part="copybox">${sigil}</div>
 		`})
 	}
 }

@@ -4,7 +4,8 @@
 # 🔒 [Authlocal.org](https://authlocal.org/) User Guide
 > ***Developers,*** also see the technical [README.md](README.md)
 
-📒 **Manage your identities** – at https://authlocal.org/  
+Go to https://authlocal.org/ to manage your identities.
+
 🗽 **User-sovereign** – you own your identity  
 🔑 **Cryptographic** – no emails, no passwords  
 🥷 **Privacy-focused** – device-local, no databases  
@@ -38,14 +39,13 @@ You can approve login requests in the Authlocal popup. Third-party websites *nev
 ### Somebody, or some website, asked for my seed?
 - It's a scam! Never share your seed with anybody anywhere except https://authlocal.org/
 
-### What's with the weird names like "`dozmut.winpex`"?
-- That's a *sigil*, the shorthand for a full cryptographic thumbprint.
-- Anybody can name their identity "`steve`", but sigils and thumbprints prove who's really who.
-- Thumbprint: "`dozmut.winpex::2qeewYscUfjLDzTyMADvruUN8kxzTkMVg7WTSv8`"
-  - More possible thumbprints than atoms in the entire galaxy... And there are quintillion atoms in a grain of sand, I mean, think about that for awhile
-  - No two identities will ever have the same thumbprint.
-- Sigil: "`dozmut.winpex`"
-  - Thumbprint's first four bytes. 4.2 billion possible sigils. Rarely, two identities could have the same sigil, so check the full thumbprint if you're suspicious.
+### What's with the weird names like "`dozmut.winpex.linner`"?
+- That's a *sigil*, the shorthand for an identity's cryptographic thumbprint.
+- Thumbprint: "`dozmut.winpex.linner::2Y3rjac1sCaAAbhThwvshr2Rs3X4HxGMjMF2`"
+  - The full and precise way to identify somebody.
+  - There are more possible thumbprints than atoms in the entire galaxy. And there are a quintillion atoms in a grain of sand... I mean, think about that for awhile.. That's a lot of atoms.
+- Sigil: "`dozmut.winpex.linner`"
+  - It's just an 8-byte preview of the thumbprint.
 
 ### Can I change the color associated with my identity?
 - No. It's derived from the identity's cryptographic thumbprint.

@@ -67,11 +67,9 @@ Authlocal can provide free auth for everybody.
 1. Take it for a spin! You should be able to login and logout.
 
 ### Anatomy of a `login`
-- **`login.id` unique id for a user**
-  > eg, `"a08263e70a0a48a07e988a7c0931ada6b0a38fa84bf367087b810c614a4c2070"`  
-  > *(it's actually the user identity public key)*
-- **`login.label` — user's chosen nickname**
-  > eg, `"Michael Scott"`
+- `login.sessionId` — id of the login session hex string
+- `login.nametag.id` — user identity public key hex string
+- `login.nametag.label` — user's chosen nickname
 
 <br/>
 
@@ -141,9 +139,9 @@ proof.nametag.label
     - `.id` is the public key (64 character hex string)
     - `.label` is a nickname (max 32 character string)
 - **Thumbprint** — easier-to-read version of an id
-    - looks like: `dozmut.winpex::2qeewYscUfjLDzTyMADvruUN8kxzTkMVg7WTSv8`
-    - `sigil` is the first part: `dozmut.winpex`
-    - `bulk` is the second part: `2qeewYscUfjLDzTyMADvruUN8kxzTkMVg7WTSv8`
+    - `thumbprint` => `dozmut.winpex.linner::2Y3rjac1sCaAAbhThwvshr2Rs3X4HxGMjMF2`
+    - `sigil` (first part) =>`dozmut.winpex.linner`
+    - `bulk` (second part) => `2Y3rjac1sCaAAbhThwvshr2Rs3X4HxGMjMF2`
 - **Login** — a login session
     - is private, should never leave the user's device
     - `.nametag` contains the identity's id and label
@@ -166,6 +164,9 @@ proof.nametag.label
 
 You can do these on the clientside or serverside.
 
+#### 
+
+
 #### Thumbprint conversions
 ```ts
 import {Thumbprint} from "@authlocal/authlocal"
@@ -173,16 +174,16 @@ import {Thumbprint} from "@authlocal/authlocal"
 - **id to thumbprint**
     ```ts
     Thumbprint.fromHex("005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed")
-      // "dozmut.winpex::2qeewYscUfjLDzTyMADvruUN8kxzTkMVg7WTSv8"
+      // "dozmut.winpex.linner::2Y3rjac1sCaAAbhThwvshr2Rs3X4HxGMjMF2"
     ```
 - **id to sigil**
     ```ts
     Thumbprint.sigil.fromHex("005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed")
-      // "dozmut.winpex"
+      // "dozmut.winpex.linner"
     ```
 - **thumbprint to id**
     ```ts
-    Thumbprint.toHex("dozmut.winpex::2qeewYscUfjLDzTyMADvruUN8kxzTkMVg7WTSv8")
+    Thumbprint.toHex("dozmut.winpex.linner::2Y3rjac1sCaAAbhThwvshr2Rs3X4HxGMjMF2")
       // "005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed"
     ```
 

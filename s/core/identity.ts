@@ -25,7 +25,7 @@ export type Nametag = {
 
 export async function generateIdentity(): Promise<Identity> {
 	const {id, secret} = await generateKeypair()
-	const label = Thumbprint.sigil.fromHex(id, {sigilByteCount: 4})
+	const label = Thumbprint.sigil.fromHex(id)
 	return {label, id, secret}
 }
 

@@ -3,11 +3,10 @@ import {debounce, html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
 import underCss from "../../under.css.js"
 
-export const Copyable = shadowView(use => (payload: string) => {
+export const Copyable = shadowView(use => (payload: string, tooltipMax = 64) => {
 	use.name("copyable")
 	use.styles(underCss, stylesCss)
 
-	const truncated = payload.slice(0, 24)
 	const copyStatus = use.signal<"good" | "bad" | undefined>(undefined)
 
 	const clearStatus = use.once(() => debounce(1000, () => {
@@ -21,7 +20,9 @@ export const Copyable = shadowView(use => (payload: string) => {
 			.finally(() => clearStatus())
 	}
 
-	const tooltip = `Copy "${truncated}..."`
+	const tooltip = tooltipMax < payload.length
+		? `Copy "${payload.slice(0, tooltipMax)}..."`
+		: `Copy "${payload}"`
 
 	return html`
 		<span x-copy="${copyStatus}" title="${tooltip}">

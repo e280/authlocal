@@ -25,6 +25,7 @@ export default template(async basic => {
 		body: html`
 			<h1>Example app using Authlocal</h1>
 			<p>This page is a test for a typical federated auth integration with <a href="/">Authlocal</a></p>
+			<auth-id hex="c9185ef07bc9f24ca856f2a178e59f85d0d53d22a14b26b434b58a22c9a872fb"></auth-id>
 			<auth-button src="/" theme="basic"></auth-button>
 			<auth-user></auth-user>
 		`,
