@@ -136,7 +136,7 @@ export const ListPage = shadowView(use => (
 			downloader.text = selectedSeeds.join("\n\n")
 			const filename = selectedIdentityIds.length === 1
 				? crushUsername(Thumbprint.sigil.fromHex(selectedIdentityIds.at(0)!))
-				: `identities-${selected.size}` + constants.seedExtension
+				: "identities" + constants.seedExtension
 
 			return html`
 				<button

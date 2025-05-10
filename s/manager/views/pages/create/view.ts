@@ -106,10 +106,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 						? html`<h2>${hostcode(purpose.appOrigin)}</h2>`
 						: null}
 					<h2>Save your recovery seed</h2>
-					<p>
-						Keep it safe. Never share it.<br/>
-						Only trust authlocal.org with it.
-					</p>
+					<p>Keep it safe. Never share it.</p>
 				</section>
 
 				<section theme-group>
