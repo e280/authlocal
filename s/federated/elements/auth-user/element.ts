@@ -26,7 +26,7 @@ export class AuthUser extends AuthElement {
 				</div>
 				<div class=box>
 					<div part=label>${label}</div>
-					<auth-id part=id hex="${id}"></auth-id>
+					<auth-sigil part=id hex="${id}"></auth-sigil>
 				</div>
 			</div>
 		`

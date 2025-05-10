@@ -164,9 +164,6 @@ proof.nametag.label
 
 You can do these on the clientside or serverside.
 
-#### 
-
-
 #### Thumbprint conversions
 ```ts
 import {Thumbprint} from "@authlocal/authlocal"

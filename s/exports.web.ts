@@ -17,5 +17,5 @@ export * from "./federated/elements/auth-user/element.js"
 export * from "./federated/elements/auth-button/element.js"
 
 export * from "./common/views/copyable/view.js"
-export * from "./common/elements/auth-id/element.js"
+export * from "./common/elements/auth-sigil/element.js"
 

@@ -7,7 +7,7 @@ import underCss from "../../under.css.js"
 import {Copyable} from "../../views/copyable/view.js"
 
 @mixin.css(underCss, stylesCss)
-export class AuthId extends ShadowElement {
+export class AuthSigil extends ShadowElement {
 	copyStatus = signal<"good" | "bad" | undefined>(undefined)
 
 	attrs = attributes(this, {
@@ -22,7 +22,7 @@ export class AuthId extends ShadowElement {
 		let {hex} = this.attrs
 
 		if (hex === undefined) {
-			console.error(`<auth-id> element attr [hex] is required`)
+			console.error(`<auth-sigil> element attr [hex] is required`)
 			hex = ""
 		}
 

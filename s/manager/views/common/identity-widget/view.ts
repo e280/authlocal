@@ -70,7 +70,7 @@ export const IdentityWidget = shadowView(use => (
 			</div>
 
 			<div class=id>
-				<auth-id hex="${draft.identity.id}"></auth-id>
+				<auth-sigil hex="${draft.identity.id}"></auth-sigil>
 			</div>
 		</section>
 	`
