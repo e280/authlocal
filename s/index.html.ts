@@ -28,7 +28,7 @@ export default template(async basic => {
 				siteName: domain,
 				title: "Authlocal – user-sovereign login system",
 				description: "Own your identity. No emails, no passwords, no databases. Open-source. Privacy-focused.",
-				image: `https://${domain}${faviconVersioned}`,
+				image: `https://${domain}${favicon}`,
 				url: `https://${domain}/`,
 			})}
 
