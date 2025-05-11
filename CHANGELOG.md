@@ -1,5 +1,5 @@
 
-# `@authlocal/authlocal` changelog
+# `@e280/authlocal` changelog
 - 🟥 breaking change
 - 🔶 deprecation or possible breaking change
 - 🍏 harmless addition, fix, or enhancement

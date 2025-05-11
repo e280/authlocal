@@ -34,11 +34,11 @@
     1. **Webdev install technique**  
         Install the package into your project:
         ```sh
-        npm install @authlocal/authlocal
+        npm install @e280/authlocal
         ```
         Write this in your app's js entrypoint (like `main.ts`):
         ```ts
-        import {install} from "@authlocal/authlocal"
+        import {install} from "@e280/authlocal"
         const auth = await install()
         auth.on(login => console.log("auth", login))
         ```
@@ -59,7 +59,7 @@ Use this technique if you want to make your own UI, and don't want to load any o
 
 1. Create the Auth object manually, and trigger the initial load from storage:
     ```ts
-    import {Auth} from "@authlocal/authlocal"
+    import {Auth} from "@e280/authlocal"
 
     const auth = new Auth()
     await auth.loadLogin()
@@ -161,7 +161,7 @@ If the user clicks the sigil, the full thumbprint is copied to the clipboard.
 
 ### Sign a claim
 ```js
-import {Future} from "@authlocal/authlocal"
+import {Future} from "@e280/authlocal"
 
 const claimToken = await login.signClaim({
 
@@ -175,7 +175,7 @@ const claimToken = await login.signClaim({
 
 ### Verify a claim
 ```js
-import {verifyClaim} from "@authlocal/authlocal"
+import {verifyClaim} from "@e280/authlocal"
 
 const {claim, proof} = await verifyClaim({
   claimToken,
@@ -245,7 +245,7 @@ Your server verifies the proof, then the claim — proving the user authorized t
 
 #### Thumbprint conversions
 ```ts
-import {Thumbprint} from "@authlocal/authlocal"
+import {Thumbprint} from "@e280/authlocal"
 ```
 - **id to thumbprint**
     ```ts
