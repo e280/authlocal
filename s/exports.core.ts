@@ -17,6 +17,5 @@ export {TokenParams} from "./core/token.js"
 export * from "./common/utils/id-hue.js"
 export * from "./common/utils/validation.js"
 
-export * from "./tools/errors.js"
 export * from "./tools/future.js"
 

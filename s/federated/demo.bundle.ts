@@ -1,7 +1,6 @@
 
-import {Auth} from "../install.bundle.js"
+import {install} from "./prepare.js"
 
-const auth = await Auth.install()
-
+const auth = await install()
 auth.on(login => console.log("auth", login))
 

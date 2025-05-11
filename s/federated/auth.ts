@@ -1,6 +1,6 @@
 
 import {sub} from "@e280/stz"
-import {register, signal} from "@benev/slate"
+import {signal} from "@benev/slate"
 
 import {AuthOptions} from "./types.js"
 import {Login} from "../core/login.js"
@@ -11,30 +11,29 @@ import {AuthStores} from "./parts/stores.js"
 import {openPopup} from "./parts/open-popup.js"
 import {setupInApp} from "./api/setup-in-app.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
-import {federatedElements} from "./elements/elements.js"
-import {commonElements} from "../common/elements/elements.js"
 
+/**
+ * Authlocal's page-level auth control center.
+ *  - there should only be one instance on the page, shared across any authlocal elements.
+ *  - provides the `login` state
+ *  - handles persistence of the login session into storage
+ *  - coordinates and communicates with the Authlocal popup
+ */
 export class Auth {
 	static version = 1
 	static defaults = defaults
 	static Future = Future
 
-	static async prepare(options?: Partial<AuthOptions>) {
-		const auth = new Auth(options)
-		const elements = {...commonElements, ...federatedElements(auth)}
-		return {auth, elements}
-	}
-
-	static async install(options?: Partial<AuthOptions>) {
-		const {auth, elements} = await this.prepare(options)
-		await auth.loadLogin()
-		register(elements)
-		return auth
-	}
-
+	/** The url that the login popups should use (defaults to "https://authlocal.org/") */
 	src: string
+
+	/**
+	 * Subscribe to changes in the login state.
+	 *  - if the login is `null`, it means the user has logged out.
+	 *  - usage:
+	 *    auth.on(login => console.log(login))
+	 */
 	on = sub<[Login | null]>()
-	wait: Promise<Login | null> = Promise.resolve(null)
 
 	#options: AuthOptions
 	#stores: AuthStores
@@ -50,20 +49,24 @@ export class Auth {
 		this.#options.onStorageChange(() => void this.loadLogin())
 	}
 
+	/** Load and update the login state from storage */
 	async loadLogin(): Promise<Login | null> {
-		this.wait = this.#getStoredLogin()
-		return this.#updateLoginSignal(await this.wait)
+		const login = await this.#getStoredLogin()
+		return this.#updateLoginSignal(login)
 	}
 
+	/** Set the login state manually, saving it to storage */
 	async saveLogin(login: Login | null) {
-		this.wait = this.#setStoredLogin(login)
-		return this.#updateLoginSignal(await this.wait)
+		const login2 = await this.#setStoredLogin(login)
+		return this.#updateLoginSignal(login2)
 	}
 
+	/** Shortcut for `saveLogin(null)` */
 	async logout() {
 		return this.saveLogin(null)
 	}
 
+	/** The current login state, either a `Login` object, or null if logged out */
 	get login() {
 		const login = this.#login.value
 		if (login && login.isExpired())
@@ -71,6 +74,11 @@ export class Auth {
 		return this.#login.value
 	}
 
+	/**
+	 * Spawn a login popup, requesting for the user to login.
+	 *   `src`:
+	 *     this is the url to open (defaults to "https://authlocal.org/")
+	 */
 	async popup(src = this.src) {
 		const popupWindow = openPopup(src)
 		const popupOrigin = new URL(src, window.location.href).origin

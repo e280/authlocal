@@ -26,8 +26,8 @@
         Put this script into your html `<head>`:
         ```html
         <script type="module">
-          import Auth from "https://authlocal.org/install.bundle.min.js"
-          const auth = await Auth.install()
+          import {install} from "https://authlocal.org/install.bundle.min.js"
+          const auth = await install()
           auth.on(login => console.log("auth", login))
         </script>
         ```
@@ -38,8 +38,8 @@
         ```
         Write this in your app's js entrypoint (like `main.ts`):
         ```ts
-        import Auth from "@authlocal/authlocal"
-        const auth = await Auth.install()
+        import {install} from "@authlocal/authlocal"
+        const auth = await install()
         auth.on(login => console.log("auth", login))
         ```
 1. Put this stylesheet into your html `<head>`:
@@ -53,19 +53,30 @@
     ```
 1. Take it for a spin! You can now login, and logout.
 
+### Alternative setup: headless install without UI
+
+Use this technique if you want to make your own UI, and don't want to load any of the authlocal elements.
+
+1. Create the Auth object manually, and trigger the initial load from storage:
+    ```ts
+    import {Auth} from "@authlocal/authlocal"
+
+    const auth = new Auth()
+    await auth.loadLogin()
+
+    auth.on(login => console.log("auth", login))
+    ```
+1. You can trigger the authlocal popup, prompting the user to login, like this:
+    ```ts
+    await auth.popup()
+    ```
+    - but remember, the call *must* originate from a user action like clicking a button, otherwise the browser's popup browser will ignore it.
+
 ### Understanding logins
 
 You must *never* send the *login* data anywhere, it stays on the user's device.
 
 The login is automatically persisted in `localStorage` for 7 days.
-
-If you don't want to use authlocal's auth-button ui, you can trigger a login popup in javascript:
-```js
-myButton.onclick = async() => {
-  await auth.popup()
-}
-```
-- but remember, the call must originate from a user action like clicking a button, otherwise the browser's popup browser will ignore it.
 
 The anatomy of a login:
 - `login.sessionId` — id of the login session hex string
@@ -73,6 +84,7 @@ The anatomy of a login:
 - `login.nametag.label` — user's chosen nickname
 - `login.expiresAt` — js timestamp of when this login expires
 - `login.isExpired()` — returns true if the login is expired now
+- `login.signClaim(options)` — sign a claim (more on this later)
 
 <br/>
 
@@ -141,10 +153,11 @@ If the user clicks the sigil, the full thumbprint is copied to the clipboard.
 - "...they want to post this message"
 - "...they want to change their avatar"
 - "...they want to buy this microtransaction"
+- *Stuff like that.*
 
-#### Claims are secured cryptographically.
+#### Claims are secured cryptographically
 - Claims contain cryptographic proof that they stem from a user's login.
-- No attacker can spoof a claim for somebody else's identity.
+- No attacker can forge a claim for somebody else's identity.
 
 ### Sign a claim
 ```js
@@ -205,6 +218,7 @@ proof.nametag.label
     - `.nametag` contains the identity's id and label
     - `.expiresAt` js time of the moment this login expires
     - `.isExpired()` returns true if the login is now expired
+    - `.signClaim(options)` sign a claim
 - **Proof** — provenance for login
     - is a token signed by an identity
     - is public, can be shared around
@@ -215,6 +229,7 @@ proof.nametag.label
     - is public, can be shared around
     - includes the proof token (thus nametag and sessionId)
     - includes any arbitrary claim data you want
+    - verified by `verifyClaim(options)`
 
 <br/>
 
