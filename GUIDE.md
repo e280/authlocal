@@ -4,7 +4,7 @@
 # 🔒 [Authlocal.org](https://authlocal.org/) User Guide
 > ***Developers,*** also see the technical [README.md](README.md)
 
-**Visit https://authlocal.org/ to manage your identities.**  
+**Manage your identities at https://authlocal.org/**  
 
 🗽 **User-sovereign** – you own your identity  
 🔑 **Cryptographic** – no emails, no passwords  
@@ -71,7 +71,7 @@ You can approve login requests in the Authlocal popup. Third-party websites *nev
   - In the future, we may need to secure funding to host Authlocal on its own security hardened servers.
 - Maintainers of e280: https://github.com/e280/
   - [Chase Moskal](https://github.com/chase-moskal/)
-  - [Przemysław Gałęzki](https://github.com/zenkyuv),
+  - [Przemysław Gałęzki](https://github.com/zenkyuv)
 - Maintainers of dependencies:
   - [`@noble/ed25519`](https://github.com/paulmillr/noble-ed25519) — [Paul Miller](https://github.com/paulmillr)
   - [`@benev`](https://github.com/benevolent-games) — [Chase Moskal](https://github.com/chase-moskal/), [Lonnie Ralfs](https://github.com/lonnie-ralfs/)
