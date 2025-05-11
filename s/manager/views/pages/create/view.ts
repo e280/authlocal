@@ -49,7 +49,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				<div theme-group>
 					<h2>
 						${purpose.kind === "login"
-						? html`Create a identity for ${hostcode(purpose.appOrigin)}`
+						? html`Create an identity for ${hostcode(purpose.appOrigin)}`
 						: (first
 							? html`Create your first login identity`
 							: html`Create a new login identity`)}
