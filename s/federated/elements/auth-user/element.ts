@@ -2,13 +2,12 @@
 import {html, mixin, svgSlate} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import underCss from "../../../common/under.css.js"
 import userIcon from "../../../common/icons/tabler/user.icon.js"
 
 import {AuthElement} from "../framework.js"
 import {idHsl} from "../../../common/utils/id-hue.js"
 
-@mixin.css(underCss, stylesCss)
+@mixin.css(stylesCss)
 export class AuthUser extends AuthElement {
 
 	render() {

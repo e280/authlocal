@@ -3,10 +3,9 @@ import {debounce, Thumbprint} from "@e280/stz"
 import {Content, ShadowElement, attributes, html, mixin, signal} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import underCss from "../../under.css.js"
 import {Copyable} from "../../views/copyable/view.js"
 
-@mixin.css(underCss, stylesCss)
+@mixin.css(stylesCss)
 export class AuthSigil extends ShadowElement {
 	copyStatus = signal<"good" | "bad" | undefined>(undefined)
 

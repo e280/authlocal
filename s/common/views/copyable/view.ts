@@ -1,11 +1,10 @@
 
 import {debounce, html, shadowView} from "@benev/slate"
 import stylesCss from "./styles.css.js"
-import underCss from "../../under.css.js"
 
 export const Copyable = shadowView(use => (payload: string, tooltipMax = 64) => {
 	use.name("copyable")
-	use.styles(underCss, stylesCss)
+	use.styles(stylesCss)
 
 	const copyStatus = use.signal<"good" | "bad" | undefined>(undefined)
 

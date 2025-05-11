@@ -3,11 +3,10 @@ import {sub} from "@e280/stz"
 import {TemplateResult, attributes, html, mixin} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import underCss from "../../../common/under.css.js"
 import {AuthElement} from "../framework.js"
 import {Login} from "../../../core/login.js"
 
-@mixin.css(underCss, stylesCss)
+@mixin.css(stylesCss)
 export class AuthButton extends AuthElement {
 	attrs = attributes(this, {
 		"src": String,
