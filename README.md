@@ -161,7 +161,7 @@ If the user clicks the sigil, the full thumbprint is copied to the clipboard.
 
 ### Sign a claim
 ```js
-import {Future} from "@e280/authlocal"
+import {Time} from "@e280/authlocal"
 
 const claimToken = await login.signClaim({
 
@@ -169,7 +169,7 @@ const claimToken = await login.signClaim({
   claim: {message: "i love ice cream"},
 
   // when should this claim expire?
-  expiresAt: Future.hours(24),
+  expiresAt: Time.future.hours(24),
 })
 ```
 

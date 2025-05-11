@@ -33,7 +33,8 @@ export class TokenVerifyError extends Error {
 }
 
 export type TokenParams = {
-	expiresAt: number
+	expiresAt?: number
+	issuedAt?: number
 	notBefore?: number
 	audience?: string
 	issuer?: string
@@ -46,11 +47,15 @@ export class Token {
 
 	static params = (r: TokenParams) => ({
 		jti: Hex.random(32),
-		iat: Date.now(),
-		exp: Token.fromJsTime(r.expiresAt),
 		nbf: r.notBefore,
 		iss: r.issuer,
 		aud: r.audience,
+		iat: r.issuedAt
+			? Token.fromJsTime(r.issuedAt)
+			: undefined,
+		exp: r.expiresAt !== undefined
+			? Token.fromJsTime(r.expiresAt)
+			: undefined,
 	})
 
 	static async sign<P extends TokenPayload>(secret: string, payload: P): Promise<string> {

@@ -4,8 +4,8 @@ import {ev, opSignal, signal} from "@benev/slate"
 
 import {Purpose} from "./purpose.js"
 import {Depot} from "./depot/depot.js"
+import {Time} from "../../tools/time.js"
 import {Situation} from "./situation.js"
-import {Future} from "../../tools/future.js"
 import {generateSession} from "../../core/session.js"
 import {StoragePersistence} from "./storage-persistence.js"
 import {setupInPopup} from "../../federated/api/setup-in-popup.js"
@@ -46,8 +46,8 @@ export class Manager {
 					const session = await generateSession({
 						identity,
 						appOrigin,
+						expiresAt: Time.future.days(7),
 						providerOrigin: popupWindow.origin,
-						expiresAt: Future.days(7),
 					})
 					await app.v1.login(session)
 				},

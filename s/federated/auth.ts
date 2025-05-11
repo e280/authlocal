@@ -4,7 +4,6 @@ import {signal} from "@benev/slate"
 
 import {AuthOptions} from "./types.js"
 import {Login} from "../core/login.js"
-import {Future} from "../tools/future.js"
 import {Session} from "../core/session.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
@@ -22,7 +21,6 @@ import {nullcatch} from "../common/utils/nullcatch.js"
 export class Auth {
 	static version = 1
 	static defaults = defaults
-	static Future = Future
 
 	/** The url that the login popups should use (defaults to "https://authlocal.org/") */
 	src: string
