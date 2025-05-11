@@ -5,15 +5,12 @@ export class StoragePersistence {
 	persisted = signal(false)
 
 	async check() {
-		const persisted = await navigator.storage.persisted()
-		this.persisted.value = persisted
-		return persisted
+		return this.persisted.value = await navigator.storage.persisted()
 	}
 
 	async request() {
-		const persisted = await navigator.storage.persist()
-		this.persisted.value = persisted
-		return persisted
+		if (!await this.check())
+			return this.persisted.value = await navigator.storage.persist()
 	}
 }
 

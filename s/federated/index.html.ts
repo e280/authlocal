@@ -12,26 +12,21 @@ export default template(async basic => {
 		title: "Authlocal Federated Test",
 		head: html`
 			<link rel="icon" href="/assets/favicon.png"/>
-			<style>${unsanitized(await read_file("x/manager/index.css"))}</style>
-			<style>${unsanitized(await read_file("x/federated/index.css"))}</style>
-
+			<style>${unsanitized(await read_file("x/federated/demo.css"))}</style>
+			<style>${unsanitized(await read_file("x/themes/basic.css"))}</style>
 			<meta data-commit-hash="${hash}"/>
 
 			${headScripts({
-				devModulePath: await path.version.root("install.bundle.js"),
-				prodModulePath: await path.version.root("install.bundle.min.js"),
+				devModulePath: await path.version.local("demo.bundle.js"),
+				prodModulePath: await path.version.local("demo.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
 		body: html`
-			<h1 class=title>
-				Authlocal Federated Test
-			</h1>
-			<auth-user></auth-user>
+			<h1>Example app using Authlocal</h1>
+			<p>This page is a test for a typical federated auth integration with <a href="/">Authlocal</a></p>
 			<auth-button src="/"></auth-button>
-			<footer>
-				<p>This page is a test for a typical federated auth integration with <a href="/">Authlocal.org</a></p>
-			</footer>
+			<auth-user></auth-user>
 		`,
 	})
 })

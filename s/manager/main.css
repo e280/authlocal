@@ -1,0 +1,156 @@
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+
+	scrollbar-width: thin;
+	scrollbar-color: #333 transparent;
+}
+
+:root {
+	color-scheme: dark;
+
+	--bg: #06141d;
+	--link: cyan;
+
+	--prime: lime;
+	--alpha: #00ff93;
+	--text: color-mix(in lch, var(--alpha), white 50%);
+
+	--seed: #ff6800;
+	--identity: #20563c33;
+	--identity-select: #00ff8433;
+
+	--select: #d9ffea;
+	--happy: lime;
+	--angry: red;
+	--angryglow: #f88;
+	--login: yellow;
+	--back: #00bbff;
+	--code: magenta;
+	--overwrite: #e5ff4b;
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 1em; }
+::-webkit-scrollbar-thumb:hover { background: #444; }
+
+a {
+	color: var(--link);
+	text-decoration: none;
+
+	&:visited {
+		color: color-mix(in srgb, purple, var(--link) 70%);
+	}
+
+	&:hover {
+		color: color-mix(in srgb, white, var(--link) 90%);
+		text-decoration: underline;
+	}
+
+	&:active {
+		color: color-mix(in srgb, white, var(--link) 50%);
+	}
+}
+
+/*------------------------------------------*/
+
+html {
+	font-size: 16px;
+	min-height: 100%;
+	scrollbar-gutter: stable;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	font-family: sans-serif;
+	background: var(--bg);
+
+	--tint: #00061b5e;
+	background:
+		linear-gradient(to bottom, var(--tint), var(--tint)),
+		var(--bg) url("/assets/1dea2105.avif") center center / cover;
+}
+
+body {
+	min-height: 100%;
+	width: 32em;
+	max-width: 100%;
+	padding: 0.5em;
+
+	color: var(--text);
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 0.5em;
+}
+
+header {
+	margin-top: 2vw;
+	width: 100%;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	color: color-mix(in srgb, white, var(--prime) 50%);
+
+	> h1 {
+		font-size: 3em;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: .2em;
+		filter:
+			drop-shadow(0 0 .2em color-mix(in srgb, var(--prime), white 50%))
+			drop-shadow(0 0 3em var(--prime))
+			drop-shadow(0 0 3em var(--prime));
+
+		> svg {
+			position: relative;
+			bottom: 0.04em;
+			width: 1em;
+			height: 1em;
+			stroke-width: 3;
+		}
+	}
+
+	> p {
+		opacity: 0.5;
+		> .version {
+			opacity: 0.8;
+		}
+	}
+}
+
+auth-manager {
+	display: block;
+	width: 100%;
+}
+
+footer {
+	opacity: 0.6;
+	font-size: 0.8em;
+	width: 100%;
+	margin-top: 0.5em;
+	padding: 0 1em;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5em;
+
+	color: color-mix(in srgb, white, var(--prime) 50%);
+	text-shadow:
+		0 0 4em color-mix(in srgb, transparent, currentColor 70%),
+		0 0 .3em color-mix(in srgb, transparent, currentColor 70%);
+
+	.persistence { opacity: 0.5; }
+	.version { opacity: 0.5; }
+}
+

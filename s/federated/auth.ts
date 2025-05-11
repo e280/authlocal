@@ -1,107 +1,106 @@
 
-import {pubsub, signal} from "@benev/slate"
+import {sub} from "@e280/stz"
+import {signal} from "@benev/slate"
 
-import {AuthFile} from "./types.js"
-import {Login} from "./utils/login.js"
-import {openPopup} from "./utils/open-popup.js"
-import {LoginTokens} from "../auth/tokens/types.js"
-import {nullcatch} from "../auth/utils/nullcatch.js"
-import {JsonStorage} from "../tools/json-storage.js"
-import {setupInApp} from "../manager/fed-api/setup-in-app.js"
-import {migrateStorageKeyRename} from "../tools/migrate-storage-key-rename.js"
+import {AuthOptions} from "./types.js"
+import {Login} from "../core/login.js"
+import {Future} from "../tools/future.js"
+import {Session} from "../core/session.js"
+import {defaults} from "./parts/defaults.js"
+import {AuthStores} from "./parts/stores.js"
+import {openPopup} from "./parts/open-popup.js"
+import {setupInApp} from "./api/setup-in-app.js"
+import {nullcatch} from "../common/utils/nullcatch.js"
 
+/**
+ * Authlocal's page-level auth control center.
+ *  - there should only be one instance on the page, shared across any authlocal elements.
+ *  - provides the `login` state
+ *  - handles persistence of the login session into storage
+ *  - coordinates and communicates with the Authlocal popup
+ */
 export class Auth {
-	static defaultUrl = "https://authlocal.org/"
 	static version = 1
-	static #auth: Auth | null = null
+	static defaults = defaults
+	static Future = Future
 
-	static get() {
-		if (!this.#auth)
-			this.#auth = new this()
-		return this.#auth
-	}
+	/** The url that the login popups should use (defaults to "https://authlocal.org/") */
+	src: string
 
-	onChange = pubsub<[Login | null]>()
+	/**
+	 * Subscribe to changes in the login state.
+	 *  - if the login is `null`, it means the user has logged out.
+	 *  - usage:
+	 *    auth.on(login => console.log(login))
+	 */
+	on = sub<[Login | null]>()
+
+	#options: AuthOptions
+	#stores: AuthStores
+	#ready: Promise<void>
 	#login = signal<Login | null>(null)
-	#fileStorage: JsonStorage<AuthFile>
 
-	wait: Promise<Login | null>
-
-	constructor() {
-		migrateStorageKeyRename(window.localStorage, "authduo", "authlocal")
-		this.#fileStorage = new JsonStorage<AuthFile>("authlocal")
-		this.#fileStorage.onChangeFromOutside(() => {
-			this.wait = this.#load()
-		})
-		this.#login.on(login => this.onChange.publish(login))
-		this.wait = this.#load()
+	constructor(options: Partial<AuthOptions> = {}) {
+		this.#options = Auth.defaults(options)
+		this.src = this.#options.src
+		this.#stores = new AuthStores(this.#options.kv)
+		this.#ready = this.#stores.versionMigration(Auth.version)
+		this.#login.on(login => this.on.pub(login))
+		this.#options.onStorageChange(() => void this.loadLogin())
 	}
 
-	get authfile(): AuthFile {
-		const authfile = this.#fileStorage.get()
-		return (authfile && "version" in authfile && authfile.version === Auth.version)
-			? authfile
-			: {version: Auth.version, tokens: null}
+	/** Load and update the login state from storage */
+	async loadLogin(): Promise<Login | null> {
+		const login = await this.#getStoredLogin()
+		return this.#updateLoginSignal(login)
 	}
 
-	async #load() {
-		const {tokens} = this.authfile
-		const oldTokens = this.#login.value?.tokens
-
-		if (tokens?.proofToken === oldTokens?.proofToken)
-			return this.#login.value
-
-		return this.#login.value = tokens && await nullcatch(
-			async() => Login.verify(tokens, {allowedAudiences: [window.origin]})
-		)
+	/** Set the login state manually, saving it to storage */
+	async saveLogin(login: Login | null) {
+		const login2 = await this.#setStoredLogin(login)
+		return this.#updateLoginSignal(login2)
 	}
 
-	#save(tokens: LoginTokens | null) {
-		const {authfile} = this
-		authfile.tokens = tokens
-		this.#fileStorage.set(authfile)
+	/** Shortcut for `saveLogin(null)` */
+	async logout() {
+		return this.saveLogin(null)
 	}
 
+	/** The current login state, either a `Login` object, or null if logged out */
 	get login() {
 		const login = this.#login.value
-		const valid = login && (Date.now() < login.expiresAt)
-		if (!valid && login)
+		if (login && login.isExpired())
 			this.#login.value = null
 		return this.#login.value
 	}
 
-	set login(login: Login | null) {
-		this.#login.value = login
-		this.#save(login && login.tokens)
-		this.wait = Promise.resolve(login)
-	}
-
-	async popup(url = Auth.defaultUrl) {
-		const appWindow = window
-		const popupWindow = openPopup(url)
+	/**
+	 * Spawn a login popup, requesting for the user to login.
+	 *   `src`:
+	 *     this is the url to open (defaults to "https://authlocal.org/")
+	 */
+	async popup(src = this.src) {
+		const popupWindow = openPopup(src)
+		const popupOrigin = new URL(src, window.location.href).origin
 
 		if (!popupWindow)
 			return null
 
-		const appOrigin = window.origin
-		const popupOrigin = new URL(url, window.location.href).origin
-
 		return new Promise<Login | null>((resolve, reject) => {
+			const appWindow = window
 			const {dispose} = setupInApp(
 				appWindow,
 				popupWindow,
 				popupOrigin,
-				async loginTokens => {
+				async session => {
 					popupWindow.close()
+					if (!session)
+						return undefined
 					try {
-						this.login = await nullcatch(
-							async() => Login.verify(loginTokens, {
-								allowedIssuers: [popupOrigin],
-								allowedAudiences: [appOrigin],
-							})
-						)
+						const login = await this.#verify(session)
+						await this.saveLogin(login)
 						dispose()
-						resolve(this.login)
+						resolve(login)
 					}
 					catch (err) {
 						dispose()
@@ -114,6 +113,34 @@ export class Auth {
 				resolve(this.login)
 			}
 		})
+	}
+
+	#updateLoginSignal(login: Login | null) {
+		const hasChanged = login?.sessionId !== this.#login.value?.sessionId
+		if (hasChanged)
+			this.#login.value = login
+		return login
+	}
+
+	async #verify(session: Session) {
+		return nullcatch(async() => Login.verify({
+			session,
+			appOrigins: [window.origin],
+		}))
+	}
+
+	async #getStoredLogin() {
+		await this.#ready
+		const session = await this.#stores.session.get()
+		if (!session) return null
+		return this.#verify(session)
+	}
+
+	async #setStoredLogin(login: Login | null) {
+		await this.#ready
+		const session = login?.session
+		await this.#stores.session.set(session)
+		return login
 	}
 }
 

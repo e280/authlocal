@@ -2,11 +2,20 @@
 import {css} from "@benev/slate"
 export default css`
 
-input[readonly] {
+:host {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
+.delete-heading {
+	color: var(--angry);
+}
+
+.seedtext {
 	width: 100%;
-	font-family: monospace;
-	font-size: 0.7em;
-	margin: 3em auto;
+	align-items: stretch;
+	color: var(--seed);
 }
 
 `

@@ -1,122 +1,212 @@
 
-import {html, shadowView, svgSlate} from "@benev/slate"
+import {is, Thumbprint} from "@e280/stz"
+import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
-import {manager} from "../../../context.js"
-import {whence} from "../../../../tools/whence.js"
-import {Passport} from "../../../../auth/passport.js"
-import {Situation} from "../../../logic/situation.js"
-import {PassportsFile} from "../../../../auth/passports-file.js"
+import themeCss from "../../../theme.css.js"
 
-import themeCss from "../../../../common/theme.css.js"
-import userIcon from "../../../../common/icons/tabler/user.icon.js"
-import {renderThumbprint} from "../../../../common/views/id/render-thumbprint.js"
+import {manager} from "../../../context.js"
+import {constants} from "../../../../constants.js"
+import {hostcode} from "../../../utils/hostcode.js"
+import {Situation} from "../../../logic/situation.js"
+import {Identity} from "../../../../core/identity.js"
+import {Downloader} from "../../../utils/downloader.js"
+import {IdentityDraft} from "../../common/identity-widget/draft.js"
+import {crushUsername} from "../../../../common/utils/crush-username.js"
+import {IdentityWidget, IdentityWidgetOptions} from "../../common/identity-widget/view.js"
 
 export const ListPage = shadowView(use => (
 		situation: Situation.List,
 	) => {
 
+	use.name("list-page")
 	use.styles([themeCss, stylesCss])
 
-	const {passportStore} = situation
-	const passports = passportStore.list()
-	const passportsFile = new PassportsFile().add(...passports)
-	const none = passports.length === 0
-	const purpose = manager.purpose.value
+	const permits = manager.depot.identities.permits.value
+	const identities = permits.map(p => p.identity)
+	const seedMap = new Map(permits.map(p => [p.identity.id, p.seed]))
+	const identityMap = new Map(permits.map(p => [p.identity.id, p.identity]))
 
-	const clickNameplate = (passport: Passport) => () => {
-		if (purpose.kind === "login")
-			purpose.onLogin(passport)
-		else
-			situation.onEdit(passport)
+	const purpose = manager.purpose.value
+	const selectMode = use.signal(false)
+	const selected = use.once(() => new Set<string>())
+	const downloader = use.once(() => new Downloader(""))
+
+	const clickNew = () => situation.onCreate()
+	const clickImport = () => situation.onIngress()
+
+	const clickSelectMode = () => {
+		selected.clear()
+		// identities.map(p => p.id).forEach(id => selected.add(id))
+		selectMode.value = !selectMode.value
 	}
 
-	function renderPassport(passport: Passport) {
-		const file = new PassportsFile().add(passport)
+	function renderNormalMode() {
+		const renderIdentity = (identity: Identity) => {
+			const clickEdit = () => situation.onEdit(identity)
+			const options: IdentityWidgetOptions = {
+				selected: false,
+				onClick: purpose.kind === "login"
+					// ? () => purpose.onIdentity(identity)
+					? undefined
+					: clickEdit,
+			}
+			return IdentityWidget([new IdentityDraft(identity), options], {content: html`
+				<button
+					theme-button
+					class=edit
+					@click="${clickEdit}">
+						Edit
+				</button>
+
+				${purpose.kind === "login" ? html`
+					<button
+						class=login
+						theme-button=login
+						@click="${() => purpose.onIdentity(identity)}">
+							Login
+					</button>
+				` : null}
+			`})
+		}
 		return html`
-			<article>
-				<div
-					x-nameplate
-					x-clickable
-					x-purpose="${purpose.kind}"
-					@click="${clickNameplate(passport)}">
+			<div class=identities>
+				${identities.map(renderIdentity)}
+			</div>
 
-					${svgSlate(userIcon)}
+			<footer theme-buttons>
+				<button theme-button @click="${clickSelectMode}">
+					Select
+				</button>
 
-					<h2>${passport.name}</h2>
+				<button theme-button @click="${clickImport}">
+					Import
+				</button>
 
-					${purpose.kind === "login" ? html`
-						<button class=login>Login</button>
-					` : null}
-				</div>
+				<button theme-button=happy @click="${clickNew}">
+					New
+				</button>
+			</footer>
+		`
+	}
 
-				<div x-details>
-					<div x-p1>
-						<span>
-							${whence(passport.created)}
-						</span>
-						<span class=thumbprint title="${passport.thumbprint}">
-							${renderThumbprint(passport.thumbprint)}
-						</span>
-					</div>
-					<div x-p2>
-						<button
-							x-alt=subtle
-							@click="${() => situation.onEdit(passport)}">
-								Edit
-						</button>
-						<a
-							class=button
-							x-alt=subtle
-							title="${file.filename()}"
-							download="${file.filename()}"
-							href="${file.href()}">
-								Download
-						</a>
-					</div>
-				</div>
-			</article>
+	function renderSelectMode() {
+		const renderIdentity = (identity: Identity) => {
+			const toggle = () => {
+				const already = selected.has(identity.id)
+				if (already) selected.delete(identity.id)
+				else selected.add(identity.id)
+				use.rerender()
+			}
+			const isSelected = selected.has(identity.id)
+			const options: IdentityWidgetOptions = {
+				selected: isSelected,
+				onClick: toggle,
+			}
+			return IdentityWidget([new IdentityDraft(identity), options], {content: html`
+				<button
+					theme-button
+					x-check
+					?x-selected="${isSelected}"
+					theme-alt
+					@click="${toggle}"
+				></button>
+			`})
+		}
+
+		const selectAll = () => {
+			identities.map(p => p.id).forEach(id => selected.add(id))
+			use.rerender()
+		}
+
+		const deselectAll = () => {
+			selected.clear()
+			use.rerender()
+		}
+
+		const renderSelectedButtons = () => {
+			const selectedIdentityIds = [...selected]
+			const selectedSeeds = selectedIdentityIds
+				.map(id => seedMap.get(id))
+				.filter(is.available)
+			const selectedIdentities = selectedIdentityIds
+				.map(id => identityMap.get(id))
+				.filter(is.available)
+
+			downloader.text = selectedSeeds.join("\n\n")
+			const filename = selectedIdentityIds.length === 1
+				? crushUsername(Thumbprint.sigil.fromHex(selectedIdentityIds.at(0)!))
+				: "identities" + constants.seedExtension
+
+			return html`
+				<button
+					theme-button=angry
+					@click="${() => situation.onDelete(selectedIdentities)}">
+						Delete
+				</button>
+
+				<a class=button
+					theme-button=seed
+					theme-flasher
+					download="${filename}"
+					title="${`Download "${filename}"`}"
+					href="${downloader.url}"
+					@click="${() => downloader.flash()}">
+						Download
+				</button>
+			`
+		}
+
+		return html`
+			<div class=identities>
+				${identities.map(renderIdentity)}
+			</div>
+
+			<p>${selected.size} selected</p>
+
+			<footer theme-buttons>
+				<button theme-button=back @click="${clickSelectMode}">
+					Back
+				</button>
+
+				${selected.size > 0 ? html`
+					<button theme-button @click="${deselectAll}">
+						Deselect All
+					</button>
+				` : html`
+					<button theme-button @click="${selectAll}">
+						Select All
+					</button>
+				`}
+
+				${selected.size > 0
+					? renderSelectedButtons()
+					: null}
+			</footer>
 		`
 	}
 
 	return html`
-		<div class=plate>
-			${purpose.kind === "login" ? html`
-				<header class="intro instruction">
-					${none
-						? html`<h2>Create or import a passport for <code class=domain>${purpose.hostname}</code></h2>`
-						: html`<h2>Choose your login for <code class=domain>${purpose.hostname}</code></h2>`}
-				</header>
-			` : html`
-				<header class="intro">
-					<h2>Manage your login passports</h2>
-				</header>
-			`}
+		<section theme-plate
+			x-purpose="${purpose.kind}"
+			?x-select-mode="${selectMode.value}">
 
-			<nav class=passports ?hidden="${none}">
-				${passports.map(renderPassport)}
-			</nav>
+			<div theme-group>
+				${purpose.kind === "login" ? html`
+					<h2>
+						<span>Login for</span>
+						${hostcode(purpose.appOrigin)}
+					</h2>
+					<p>This website is requesting your login</p>
+				` : html`
+					<h2>Your identities</h2>
+				`}
+			</div>
 
-			<nav class="buttonbar">
-				<button class="${none ? "happy" : ""}" @click="${() => situation.onCreate()}">
-					New
-				</button>
-
-				<button @click="${() => situation.onIngress(undefined)}">
-					Import
-				</button>
-
-				${passports.length > 1 ? html`
-					<a
-						class=button
-						title="${passportsFile.filename()}"
-						download="${passportsFile.filename()}"
-						href="${passportsFile.href()}">
-						Download All
-					</a>
-				` : null}
-			</nav>
-		</div>
+			${selectMode.value
+				? renderSelectMode()
+				: renderNormalMode()}
+		</section>
 	`
 })
 

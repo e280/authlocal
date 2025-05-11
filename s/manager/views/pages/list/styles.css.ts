@@ -2,74 +2,39 @@
 import {css} from "@benev/slate"
 export default css`
 
-header.intro {
-	text-align: center;
+.edit {
+	opacity: 0.5;
+	border: none;
+	box-shadow: none;
+	text-shadow: none;
+	background: transparent;
 }
 
-nav.passports {
+.identities {
 	display: flex;
 	flex-direction: column;
-	gap: 1em;
-	width: max-content;
-	max-width: 100%;
-}
+	align-items: center;
+	gap: 0.5em;
+	width: 100%;
 
-nav.passports > article {
-	display: flex;
-	flex-direction: column;
-	gap: 0.1em;
+	slate-view { width: 100%; }
 
-	[x-nameplate] {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 1em;
+	[x-check] {
+		cursor: pointer;
+		flex: 0 0 auto;
+		color: color-mix(in lch, transparent, currentColor 50%);
+		border: 0.2em solid currentColor;
+		width: 2em;
+		height: 2em;
+		padding: 0.2em;
+		border-radius: 2em;
+		
+		margin: 0 1em;
 
-		padding: 1em;
-		border-radius: 0.5em;
-		background: var(--passport-color);
-		border-top: 0.15em solid #fff2;
-		box-shadow: .1em .2em .5em #0005;
-
-		&[x-clickable] {
-			cursor: pointer;
-			&:hover { filter: brightness(120%); }
-			&:active { filter: brightness(80%); }
-		}
-
-		> svg {
-			width: 3em;
-			height: 3em;
-			opacity: 0.2;
-		}
-
-		> h2 {
-			flex: 1 1 auto;
-			padding-right: 1em;
-		}
-	}
-
-	[x-details] {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 0 1em;
-
-		color: #aaa;
-		padding: 0 .5em;
-
-		> * {
-			flex: 0 0 auto;
-			display: flex;
-			gap: 1em;
-		}
-
-		& span {
-			color: color-mix(in srgb, currentColor, transparent 50%);
-		}
-
-		& :is(button, .button) {
-			opacity: 0.5;
+		&[x-selected] {
+			color: color-mix(in lch, transparent, var(--select) 50%);
+			background: var(--select) content-box;
+			box-shadow: 0 0 3em color-mix(in lch, transparent, var(--select) 50%);
 		}
 	}
 }

@@ -1,8 +1,10 @@
 
-import {LoginTokens} from "../auth/tokens/types.js"
+import {Kv} from "@e280/kv"
+import {Sub} from "@e280/stz"
 
-export type AuthFile = {
-	version: number
-	tokens: LoginTokens | null
+export type AuthOptions = {
+	kv: Kv
+	src: string
+	onStorageChange: Sub<[]>
 }
 

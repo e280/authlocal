@@ -1,41 +1,55 @@
 {
 	"name": "@authlocal/authlocal",
-	"version": "0.2.0-17",
-	"description": "User-sovereign Logins For All",
-	"main": "x/index.js",
+	"version": "0.2.0-18",
+	"description": "User-sovereign auth",
+	"license": "MIT",
+	"main": "./x/exports.web.js",
 	"type": "module",
 	"files": [
 		"x",
 		"s"
 	],
-	"scripts": {
-		"build": "rm -rf x && run-s build-code build-ssg links",
-		"build-code": "turtle build --out=x",
-		"build-ssg": "turtle ssg --in=s,x --out=x",
-		"start": "run-p start-http start-turtle",
-		"start-http": "http-server x",
-		"start-turtle": "turtle watch --in=s,x --out=x -v",
-		"links": "run-s links-s links-assets",
-		"links-s": "ln -s \"$(realpath s)\" x/s",
-		"links-assets": "ln -s \"$(realpath assets)\" x/assets",
-		"devlinks-slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
-		"test": "cynic node x/tests.test.js"
+	"exports": {
+		".": "./x/exports.web.js",
+		"./core": "./x/exports.core.js",
+		"./*": "./*"
 	},
 	"dependencies": {
-		"@benev/slate": "^0.3.0-11",
-		"renraku": "^0.4.5"
+		"@benev/slate": "^0.3.3",
+		"@e280/kv": "^0.0.0-5",
+		"@e280/science": "^0.0.4",
+		"@e280/stz": "^0.0.0-18",
+		"@noble/ed25519": "^2.2.3",
+		"renraku": "^0.5.0-10"
 	},
 	"devDependencies": {
-		"@benev/turtle": "^0.6.8",
-		"cynic": "^0.2.1",
+		"@benev/turtle": "^0.6.12",
 		"http-server": "^14.1.1",
 		"npm-run-all": "^4.1.5",
-		"typescript": "^5.7.3"
+		"typescript": "^5.8.3"
 	},
-	"license": "MIT",
-	"author": "Chase Moskal <chasemoskal@gmail.com>",
+	"scripts": {
+		"build": "rm -rf x && mkdir x && run-s _ln _code _ssg",
+		"test": "node x/tests.test.js",
+		"start": "run-p _http _watch _test:watch",
+		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
+		"devlinks": "run-s _dl:slate _dl:renraku",
+		"_clean": "rm -rf x",
+		"_code": "turtle build --out=x",
+		"_ssg": "turtle ssg --in=s,x --out=x",
+		"_test:watch": "node --watch x/tests.test.js",
+		"_http": "http-server x",
+		"_watch": "turtle watch --in=s,x --out=x -v",
+		"_ln": "run-s _ln:s _ln:assets",
+		"_ln:s": "ln -s \"$(realpath s)\" x/s",
+		"_ln:assets": "ln -s \"$(realpath assets)\" x/assets",
+		"_dl:slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
+		"_dl:turtle": "rm -rf node_modules/@benev/turtle && ln -s \"$(realpath ../../@benev/turtle)\" node_modules/@benev/turtle",
+		"_dl:renraku": "rm -rf node_modules/renraku && ln -s \"$(realpath ../../chase-moskal/renraku)\" node_modules/renraku"
+	},
 	"keywords": [
 		"auth",
+		"authentication",
 		"zero-cost",
 		"privacy-focused",
 		"user-sovereign",
@@ -44,7 +58,15 @@
 		"decentralized",
 		"protocol",
 		"free",
-		"open-source",
-		"foss"
-	]
+		"open-source"
+	],
+	"author": "Chase Moskal <chasemoskal@gmail.com>",
+	"homepage": "https://github.com/authlocal/authlocal#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/authlocal/authlocal.git"
+	},
+	"bugs": {
+		"url": "https://github.com/authlocal/authlocal/issues"
+	}
 }

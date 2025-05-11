@@ -1,63 +1,53 @@
 
-import {Passport} from "../../auth/passport.js"
-import {PassportStore} from "./passport-store.js"
-import {PassportsFile} from "../../auth/passports-file.js"
+import {Identity} from "../../core/identity.js"
+import {Intake} from "../views/pages/ingress/intake.js"
 
 export namespace Situation {
 	export type List = {
 		kind: "list"
-		passportStore: PassportStore
-		onCreate: () => void
-		onEdit: (passport: Passport) => void
-		onEgress: (passports: Passport[]) => void
-		onIngress: (passportsFile: PassportsFile | undefined) => void
-	}
-
-	export type Onboard = {
-		kind: "onboard"
-		passport: Passport
-		onIngress: () => void
-		onSaveNewPassport: (passport: Passport) => void
-		onDone: () => void
+		onCreate: () => Promise<void>
+		onEdit: (identity: Identity) => Promise<void>
+		onDelete: (identities: Identity[]) => Promise<void>
+		onEgress: (identities: Identity[]) => Promise<void>
+		onIngress: () => Promise<void>
 	}
 
 	export type Create = {
 		kind: "create"
-		passport: Passport
-		onCancel: () => void
-		onComplete: (passport: Passport) => void
+		identities: Identity[]
+		initialIdentity: Identity
+		initialIdentitySeed: string
+		onIngress: () => Promise<void>
+		onSave: (identity: Identity) => Promise<void>
+		onDone: () => Promise<void>
+		onBack?: () => Promise<void>
 	}
 
 	export type Edit = {
 		kind: "edit"
-		passport: Passport
-		onCancel: () => void
-		onDelete: (passport: Passport) => void
-		onComplete: (passport: Passport) => void
+		seed: string
+		identity: Identity
+		onBack: () => Promise<void>
+		onSave: (identity: Identity) => Promise<void>
+		onDelete: (identity: Identity) => Promise<void>
 	}
 
 	export type Delete = {
 		kind: "delete"
-		passport: Passport
-		onCancel: () => void
-		onComplete: (passport: Passport) => void
-	}
-
-	export type Egress = {
-		kind: "egress"
-		passports: Passport[]
-		onBack: () => void
+		identities: Identity[]
+		onBack: () => Promise<void>
+		onDelete: (ids: string[]) => Promise<void>
 	}
 
 	export type Ingress = {
 		kind: "ingress"
-		passports: PassportsFile | undefined
-		onBack: () => void
-		onAddPassports: (passports: Passport[]) => void
+		intake: Intake
+		onBack: () => Promise<void>
+		onSave: (identities: Identity[]) => Promise<void>
 	}
 
 	////////////////////////////////
 
-	export type Any = List | Onboard | Create | Edit | Delete | Egress | Ingress
+	export type Any = List | Create | Edit | Delete | Ingress
 }
 
