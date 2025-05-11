@@ -10,7 +10,7 @@ export * from "./exports.core.js"
 export {register, apply, mixin, css, CSSResultGroup} from "@benev/slate"
 
 export * from "./federated/auth.js"
-export * from "./federated/prepare.js"
+export * from "./federated/install.js"
 
 export * from "./federated/types.js"
 export * from "./federated/elements/auth-user/element.js"

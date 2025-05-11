@@ -70,7 +70,7 @@ Use this technique if you want to make your own UI, and don't want to load any o
     ```ts
     await auth.popup()
     ```
-    - but remember, the call *must* originate from a user action like clicking a button, otherwise the browser's popup browser will ignore it.
+    - but remember, the call *must* originate from a user action like clicking a button, otherwise the browser's popup blocker will ignore it.
 
 ### Understanding logins
 
@@ -196,6 +196,14 @@ proof.nametag.label
 ```
 - You can verify claims on the clientside or serverside.
 - You must specify what `appOrigins` you expect to receive claims from (this prevents phishing attacks).
+
+### How are claims secure?
+
+Authlocal gives your app a login session keypair, and a proof token signed by the user's identity keypair.
+
+Your frontend can then create a claim — like *"user orders a large pizza"* — signed by the session keypair.
+
+Your server verifies the proof, then the claim — proving the user authorized the session, and the session authorized the claim.
 
 <br/>
 
