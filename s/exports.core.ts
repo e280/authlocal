@@ -7,13 +7,12 @@
 
 export {Thumbprint, Bytename, Hex, Base58, sub, Sub} from "@e280/stz"
 
-export * from "./core/crypto.js"
-export * from "./core/login.js"
-export * from "./core/identity.js"
-export * from "./core/proof.js"
-export * from "./core/seed.js"
-export * from "./core/session.js"
-export * from "./core/token.js"
+export {signClaim, verifyClaim, SignClaimOptions, VerifyClaimOptions, ClaimPayload} from "./core/claims.js"
+export {Nametag} from "./core/identity.js"
+export {Login, VerifyLoginOptions, LoginSignClaimOptions} from "./core/login.js"
+export {Proof, verifyProof, VerifyProofOptions, ProofPayload} from "./core/proof.js"
+export {Session} from "./core/session.js"
+export {TokenParams} from "./core/token.js"
 
 export * from "./common/utils/id-hue.js"
 export * from "./common/utils/validation.js"

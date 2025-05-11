@@ -1,19 +1,19 @@
 
+import {Thumbprint} from "@e280/stz"
 import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
+import {Seed} from "../../../../core/seed.js"
 import {Tabby} from "../../common/tabby/view.js"
 import {constants} from "../../../../constants.js"
 import {Situation} from "../../../logic/situation.js"
 import {Confirmer} from "../../common/confirmer/view.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
-import {dehydrateIdentities} from "../../../../core/identity.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
 import {identityWidget, IdentityWidget} from "../../common/identity-widget/view.js"
-import { Thumbprint } from "@e280/stz"
 
 export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 	use.name("edit-page")
@@ -27,7 +27,7 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 		const identity = draft.getValidEditedIdentity()
 		if (identity) {
 			draft.identity = identity
-			seed.value = await dehydrateIdentities(identity)
+			seed.value = await Seed.pack(identity)
 			await situation.onSave(identity)
 		}
 	}

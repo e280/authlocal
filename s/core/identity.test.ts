@@ -2,8 +2,8 @@
 import {deep} from "@e280/stz"
 import {Science, test, expect} from "@e280/science"
 
-import {SeedChecksumError} from "./seed.js"
-import {dehydrateIdentities, hydrateIdentities, Identity} from "./identity.js"
+import {Identity} from "./identity.js"
+import {Seed, SeedChecksumError} from "./seed.js"
 
 function scrutinizeIdentity(identity: Identity) {
 	expect(typeof identity.label).is("string")
@@ -13,7 +13,7 @@ function scrutinizeIdentity(identity: Identity) {
 }
 
 async function readSeeds(seed: string) {
-	const promises = hydrateIdentities(seed)
+	const promises = Seed.recover(seed)
 	return Promise.all(promises)
 }
 
@@ -26,12 +26,12 @@ const sampleIdentities: Identity[] = [
 export default Science.suite({
 	"dehydrate": test(async() => {
 		const [identity] = sampleIdentities
-		const text = await dehydrateIdentities(identity)
+		const text = await Seed.pack(identity)
 		expect(text.length).gt(100)
 	}),
 
 	"dehydrate+hydrate": test(async() => {
-		const text = await dehydrateIdentities(...sampleIdentities)
+		const text = await Seed.pack(...sampleIdentities)
 		const identities = await readSeeds(text)
 		expect(identities.length).is(sampleIdentities.length)
 
@@ -47,6 +47,12 @@ export default Science.suite({
 	"hydrate": Science.suite({
 		"simple": test(async() => {
 			const identities = await readSeeds(`"fadpec.tabnel" pachul.migryd.ripren.ritret misreg.tarnep.rabnul.panhep lonfyr.larler.sigwep.filmeg dotreg.filtyp.nosnus.siptev divder`)
+			expect(identities.length).is(1)
+			scrutinizeIdentity(identities[0])
+		}),
+
+		"minimal": test(async() => {
+			const identities = await readSeeds(`""pachulmigrydriprenritretmisregtarneprabnulpanheplonfyrlarlersigwepfilmegdotregfiltypnosnussiptevdivder`)
 			expect(identities.length).is(1)
 			scrutinizeIdentity(identities[0])
 		}),

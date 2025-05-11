@@ -2,18 +2,17 @@
 import {Hex} from "@e280/stz"
 import * as ed from "@noble/ed25519"
 
-/** crypto keypair */
+/** ed25519 keypair */
 export type Keypair = {
 
-	/** public key */
+	/** public key (64-length hex string) */
 	id: string
 
-	/** private key */
+	/** private key (64-length hex string) */
 	secret: string
 }
 
-
-export function unpack(key: string) {
+export function unpackKey(key: string) {
 	const bytes = Hex.bytes(key)
 	if (bytes.length !== 32)
 		throw new Error("invalid key")
@@ -21,7 +20,7 @@ export function unpack(key: string) {
 }
 
 export async function deriveId(secret: string): Promise<string> {
-	const secretBytes = unpack(secret)
+	const secretBytes = unpackKey(secret)
 	const idBytes = await ed.getPublicKeyAsync(secretBytes)
 	return Hex.string(idBytes)
 }
@@ -36,7 +35,7 @@ export async function sign(
 		message: Uint8Array,
 		secret: string,
 	): Promise<Uint8Array> {
-	return ed.signAsync(message, unpack(secret))
+	return ed.signAsync(message, unpackKey(secret))
 }
 
 export async function verify(
@@ -44,6 +43,6 @@ export async function verify(
 		signature: Uint8Array,
 		id: string,
 	): Promise<boolean> {
-	return ed.verifyAsync(signature, message, unpack(id))
+	return ed.verifyAsync(signature, message, unpackKey(id))
 }
 

@@ -1,23 +1,64 @@
 
-import {unpack} from "./crypto.js"
-import {Bytename, Hex} from "@e280/stz"
+import {Identity} from "./identity.js"
+import {deriveId, unpackKey} from "./crypto.js"
+import {Bytename, Hex, Thumbprint} from "@e280/stz"
+import {validLabel} from "../common/utils/validation.js"
+
+export const Seed = {
+
+	/** serialize identities as seed text */
+	async pack(...identities: Identity[]) {
+		const texts = await Promise.all(identities.map(
+			async identity =>
+				JSON.stringify(identity.label)
+					+ (await dehydrate(identity.secret))
+						.split(" ")
+						.map(s => `\n ${s}`)
+						.join("")
+		))
+		return texts.join("\n\n")
+	},
+
+	/** deserialize identities from seed text. returns an array of promises, one for each seed in the text. */
+	recover(seedtext: string) {
+		seedtext = seedtext.trim()
+		const regex = /("[^"]*")([^"]+)/gm
+		const matches = [...seedtext.matchAll(regex)]
+		return matches.map(
+			async([, labelstring, bytename]) => {
+				const label = labelstring ? JSON.parse(labelstring) : ""
+				const secret = await hydrate(bytename)
+				const id = await deriveId(secret)
+				return <Identity>{
+					id,
+					secret,
+					label: (label && validLabel(label))
+						? label
+						: Thumbprint.sigil.fromHex(id),
+				}
+			}
+		)
+	}
+}
 
 export class SeedError extends Error { name = this.constructor.name }
 export class SeedIncompleteError extends SeedError {}
 export class SeedChecksumError extends SeedError {}
 
-/** convert a 64-char hex string to a human-friendly barname seed (with a 2-byte checksum) */
-export async function dehydrate(secret: string) {
-	const secretBytes = unpack(secret)
+/** convert hex key to seedling (with a 2-byte checksum) */
+async function dehydrate(secret: string) {
+	const secretBytes = unpackKey(secret)
 	const hash = new Uint8Array(await crypto.subtle.digest("SHA-256", secretBytes))
 	const checksumBytes = hash.slice(0, 2)
 	const seedBytes = new Uint8Array([...secretBytes, ...checksumBytes])
-	return Bytename.string(seedBytes)
+	if (seedBytes.length !== 34)
+		throw new SeedIncompleteError("seed must be 34 bytes")
+	return Bytename.fromBytes(seedBytes)
 }
 
-/** convert a human-friendly barname seed to a 64-char hex string (with checksum validation) */
-export async function hydrate(seed: string) {
-	const bytes = Bytename.bytes(seed)
+/** convert seed to hex key (with checksum validation) */
+async function hydrate(seedling: string) {
+	const bytes = Bytename.toBytes(seedling)
 
 	if (bytes.length !== 34)
 		throw new SeedIncompleteError("seed must be 34 bytes")

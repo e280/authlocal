@@ -1,13 +1,14 @@
 
 import {Token} from "./token.js"
+import {Session} from "./session.js"
+import {signClaim, SignClaimOptions, verifyClaim} from "./claims.js"
 import {getAppOriginFromProofToken, Proof, verifyProof} from "./proof.js"
-import {Session, signClaim, SignClaimOptions, verifyClaim} from "./session.js"
 
-export type LoginVerifyOptions = {session: Session, appOrigins: string[]}
+export type VerifyLoginOptions = {session: Session, appOrigins: string[]}
 export type LoginSignClaimOptions<C> = Omit<SignClaimOptions<C>, "session" | "appOrigin">
 
 export class Login {
-	static async verify({session, appOrigins}: LoginVerifyOptions) {
+	static async verify({session, appOrigins}: VerifyLoginOptions) {
 		const {proofToken} = session
 		const proof = await verifyProof({proofToken, appOrigins})
 		const proofAppOrigin = getAppOriginFromProofToken(proofToken)

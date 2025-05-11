@@ -1,8 +1,9 @@
 
 import {signal} from "@benev/slate"
+import {Seed} from "../../../../core/seed.js"
 import {Tabby} from "../../common/tabby/view.js"
 import {okErr, problematize} from "../../../../tools/errors.js"
-import {dedupeIdentities, hydrateIdentities, Identity} from "../../../../core/identity.js"
+import {dedupeIdentities, Identity} from "../../../../core/identity.js"
 
 export class Intake {
 	tabby = new Tabby(0)
@@ -23,7 +24,7 @@ export class Intake {
 	}
 
 	async #hydrate(seedtext: string) {
-		const promises = hydrateIdentities(seedtext)
+		const promises = Seed.recover(seedtext)
 		const {ok, err} = await okErr(promises)
 		this.addProblems(...err.map(problematize))
 		return ok
