@@ -4,7 +4,7 @@
 # 🔒 [Authlocal.org](https://authlocal.org/) User Guide
 > ***Developers,*** also see the technical [README.md](README.md)
 
-Go to https://authlocal.org/ to manage your identities.
+**Visit https://authlocal.org/ to manage your identities.**  
 
 🗽 **User-sovereign** – you own your identity  
 🔑 **Cryptographic** – no emails, no passwords  
@@ -28,13 +28,13 @@ You can approve login requests in the Authlocal popup. Third-party websites *nev
 
 ### What if I lose my identity file or seed?
 - It's gone. Generate a new one.
-- If an app ties important goods or services to your identity, they should provide a recovery mechanism.
+- Some apps may offer recovery options, but some won't. Back up your seeds!
 
 ### How do I recover my identity from a seed?
-- You can download your seeds, or copy-paste them yourself.
-- Transfer the seed to your new device any way you want.
-- Go to https://authlocal.org/ and click the `Import` button. You can upload a seed file, or paste one in.
-- This is also how you move identities between your devices.
+- Go to https://authlocal.org/, then either:
+    1. Drag-and-drop your seed file from your computer.
+    1. Click `Import` and use the `Uploader` tab to choose a seed file from your computer.
+    1. Click `Import` and use the `Recovery seed` tab to paste the seed text in directly.
 
 ### Somebody, or some website, asked for my seed?
 - It's a scam! Never share your seed with anybody anywhere except https://authlocal.org/
@@ -46,13 +46,12 @@ You can approve login requests in the Authlocal popup. Third-party websites *nev
   - There are more possible thumbprints than atoms in the entire galaxy. And there are a quintillion atoms in a grain of sand... I mean, think about that for awhile.. There are a lot of atoms...
 
 ### Can I change the color associated with my identity?
-- No. It's derived from the identity's cryptographic thumbprint.
+- No. It's derived from the identity's cryptographic thumbprint, which cannot be changed.
 
 ### What does "Persistence off" mean?
-- It means your browser might delete your identities from authlocal.org any time.
-- Conversely, "Persistence on" means the browser pinky-swears to keep your identities safe.
-- If you click "Persistence off", Authlocal will request persistence. Firefox will nicely ask your permission. Chrome and Safari will usually ignore you.
-- On Safari, with persistence off, there is a 7-day inactive data deletion policy, so Safari users often need to re-import their identities.
+- If it says *"Persistence off"*, your browser *might* delete your identities after awhile.
+- You can click it to request persistence. Firefox will ask politely. Safari and Chrome will usually ignore you.
+- Safari is the worst — if persistence is off, there's a 7-day inactive data deletion policy — so Safari users will need to re-import identities.
 
 ### Zero-cost at global scale? How is it technically possible!?
 - [Authlocal.org](https://authlocal.org/) is a static http deployment. Dirt cheap hosting.
