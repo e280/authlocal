@@ -1,7 +1,7 @@
 
 export function openPopup(url: string) {
-	const width = 520
-	const height = 720
+	const width = 700
+	const height = 800
 
 	const centerX = window.screenX + (window.outerWidth / 2)
 	const centerY = window.screenY + (window.outerHeight / 2)
