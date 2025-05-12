@@ -6,7 +6,7 @@ import {Purpose} from "./purpose.js"
 import {Depot} from "./depot/depot.js"
 import {Time} from "../../tools/time.js"
 import {Situation} from "./situation.js"
-import {generateSession} from "../../core/flow/exports.js"
+import {generateSession} from "../../core/flow/authority.js"
 import {StoragePersistence} from "./storage-persistence.js"
 import {setupInPopup} from "../../federated/api/setup-in-popup.js"
 

@@ -1,6 +1,6 @@
 
 import {Session} from "../session/types.js"
-import {TokenParams, TokenPayload} from "../crypto/token.js"
+import {TokenParams, TokenPayload} from "../jwt/types.js"
 
 export type SignClaimOptions<C> = {
 	claim: C

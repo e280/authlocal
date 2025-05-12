@@ -1,6 +1,6 @@
 
 import {Kv, Store} from "@e280/kv"
-import {Session} from "../../core/flow/exports.js"
+import {Session} from "../../core/flow/authority.js"
 
 export class AuthStores {
 	version: Store<number>

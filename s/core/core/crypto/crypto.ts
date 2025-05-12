@@ -2,15 +2,7 @@
 import {Hex} from "@e280/stz"
 import * as ed from "@noble/ed25519"
 
-/** ed25519 keypair */
-export type Keypair = {
-
-	/** public key (64-length hex string) */
-	id: string
-
-	/** private key (64-length hex string) */
-	secret: string
-}
+import {Keypair} from "./types.js"
 
 export function unpackKey(key: string) {
 	const bytes = Hex.bytes(key)

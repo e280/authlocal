@@ -1,7 +1,7 @@
 
 import {endpoint, Messenger, WindowConduit} from "renraku"
 import {makeAppFns} from "./app-fns.js"
-import {Session} from "../../core/flow/exports.js"
+import {Session} from "../../core/flow/authority.js"
 
 export function setupInApp(
 		appWindow: Window,

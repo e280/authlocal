@@ -12,7 +12,7 @@ import {Intake} from "../../views/pages/ingress/intake.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
 import {IngressPage} from "../../views/pages/ingress/view.js"
-import {generateIdentity, Identity, seedPack} from "../../../core/flow/exports.js"
+import {generateIdentity, Identity, seedPack} from "../../../core/flow/authority.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])

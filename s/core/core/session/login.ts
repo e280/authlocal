@@ -1,5 +1,5 @@
 
-import {Token} from "../crypto/token.js"
+import {Token} from "../jwt/token.js"
 import {signClaim, verifyClaim} from "../claim/claims.js"
 import {getAppOriginFromProofToken, verifyProof} from "./proof.js"
 import {LoginSignClaimOptions, Proof, Session, VerifyLoginOptions} from "./types.js"

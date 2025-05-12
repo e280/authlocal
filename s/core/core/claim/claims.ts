@@ -1,5 +1,5 @@
 
-import {Token} from "../crypto/token.js"
+import {Token} from "../jwt/token.js"
 import {verifyProof} from "../session/proof.js"
 import {ProofPayload} from "../session/types.js"
 import {ClaimPayload, SignClaimOptions, VerifyClaimOptions} from "./types.js"

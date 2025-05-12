@@ -1,5 +1,5 @@
 
-import {TokenPayload} from "../crypto/token.js"
+import {TokenPayload} from "../jwt/types.js"
 import {SignClaimOptions} from "../claim/types.js"
 import {Identity, Nametag} from "../identity/types.js"
 

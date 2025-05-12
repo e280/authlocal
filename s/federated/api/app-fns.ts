@@ -1,5 +1,5 @@
 
-import {Session} from "../../core/flow/exports.js"
+import {Session} from "../../core/flow/authority.js"
 
 export type AppFns = {
 	v1: {

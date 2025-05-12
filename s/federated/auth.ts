@@ -3,12 +3,12 @@ import {sub} from "@e280/stz"
 import {signal} from "@benev/slate"
 
 import {AuthOptions} from "./types.js"
-import {Login} from "../core/flow/exports.js"
-import {Session} from "../core/flow/exports.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
+import {Login} from "../core/flow/consumer.js"
 import {openPopup} from "./parts/open-popup.js"
 import {setupInApp} from "./api/setup-in-app.js"
+import {Session} from "../core/flow/authority.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
 
 /**

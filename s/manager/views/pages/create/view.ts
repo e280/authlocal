@@ -12,7 +12,7 @@ import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {IdentityWidget} from "../../common/identity-widget/view.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
-import {generateIdentity, seedPack} from "../../../../core/flow/exports.js"
+import {generateIdentity, seedPack} from "../../../../core/flow/authority.js"
 
 export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	use.name("create-page")

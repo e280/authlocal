@@ -1,6 +1,6 @@
 
-import {Token} from "../crypto/token.js"
-import { ProofPayload, SignProofOptions, VerifyProofOptions } from "./types.js"
+import {Token} from "../jwt/token.js"
+import {ProofPayload, SignProofOptions, VerifyProofOptions} from "./types.js"
 
 export async function signProof({
 		expiresAt,
