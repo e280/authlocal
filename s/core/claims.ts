@@ -20,7 +20,7 @@ export async function signClaim<C>({claim, session, appOrigin, ...params}: SignC
 	})
 }
 
-export async function verifyClaim<C>({claimToken, appOrigins}: VerifyClaimOptions) {
+export async function verifyClaim<C>({claimToken, appOrigins, atTime}: VerifyClaimOptions) {
 	const claimPayload = Token.decode<ClaimPayload<C>>(claimToken).payload
 	const {proofToken} = claimPayload.data
 	const proofPayload = Token.decode<ProofPayload>(proofToken).payload
@@ -34,14 +34,14 @@ export async function verifyClaim<C>({claimToken, appOrigins}: VerifyClaimOption
 	if (claimPayload.iss !== proofPayload.aud)
 		throw new Error(`claim token iss "${claimPayload.iss}" does not match proof token aud "${proofPayload.aud}"`)
 
-	const proof = await verifyProof({proofToken, appOrigins})
+	const proof = await verifyProof({proofToken, appOrigins, atTime})
 
 	const {data: {claim}} = await Token.verify<ClaimPayload<C>>(
 		proof.sessionId,
 		claimToken,
 
 		// claim must have been issued by your app
-		{allowedIssuers: appOrigins},
+		{atTime, allowedIssuers: appOrigins},
 	)
 
 	return {claim, proof, proofToken}
@@ -56,6 +56,7 @@ export type SignClaimOptions<C> = {
 export type VerifyClaimOptions = {
 	claimToken: string
 	appOrigins: string[]
+	atTime?: number | null
 }
 
 /** token payload for a generic claim signed by a session */

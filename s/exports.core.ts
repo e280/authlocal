@@ -12,7 +12,7 @@ export {Nametag} from "./core/identity.js"
 export {Login, VerifyLoginOptions, LoginSignClaimOptions} from "./core/login.js"
 export {Proof, verifyProof, VerifyProofOptions, ProofPayload} from "./core/proof.js"
 export {Session} from "./core/session.js"
-export {TokenParams} from "./core/token.js"
+export {TokenParams, TokenPayload} from "./core/token.js"
 
 export * from "./common/utils/id-hue.js"
 export * from "./common/utils/validation.js"

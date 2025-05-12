@@ -1,6 +1,5 @@
 
 import {Identity} from "./identity.js"
-import {TokenParams} from "./token.js"
 import {generateKeypair} from "./crypto.js"
 import {Proof, signProof} from "./proof.js"
 
@@ -15,16 +14,17 @@ export type Session = {
 }
 
 export type GenerateSessionOptions = {
-	identity: Identity,
-	appOrigin: string,
-	providerOrigin: string,
-} & Omit<TokenParams, "audience" | "issuer">
+	expiresAt: number
+	identity: Identity
+	appOrigin: string
+	providerOrigin: string
+}
 
 export async function generateSession({
+		expiresAt,
 		identity,
 		appOrigin,
 		providerOrigin,
-		...params
 	}: GenerateSessionOptions): Promise<Session> {
 	const sessionKeypair = await generateKeypair()
 	const proof: Proof = {
@@ -34,7 +34,7 @@ export async function generateSession({
 	return {
 		secret: sessionKeypair.secret,
 		proofToken: await signProof({
-			...params,
+			expiresAt,
 			proof,
 			appOrigin,
 			providerOrigin,

@@ -24,6 +24,7 @@ export type WebToken<P extends TokenPayload = any> = {
 }
 
 export type TokenVerifications = {
+	atTime?: number | null
 	allowedIssuers?: string[]
 	allowedAudiences?: string[]
 }
@@ -119,16 +120,20 @@ export class Token {
 		if (!isValid)
 			throw new TokenVerifyError("token signature invalid")
 
-		if (payload.exp) {
-			const expiresAt = Token.toJsTime(payload.exp)
-			if (Date.now() > expiresAt)
-				throw new TokenVerifyError("token expired")
-		}
+		if (options.atTime !== null) {
+			const atTime = options.atTime ?? Date.now()
 
-		if (payload.nbf) {
-			const notBefore = Token.toJsTime(payload.nbf)
-			if (Date.now() < notBefore)
-				throw new TokenVerifyError("token not ready")
+			if (payload.exp) {
+				const expiresAt = Token.toJsTime(payload.exp)
+				if (atTime > expiresAt)
+					throw new TokenVerifyError("token expired")
+			}
+
+			if (payload.nbf) {
+				const notBefore = Token.toJsTime(payload.nbf)
+				if (atTime < notBefore)
+					throw new TokenVerifyError("token not ready")
+			}
 		}
 
 		if (options.allowedIssuers) {

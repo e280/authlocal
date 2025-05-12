@@ -20,7 +20,6 @@ export class Manager {
 	)
 
 	dispose = ev(window, {storage: async() => {
-		console.log("storage event, bruh")
 		await this.depot.identities.list()
 	}})
 

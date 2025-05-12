@@ -1,6 +1,6 @@
 
 import {Nametag} from "./identity.js"
-import {Token, TokenParams, TokenPayload} from "./token.js"
+import {Token, TokenPayload} from "./token.js"
 
 /** proof that a session was signed by the user's identity */
 export type Proof = {
@@ -9,26 +9,30 @@ export type Proof = {
 }
 
 export async function signProof({
+		expiresAt,
 		proof,
 		appOrigin,
 		providerOrigin,
 		identitySecret,
-		...params
 	}: SignProofOptions) {
 
 	return Token.sign<ProofPayload>(identitySecret, {
-		...Token.params({...params, issuer: providerOrigin, audience: appOrigin}),
+		...Token.params({
+			expiresAt,
+			issuer: providerOrigin,
+			audience: appOrigin,
+		}),
 		sub: proof.nametag.id,
 		data: proof,
 	})
 }
 
-export async function verifyProof({proofToken, appOrigins}: VerifyProofOptions) {
+export async function verifyProof({proofToken, appOrigins, atTime}: VerifyProofOptions) {
 	const pre = Token.decode<ProofPayload>(proofToken)
 	const {data: proof} = await Token.verify<ProofPayload>(
 		pre.payload.data.nametag.id,
 		proofToken,
-		{allowedAudiences: appOrigins},
+		{atTime, allowedAudiences: appOrigins},
 	)
 	return proof
 }
@@ -38,15 +42,17 @@ function decodeProofPayload(proofToken: string) {
 }
 
 export type SignProofOptions = {
-	identitySecret: string,
-	proof: Proof,
+	expiresAt: number
+	identitySecret: string
+	proof: Proof
 	appOrigin: string
 	providerOrigin: string
-} & Omit<TokenParams, "issuer" | "audience">
+}
 
 export type VerifyProofOptions = {
 	proofToken: string
 	appOrigins: string[]
+	atTime?: number | null
 }
 
 /** token payload that contains proof */
