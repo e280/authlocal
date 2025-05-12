@@ -214,10 +214,9 @@ export const ListPage = shadowView(use => (
 			<div theme-group>
 				${purpose.kind === "login" ? html`
 					<h2>
-						<span>Login for</span>
 						${hostcode(purpose.appOrigin)}
+						<span>wants your login</span>
 					</h2>
-					<p>This website is requesting your login</p>
 				` : html`
 					<h2>Your identities</h2>
 				`}

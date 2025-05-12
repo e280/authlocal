@@ -48,12 +48,12 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				<div theme-group>
 					<h2>
 						${purpose.kind === "login"
-						? html`Create an identity for ${hostcode(purpose.appOrigin)}`
+						? html`${hostcode(purpose.appOrigin)} wants your login`
 						: (first
-							? html`Create your first login identity`
-							: html`Create a new login identity`)}
+							? html`Create your first identity`
+							: html`Create a new identity`)}
 					</h2>
-					<p>The name you choose is public</p>
+					<p>Choose your public username</p>
 				</div>
 
 				${IdentityWidget([draft, {editable: true}])}
@@ -112,10 +112,14 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 		function render() {
 			const {identity, seed} = finalized.value
 			return html`
-				<section theme-group=tight class=seed>
-					${purpose.kind === "login"
-						? html`<h2>${hostcode(purpose.appOrigin)}</h2>`
-						: null}
+				${purpose.kind === "login"
+					? html`<h2>
+						${hostcode(purpose.appOrigin)}
+						<span>wants your login</span>
+					</h2>`
+					: null}
+
+				<section theme-group=tight>
 					<h2>Save your recovery seed</h2>
 					<p>Keep it safe. Never share it.</p>
 				</section>
@@ -126,15 +130,25 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 				<footer theme-buttons>
 					${purpose.kind === "login" ? html`
-						<button theme-button=back @click="${clickDone}">
-							Done
+						<button
+							theme-button=back
+							theme-hush
+							@click="${clickDone}">
+								Done
 						</button>
-						<button theme-button=login @click="${login}">
-							Login
+
+						<button
+							theme-button=login
+							theme-loud
+							@click="${login}">
+								Login
 						</button>
 					` : html`
-						<button theme-button=happy theme-loud @click="${clickDone}">
-							Continue
+						<button
+							theme-button=happy
+							theme-loud
+							@click="${clickDone}">
+								Continue
 						</button>
 					`}
 				</footer>
