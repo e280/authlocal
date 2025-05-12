@@ -1,5 +1,5 @@
 
-import {tokenTool} from "../token/tool.js"
+import {tokentime} from "../token/tokentime.js"
 import {signClaim} from "../claim/sign.js"
 import {verifyClaim} from "../claim/verify.js"
 import {getAppOriginFromProofToken, verifyProof} from "./proof.js"
@@ -24,14 +24,14 @@ export class Login {
 	get proofToken() { return this.session.proofToken }
 
 	get expiresAt() {
-		const expiresAt = tokenTool.expiresAt(this.proofToken)
+		const expiresAt = tokentime.readExpiry(this.proofToken)
 		if (expiresAt === undefined)
 			throw new Error("misconfigured proof token will never expire")
 		return expiresAt
 	}
 
 	isExpired(time = Date.now()) {
-		return tokenTool.isExpired(this.proofToken, time)
+		return tokentime.isExpired(this.proofToken, time)
 	}
 
 	async signClaim<C>(options: LoginSignClaimOptions<C>) {

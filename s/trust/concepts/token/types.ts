@@ -12,7 +12,7 @@ export type Token = Partial<{
 	iat: number
 	nbf: number
 	jti: string
-}> & {[key: string]: any}
+}>
 
 export type WebToken<P extends Token = any> = {
 	header: TokenHeader

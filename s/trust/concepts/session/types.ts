@@ -30,8 +30,8 @@ export type Proof = {
 }
 
 export type SignProofOptions = {
-	expiresAt: number
 	identitySecret: string
+	expiresAt: number
 	proof: Proof
 	appOrigin: string
 	authorityOrigin: string

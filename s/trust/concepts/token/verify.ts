@@ -1,5 +1,5 @@
 
-import {tokenTool} from "./tool.js"
+import {tokentime} from "./tokentime.js"
 import {verify} from "../crypto/crypto.js"
 import {decodeToken} from "./decode.js"
 import {Token, TokenVerifications, TokenVerifyError} from "./types.js"
@@ -24,13 +24,13 @@ export async function verifyToken<P extends Token>(
 		const atTime = options.atTime ?? Date.now()
 
 		if (payload.exp) {
-			const expiresAt = tokenTool.toJsTime(payload.exp)
+			const expiresAt = tokentime.toMs(payload.exp)
 			if (atTime > expiresAt)
 				throw new TokenVerifyError("token expired")
 		}
 
 		if (payload.nbf) {
-			const notBefore = tokenTool.toJsTime(payload.nbf)
+			const notBefore = tokentime.toMs(payload.nbf)
 			if (atTime < notBefore)
 				throw new TokenVerifyError("token not ready")
 		}

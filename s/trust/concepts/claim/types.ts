@@ -1,12 +1,14 @@
 
 import {Session} from "../session/types.js"
-import {TokenParams, Token} from "../token/types.js"
+import {Token} from "../token/types.js"
 
 export type SignClaimOptions<C> = {
 	claim: C
 	session: Session
 	appOrigin: string
-} & Omit<TokenParams, "issuer">
+	expiresAt?: number
+	audience?: string
+}
 
 export type VerifyClaimOptions = {
 	claimToken: string
