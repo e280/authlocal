@@ -12,7 +12,7 @@
 💖 **MIT Licensed** – totally free and open source  
 
 ### A free login system for the world wide web
-- Try out the example integration live demo here: https://authlocal.org/federated/
+- Try out the example integration live demo here: https://authlocal.org/consumer/
 - Your users click "Login", pick an identity, then *boom!* — they're logged into your site.
 - Next, you can use claim tokens, for your server to verify user requests.
 

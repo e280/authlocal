@@ -4,6 +4,10 @@
 // the comments tell a linear story about the flow.
 //
 
+// we are connected to the authority via a postmessage api.
+export {makeAppFns} from "../postmessage/app-fns.js"
+export {setupInApp} from "../postmessage/setup-in-app.js"
+
 // we receive a session from the authority via postmessage.
 export {Session} from "../concepts/session/types.js"
 

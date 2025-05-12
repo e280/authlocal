@@ -19,7 +19,7 @@ export default template(async basic => {
 		title: "Authlocal",
 		head: html`
 			<link rel="icon" href="${faviconVersioned}"/>
-			<style>${unsanitized(await read_file("x/manager/main.css"))}</style>
+			<style>${unsanitized(await read_file("x/authority/main.css"))}</style>
 			<meta data-commit-hash="${hash}"/>
 			<meta data-version="${version}"/>
 
@@ -33,8 +33,8 @@ export default template(async basic => {
 			})}
 
 			${headScripts({
-				devModulePath: await path.version.root("manager/main.bundle.js"),
-				prodModulePath: await path.version.root("manager/main.bundle.min.js"),
+				devModulePath: await path.version.local("authority/main.bundle.js"),
+				prodModulePath: await path.version.local("authority/main.bundle.min.js"),
 				importmapContent: await read_file("x/importmap.json"),
 			})}
 		`,
