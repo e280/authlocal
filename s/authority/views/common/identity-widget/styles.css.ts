@@ -99,7 +99,7 @@ section {
 	margin: 0 1em;
 
 	font-family: monospace;
-	color: color-mix(in srgb, transparent, var(--alpha) 75%);
+	color: color-mix(in srgb, transparent, var(--alpha) 40%);
 }
 
 `

@@ -60,20 +60,31 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 
 				<footer theme-buttons>
 					${situation.onBack ? html`
-						<button theme-button=back @click="${situation.onBack}">
-							Cancel
+						<button
+							theme-button=back
+							theme-hush
+							@click="${situation.onBack}">
+								Cancel
 						</button>
 					` : null}
 
-					<button theme-button @click="${situation.onIngress}">
-						Import
+					<button
+						theme-button
+						theme-hush
+						@click="${situation.onIngress}">
+							Import
 					</button>
 
-					<button theme-button @click="${reroll}">
-						Randomize
+					<button
+						theme-button
+						theme-hush
+						@click="${reroll}">
+							Randomize
 					</button>
 
-					<button theme-button=happy
+					<button
+						theme-button=happy
+						theme-loud
 						?disabled="${!draft.getValidEditedIdentity()}"
 						@click="${clickCreate}">
 							Create
@@ -122,7 +133,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 							Login
 						</button>
 					` : html`
-						<button theme-button=happy @click="${clickDone}">
+						<button theme-button=happy theme-loud @click="${clickDone}">
 							Continue
 						</button>
 					`}

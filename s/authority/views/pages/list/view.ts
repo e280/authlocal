@@ -75,16 +75,24 @@ export const ListPage = shadowView(use => (
 			</div>
 
 			<footer theme-buttons>
-				<button theme-button @click="${clickSelectMode}">
-					Select
+				<button
+					theme-button
+					theme-hush
+					@click="${clickSelectMode}">
+						Select
 				</button>
 
-				<button theme-button @click="${clickImport}">
-					Import
+				<button
+					theme-button
+					theme-hush
+					@click="${clickImport}">
+						Import
 				</button>
 
-				<button theme-button=happy @click="${clickNew}">
-					New
+				<button
+					theme-button=happy
+					@click="${clickNew}">
+						New
 				</button>
 			</footer>
 		`
@@ -165,17 +173,26 @@ export const ListPage = shadowView(use => (
 			<p>${selected.size} selected</p>
 
 			<footer theme-buttons>
-				<button theme-button=back @click="${clickSelectMode}">
-					Back
+				<button
+					theme-button=back
+					theme-hush
+					@click="${clickSelectMode}">
+						Back
 				</button>
 
 				${selected.size > 0 ? html`
-					<button theme-button @click="${deselectAll}">
-						Deselect All
+					<button
+						theme-button
+						theme-hush
+						@click="${deselectAll}">
+							Deselect All
 					</button>
 				` : html`
-					<button theme-button @click="${selectAll}">
-						Select All
+					<button
+						theme-button
+						theme-hush
+						@click="${selectAll}">
+							Select All
 					</button>
 				`}
 

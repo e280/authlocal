@@ -64,15 +64,22 @@ export const SeedReveal = shadowView(use => (seed: string, filename: string) => 
 		</div>
 
 		<footer theme-buttons>
-			<button theme-button class=reveal @click="${toggle}">
+			<button
+				theme-button
+				theme-hush
+				class=reveal
+				@click="${toggle}">
 				${reveal.value
 					? "Conceal"
 					: "Reveal"}
 			</button>
 
-			<button theme-button class="copy button"
-				@click="${() => copier.copy(seed)}"
-				theme-flashing="${copier.flashing}">
+			<button
+				theme-button
+				theme-hush
+				class="copy button"
+				theme-flashing="${copier.flashing}"
+				@click="${() => copier.copy(seed)}">
 					Copy
 			</button>
 

@@ -63,12 +63,6 @@ footer {
 		color: var(--seed);
 		min-width: 9ch;
 	}
-
-	[theme-button] {
-		border: none;
-		background: none;
-		box-shadow: none;
-	}
 }
 
 `

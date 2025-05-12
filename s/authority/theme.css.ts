@@ -74,17 +74,24 @@ button {
 		padding: 1em 0.5em;
 
 		color: color-mix(in srgb, var(--alpha), white 50%);
-		background: #8881;
-
+		text-shadow: 0 0 1em color-mix(in srgb, transparent, currentColor 80%);
 		font-weight: bold;
 		border-radius: 0.3em;
-		border: 0.15em solid color-mix(in srgb, transparent, currentColor 50%);
-		border-top-color: color-mix(in srgb, transparent, currentColor 80%);
 
-		text-shadow: 0 0 1em color-mix(in srgb, transparent, currentColor 80%);
-		box-shadow:
-			0 0 3em color-mix(in srgb, transparent, currentColor 20%),
-			inset 0 0 1em color-mix(in srgb, transparent, currentColor 15%);
+		&[theme-hush] {
+			opacity: 0.7;
+			font-size: 0.9em;
+			font-weight: normal;
+		}
+
+		&[theme-loud] {
+			background: color-mix(in lch, transparent, currentColor 30%);
+			border: 0.15em solid color-mix(in srgb, transparent, currentColor 50%);
+			border-top-color: color-mix(in srgb, transparent, currentColor 80%);
+			box-shadow:
+				0 0 3em color-mix(in srgb, transparent, currentColor 20%),
+				inset 0 0 1em color-mix(in srgb, transparent, currentColor 15%);
+		}
 
 		&[disabled] {
 			cursor: default;
@@ -100,12 +107,14 @@ button {
 			&[theme-button="back"] { color: var(--back); }
 			&[theme-button="seed"] { color: var(--seed); }
 
-			&:hover {
+			&:is(:hover, :focus) {
 				filter: brightness(120%); text-decoration: underline;
-				box-shadow:
-					0 0 1em color-mix(in srgb, transparent, currentColor 20%),
-					0 0 3em color-mix(in srgb, transparent, currentColor 20%),
-					inset 0 0 1em color-mix(in srgb, transparent, currentColor 15%);
+				&[theme-loud] {
+					box-shadow:
+						0 0 1em color-mix(in srgb, transparent, currentColor 20%),
+						0 0 3em color-mix(in srgb, transparent, currentColor 20%),
+						inset 0 0 1em color-mix(in srgb, transparent, currentColor 15%);
+				}
 			}
 
 			&:active { filter: brightness(90%); }
@@ -187,6 +196,7 @@ button {
 	display: flex;
 	gap: 0.5em;
 	justify-content: center;
+	align-items: center;
 	flex-wrap: wrap;
 }
 
