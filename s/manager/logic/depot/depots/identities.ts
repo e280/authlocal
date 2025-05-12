@@ -1,8 +1,7 @@
 
 import {Kv} from "@e280/kv"
 import {signal} from "@benev/slate"
-import {Seed} from "../../../../core/seed.js"
-import {Identity} from "../../../../core/identity.js"
+import {Identity, seedPack} from "../../../../core/flow/exports.js"
 
 export type Permit = {
 	identity: Identity
@@ -18,7 +17,7 @@ export class IdentitiesDepot {
 		const identities = await Kv.collect(this.kv.values())
 		this.permits.value = await Promise.all(identities.map(async identity => ({
 			identity,
-			seed: await Seed.pack(identity)
+			seed: await seedPack(identity)
 		})))
 		return identities
 	}

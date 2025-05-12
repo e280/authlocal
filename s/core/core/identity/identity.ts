@@ -1,25 +1,7 @@
 
 import {Thumbprint} from "@e280/stz"
-import {generateKeypair} from "./crypto.js"
-
-/** a user's identity */
-export type Identity = {
-
-	/** nickname associated with this identity */
-	label: string
-
-	/** public key (64-length hex string) */
-	id: string
-
-	/** private key (64-length hex string) */
-	secret: string
-}
-
-/** public representation of a user's identity */
-export type Nametag = {
-	id: string
-	label: string
-}
+import {Identity, Nametag} from "./types.js"
+import {generateKeypair} from "../crypto/crypto.js"
 
 export async function generateIdentity(): Promise<Identity> {
 	const {id, secret} = await generateKeypair()

@@ -1,12 +1,6 @@
 
-import {Nametag} from "./identity.js"
-import {Token, TokenPayload} from "./token.js"
-
-/** proof that a session was signed by the user's identity */
-export type Proof = {
-	sessionId: string
-	nametag: Nametag
-}
+import {Token} from "../crypto/token.js"
+import { ProofPayload, SignProofOptions, VerifyProofOptions } from "./types.js"
 
 export async function signProof({
 		expiresAt,
@@ -37,29 +31,8 @@ export async function verifyProof({proofToken, appOrigins, atTime}: VerifyProofO
 	return proof
 }
 
-function decodeProofPayload(proofToken: string) {
-	return Token.decode<ProofPayload>(proofToken).payload
-}
-
-export type SignProofOptions = {
-	expiresAt: number
-	identitySecret: string
-	proof: Proof
-	appOrigin: string
-	providerOrigin: string
-}
-
-export type VerifyProofOptions = {
-	proofToken: string
-	appOrigins: string[]
-	atTime?: number | null
-}
-
-/** token payload that contains proof */
-export type ProofPayload = {data: Proof} & TokenPayload
-
 export function getAppOriginFromProofToken(proofToken: string) {
-	const payload = decodeProofPayload(proofToken)
+	const payload = Token.decode<ProofPayload>(proofToken).payload
 	const appOrigin = payload.aud
 	if (!appOrigin)
 		throw new Error(`proof token is missing audience aud`)

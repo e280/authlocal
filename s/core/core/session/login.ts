@@ -1,11 +1,8 @@
 
-import {Token} from "./token.js"
-import {Session} from "./session.js"
-import {signClaim, SignClaimOptions, verifyClaim} from "./claims.js"
-import {getAppOriginFromProofToken, Proof, verifyProof} from "./proof.js"
-
-export type VerifyLoginOptions = {session: Session, appOrigins: string[]}
-export type LoginSignClaimOptions<C> = Omit<SignClaimOptions<C>, "session" | "appOrigin">
+import {Token} from "../crypto/token.js"
+import {signClaim, verifyClaim} from "../claim/claims.js"
+import {getAppOriginFromProofToken, verifyProof} from "./proof.js"
+import {LoginSignClaimOptions, Proof, Session, VerifyLoginOptions} from "./types.js"
 
 export class Login {
 	static async verify({session, appOrigins}: VerifyLoginOptions) {

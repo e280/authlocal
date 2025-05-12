@@ -5,7 +5,6 @@ import stylesCss from "./styles.css.js"
 import themeCss from "../../theme.css.js"
 
 import {manager} from "../../context.js"
-import {Seed} from "../../../core/seed.js"
 import {Situation} from "../../logic/situation.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {ListPage} from "../../views/pages/list/view.js"
@@ -13,7 +12,7 @@ import {Intake} from "../../views/pages/ingress/intake.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
 import {IngressPage} from "../../views/pages/ingress/view.js"
-import {generateIdentity, Identity} from "../../../core/identity.js"
+import {generateIdentity, Identity, seedPack} from "../../../core/flow/exports.js"
 
 export const AuthManager = shadowComponent(use => {
 	use.styles([themeCss, stylesCss])
@@ -58,7 +57,7 @@ export const AuthManager = shadowComponent(use => {
 		await situationOp.load(async() => {
 			const identities = await depot.identities.list()
 			const initialIdentity = await generateIdentity()
-			const initialIdentitySeed = await Seed.pack(initialIdentity)
+			const initialIdentitySeed = await seedPack(initialIdentity)
 			const onboardingMode = identities.length === 0
 			return {
 				kind: "create",
@@ -93,7 +92,7 @@ export const AuthManager = shadowComponent(use => {
 	}
 
 	async function gotoEdit(identity: Identity) {
-		const seed = await Seed.pack(identity)
+		const seed = await seedPack(identity)
 		await situationOp.load(async() => ({
 			kind: "edit",
 			seed,

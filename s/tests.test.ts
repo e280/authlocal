@@ -1,12 +1,12 @@
 
 import {Science, test, expect} from "@e280/science"
 
-import identityTest from "./core/identity.test.js"
+import identityTest from "./core/core/identity/identity.test.js"
 
-import {Login} from "./core/login.js"
-import {verifyClaim} from "./core/claims.js"
-import {generateIdentity} from "./core/identity.js"
-import {generateSession} from "./core/session.js"
+import {Login} from "./core/core/session/login.js"
+import {verifyClaim} from "./core/core/claim/claims.js"
+import {generateSession} from "./core/core/session/session.js"
+import {generateIdentity} from "./core/core/identity/identity.js"
 
 const expiresAt = Date.now() + 999_000
 const appOrigin = "https://example.e280.org"

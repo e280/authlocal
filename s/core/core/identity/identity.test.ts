@@ -2,8 +2,8 @@
 import {deep} from "@e280/stz"
 import {Science, test, expect} from "@e280/science"
 
-import {Identity} from "./identity.js"
-import {Seed, SeedChecksumError} from "./seed.js"
+import {Identity} from "./types.js"
+import {SeedChecksumError, seedPack, seedRecover} from "./seed.js"
 
 function scrutinizeIdentity(identity: Identity) {
 	expect(typeof identity.label).is("string")
@@ -13,7 +13,7 @@ function scrutinizeIdentity(identity: Identity) {
 }
 
 async function readSeeds(seed: string) {
-	const promises = Seed.recover(seed)
+	const promises = seedRecover(seed)
 	return Promise.all(promises)
 }
 
@@ -26,12 +26,12 @@ const sampleIdentities: Identity[] = [
 export default Science.suite({
 	"dehydrate": test(async() => {
 		const [identity] = sampleIdentities
-		const text = await Seed.pack(identity)
+		const text = await seedPack(identity)
 		expect(text.length).gt(100)
 	}),
 
 	"dehydrate+hydrate": test(async() => {
-		const text = await Seed.pack(...sampleIdentities)
+		const text = await seedPack(...sampleIdentities)
 		const identities = await readSeeds(text)
 		expect(identities.length).is(sampleIdentities.length)
 

@@ -4,7 +4,7 @@ import {TemplateResult, attributes, html, mixin} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import {AuthElement} from "../framework.js"
-import {Login} from "../../../core/login.js"
+import {Login} from "../../../core/flow/exports.js"
 
 @mixin.css(stylesCss)
 export class AuthButton extends AuthElement {

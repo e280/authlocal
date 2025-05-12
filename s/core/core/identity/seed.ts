@@ -1,44 +1,41 @@
 
-import {Identity} from "./identity.js"
-import {deriveId, unpackKey} from "./crypto.js"
 import {Bytename, Hex, Thumbprint} from "@e280/stz"
-import {validLabel} from "../common/utils/validation.js"
+import {Identity} from "./types.js"
+import {deriveId, unpackKey} from "../crypto/crypto.js"
+import {validLabel} from "../../../common/utils/validation.js"
 
-export const Seed = {
+/** serialize identities as seed text */
+export async function seedPack(...identities: Identity[]) {
+	const texts = await Promise.all(identities.map(
+		async identity =>
+			JSON.stringify(identity.label)
+				+ (await dehydrate(identity.secret))
+					.split(" ")
+					.map(s => `\n ${s}`)
+					.join("")
+	))
+	return texts.join("\n\n")
+}
 
-	/** serialize identities as seed text */
-	async pack(...identities: Identity[]) {
-		const texts = await Promise.all(identities.map(
-			async identity =>
-				JSON.stringify(identity.label)
-					+ (await dehydrate(identity.secret))
-						.split(" ")
-						.map(s => `\n ${s}`)
-						.join("")
-		))
-		return texts.join("\n\n")
-	},
-
-	/** deserialize identities from seed text. returns an array of promises, one for each seed in the text. */
-	recover(seedtext: string) {
-		seedtext = seedtext.trim()
-		const regex = /("[^"]*")([^"]+)/gm
-		const matches = [...seedtext.matchAll(regex)]
-		return matches.map(
-			async([, labelstring, bytename]) => {
-				const label = labelstring ? JSON.parse(labelstring) : ""
-				const secret = await hydrate(bytename)
-				const id = await deriveId(secret)
-				return <Identity>{
-					id,
-					secret,
-					label: (label && validLabel(label))
-						? label
-						: Thumbprint.sigil.fromHex(id),
-				}
+/** deserialize identities from seed text. returns an array of promises, one for each seed in the text. */
+export function seedRecover(seedtext: string) {
+	seedtext = seedtext.trim()
+	const regex = /("[^"]*")([^"]+)/gm
+	const matches = [...seedtext.matchAll(regex)]
+	return matches.map(
+		async([, labelstring, bytename]) => {
+			const label = labelstring ? JSON.parse(labelstring) : ""
+			const secret = await hydrate(bytename)
+			const id = await deriveId(secret)
+			return <Identity>{
+				id,
+				secret,
+				label: (label && validLabel(label))
+					? label
+					: Thumbprint.sigil.fromHex(id),
 			}
-		)
-	}
+		}
+	)
 }
 
 export class SeedError extends Error { name = this.constructor.name }

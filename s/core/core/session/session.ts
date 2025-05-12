@@ -1,24 +1,7 @@
 
-import {Identity} from "./identity.js"
-import {generateKeypair} from "./crypto.js"
-import {Proof, signProof} from "./proof.js"
-
-/** a login session */
-export type Session = {
-
-	/** private key for a login session */
-	secret: string
-
-	/** proof for this session */
-	proofToken: string
-}
-
-export type GenerateSessionOptions = {
-	expiresAt: number
-	identity: Identity
-	appOrigin: string
-	providerOrigin: string
-}
+import {signProof} from "./proof.js"
+import {generateKeypair} from "../crypto/crypto.js"
+import {GenerateSessionOptions, Proof, Session} from "./types.js"
 
 export async function generateSession({
 		expiresAt,

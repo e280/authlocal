@@ -1,7 +1,8 @@
 
-import {Session} from "./session.js"
-import {ProofPayload, verifyProof} from "./proof.js"
-import {Token, TokenParams, TokenPayload} from "./token.js"
+import {Token} from "../crypto/token.js"
+import {verifyProof} from "../session/proof.js"
+import {ProofPayload} from "../session/types.js"
+import {ClaimPayload, SignClaimOptions, VerifyClaimOptions} from "./types.js"
 
 export async function signClaim<C>({claim, session, appOrigin, ...params}: SignClaimOptions<C>) {
 	const proof = Token.decode<ProofPayload>(session.proofToken).payload.data
@@ -46,22 +47,4 @@ export async function verifyClaim<C>({claimToken, appOrigins, atTime}: VerifyCla
 
 	return {claim, proof, proofToken}
 }
-
-export type SignClaimOptions<C> = {
-	claim: C
-	session: Session
-	appOrigin: string
-} & Omit<TokenParams, "issuer">
-
-export type VerifyClaimOptions = {
-	claimToken: string
-	appOrigins: string[]
-	atTime?: number | null
-}
-
-/** token payload for a generic claim signed by a session */
-export type ClaimPayload<C> = {
-	sub: string
-	data: {claim: C, proofToken: string}
-} & TokenPayload
 

@@ -5,15 +5,14 @@ import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
 import {manager} from "../../../context.js"
-import {Seed} from "../../../../core/seed.js"
 import {constants} from "../../../../constants.js"
 import {hostcode} from "../../../utils/hostcode.js"
 import {Situation} from "../../../logic/situation.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
-import {generateIdentity} from "../../../../core/identity.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {IdentityWidget} from "../../common/identity-widget/view.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
+import {generateIdentity, seedPack} from "../../../../core/flow/exports.js"
 
 export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 	use.name("create-page")
@@ -38,7 +37,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 			const identity = draft.getValidEditedIdentity()
 			if (identity) {
 				await situation.onSave(identity)
-				const seed = await Seed.pack(identity)
+				const seed = await seedPack(identity)
 				finalized.value = {identity: identity, seed}
 				wizard.value = "seeder"
 			}

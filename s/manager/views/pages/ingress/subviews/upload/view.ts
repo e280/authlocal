@@ -7,8 +7,8 @@ import themeCss from "../../../../../theme.css.js"
 import {Intake} from "../../intake.js"
 import {constants} from "../../../../../../constants.js"
 import {Summary} from "../../../../common/summary/view.js"
-import {Identity} from "../../../../../../core/identity.js"
 import {Problems} from "../../../../common/problems/view.js"
+import {Identity} from "../../../../../../core/flow/exports.js"
 
 export type UploadOptions = {
 	intake: Intake

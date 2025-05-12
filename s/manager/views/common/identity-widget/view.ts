@@ -5,8 +5,8 @@ import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
 import {IdentityDraft} from "./draft.js"
-import {Identity} from "../../../../core/identity.js"
 import {idHsl} from "../../../../common/utils/id-hue.js"
+import {Identity} from "../../../../core/flow/exports.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {maxLabelLength} from "../../../../common/utils/validation.js"
 
