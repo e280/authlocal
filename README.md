@@ -179,7 +179,9 @@ import {verifyClaim} from "@e280/authlocal"
 
 const {claim, proof} = await verifyClaim({
   claimToken,
-  appOrigins: ["https://example.e280.org"],
+  appOrigins: ["https://e280.org"],
+    //                   |
+    //    your website origin goes here
 })
 
 proof.sessionId
@@ -208,6 +210,10 @@ Your server verifies the proof, then the claim — proving the user authorized t
 <br/>
 
 ## Authlocal glossary
+- **Authority** — the website that provides login sessions (authlocal.org)
+  - `authorityOrigin` is the provider's origin, eg `https://authlocal.org`
+- **App / Consumer** — the third party website receiving login sessions (your website)
+  - `appOrigin` is your app origin, eg `https://e280.org`
 - **Keypair** — an ed25519 keypair
   - `.id` is the public key (64 character hex string)
   - `.secret` is the private key (64 character hex string)

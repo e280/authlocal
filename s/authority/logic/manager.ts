@@ -46,7 +46,7 @@ export class Manager {
 						identity,
 						appOrigin,
 						expiresAt: Time.future.days(7),
-						providerOrigin: popupWindow.origin,
+						authorityOrigin: popupWindow.origin,
 					})
 					await app.v1.login(session)
 				},

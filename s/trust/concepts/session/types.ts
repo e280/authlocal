@@ -20,7 +20,7 @@ export type GenerateSessionOptions = {
 	expiresAt: number
 	identity: Identity
 	appOrigin: string
-	providerOrigin: string
+	authorityOrigin: string
 }
 
 /** proof that a session was signed by the user's identity */
@@ -34,7 +34,7 @@ export type SignProofOptions = {
 	identitySecret: string
 	proof: Proof
 	appOrigin: string
-	providerOrigin: string
+	authorityOrigin: string
 }
 
 export type VerifyProofOptions = {
@@ -44,5 +44,11 @@ export type VerifyProofOptions = {
 }
 
 /** token payload that contains proof */
-export type ProofPayload = {data: Proof} & Token
+export type ProofPayload = {
+	data: Proof
+	exp: number
+	sub: string
+	iss: string
+	aud: string
+} & Token
 

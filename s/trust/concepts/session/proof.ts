@@ -9,16 +9,14 @@ export async function signProof({
 		expiresAt,
 		proof,
 		appOrigin,
-		providerOrigin,
+		authorityOrigin,
 		identitySecret,
 	}: SignProofOptions) {
 
 	return signToken<ProofPayload>(identitySecret, {
-		...tokenTool.params({
-			expiresAt,
-			issuer: providerOrigin,
-			audience: appOrigin,
-		}),
+		exp: tokenTool.fromJsTime(expiresAt),
+		iss: authorityOrigin,
+		aud: appOrigin,
 		sub: proof.nametag.id,
 		data: proof,
 	})

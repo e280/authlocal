@@ -7,20 +7,23 @@ export async function generateSession({
 		expiresAt,
 		identity,
 		appOrigin,
-		providerOrigin,
+		authorityOrigin,
 	}: GenerateSessionOptions): Promise<Session> {
+
 	const sessionKeypair = await generateKeypair()
+
 	const proof: Proof = {
 		sessionId: sessionKeypair.id,
 		nametag: {id: identity.id, label: identity.label},
 	}
+
 	return {
 		secret: sessionKeypair.secret,
 		proofToken: await signProof({
 			expiresAt,
 			proof,
 			appOrigin,
-			providerOrigin,
+			authorityOrigin,
 			identitySecret: identity.secret,
 		}),
 	}

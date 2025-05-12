@@ -10,11 +10,11 @@ import {generateIdentity} from "./trust/concepts/identity/identity.js"
 
 const expiresAt = Date.now() + 999_000
 const appOrigin = "https://example.e280.org"
-const providerOrigin = "https://authlocal.org"
+const authorityOrigin = "https://authlocal.org"
 
 async function setupLogin() {
 	const identity = await generateIdentity()
-	const session = await generateSession({identity, expiresAt, appOrigin, providerOrigin})
+	const session = await generateSession({identity, expiresAt, appOrigin, authorityOrigin})
 	const login = await Login.verify({session, appOrigins: [appOrigin]})
 	expect(login.nametag.id).is(identity.id)
 	expect(login.session.secret).is(session.secret)
