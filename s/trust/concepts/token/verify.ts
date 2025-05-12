@@ -1,7 +1,7 @@
 
+import {decodeToken} from "./decode.js"
 import {tokentime} from "./tokentime.js"
 import {verify} from "../crypto/crypto.js"
-import {decodeToken} from "./decode.js"
 import {Token, TokenVerifications, TokenVerifyError} from "./types.js"
 
 export async function verifyToken<P extends Token>(
@@ -15,9 +15,7 @@ export async function verifyToken<P extends Token>(
 	const signingText = `${headerText}.${payloadText}`
 	const signingBytes = new TextEncoder().encode(signingText)
 
-	const isValid = await verify(signingBytes, signature, id)
-
-	if (!isValid)
+	if (!await verify(signingBytes, signature, id))
 		throw new TokenVerifyError("token signature invalid")
 
 	if (options.atTime !== null) {

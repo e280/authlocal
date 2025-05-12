@@ -5,7 +5,7 @@ import {verifyProof} from "../session/proof.js"
 import {ProofPayload} from "../session/types.js"
 import {ClaimPayload, VerifyClaimOptions} from "./types.js"
 
-export async function verifyClaim<C>({claimToken, appOrigins, atTime}: VerifyClaimOptions) {
+export async function verifyClaim<C>({claimToken, appOrigins, allowedAudiences, atTime}: VerifyClaimOptions) {
 	const claimPayload = decodeToken<ClaimPayload<C>>(claimToken).payload
 	const {proofToken} = claimPayload.data
 	const proofPayload = decodeToken<ProofPayload>(proofToken).payload
@@ -24,9 +24,15 @@ export async function verifyClaim<C>({claimToken, appOrigins, atTime}: VerifyCla
 	const {data: {claim}} = await verifyToken<ClaimPayload<C>>(
 		proof.sessionId,
 		claimToken,
+		{
+			atTime,
 
-		// claim must have been issued by your app
-		{atTime, allowedIssuers: appOrigins},
+			// claim must have been issued by your app
+			allowedIssuers: appOrigins,
+
+			// claim could include aud
+			allowedAudiences,
+		},
 	)
 
 	return {claim, proof, proofToken}

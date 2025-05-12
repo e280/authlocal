@@ -14,6 +14,7 @@ export type VerifyClaimOptions = {
 	claimToken: string
 	appOrigins: string[]
 	atTime?: number | null
+	allowedAudiences?: string[]
 }
 
 /** token payload for a generic claim signed by a session */
