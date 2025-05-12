@@ -35,6 +35,7 @@ export default css`
 		color: var(--seed);
 		border-radius: 1rem;
 		background: color-mix(in srgb, #ffffff08, var(--seed) 10%);
+		-webkit-backdrop-filter: blur(0.3em);
 		backdrop-filter: blur(0.3em);
 
 		font-size: 2em;
