@@ -3,6 +3,11 @@ import {endpoint, Messenger, WindowConduit} from "renraku"
 import {makeAppFns} from "./app-fns.js"
 import {Session} from "../concepts/session/types.js"
 
+//
+// this facilitates postMessages,
+// and is installed on the consumer app side
+//
+
 export function setupInApp(
 		appWindow: Window,
 		popupWindow: WindowProxy,

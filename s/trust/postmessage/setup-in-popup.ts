@@ -2,6 +2,11 @@
 import {Messenger, WindowConduit} from "renraku"
 import {AppFns} from "./app-fns.js"
 
+//
+// this facilitates postMessages,
+// and is installed on the authority side
+//
+
 export function setupInPopup(
 		popupWindow: Window,
 		appWindow: WindowProxy,
