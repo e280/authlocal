@@ -39,12 +39,15 @@ export const IdentityWidget = shadowView(use => (
 		}
 	}
 
+	const invalid = !draft.getValidEditedIdentity()
+
 	return html`
 		<section>
 			<div class=card
 				?x-editable="${!!options.editable}"
 				?x-clickable="${!!options.onClick}"
 				?x-selected="${!!options.selected}"
+				?x-angry="${invalid}"
 				@click="${handleCardClick}">
 
 				<div class=icon style="color: ${idHsl(draft.identity.id)};">
@@ -59,7 +62,7 @@ export const IdentityWidget = shadowView(use => (
 						theme-insetty
 						.value="${draft.getEditedLabel()}"
 						maxlength="${maxLabelLength}"
-						?theme-angry="${!draft.getValidEditedIdentity()}"
+						?theme-angry="${invalid}"
 						@input="${inputString(label => { draft.setEditedLabel(label) })}"
 						/>
 				` : html`

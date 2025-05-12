@@ -22,6 +22,8 @@ export default css`
 	border-top: 0.15em solid color-mix(in srgb, transparent, var(--alpha) 60%);
 	box-shadow: 0 0 2em color-mix(in srgb, transparent, var(--alpha) 10%);
 
+	transition: all 300ms linear;
+
 	&:not([x-editable]) {
 		user-select: none;
 	}
@@ -79,6 +81,14 @@ export default css`
 		gap: 0.25em;
 	}
 
+	&[x-angry] {
+		border-color: var(--angry);
+		background: color-mix(in lch, transparent, var(--angry) 25%);
+		box-shadow: 0 0 4em color-mix(in srgb, transparent, var(--angry) 30%);
+		color: var(--angry);
+		& svg { color: var(--angry) !important; }
+		& .label { color: var(--angry); }
+	}
 }
 
 section {
