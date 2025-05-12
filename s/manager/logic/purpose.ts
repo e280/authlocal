@@ -1,5 +1,5 @@
 
-import {Identity} from "../../core/flow/authority.js"
+import {Identity} from "../../core/exports/authority.js"
 
 /** the reason the management app was opened */
 export namespace Purpose {

@@ -1,6 +1,6 @@
 
 import {Kv} from "@e280/kv"
-import {Identity} from "../../../core/flow/authority.js"
+import {Identity} from "../../../core/exports/authority.js"
 import {IdentitiesDepot} from "./depots/identities.js"
 
 /** local storage facility for authlocal */
