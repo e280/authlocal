@@ -14,17 +14,25 @@ export const tokentime = {
 		? ms / 1000
 		: undefined,
 
-	/** read the expiry time of a token, converting the time to js milliseconds */
-	readExpiry(token: string) {
+	/** read token expiry time in js milliseconds */
+	readExpiresAt(token: string) {
 		const {exp} = decodeToken(token).payload
 		return exp === undefined
 			? undefined
 			: tokentime.toMs(exp)
 	},
 
+	/** read token issued time in js milliseconds */
+	readIssuedAt(token: string) {
+		const {iat} = decodeToken(token).payload
+		return iat === undefined
+			? undefined
+			: tokentime.toMs(iat)
+	},
+
 	/** return true if the jwt is expired */
 	isExpired(token: string, time = Date.now()) {
-		const expiresAt = this.readExpiry(token)
+		const expiresAt = this.readExpiresAt(token)
 		return expiresAt === undefined
 			? false
 			: time >= expiresAt

@@ -7,7 +7,6 @@ import {Login} from "./trust/concepts/session/login.js"
 import {verifyClaim} from "./trust/concepts/claim/verify.js"
 import {generateSession} from "./trust/concepts/session/session.js"
 import {generateIdentity} from "./trust/concepts/identity/identity.js"
-import { tokentime } from "./trust/concepts/token/tokentime.js"
 
 const expiresAt = Date.now() + 999_000
 const appOrigin = "https://example.e280.org"

@@ -24,7 +24,7 @@ export class Login {
 	get proofToken() { return this.session.proofToken }
 
 	get expiresAt() {
-		const expiresAt = tokentime.readExpiry(this.proofToken)
+		const expiresAt = tokentime.readExpiresAt(this.proofToken)
 		if (expiresAt === undefined)
 			throw new Error("misconfigured proof token will never expire")
 		return expiresAt
