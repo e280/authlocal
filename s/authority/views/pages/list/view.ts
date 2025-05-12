@@ -53,8 +53,9 @@ export const ListPage = shadowView(use => (
 			}
 			return IdentityWidget([new IdentityDraft(identity), options], {content: html`
 				<button
-					theme-button
 					class=edit
+					theme-button
+					theme-hush
 					@click="${clickEdit}">
 						Edit
 				</button>
@@ -63,6 +64,7 @@ export const ListPage = shadowView(use => (
 					<button
 						class=login
 						theme-button=login
+						theme-loud
 						@click="${() => purpose.onIdentity(identity)}">
 							Login
 					</button>
@@ -91,6 +93,7 @@ export const ListPage = shadowView(use => (
 
 				<button
 					theme-button=happy
+					theme-hush
 					@click="${clickNew}">
 						New
 				</button>
