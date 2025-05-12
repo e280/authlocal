@@ -1,5 +1,5 @@
 
-import {TokenPayload} from "../jwt/types.js"
+import {Token} from "../token/types.js"
 import {SignClaimOptions} from "../claim/types.js"
 import {Identity, Nametag} from "../identity/types.js"
 
@@ -44,5 +44,5 @@ export type VerifyProofOptions = {
 }
 
 /** token payload that contains proof */
-export type ProofPayload = {data: Proof} & TokenPayload
+export type ProofPayload = {data: Proof} & Token
 

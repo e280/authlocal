@@ -1,6 +1,6 @@
 
 import {Signal, signal} from "@benev/slate"
-import {Identity} from "../../../../core/exports/authority.js"
+import {Identity} from "../../../../trust/exports/authority.js"
 import {validLabel} from "../../../../common/utils/validation.js"
 
 export class IdentityDraft {

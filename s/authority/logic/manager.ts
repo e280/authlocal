@@ -6,9 +6,9 @@ import {Purpose} from "./purpose.js"
 import {Depot} from "./depot/depot.js"
 import {Time} from "../../tools/time.js"
 import {Situation} from "./situation.js"
-import {generateSession} from "../../core/exports/authority.js"
+import {generateSession} from "../../trust/exports/authority.js"
 import {StoragePersistence} from "./storage-persistence.js"
-import {setupInPopup} from "../../core/postmessage/setup-in-popup.js"
+import {setupInPopup} from "../../trust/postmessage/setup-in-popup.js"
 
 export class Manager {
 	storagePersistence = new StoragePersistence()

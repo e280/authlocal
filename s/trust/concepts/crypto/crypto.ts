@@ -38,24 +38,3 @@ export async function verify(
 	return ed.verifyAsync(signature, message, unpackKey(id))
 }
 
-export function fuzzTiming({time, randomness, additive}: {
-		time: number
-		randomness: number
-		additive: boolean
-	}) {
-
-	const resolution = randomness / 10
-	
-	const bucketed = Math.floor(
-		additive
-			? Math.ceil(time / resolution) * resolution
-			: Math.floor(time / resolution) * resolution
-	)
-
-	const offset = Math.floor(Math.random() * randomness)
-
-	return additive
-		? bucketed + offset
-		: bucketed - offset
-}
-

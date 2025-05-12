@@ -4,7 +4,7 @@ export type TokenHeader = {
 	alg: "EdDSA"
 }
 
-export type TokenPayload = Partial<{
+export type Token = Partial<{
 	iss: string
 	sub: string
 	aud: string
@@ -14,7 +14,7 @@ export type TokenPayload = Partial<{
 	jti: string
 }> & {[key: string]: any}
 
-export type WebToken<P extends TokenPayload = any> = {
+export type WebToken<P extends Token = any> = {
 	header: TokenHeader
 	payload: P
 	signature: Uint8Array

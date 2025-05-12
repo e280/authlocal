@@ -7,7 +7,7 @@ import themeCss from "../../../theme.css.js"
 import {IdentityDraft} from "./draft.js"
 import {idHsl} from "../../../../common/utils/id-hue.js"
 import {inputString} from "../../../../tools/input-string.js"
-import {Identity} from "../../../../core/exports/authority.js"
+import {Identity} from "../../../../trust/exports/authority.js"
 import {maxLabelLength} from "../../../../common/utils/validation.js"
 
 import userIcon from "../../../../common/icons/tabler/user.icon.js"

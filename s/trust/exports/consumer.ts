@@ -19,7 +19,7 @@ export {LoginSignClaimOptions} from "../concepts/session/types.js"
 export {SignClaimOptions} from "../concepts/claim/types.js"
 
 // we verify claim tokens, on our serverside or clientside.
-export {verifyClaim} from "../concepts/claim/claims.js"
-export {ClaimPayload} from "../concepts/claim/types.js"
+export {verifyClaim} from "../concepts/claim/verify.js"
+export {ClaimPayload as Claim} from "../concepts/claim/types.js"
 export {VerifyClaimOptions} from "../concepts/claim/types.js"
 

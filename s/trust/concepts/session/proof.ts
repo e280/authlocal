@@ -1,5 +1,8 @@
 
-import {Token} from "../jwt/token.js"
+import {signToken} from "../token/sign.js"
+import {tokenTool} from "../token/tool.js"
+import {decodeToken} from "../token/decode.js"
+import {verifyToken} from "../token/verify.js"
 import {ProofPayload, SignProofOptions, VerifyProofOptions} from "./types.js"
 
 export async function signProof({
@@ -10,8 +13,8 @@ export async function signProof({
 		identitySecret,
 	}: SignProofOptions) {
 
-	return Token.sign<ProofPayload>(identitySecret, {
-		...Token.params({
+	return signToken<ProofPayload>(identitySecret, {
+		...tokenTool.params({
 			expiresAt,
 			issuer: providerOrigin,
 			audience: appOrigin,
@@ -22,8 +25,8 @@ export async function signProof({
 }
 
 export async function verifyProof({proofToken, appOrigins, atTime}: VerifyProofOptions) {
-	const pre = Token.decode<ProofPayload>(proofToken)
-	const {data: proof} = await Token.verify<ProofPayload>(
+	const pre = decodeToken<ProofPayload>(proofToken)
+	const {data: proof} = await verifyToken<ProofPayload>(
 		pre.payload.data.nametag.id,
 		proofToken,
 		{atTime, allowedAudiences: appOrigins},
@@ -32,7 +35,7 @@ export async function verifyProof({proofToken, appOrigins, atTime}: VerifyProofO
 }
 
 export function getAppOriginFromProofToken(proofToken: string) {
-	const payload = Token.decode<ProofPayload>(proofToken).payload
+	const payload = decodeToken<ProofPayload>(proofToken).payload
 	const appOrigin = payload.aud
 	if (!appOrigin)
 		throw new Error(`proof token is missing audience aud`)

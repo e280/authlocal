@@ -6,7 +6,7 @@ import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
 import {manager} from "../../../context.js"
-import {Identity} from "../../../../core/exports/authority.js"
+import {Identity} from "../../../../trust/exports/authority.js"
 
 export const Summary = shadowView(use => (identities: Identity[]) => {
 	use.name("summary")

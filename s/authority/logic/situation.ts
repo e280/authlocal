@@ -1,5 +1,5 @@
 
-import {Identity} from "../../core/exports/authority.js"
+import {Identity} from "../../trust/exports/authority.js"
 import {Intake} from "../views/pages/ingress/intake.js"
 
 export namespace Situation {

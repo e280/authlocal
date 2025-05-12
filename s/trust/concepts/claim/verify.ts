@@ -1,30 +1,14 @@
 
-import {Token} from "../jwt/token.js"
+import {decodeToken} from "../token/decode.js"
+import {verifyToken} from "../token/verify.js"
 import {verifyProof} from "../session/proof.js"
 import {ProofPayload} from "../session/types.js"
-import {ClaimPayload, SignClaimOptions, VerifyClaimOptions} from "./types.js"
-
-export async function signClaim<C>({claim, session, appOrigin, ...params}: SignClaimOptions<C>) {
-	const proof = Token.decode<ProofPayload>(session.proofToken).payload.data
-	return Token.sign<ClaimPayload<C>>(session.secret, {
-		...Token.params({
-			...params,
-
-			// issuer must be the app origin
-			issuer: appOrigin,
-		}),
-		sub: proof.nametag.id,
-		data: {
-			claim,
-			proofToken: session.proofToken,
-		},
-	})
-}
+import {ClaimPayload, VerifyClaimOptions} from "./types.js"
 
 export async function verifyClaim<C>({claimToken, appOrigins, atTime}: VerifyClaimOptions) {
-	const claimPayload = Token.decode<ClaimPayload<C>>(claimToken).payload
+	const claimPayload = decodeToken<ClaimPayload<C>>(claimToken).payload
 	const {proofToken} = claimPayload.data
-	const proofPayload = Token.decode<ProofPayload>(proofToken).payload
+	const proofPayload = decodeToken<ProofPayload>(proofToken).payload
 
 	if (!claimPayload.iss)
 		throw new Error(`claim token is lacking "iss" field`)
@@ -37,7 +21,7 @@ export async function verifyClaim<C>({claimToken, appOrigins, atTime}: VerifyCla
 
 	const proof = await verifyProof({proofToken, appOrigins, atTime})
 
-	const {data: {claim}} = await Token.verify<ClaimPayload<C>>(
+	const {data: {claim}} = await verifyToken<ClaimPayload<C>>(
 		proof.sessionId,
 		claimToken,
 

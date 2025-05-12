@@ -2,7 +2,7 @@
 import {signal} from "@benev/slate"
 import {Tabby} from "../../common/tabby/view.js"
 import {okErr, problematize} from "../../../../tools/errors.js"
-import {dedupeIdentities, Identity, seedRecover} from "../../../../core/exports/authority.js"
+import {dedupeIdentities, Identity, seedRecover} from "../../../../trust/exports/authority.js"
 
 export class Intake {
 	tabby = new Tabby(0)

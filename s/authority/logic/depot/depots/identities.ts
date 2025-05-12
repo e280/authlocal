@@ -1,7 +1,7 @@
 
 import {Kv} from "@e280/kv"
 import {signal} from "@benev/slate"
-import {Identity, seedPack} from "../../../../core/exports/authority.js"
+import {Identity, seedPack} from "../../../../trust/exports/authority.js"
 
 export type Permit = {
 	identity: Identity

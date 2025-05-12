@@ -8,7 +8,7 @@ import {Intake} from "../../intake.js"
 import {constants} from "../../../../../../constants.js"
 import {Summary} from "../../../../common/summary/view.js"
 import {Problems} from "../../../../common/problems/view.js"
-import {Identity} from "../../../../../../core/exports/authority.js"
+import {Identity} from "../../../../../../trust/exports/authority.js"
 
 export type UploadOptions = {
 	intake: Intake

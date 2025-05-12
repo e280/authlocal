@@ -1,6 +1,6 @@
 
 import {Session} from "../session/types.js"
-import {TokenParams, TokenPayload} from "../jwt/types.js"
+import {TokenParams, Token} from "../token/types.js"
 
 export type SignClaimOptions<C> = {
 	claim: C
@@ -18,5 +18,5 @@ export type VerifyClaimOptions = {
 export type ClaimPayload<C> = {
 	sub: string
 	data: {claim: C, proofToken: string}
-} & TokenPayload
+} & Token
 

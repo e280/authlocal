@@ -5,10 +5,10 @@ import {signal} from "@benev/slate"
 import {AuthOptions} from "./types.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
-import {Login} from "../core/exports/consumer.js"
+import {Login} from "../trust/exports/consumer.js"
 import {openPopup} from "./parts/open-popup.js"
-import {setupInApp} from "../core/postmessage/setup-in-app.js"
-import {Session} from "../core/exports/authority.js"
+import {setupInApp} from "../trust/postmessage/setup-in-app.js"
+import {Session} from "../trust/exports/authority.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
 
 /**
