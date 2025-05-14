@@ -61,12 +61,12 @@
 		"open-source"
 	],
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
-	"homepage": "https://github.com/authlocal/authlocal#readme",
+	"homepage": "https://github.com/e280/authlocal#readme",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/authlocal/authlocal.git"
+		"url": "git+https://github.com/e280/authlocal.git"
 	},
 	"bugs": {
-		"url": "https://github.com/authlocal/authlocal/issues"
+		"url": "https://github.com/e280/authlocal/issues"
 	}
 }

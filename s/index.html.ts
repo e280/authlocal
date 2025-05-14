@@ -50,7 +50,7 @@ export default template(async basic => {
 
 			<footer>
 				<p>Own your identity. Open-source. Privacy-focused. User-sovereign.</p>
-				<p>Learn more on <a href="https://github.com/authlocal/authlocal/blob/main/GUIDE.md" target=_blank>GitHub</a>.</p>
+				<p>Learn more on <a href="https://github.com/e280/authlocal/blob/main/GUIDE.md" target=_blank>GitHub</a>.</p>
 				<p class=persistence><auth-persistence></auth-persistence></p>
 				<p class=version>v${version}</p>
 			</footer>
