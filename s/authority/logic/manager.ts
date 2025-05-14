@@ -31,26 +31,29 @@ export class Manager {
 		if (isPopup) {
 			const popupWindow = window
 			const appWindow = window.opener
-			const {app} = setupInPopup(
+			const {app, helloAndGetAppOrigin} = setupInPopup(
 				popupWindow,
 				appWindow,
-				appWindow.origin,
 			)
-			const appOrigin = window.opener.origin
-			purpose.value = {
-				kind: "login",
-				appOrigin,
-				onDeny: async() => app.v1.login(null),
-				onIdentity: async identity => {
-					const session = await generateSession({
-						identity,
-						appOrigin,
-						expiresAt: Time.future.days(7),
-						authorityOrigin: popupWindow.origin,
-					})
-					await app.v1.login(session)
-				},
-			}
+			helloAndGetAppOrigin().then(appOrigin => {
+				purpose.value = {
+					kind: "login",
+					appOrigin,
+					onDeny: async() => app.v1.login(null),
+					onIdentity: async identity => {
+						const session = await generateSession({
+							identity,
+							appOrigin,
+							expiresAt: Time.future.days(7),
+							authorityOrigin: popupWindow.origin,
+						})
+						await app.v1.login(session)
+					},
+				}
+			}).catch(err => {
+				// TODO we should go to a user-facing error route
+				console.error(err)
+			})
 		}
 
 		else if (isDebugLoginMode) {

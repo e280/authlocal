@@ -1,4 +1,5 @@
 
+import {deferPromise} from "@e280/stz"
 import {Messenger, WindowConduit} from "renraku"
 import {AppFns} from "./app-fns.js"
 
@@ -10,22 +11,33 @@ import {AppFns} from "./app-fns.js"
 export function setupInPopup(
 		popupWindow: Window,
 		appWindow: WindowProxy,
-		appOrigin: string,
 	) {
 
 	const conduit = new WindowConduit(
 		popupWindow,
 		appWindow,
-		appOrigin,
-		({origin}) => origin === appOrigin,
+		"*",
+		() => true,
 	)
+
+	const appOriginDeferred = deferPromise<string>()
+	conduit.recv.sub((_m, {origin}) => {
+		conduit.targetOrigin = origin
+		appOriginDeferred.resolve(origin)
+	})
 
 	const messenger = new Messenger<AppFns>({
 		conduit,
 		timeout: Infinity,
 	})
 
+	async function helloAndGetAppOrigin() {
+		await messenger.remote.v1.hello()
+		return appOriginDeferred.promise
+	}
+
 	return {
+		helloAndGetAppOrigin,
 		app: messenger.remote as AppFns,
 		dispose: () => conduit.dispose(),
 	}
