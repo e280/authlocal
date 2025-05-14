@@ -59,7 +59,7 @@ export const SeedReveal = shadowView(use => (seed: string, filename: string) => 
 				@click="${selectTextarea}"
 			></textarea>
 			<div class=blanket ?x-hide="${reveal.value}">
-				[RECOVERY SEED]
+				[TOP SECRET]
 			</div>
 		</div>
 
