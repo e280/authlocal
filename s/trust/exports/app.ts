@@ -1,6 +1,6 @@
 
 //
-// this file exports everything the *consumer* app needs.
+// this file exports everything the consumer app needs.
 // the comments tell a linear story about the flow.
 //
 

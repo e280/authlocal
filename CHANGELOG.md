@@ -8,6 +8,6 @@
 
 ## v0.2
 
-### v0.2.0-19
+### v0.2.0-23
 - 🟥 massive full rewrite. everything's changed. no users yet.
 

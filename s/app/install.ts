@@ -3,11 +3,11 @@ import {register} from "@benev/slate"
 
 import {Auth} from "./auth.js"
 import {AuthOptions} from "./types.js"
-import {consumerElements} from "./elements/elements.js"
+import {appElements} from "./elements/elements.js"
 import {commonElements} from "../common/elements/elements.js"
 
 export async function prepareElements(auth: Auth) {
-	return {...commonElements, ...consumerElements(auth)}
+	return {...commonElements, ...appElements(auth)}
 }
 
 export async function install(options?: Partial<AuthOptions>) {

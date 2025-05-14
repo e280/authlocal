@@ -7,7 +7,7 @@ import {provideAuth} from "./framework.js"
 import {AuthUser} from "./auth-user/element.js"
 import {AuthButton} from "./auth-button/element.js"
 
-export const consumerElements = (auth: Auth) => Pipe
+export const appElements = (auth: Auth) => Pipe
 	.with({AuthButton, AuthUser})
 	.to(provideAuth(auth))
 	.to(apply.reactive())

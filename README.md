@@ -12,7 +12,7 @@
 💖 **MIT Licensed** – totally free and open source  
 
 ### A free login system for the world wide web
-- Try out the example integration live demo here: https://authlocal.org/consumer/
+- Try out the example integration live demo here: https://authlocal.org/app/
 - Your users click "Login", pick an identity, then *boom!* — they're logged into your site.
 - Next, you can use claim tokens, for your server to verify user requests.
 
@@ -212,7 +212,7 @@ Your server verifies the proof, then the claim — proving the user authorized t
 ## Authlocal glossary
 - **Authority** — the website that provides login sessions (authlocal.org)
   - `authorityOrigin` is the provider's origin, eg `https://authlocal.org`
-- **App / Consumer** — the third party website receiving login sessions (your website)
+- **App** — the third party website receiving login sessions (your website)
   - `appOrigin` is your app origin, eg `https://e280.org`
 - **Keypair** — an ed25519 keypair
   - `.id` is the public key (64 character hex string)

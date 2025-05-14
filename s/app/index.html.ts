@@ -9,10 +9,10 @@ export default template(async basic => {
 	return easypage({
 		path,
 		dark: true,
-		title: "Authlocal Consumer Demo",
+		title: "Authlocal App Demo",
 		head: html`
 			<link rel="icon" href="/assets/favicon.png"/>
-			<style>${unsanitized(await read_file("x/consumer/demo.css"))}</style>
+			<style>${unsanitized(await read_file("x/app/demo.css"))}</style>
 			<style>${unsanitized(await read_file("x/themes/basic.css"))}</style>
 			<meta data-commit-hash="${hash}"/>
 
