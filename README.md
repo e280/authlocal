@@ -249,9 +249,13 @@ Your server verifies the proof, then the claim — proving the user authorized t
 
 ## Common code snippets
 
+> 💁 ***Notice:***  
+> Authlocal uses a number of utilities from our library [`@e280/stz`](https://github.com/e280/stz),  
+> To interact with these, you should import them from stz manually.  
+
 #### Thumbprint conversions
 ```ts
-import {Thumbprint} from "@e280/authlocal"
+import {Thumbprint} from "@e280/stz"
 ```
 - **id to thumbprint**
     ```ts
