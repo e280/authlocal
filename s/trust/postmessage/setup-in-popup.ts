@@ -1,6 +1,6 @@
 
-import {deferPromise} from "@e280/stz"
-import {Messenger, WindowConduit} from "renraku"
+import {defer} from "@e280/stz"
+import {Messenger, WindowConduit} from "@e280/renraku"
 import {AppFns} from "./app-fns.js"
 
 //
@@ -20,7 +20,7 @@ export function setupInPopup(
 		() => true,
 	)
 
-	const appOriginDeferred = deferPromise<string>()
+	const appOriginDeferred = defer<string>()
 	conduit.recv.sub((_m, {origin}) => {
 		conduit.targetOrigin = origin
 		appOriginDeferred.resolve(origin)

@@ -1,5 +1,5 @@
 
-import {endpoint, Messenger, WindowConduit} from "renraku"
+import {endpoint, Messenger, WindowConduit} from "@e280/renraku"
 import {makeAppFns} from "./app-fns.js"
 import {Session} from "../concepts/session/types.js"
 
@@ -27,7 +27,7 @@ export function setupInApp(
 	new Messenger({
 		conduit,
 		timeout: Infinity,
-		getLocalEndpoint: () => endpoint(makeAppFns(login)),
+		getLocalEndpoint: () => endpoint({fns: makeAppFns(login)}),
 	})
 
 	return {

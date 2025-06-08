@@ -139,10 +139,10 @@ export const ListPage = shadowView(use => (
 			const selectedIdentityIds = [...selected]
 			const selectedSeeds = selectedIdentityIds
 				.map(id => seedMap.get(id))
-				.filter(is.available)
+				.filter(is.set)
 			const selectedIdentities = selectedIdentityIds
 				.map(id => identityMap.get(id))
-				.filter(is.available)
+				.filter(is.set)
 
 			downloader.text = selectedSeeds.join("\n\n")
 			const filename = selectedIdentityIds.length === 1
