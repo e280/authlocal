@@ -9,7 +9,7 @@ export {makeAppFns} from "../postmessage/app-fns.js"
 export {setupInApp} from "../postmessage/setup-in-app.js"
 
 // we receive a session from the authority via postmessage.
-export {Session} from "../concepts/session/types.js"
+export {Session, Proof, ProofPayload} from "../concepts/session/types.js"
 
 // we verify the session as a login object.
 export {Login} from "../concepts/session/login.js"
@@ -20,6 +20,6 @@ export {SignClaimOptions} from "../concepts/claim/types.js"
 
 // we verify claim tokens, on our serverside or clientside.
 export {verifyClaim} from "../concepts/claim/verify.js"
-export {ClaimPayload as Claim} from "../concepts/claim/types.js"
-export {VerifyClaimOptions} from "../concepts/claim/types.js"
+export {VerifyClaimOptions, ClaimPayload} from "../concepts/claim/types.js"
+export {Nametag} from "../concepts/identity/types.js"
 
