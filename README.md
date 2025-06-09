@@ -175,7 +175,7 @@ const claimToken = await login.signClaim({
 
 ### Verify a claim
 ```js
-import {verifyClaim} from "@e280/authlocal"
+import {verifyClaim} from "@e280/authlocal/core"
 
 const {claim, proof} = await verifyClaim({
   claimToken,
