@@ -9,10 +9,10 @@ export class Depot {
 	identities: IdentitiesDepot
 
 	constructor(kv: Kv) {
-		this.root = kv.namespace("authlocal")
+		this.root = kv.scope("authlocal")
 
 		this.identities = new IdentitiesDepot(
-			this.root.namespace<Identity>("identities")
+			this.root.scope<Identity>("identities")
 		)
 	}
 }
