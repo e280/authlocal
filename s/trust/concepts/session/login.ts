@@ -1,7 +1,7 @@
 
-import {tokentime} from "../token/tokentime.js"
 import {signClaim} from "../claim/sign.js"
 import {verifyClaim} from "../claim/verify.js"
+import {tokentime} from "../token/tokentime.js"
 import {getAppOriginFromProofToken, verifyProof} from "./proof.js"
 import {LoginSignClaimOptions, Proof, Session, VerifyLoginOptions} from "./types.js"
 
