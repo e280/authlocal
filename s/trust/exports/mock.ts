@@ -14,7 +14,7 @@ export class Mock {
 			expiresAt = Time.future.minutes(5),
 		}: {
 			expiresAt?: number
-		}) {
+		} = {}) {
 
 		const o = "https://example.e280.org"
 		const {appOrigin = o, authorityOrigin = o} = this.options
