@@ -6,6 +6,7 @@ export type SignClaimOptions<C> = {
 	claim: C
 	session: Session
 	appOrigin: string
+	atTime?: number
 	expiresAt?: number
 	audience?: string
 }

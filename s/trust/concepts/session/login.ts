@@ -42,7 +42,14 @@ export class Login {
 		})
 
 		// self-verify, helping to catch errors earlier
-		await verifyClaim({claimToken, appOrigins: [this.proofAppOrigin]})
+		await verifyClaim({
+			claimToken,
+			atTime: options.atTime,
+			appOrigins: [this.proofAppOrigin],
+			allowedAudiences: options.audience
+				? [options.audience]
+				: undefined,
+		})
 
 		return claimToken
 	}
