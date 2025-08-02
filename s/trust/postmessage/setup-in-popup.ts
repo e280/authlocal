@@ -13,12 +13,12 @@ export function setupInPopup(
 		appWindow: WindowProxy,
 	) {
 
-	const conduit = new WindowConduit(
-		popupWindow,
-		appWindow,
-		"*",
-		() => true,
-	)
+	const conduit = new WindowConduit({
+		localWindow: popupWindow,
+		targetWindow: appWindow,
+		targetOrigin: "*",
+		allow: () => true,
+	})
 
 	const appOriginDeferred = defer<string>()
 	conduit.recv.sub((_m, {origin}) => {

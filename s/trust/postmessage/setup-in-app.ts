@@ -1,5 +1,5 @@
 
-import {endpoint, Messenger, WindowConduit} from "@e280/renraku"
+import {Messenger, WindowConduit} from "@e280/renraku"
 import {makeAppFns} from "./app-fns.js"
 import {Session} from "../concepts/session/types.js"
 
@@ -15,19 +15,17 @@ export function setupInApp(
 		login: (session: Session | null) => Promise<void>,
 	) {
 
-	const conduit = new WindowConduit(
-		appWindow,
-		popupWindow,
-		popupOrigin,
-		({origin}) => {
-			return origin === popupOrigin
-		},
-	)
+	const conduit = new WindowConduit({
+		localWindow: appWindow,
+		targetWindow: popupWindow,
+		targetOrigin: popupOrigin,
+		allow: e => e.origin === popupOrigin,
+	})
 
 	new Messenger({
 		conduit,
 		timeout: Infinity,
-		getLocalEndpoint: () => endpoint({fns: makeAppFns(login)}),
+		rpc: async() => makeAppFns(login),
 	})
 
 	return {
