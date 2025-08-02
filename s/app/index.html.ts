@@ -1,33 +1,31 @@
 
-import "@benev/slate/x/node.js"
-import {template, html, easypage, headScripts, git_commit_hash, read_file, unsanitized} from "@benev/turtle"
+import {ssg, html} from "@e280/scute"
 
-export default template(async basic => {
-	const path = basic.path(import.meta.url)
-	const hash = await git_commit_hash()
+const domain = "authlocal.org"
+const favicon = "/assets/favicon.png"
 
-	return easypage({
-		path,
-		dark: true,
-		title: "Authlocal App Demo",
-		head: html`
-			<link rel="icon" href="/assets/favicon.png"/>
-			<style>${unsanitized(await read_file("x/app/demo.css"))}</style>
-			<style>${unsanitized(await read_file("x/themes/basic.css"))}</style>
-			<meta data-commit-hash="${hash}"/>
+export default ssg.page(import.meta.url, async _orb => ({
+	title: "Authlocal App Demo",
 
-			${headScripts({
-				devModulePath: await path.version.local("demo.bundle.js"),
-				prodModulePath: await path.version.local("demo.bundle.min.js"),
-				importmapContent: await read_file("x/importmap.json"),
-			})}
-		`,
-		body: html`
-			<h1>Example app using Authlocal</h1>
-			<p>This page is a test for a typical federated auth integration with <a href="/">Authlocal</a></p>
-			<auth-button src="/"></auth-button>
-			<auth-user></auth-user>
-		`,
-	})
-})
+	js: "demo.bundle.min.js",
+	css: "demo.css",
+	dark: true,
+	favicon,
+
+	socialCard: {
+		themeColor: "#77ff81",
+		siteName: domain,
+		title: "Authlocal – demo page",
+		description: "Open source login system. Example integration.",
+		image: `https://${domain}${favicon}`,
+		url: `https://${domain}/app/`,
+	},
+
+	body: html`
+		<h1>Example app using Authlocal</h1>
+		<p>This page is a test for a typical federated auth integration with <a href="/">Authlocal</a></p>
+		<auth-button src="/"></auth-button>
+		<auth-user></auth-user>
+	`,
+}))
 
