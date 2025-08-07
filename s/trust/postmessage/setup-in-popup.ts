@@ -26,7 +26,7 @@ export function setupInPopup(
 		appOriginDeferred.resolve(origin)
 	})
 
-	const messenger = new Messenger<AppFns>({
+	const messenger = new Messenger<any, AppFns>({
 		conduit,
 		timeout: Infinity,
 	})
