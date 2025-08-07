@@ -12,8 +12,7 @@
 	"exports": {
 		".": "./x/exports.web.js",
 		"./core": "./x/exports.core.js",
-		"./mock": "./x/exports.mock.js",
-		"./*": "./*"
+		"./mock": "./x/exports.mock.js"
 	},
 	"dependencies": {
 		"@benev/slate": "^0.3.9",
