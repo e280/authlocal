@@ -8,6 +8,9 @@
 
 ## v0.2
 
+### v0.2.0-31
+- 🟥 remove `Time` util (moved to `@e280/stz`)
+
 ### v0.2.0-30
 - 🍏 update dependencies
 

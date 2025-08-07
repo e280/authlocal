@@ -1,5 +1,5 @@
 
-import {Time} from "../../tools/time.js"
+import {Time} from "@e280/stz"
 import {Login} from "../concepts/session/login.js"
 import {generateSession} from "../concepts/session/session.js"
 import {generateIdentity} from "../concepts/identity/identity.js"

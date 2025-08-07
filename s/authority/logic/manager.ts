@@ -1,10 +1,10 @@
 
+import {Time} from "@e280/stz"
 import {Kv, StorageDriver} from "@e280/kv"
 import {ev, opSignal, signal} from "@benev/slate"
 
 import {Purpose} from "./purpose.js"
 import {Depot} from "./depot/depot.js"
-import {Time} from "../../tools/time.js"
 import {Situation} from "./situation.js"
 import {generateSession} from "../../trust/exports/authority.js"
 import {StoragePersistence} from "./storage-persistence.js"

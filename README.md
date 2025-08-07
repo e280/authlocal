@@ -161,7 +161,7 @@ If the user clicks the sigil, the full thumbprint is copied to the clipboard.
 
 ### Sign a claim
 ```js
-import {Time} from "@e280/authlocal"
+import {Time} from "@e280/stz"
 
 const claimToken = await login.signClaim({
 
