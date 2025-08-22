@@ -15,12 +15,11 @@
 		"./mock": "./x/exports.mock.js"
 	},
 	"dependencies": {
-		"@benev/slate": "^0.3.10",
 		"@e280/kv": "^0.0.0-13",
-		"@e280/renraku": "^0.5.0-30",
-		"@e280/science": "^0.0.6",
+		"@e280/renraku": "^0.5.0-31",
+		"@e280/science": "^0.0.7",
 		"@e280/sly": "^0.0.1",
-		"@e280/strata": "^0.0.1",
+		"@e280/strata": "^0.0.2",
 		"@e280/stz": "^0.0.0",
 		"@noble/ed25519": "^2.3.0",
 		"lit": "^3.3.1"
