@@ -1,5 +1,5 @@
 
-import {Signal, signal} from "@benev/slate"
+import {signal, Signal} from "@e280/strata"
 import {Identity} from "../../../../trust/exports/authority.js"
 import {validLabel} from "../../../../common/utils/validation.js"
 

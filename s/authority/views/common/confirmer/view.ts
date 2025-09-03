@@ -1,8 +1,9 @@
 
-import {Content, debounce, html, shadowView} from "@benev/slate"
+import {html} from "lit"
+import {debounce} from "@e280/stz"
+import {Content, view} from "@e280/sly"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
-
 import {inputString} from "../../../../tools/input-string.js"
 
 export type ConfirmerOptions = {
@@ -11,15 +12,15 @@ export type ConfirmerOptions = {
 	onConfirmed: () => void
 }
 
-export const Confirmer = shadowView(use => (options: ConfirmerOptions) => {
+export const Confirmer = view(use => (options: ConfirmerOptions) => {
 	use.name("confirmer")
 	use.styles(themeCss, stylesCss)
 
 	const primed = use.signal(false)
 
-	const onInput = debounce(100, (proposed: string) => {
+	const onInput = use.once(() => debounce(100, (proposed: string) => {
 		primed.value = proposed === options.requiredText
-	})
+	}))
 
 	function clickConfirm() {
 		if (primed.value)

@@ -1,6 +1,7 @@
 
+import {html} from "lit"
+import {view} from "@e280/sly"
 import {is, Thumbprint} from "@e280/stz"
-import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
@@ -15,7 +16,7 @@ import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
 import {IdentityWidget, IdentityWidgetOptions} from "../../common/identity-widget/view.js"
 
-export const ListPage = shadowView(use => (
+export const ListPage = view(use => (
 		situation: Situation.List,
 	) => {
 
@@ -51,25 +52,27 @@ export const ListPage = shadowView(use => (
 					? undefined
 					: clickEdit,
 			}
-			return IdentityWidget([new IdentityDraft(identity), options], {content: html`
-				<button
-					class=edit
-					theme-button
-					theme-hush
-					@click="${clickEdit}">
-						Edit
-				</button>
-
-				${purpose.kind === "login" ? html`
+			return IdentityWidget
+				.children(html`
 					<button
-						class=login
-						theme-button=login
-						theme-loud
-						@click="${() => purpose.onIdentity(identity)}">
-							Login
+						class=edit
+						theme-button
+						theme-hush
+						@click="${clickEdit}">
+							Edit
 					</button>
-				` : null}
-			`})
+
+					${purpose.kind === "login" ? html`
+						<button
+							class=login
+							theme-button=login
+							theme-loud
+							@click="${() => purpose.onIdentity(identity)}">
+								Login
+						</button>
+					` : null}
+				`)
+				.props(new IdentityDraft(identity), options)
 		}
 		return html`
 			<div class=identities>
@@ -107,42 +110,44 @@ export const ListPage = shadowView(use => (
 				const already = selected.has(identity.id)
 				if (already) selected.delete(identity.id)
 				else selected.add(identity.id)
-				use.rerender()
+				use.render()
 			}
 			const isSelected = selected.has(identity.id)
 			const options: IdentityWidgetOptions = {
 				selected: isSelected,
 				onClick: toggle,
 			}
-			return IdentityWidget([new IdentityDraft(identity), options], {content: html`
-				<button
-					theme-button
-					x-check
-					?x-selected="${isSelected}"
-					theme-alt
-					@click="${toggle}"
-				></button>
-			`})
+			return IdentityWidget
+				.children({content: html`
+					<button
+						theme-button
+						x-check
+						?x-selected="${isSelected}"
+						theme-alt
+						@click="${toggle}"
+					></button>
+				`})
+				.props(new IdentityDraft(identity), options)
 		}
 
 		const selectAll = () => {
 			identities.map(p => p.id).forEach(id => selected.add(id))
-			use.rerender()
+			use.render()
 		}
 
 		const deselectAll = () => {
 			selected.clear()
-			use.rerender()
+			use.render()
 		}
 
 		const renderSelectedButtons = () => {
 			const selectedIdentityIds = [...selected]
 			const selectedSeeds = selectedIdentityIds
 				.map(id => seedMap.get(id))
-				.filter(is.set)
+				.filter(is.happy)
 			const selectedIdentities = selectedIdentityIds
 				.map(id => identityMap.get(id))
-				.filter(is.set)
+				.filter(is.happy)
 
 			downloader.text = selectedSeeds.join("\n\n")
 			const filename = selectedIdentityIds.length === 1

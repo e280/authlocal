@@ -1,16 +1,15 @@
 
-import {html, shadowView, svgSlate} from "@benev/slate"
-
+import {html} from "lit"
+import {view} from "@e280/sly"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
-
+import userIcon from "../../../../common/icons/tabler/user.icon.js"
 import {IdentityDraft} from "./draft.js"
 import {idHsl} from "../../../../common/utils/id-hue.js"
 import {inputString} from "../../../../tools/input-string.js"
 import {Identity} from "../../../../trust/exports/authority.js"
 import {maxLabelLength} from "../../../../common/utils/validation.js"
-
-import userIcon from "../../../../common/icons/tabler/user.icon.js"
+import { svgLit } from "../../../../tools/svg-lit.js"
 
 export type IdentityWidgetOptions = {
 	editable?: boolean
@@ -20,10 +19,10 @@ export type IdentityWidgetOptions = {
 
 export function identityWidget(identity: Identity) {
 	const draft = new IdentityDraft(identity)
-	return IdentityWidget([draft])
+	return IdentityWidget(draft)
 }
 
-export const IdentityWidget = shadowView(use => (
+export const IdentityWidget = view(use => (
 		draft: IdentityDraft,
 		options: IdentityWidgetOptions = {},
 	) => {
@@ -51,7 +50,7 @@ export const IdentityWidget = shadowView(use => (
 				@click="${handleCardClick}">
 
 				<div class=icon style="color: ${idHsl(draft.identity.id)};">
-					${svgSlate(userIcon)}
+					${svgLit(userIcon)}
 				</div>
 
 				${options.editable ? html`
