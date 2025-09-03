@@ -1,35 +1,19 @@
 
-import {debounce, Thumbprint} from "@e280/stz"
-import {Content, ShadowElement, attributes, html, mixin, signal} from "@benev/slate"
-
-import stylesCss from "./styles.css.js"
+import {html} from "lit"
+import {view} from "@e280/sly"
+import {Thumbprint} from "@e280/stz"
 import {Copyable} from "../../views/copyable/view.js"
 
-@mixin.css(stylesCss)
-export class AuthSigil extends ShadowElement {
-	copyStatus = signal<"good" | "bad" | undefined>(undefined)
+export const AuthSigil = view.component(use => {
+	const {hex} = use.attrs({hex: String})
 
-	attrs = attributes(this, {
-		"hex": String,
-	})
+	if (hex === undefined)
+		console.error(`<auth-sigil> element attr [hex] is required`)
 
-	clearStatus = debounce(1000, () => {
-		this.copyStatus.value = undefined
-	})
+	const {sigil, thumbprint} = Thumbprint.build.fromHex(hex ?? "")
 
-	render(): Content {
-		let {hex} = this.attrs
-
-		if (hex === undefined) {
-			console.error(`<auth-sigil> element attr [hex] is required`)
-			hex = ""
-		}
-
-		const {sigil, thumbprint} = Thumbprint.build.fromHex(hex)
-
-		return Copyable([thumbprint], {content: html`
-			<div part="copybox">${sigil}</div>
-		`})
-	}
-}
+	return Copyable
+		.children(html`<div part="copybox">${sigil}</div>`)
+		.props(thumbprint)
+})
 

@@ -3,7 +3,7 @@ import {Hex} from "@e280/stz"
 
 /** derive a hue (integer 0-359) from a hex id */
 export function idHue(id: string, byteIndex = -1) {
-	const bytes = Hex.bytes(id)
+	const bytes = Hex.toBytes(id)
 	const x = bytes.at(byteIndex)
 
 	if (x === undefined)
