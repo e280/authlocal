@@ -1,6 +1,5 @@
 
 import {Thumbprint} from "@e280/stz"
-import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
@@ -14,8 +13,10 @@ import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
 import {identityWidget, IdentityWidget} from "../../common/identity-widget/view.js"
+import { view } from "@e280/sly"
+import { html } from "lit"
 
-export const EditPage = shadowView(use => (situation: Situation.Edit) => {
+export const EditPage = view(use => (situation: Situation.Edit) => {
 	use.name("edit-page")
 	use.styles([themeCss, stylesCss])
 
@@ -37,43 +38,48 @@ export const EditPage = shadowView(use => (situation: Situation.Edit) => {
 
 	const {tabs, panel} = tabby.render([
 		{button: () => html`Edit`, panel: () => html`
-			${IdentityWidget(
-				[draft, {editable: true}],
-				{content: html`
+			${IdentityWidget
+				.props(draft, {editable: true})
+				.children(html`
 					<button
 						theme-button=happy
 						@click="${clickSave}"
 						?disabled="${!draft.hasValidChanges()}">
 							Save
 					</button>
-				`},
-			)}
+				`)
+				.render()}
 		`},
 
 		{button: () => html`Seed`, panel: () => html`
 			${identityWidget(draft.identity)}
 			<section theme-group class=seedtext>
-				${SeedReveal([
+				${SeedReveal(
 					seed.value,
 					crushUsername(label) + constants.seedExtension,
-				])}
+				)}
 			</section>
 		`},
 
 		{button: () => html`Deletion`, panel: () => html`
 			${identityWidget(draft.identity)}
+
 			<section theme-zone=danger>
 				<h2>Delete this identity</h2>
-				${Confirmer([{
-					buttonLabel: () => "Delete",
-					requiredText: Thumbprint.sigil.fromHex(draft.identity.id),
-					onConfirmed: async() => {
-						await situation.onDelete(draft.identity)
-						await situation.onBack()
-					},
-				}], {content: html`
-					<h2 class=delete-heading>Delete "${draft.identity.label}"</h2>
-				`})}
+
+				${Confirmer
+					.props({
+						buttonLabel: () => "Delete",
+						requiredText: Thumbprint.sigil.fromHex(draft.identity.id),
+						onConfirmed: async() => {
+							await situation.onDelete(draft.identity)
+							await situation.onBack()
+						},
+					})
+					.children(html`
+						<h2 class=delete-heading>Delete "${draft.identity.label}"</h2>
+					`)
+					.render()}
 			</section>
 		`},
 	])

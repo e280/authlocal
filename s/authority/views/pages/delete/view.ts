@@ -1,5 +1,6 @@
 
-import {html, shadowView} from "@benev/slate"
+import {html} from "lit"
+import {view} from "@e280/sly"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
@@ -9,7 +10,7 @@ import {Situation} from "../../../logic/situation.js"
 import {Confirmer} from "../../common/confirmer/view.js"
 import {randomDigits} from "../../../../tools/random-digits.js"
 
-export const DeletePage = shadowView(use => (situation: Situation.Delete) => {
+export const DeletePage = view(use => (situation: Situation.Delete) => {
 	use.name("delete-page")
 	use.styles([themeCss, stylesCss])
 
@@ -21,16 +22,16 @@ export const DeletePage = shadowView(use => (situation: Situation.Delete) => {
 			<section theme-zone=danger>
 				<h2>Delete ${identities.length} ${identities.length === 1 ?"identity" :"identities"}</h2>
 
-				${Summary([identities])}
+				${Summary(identities)}
 
-				${Confirmer([{
+				${Confirmer({
 					requiredText,
 					buttonLabel: () => "Delete",
 					onConfirmed: async() => {
 						await situation.onDelete(situation.identities.map(p => p.id))
 						await situation.onBack()
 					},
-				}])}
+				})}
 			</section>
 
 			<footer theme-buttons>

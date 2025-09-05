@@ -53,6 +53,7 @@ export const ListPage = view(use => (
 					: clickEdit,
 			}
 			return IdentityWidget
+				.props(new IdentityDraft(identity), options)
 				.children(html`
 					<button
 						class=edit
@@ -72,7 +73,7 @@ export const ListPage = view(use => (
 						</button>
 					` : null}
 				`)
-				.props(new IdentityDraft(identity), options)
+				.render()
 		}
 		return html`
 			<div class=identities>
@@ -118,6 +119,7 @@ export const ListPage = view(use => (
 				onClick: toggle,
 			}
 			return IdentityWidget
+				.props(new IdentityDraft(identity), options)
 				.children({content: html`
 					<button
 						theme-button
@@ -127,7 +129,7 @@ export const ListPage = view(use => (
 						@click="${toggle}"
 					></button>
 				`})
-				.props(new IdentityDraft(identity), options)
+				.render()
 		}
 
 		const selectAll = () => {

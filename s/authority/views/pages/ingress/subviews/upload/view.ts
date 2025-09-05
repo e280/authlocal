@@ -1,5 +1,6 @@
 
-import {html, shadowView} from "@benev/slate"
+import {html} from "lit"
+import {view} from "@e280/sly"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../../theme.css.js"
@@ -16,7 +17,7 @@ export type UploadOptions = {
 	onBack: () => Promise<void>
 }
 
-export const Upload = shadowView(use => (options: UploadOptions) => {
+export const Upload = view(use => (options: UploadOptions) => {
 	use.name("upload")
 	use.styles([themeCss, stylesCss])
 
@@ -44,12 +45,12 @@ export const Upload = shadowView(use => (options: UploadOptions) => {
 					/>
 			</section>
 			${intake.problems.value.length > 0
-				? Problems([intake.problems.value])
+				? Problems(intake.problems.value)
 				: null}
 		</section>
 
 		${intake.identities.value.length > 0
-			? Summary([intake.identities.value])
+			? Summary(intake.identities.value)
 			: null}
 
 		<footer theme-buttons>

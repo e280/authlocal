@@ -12,8 +12,8 @@ export const AuthSigil = view.component(use => {
 
 	const {sigil, thumbprint} = Thumbprint.build.fromHex(hex ?? "")
 
-	return Copyable
+	return Copyable.props(thumbprint)
 		.children(html`<div part="copybox">${sigil}</div>`)
-		.props(thumbprint)
+		.render()
 })
 
