@@ -8,6 +8,14 @@
 
 ## v0.2
 
+### v0.2.0-33
+- 🔶 upgrade from `@benev/slate` to `@e280/sly`+`@e280/strata`
+- 🟥 remove <auth-button> and <auth-user> js element instance properties like `.auth` and `.on`
+  - now these are only accessible via the `auth` object they're installed with
+
+### v0.2.0-32
+- 🍏 update dependencies
+
 ### v0.2.0-31
 - 🟥 remove `Time` util (moved to `@e280/stz`)
 
