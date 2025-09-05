@@ -167,7 +167,7 @@ export const AuthManager = view.component(use => {
 		}
 	}
 
-	loader(situationOp, situation => html`
+	return loader(situationOp, situation => html`
 		<section class=zone ?x-drop-indicator="${shockdrop.indicator}">
 			${choosePage(situation)}
 		<section>
