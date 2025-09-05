@@ -104,19 +104,6 @@ It's a "Login" button, that when clicked, spawns an Authlocal popup.
 
 When the user is logged in, the button changes to a "Logout" button, which when clicked, will log the user out.
 
-In javascript you can listen for logins/logouts via the button like this:
-```js
-const authButton = document.querySelector("auth-button")
-
-authButton.on(login => console.log("auth", login))
-  //       👆
-  // listen to *this* specific button
-
-authButton.auth.on(login => console.log("auth", login))
-  //        👆
-  // listen to *any* button
-```
-
 ### auth-user
 
 ![](https://i.imgur.com/EzWVjva.png)

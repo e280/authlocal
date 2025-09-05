@@ -1,5 +1,6 @@
 
-import {html, shadowView} from "@benev/slate"
+import {html} from "lit"
+import {view} from "@e280/sly"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
@@ -14,7 +15,7 @@ import {IdentityWidget} from "../../common/identity-widget/view.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
 import {generateIdentity, seedPack} from "../../../../trust/exports/authority.js"
 
-export const CreatePage = shadowView(use => (situation: Situation.Create) => {
+export const CreatePage = view(use => (situation: Situation.Create) => {
 	use.name("create-page")
 	use.styles([themeCss, stylesCss])
 
@@ -56,7 +57,7 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 					<p>Choose your public username</p>
 				</div>
 
-				${IdentityWidget([draft, {editable: true}])}
+				${IdentityWidget(draft, {editable: true})}
 
 				<footer theme-buttons>
 					${situation.onBack ? html`
@@ -125,7 +126,10 @@ export const CreatePage = shadowView(use => (situation: Situation.Create) => {
 				</section>
 
 				<section theme-group>
-					${SeedReveal([seed, crushUsername(identity.label) + constants.seedExtension])}
+					${SeedReveal(
+						seed,
+						crushUsername(identity.label) + constants.seedExtension,
+					)}
 				</section>
 
 				<footer theme-buttons>

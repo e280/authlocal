@@ -1,10 +1,10 @@
 
-import {html, shadowView} from "@benev/slate"
-
+import {html} from "lit"
+import {view} from "@e280/sly"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
-export const Problems = shadowView(use => (problems: string[]) => {
+export const Problems = view(use => (problems: string[]) => {
 	use.name("problems")
 	use.styles([themeCss, stylesCss])
 

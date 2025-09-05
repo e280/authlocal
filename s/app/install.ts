@@ -1,20 +1,17 @@
 
-import {register} from "@benev/slate"
-
+import {dom} from "@e280/sly"
 import {Auth} from "./auth.js"
 import {AuthOptions} from "./types.js"
 import {appElements} from "./elements/elements.js"
 import {commonElements} from "../common/elements/elements.js"
 
-export async function prepareElements(auth: Auth) {
-	return {...commonElements, ...appElements(auth)}
-}
-
 export async function install(options?: Partial<AuthOptions>) {
 	const auth = new Auth(options)
-	const elements = await prepareElements(auth)
 	await auth.loadLogin()
-	register(elements)
+	dom.register({
+		...commonElements,
+		...appElements,
+	})
 	return auth
 }
 

@@ -1,5 +1,7 @@
 
-import {debounce, html, shadowView} from "@benev/slate"
+import {html} from "lit"
+import {view} from "@e280/sly"
+import {debounce} from "@e280/stz"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../../../theme.css.js"
@@ -15,7 +17,7 @@ export type RecoveryOptions = {
 	onSave: (identities: Identity[]) => Promise<void>
 }
 
-export const Recovery = shadowView(use => (options: RecoveryOptions) => {
+export const Recovery = view(use => (options: RecoveryOptions) => {
 	use.name("recovery")
 	use.styles([themeCss, stylesCss])
 
@@ -48,12 +50,12 @@ export const Recovery = shadowView(use => (options: RecoveryOptions) => {
 			></textarea>
 
 			${intake.problems.value.length > 0
-				? Problems([intake.problems.value])
+				? Problems(intake.problems.value)
 				: null}
 		</section>
 
 		${intake.identities.value.length > 0
-			? Summary([intake.identities.value])
+			? Summary(intake.identities.value)
 			: null}
 
 		<footer theme-buttons>

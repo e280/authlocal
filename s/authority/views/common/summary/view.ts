@@ -1,6 +1,7 @@
 
+import {html} from "lit"
+import {view} from "@e280/sly"
 import {deep, Thumbprint} from "@e280/stz"
-import {html, shadowView} from "@benev/slate"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
@@ -8,7 +9,7 @@ import themeCss from "../../../theme.css.js"
 import {manager} from "../../../context.js"
 import {Identity} from "../../../../trust/exports/authority.js"
 
-export const Summary = shadowView(use => (identities: Identity[]) => {
+export const Summary = view(use => (identities: Identity[]) => {
 	use.name("summary")
 	use.styles([themeCss, stylesCss])
 

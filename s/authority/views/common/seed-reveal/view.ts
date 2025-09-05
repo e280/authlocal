@@ -1,6 +1,6 @@
 
-import {html, shadowView} from "@benev/slate"
-
+import {html} from "lit"
+import {view} from "@e280/sly"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 import {Flasher} from "../../../utils/flasher.js"
@@ -15,7 +15,7 @@ const demoSeed = `
  pitber
 `.trim()
 
-export const SeedReveal = shadowView(use => (seed: string, filename: string) => {
+export const SeedReveal = view(use => (seed: string, filename: string) => {
 	use.name("seed-viewer")
 	use.styles([themeCss, stylesCss])
 	const reveal = use.signal(false)

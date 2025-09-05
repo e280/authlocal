@@ -1,8 +1,10 @@
 
-import {debounce, html, shadowView} from "@benev/slate"
+import {html} from "lit"
+import {view} from "@e280/sly"
+import {debounce} from "@e280/stz"
 import stylesCss from "./styles.css.js"
 
-export const Copyable = shadowView(use => (payload: string, tooltipMax = 64) => {
+export const Copyable = view(use => (payload: string, tooltipMax = 64) => {
 	use.name("copyable")
 	use.styles(stylesCss)
 

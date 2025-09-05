@@ -1,34 +1,27 @@
 
-import {html, mixin, svgSlate} from "@benev/slate"
-
-import stylesCss from "./styles.css.js"
+import {html} from "lit"
+import {view} from "@e280/sly"
+import {Auth} from "../../auth.js"
+import {svgLit} from "../../../tools/svg-lit.js"
+import {idHsl} from "../../../common/utils/id-hue.js"
 import userIcon from "../../../common/icons/tabler/user.icon.js"
 
-import {AuthElement} from "../framework.js"
-import {idHsl} from "../../../common/utils/id-hue.js"
+export const AuthUser = (auth: Auth) => view.component(_use => {
+	if (!auth.login)
+		return html``
 
-@mixin.css(stylesCss)
-export class AuthUser extends AuthElement {
+	const {id, label} = auth.login.nametag
 
-	render() {
-		const {login} = this.auth
-
-		if (!login)
-			return html``
-
-		const {id, label} = login.nametag
-
-		return html`
-			<div part=shell>
-				<div class=icon style="color: ${idHsl(id)};">
-					${svgSlate(userIcon)}
-				</div>
-				<div class=box>
-					<div part=label>${label}</div>
-					<auth-sigil part=id hex="${id}"></auth-sigil>
-				</div>
+	return html`
+		<div part=shell>
+			<div class=icon style="color: ${idHsl(id)};">
+				${svgLit(userIcon)}
 			</div>
-		`
-	}
-}
+			<div class=box>
+				<div part=label>${label}</div>
+				<auth-sigil part=id hex="${id}"></auth-sigil>
+			</div>
+		</div>
+	`
+})
 

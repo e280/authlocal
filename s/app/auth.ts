@@ -1,15 +1,15 @@
 
 import {sub} from "@e280/stz"
-import {signal} from "@benev/slate"
+import {signal} from "@e280/strata"
 
 import {AuthOptions} from "./types.js"
 import {defaults} from "./parts/defaults.js"
 import {AuthStores} from "./parts/stores.js"
 import {Login} from "../trust/exports/app.js"
 import {openPopup} from "./parts/open-popup.js"
-import {setupInApp} from "../trust/postmessage/setup-in-app.js"
 import {Session} from "../trust/exports/authority.js"
 import {nullcatch} from "../common/utils/nullcatch.js"
+import {setupInApp} from "../trust/postmessage/setup-in-app.js"
 
 /**
  * Authlocal's page-level auth control center.
@@ -55,13 +55,14 @@ export class Auth {
 
 	/** Set the login state manually, saving it to storage */
 	async saveLogin(login: Login | null) {
-		const login2 = await this.#setStoredLogin(login)
-		return this.#updateLoginSignal(login2)
+		await this.#setStoredLogin(login)
+		return this.#updateLoginSignal(login)
 	}
 
 	/** Shortcut for `saveLogin(null)` */
 	async logout() {
-		return this.saveLogin(null)
+		await this.saveLogin(null)
+		return null
 	}
 
 	/** The current login state, either a `Login` object, or null if logged out */

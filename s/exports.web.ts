@@ -7,8 +7,6 @@
 
 export * from "./exports.core.js"
 
-export {register, apply, mixin, css, CSSResultGroup} from "@benev/slate"
-
 export * from "./app/auth.js"
 export * from "./app/install.js"
 

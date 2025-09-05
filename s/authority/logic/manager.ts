@@ -1,25 +1,26 @@
 
-import {Time} from "@e280/stz"
+import {Op} from "@e280/sly"
+import {ev, Time} from "@e280/stz"
+import {signal} from "@e280/strata"
 import {Kv, StorageDriver} from "@e280/kv"
-import {ev, opSignal, signal} from "@benev/slate"
 
 import {Purpose} from "./purpose.js"
 import {Depot} from "./depot/depot.js"
 import {Situation} from "./situation.js"
-import {generateSession} from "../../trust/exports/authority.js"
 import {StoragePersistence} from "./storage-persistence.js"
+import {generateSession} from "../../trust/exports/authority.js"
 import {setupInPopup} from "../../trust/postmessage/setup-in-popup.js"
 
 export class Manager {
 	storagePersistence = new StoragePersistence()
 	purpose = signal<Purpose.Any>({kind: "manage"})
-	situationOp = opSignal<Situation.Any>()
+	situationOp = Op.loading<Situation.Any>()
 
 	depot = new Depot(
 		new Kv(new StorageDriver(window.localStorage))
 	)
 
-	dispose = ev(window, {storage: async() => {
+	dispose = ev(window as any, {storage: async() => {
 		await this.depot.identities.list()
 	}})
 

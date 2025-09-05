@@ -1,5 +1,5 @@
 
-import {signal} from "@benev/slate"
+import {signal} from "@e280/strata"
 
 export class StoragePersistence {
 	persisted = signal(false)

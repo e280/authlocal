@@ -1,6 +1,8 @@
 
+import {html} from "lit"
 import {sub} from "@e280/stz"
-import {Content, html, shadowView, signal} from "@benev/slate"
+import {signal} from "@e280/strata"
+import {Content, view} from "@e280/sly"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
@@ -33,13 +35,13 @@ export class Tabby {
 
 	render(tabs: Tab[]) {
 		return {
-			tabs: Tabnav([this, tabs]),
+			tabs: Tabnav(this, tabs) as Content,
 			panel: tabs.at(this.activeIndex)?.panel(),
 		}
 	}
 }
 
-export const Tabnav = shadowView(use => (tabby: Tabby, tabs: Tab[]) => {
+export const Tabnav = view(use => (tabby: Tabby, tabs: Tab[]) => {
 	use.name("tabby")
 	use.styles(themeCss, stylesCss)
 
