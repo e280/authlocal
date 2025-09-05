@@ -120,7 +120,7 @@ export const ListPage = view(use => (
 			}
 			return IdentityWidget
 				.props(new IdentityDraft(identity), options)
-				.children({content: html`
+				.children(html`
 					<button
 						theme-button
 						x-check
@@ -128,7 +128,7 @@ export const ListPage = view(use => (
 						theme-alt
 						@click="${toggle}"
 					></button>
-				`})
+				`)
 				.render()
 		}
 
