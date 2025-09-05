@@ -1,11 +1,14 @@
 
-import {shadowComponent, loading, nap, html, ShockDrop, drag_has_files, dropped_files, ev} from "@benev/slate"
+import {html} from "lit"
+import {ev, nap} from "@e280/stz"
+import {view, loot} from "@e280/sly"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../theme.css.js"
 
 import {manager} from "../../context.js"
 import {Situation} from "../../logic/situation.js"
+import {loader} from "../../../common/utils/loader.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {Intake} from "../../views/pages/ingress/intake.js"
@@ -14,7 +17,7 @@ import {DeletePage} from "../../views/pages/delete/view.js"
 import {IngressPage} from "../../views/pages/ingress/view.js"
 import {generateIdentity, Identity, seedPack} from "../../../trust/exports/authority.js"
 
-export const AuthManager = shadowComponent(use => {
+export const AuthManager = view.component(use => {
 	use.styles([themeCss, stylesCss])
 	const {depot, storagePersistence, situationOp} = manager
 
@@ -22,10 +25,10 @@ export const AuthManager = shadowComponent(use => {
 
 	const {shockdrop, intake} = use.once(() => {
 		const intake = new Intake()
-		const shockdrop = new ShockDrop({
-			predicate: event => drag_has_files(event),
-			handle_drop: async event => {
-				const files = dropped_files(event)
+		const shockdrop = new loot.Drop({
+			predicate: event => loot.dragHasFiles(event),
+			acceptDrop: async event => {
+				const files = loot.droppedFiles(event)
 				await gotoIngress(files)
 			},
 		})
@@ -33,7 +36,7 @@ export const AuthManager = shadowComponent(use => {
 			dragover: shockdrop.dragover,
 			dragleave: shockdrop.dragleave,
 			drop: shockdrop.drop,
-			blur: shockdrop.reset_indicator,
+			blur: shockdrop.resetIndicator,
 		})
 		return {shockdrop, intake}
 	})
@@ -145,26 +148,26 @@ export const AuthManager = shadowComponent(use => {
 	const choosePage = (situation: Situation.Any) => {
 		switch (situation.kind) {
 			case "list":
-				return ListPage([situation])
+				return ListPage(situation)
 
 			case "create":
-				return CreatePage([situation])
+				return CreatePage(situation)
 
 			case "edit":
-				return EditPage([situation])
+				return EditPage(situation)
 
 			case "ingress":
-				return IngressPage([situation])
+				return IngressPage(situation)
 
 			case "delete":
-				return DeletePage([situation])
+				return DeletePage(situation)
 
 			default:
 				throw new Error("unknown situation")
 		}
 	}
 
-	return loading.braille(situationOp, situation => html`
+	loader(situationOp, situation => html`
 		<section class=zone ?x-drop-indicator="${shockdrop.indicator}">
 			${choosePage(situation)}
 		<section>

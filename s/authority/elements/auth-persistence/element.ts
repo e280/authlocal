@@ -1,5 +1,6 @@
 
-import {html, shadowComponent, svgSlate} from "@benev/slate"
+import {view} from "@e280/sly"
+import {html} from "lit"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../theme.css.js"
@@ -7,8 +8,9 @@ import shieldOffIcon from "../../../common/icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-filled.icon.js"
 
 import {manager} from "../../context.js"
+import {svgLit} from "../../../tools/svg-lit.js"
 
-export const AuthPersistence = shadowComponent(use => {
+export const AuthPersistence = view.component(use => {
 	use.styles(themeCss, stylesCss)
 	const {storagePersistence} = manager
 
@@ -16,7 +18,7 @@ export const AuthPersistence = shadowComponent(use => {
 		<div class=persistence
 			x-persisted
 			title="Your browser granted persistent storage">
-				${svgSlate(shieldCheckFilledIcon)}
+				${svgLit(shieldCheckFilledIcon)}
 				<span>Persistence on.</span>
 		</div>
 
@@ -25,7 +27,7 @@ export const AuthPersistence = shadowComponent(use => {
 			class=persistence
 			@click="${() => storagePersistence.request()}"
 			title="Your browser has NOT granted persistent storage">
-				${svgSlate(shieldOffIcon)}
+				${svgLit(shieldOffIcon)}
 				<span>Persistence off.</span>
 		</button>
 	`

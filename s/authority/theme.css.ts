@@ -1,5 +1,5 @@
 
-import {css} from "@benev/slate"
+import {css} from "lit"
 export default css`@layer theme, view; @layer theme {
 
 :root {

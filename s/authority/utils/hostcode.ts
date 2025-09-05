@@ -1,5 +1,5 @@
 
-import {html} from "@benev/slate"
+import {html} from "lit"
 
 /** split up a hostname with spans for better word-breaking */
 export function hostcode(appOrigin: string) {

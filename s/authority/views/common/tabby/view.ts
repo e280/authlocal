@@ -3,6 +3,7 @@ import {html} from "lit"
 import {sub} from "@e280/stz"
 import {signal} from "@e280/strata"
 import {Content, view} from "@e280/sly"
+
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
@@ -34,7 +35,7 @@ export class Tabby {
 
 	render(tabs: Tab[]) {
 		return {
-			tabs: Tabnav(this, tabs),
+			tabs: Tabnav(this, tabs) as Content,
 			panel: tabs.at(this.activeIndex)?.panel(),
 		}
 	}
