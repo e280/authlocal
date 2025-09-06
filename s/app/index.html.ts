@@ -4,7 +4,7 @@ import {ssg, html} from "@e280/scute"
 const domain = "authlocal.org"
 const favicon = "/assets/favicon.png"
 
-export default ssg.page(import.meta.url, async _orb => ({
+export default ssg.page(import.meta.url, async orb => ({
 	title: "Authlocal App Demo",
 
 	js: "demo.bundle.min.js",
@@ -20,6 +20,10 @@ export default ssg.page(import.meta.url, async _orb => ({
 		image: `https://${domain}${favicon}`,
 		url: `https://${domain}/app/`,
 	},
+
+	head: html`
+		<link rel="stylesheet" href="${orb.url("/themes/basic.css")}"/>
+	`,
 
 	body: html`
 		<h1>Example app using Authlocal</h1>

@@ -38,6 +38,11 @@ When you create an identity, download the seed and keep it safe. The seed *is* t
       else console.log("logged out")
     })
     ```
+1. **Put this stylesheet into your html `<head>`**  
+    (please ensure your path is valid)
+    ```html
+    <link rel="stylesheet" href="/node_modules/@e280/authlocal/x/themes/basic.css"/>
+    ```
 1. **Put these new elements in your html `<body>`**  
     ```html
     <auth-user></auth-user>
