@@ -8,6 +8,10 @@
 
 ## v0.2
 
+### v0.2.0-34
+- 🍏 totally rewrite new `README.md`, which replaces the old one and the old `GUIDE.md` too
+- 🍏 fix web component rendering bug by upgrading `@e280/sly`
+
 ### v0.2.0-33
 - 🔶 upgrade from `@benev/slate` to `@e280/sly`+`@e280/strata`
 - 🟥 remove <auth-button> and <auth-user> js element instance properties like `.auth` and `.on`
