@@ -1,10 +1,10 @@
 
 import {html} from "lit"
 import {view} from "@e280/sly"
-import {Auth} from "../../auth.js"
+import {Auth} from "../../parts/auth.js"
 import stylesCss from "./styles.css.js"
 
-export const AuthButton = (auth: Auth) => view.component(use => {
+export const AuthButton = (auth: Auth) => view(use => () => {
 	use.css(stylesCss)
 	const attrs = use.attrs({src: String})
 

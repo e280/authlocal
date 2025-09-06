@@ -29,17 +29,14 @@ When you create an identity, download the seed and keep it safe. The seed *is* t
     ```
 1. **Javascript to install Authlocal on your page**  
     ```js
-    import {install} from "@e280/authlocal"
-    const auth = await install()
+    import authlocal from "@e280/authlocal"
+
+    const {auth} = await authlocal.install()
+
     auth.on(login => {
       if (login) console.log("logged in", login)
       else console.log("logged out")
     })
-    ```
-1. **Put this stylesheet into your html `<head>`**  
-    (check the path is valid)
-    ```html
-    <link href="/node_modules/@e280/authlocal/x/themes.css" rel="stylesheet"/>
     ```
 1. **Put these new elements in your html `<body>`**  
     ```html

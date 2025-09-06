@@ -1,6 +1,7 @@
 
-import {install} from "./install.js"
+import {install} from "./lib/parts/install.js"
 
-const auth = await install()
+const {auth} = await install()
+
 auth.on(login => console.log("auth", login))
 

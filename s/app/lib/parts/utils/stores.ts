@@ -1,6 +1,6 @@
 
 import {Kv, Store} from "@e280/kv"
-import {Session} from "../../trust/exports/authority.js"
+import {Session} from "../../../../trust/exports/authority.js"
 
 export class AuthStores {
 	version: Store<number>

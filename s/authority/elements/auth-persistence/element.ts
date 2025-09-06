@@ -4,8 +4,8 @@ import {html} from "lit"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../theme.css.js"
-import shieldOffIcon from "../../../common/icons/tabler/shield-off.icon.js"
-import shieldCheckFilledIcon from "../../../common/icons/tabler/shield-check-filled.icon.js"
+import shieldOffIcon from "../../../common/ui/icons/tabler/shield-off.icon.js"
+import shieldCheckFilledIcon from "../../../common/ui/icons/tabler/shield-check-filled.icon.js"
 
 import {manager} from "../../context.js"
 import {svgLit} from "../../../tools/svg-lit.js"

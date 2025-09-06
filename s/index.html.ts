@@ -1,6 +1,6 @@
 
 import {ssg, html} from "@e280/scute"
-import lockIcon from "./common/icons/tabler/lock.icon.js"
+import lockIcon from "./common/ui/icons/tabler/lock.icon.js"
 
 const domain = "authlocal.org"
 const favicon = "/assets/favicon.png"

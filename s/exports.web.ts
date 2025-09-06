@@ -7,13 +7,6 @@
 
 export * from "./exports.core.js"
 
-export * from "./app/auth.js"
-export * from "./app/install.js"
-
-export * from "./app/types.js"
-export * from "./app/elements/auth-user/element.js"
-export * from "./app/elements/auth-button/element.js"
-
-export * from "./common/views/copyable/view.js"
-export * from "./common/elements/auth-sigil/element.js"
+export * from "./app/lib/index.js"
+export * as authlocal from "./app/lib/index.js"
 

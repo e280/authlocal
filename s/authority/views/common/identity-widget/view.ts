@@ -4,7 +4,7 @@ import {Content, view} from "@e280/sly"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
-import userIcon from "../../../../common/icons/tabler/user.icon.js"
+import userIcon from "../../../../common/ui/icons/tabler/user.icon.js"
 
 import {IdentityDraft} from "./draft.js"
 import {svgLit} from "../../../../tools/svg-lit.js"

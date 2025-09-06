@@ -3,13 +3,13 @@ import {sub} from "@e280/stz"
 import {signal} from "@e280/strata"
 
 import {AuthOptions} from "./types.js"
-import {defaults} from "./parts/defaults.js"
-import {AuthStores} from "./parts/stores.js"
-import {Login} from "../trust/exports/app.js"
-import {openPopup} from "./parts/open-popup.js"
-import {Session} from "../trust/exports/authority.js"
-import {nullcatch} from "../common/utils/nullcatch.js"
-import {setupInApp} from "../trust/postmessage/setup-in-app.js"
+import {defaults} from "./utils/defaults.js"
+import {AuthStores} from "./utils/stores.js"
+import {Login} from "../../../trust/exports/app.js"
+import {openPopup} from "./utils/open-popup.js"
+import {Session} from "../../../trust/exports/authority.js"
+import {nullcatch} from "../../../common/utils/nullcatch.js"
+import {setupInApp} from "../../../trust/postmessage/setup-in-app.js"
 
 /**
  * Authlocal's page-level auth control center.
