@@ -23,22 +23,22 @@ export const AuthManager = view.component(use => {
 
 	use.once(() => storagePersistence.check())
 
-	const {shockdrop, intake} = use.once(() => {
+	const {drops, intake} = use.once(() => {
 		const intake = new Intake()
-		const shockdrop = new loot.Drop({
-			predicate: event => loot.dragHasFiles(event),
+		const drops = new loot.Drops({
+			predicate: event => loot.hasFiles(event),
 			acceptDrop: async event => {
-				const files = loot.droppedFiles(event)
+				const files = loot.files(event)
 				await gotoIngress(files)
 			},
 		})
 		ev(document.documentElement, {
-			dragover: shockdrop.dragover,
-			dragleave: shockdrop.dragleave,
-			drop: shockdrop.drop,
-			blur: shockdrop.resetIndicator,
+			dragover: drops.dragover,
+			dragleave: drops.dragleave,
+			drop: drops.drop,
+			blur: () => drops.$indicator(false),
 		})
-		return {shockdrop, intake}
+		return {drops, intake}
 	})
 
 	async function resetScroll() {
@@ -168,7 +168,7 @@ export const AuthManager = view.component(use => {
 	}
 
 	return loader(situationOp, situation => html`
-		<section class=zone ?x-drop-indicator="${shockdrop.indicator}">
+		<section class=zone ?x-drop-indicator="${drops.$indicator()}">
 			${choosePage(situation)}
 		<section>
 	`)
