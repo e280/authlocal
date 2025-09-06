@@ -4,25 +4,23 @@
 # 🔒 Authlocal
 
 ### 👉 https://authlocal.org/ 👈
-Authlocal is a free login system for the web. Any website you visit can request your login by opening an Authlocal popup, but your identity seed files stay safely local on your device. You can go to the website https://authlocal.org/ any time to manage your local identities.
+
+**Authlocal is a free login system for the web.**  
+Any website you visit can request your login by opening an Authlocal popup, but your identity seed files stay safely local on your device. You can go to the [authlocal.org](https://authlocal.org/) website any time to manage your identities.
 
 - 🗽 **User-sovereign** – you hold your own seed files  
 - 🔑 **Cryptographic** – no emails, no passwords  
 - 🥷 **Privacy-focused** – pseudonymous, device-local, no databases  
 - 💖 **Free and open-source** – zero-cost at global scale  
 
-### 🍋 Own your identity
-The username you choose for your identity is *public,* and is shared with websites that you login to.
-
-When you create an identity, you should download the seed file and keep it safe. To recover a missing identity, click "import" and upload the seed file. The seed *is* your identity, so don't lose it, don't share it. Whoever has the seed owns the identity *forever.* Outside websites don't need a seed to facilitate a login, so if they ask for your seed, it's a scam.
-
-You can create as many identities as you'd like. Authlocal stores your identities locally for as long as your web browser allows, which in some cases like Safari may be only 7 days, is why you must download your seed file. If you see *"Persistence on"* in the footer, then your browser has pinky-sweared to keep your identities safe.
+**Own your identity.**  
+When you create an identity, download the seed and keep it safe. The seed *is* the identity. Don't lose it. Don't share it. Never give your seed to another person or website. It's yours, forever.
 
 
 
-<br/>
+<br/><br/>
 
-## 🍋‍🟩 Integration for Web Developers
+## 🍋‍🟩 Integration Manual for Web Developers
 
 ### Install Authlocal logins into your web app
 1. **Install authlocal and friends via npm**
