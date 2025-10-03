@@ -10,6 +10,7 @@ export async function install(options?: Partial<AuthOptions>) {
 	await auth.loadLogin()
 
 	const {views, elements} = prepareViews(auth)
+
 	dom.register({
 		...commonElements,
 		...elements,

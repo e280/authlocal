@@ -1,5 +1,5 @@
 
-import {anims, makeLoader} from "@e280/sly"
+import {loaders} from "@e280/sly"
 
-export const loader = makeLoader(anims.earth)
+export const loader = loaders.make(loaders.anims.earth)
 

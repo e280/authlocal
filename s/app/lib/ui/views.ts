@@ -10,7 +10,7 @@ export function prepareViews(auth: Auth) {
 		AuthButton,
 	}).map(provide => provide(auth))
 
-	const elements = ob(views).map(v => v.component())
+	const elements = ob(views).map(v => v.component().props(() => []))
 
 	return {views, elements}
 }
