@@ -1,4 +1,6 @@
 
+import {html} from "lit"
+import {view} from "@e280/sly"
 import {Thumbprint} from "@e280/stz"
 
 import stylesCss from "./styles.css.js"
@@ -13,14 +15,12 @@ import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {crushUsername} from "../../../../common/utils/crush-username.js"
 import {identityWidget, IdentityWidget} from "../../common/identity-widget/view.js"
-import { view } from "@e280/sly"
-import { html } from "lit"
 
 export const EditPage = view(use => (situation: Situation.Edit) => {
 	use.name("edit-page")
 	use.styles([themeCss, stylesCss])
 
-	const seed = use.signal(situation.seed)
+	const $seed = use.signal(situation.seed)
 	const draft = use.once(() => new IdentityDraft(situation.identity))
 
 	const clickBack = () => situation.onBack()
@@ -28,7 +28,7 @@ export const EditPage = view(use => (situation: Situation.Edit) => {
 		const identity = draft.getValidEditedIdentity()
 		if (identity) {
 			draft.identity = identity
-			seed.value = await seedPack(identity)
+			$seed.value = await seedPack(identity)
 			await situation.onSave(identity)
 		}
 	}
@@ -55,7 +55,7 @@ export const EditPage = view(use => (situation: Situation.Edit) => {
 			${identityWidget(draft.identity)}
 			<section theme-group class=seedtext>
 				${SeedReveal(
-					seed.value,
+					$seed.value,
 					crushUsername(label) + constants.seedExtension,
 				)}
 			</section>

@@ -18,13 +18,13 @@ const demoSeed = `
 export const SeedReveal = view(use => (seed: string, filename: string) => {
 	use.name("seed-viewer")
 	use.styles([themeCss, stylesCss])
-	const reveal = use.signal(false)
+	const $reveal = use.signal(false)
 
 	function toggle() {
-		reveal.value = !reveal.value
+		$reveal.value = !$reveal.value
 	}
 
-	const seedDisplay = reveal.value
+	const seedDisplay = $reveal.value
 		? seed // show real seed
 		: demoSeed // show demo text before actual reveal
 
@@ -55,10 +55,10 @@ export const SeedReveal = view(use => (seed: string, filename: string) => {
 				autocapitalize=off
 				spellcheck=false
 				.value="${seedDisplay}"
-				?disabled="${!reveal.value}"
+				?disabled="${!$reveal.value}"
 				@click="${selectTextarea}"
 			></textarea>
-			<div class=blanket ?x-hide="${reveal.value}">
+			<div class=blanket ?x-hide="${$reveal.value}">
 				[TOP SECRET]
 			</div>
 		</div>
@@ -69,7 +69,7 @@ export const SeedReveal = view(use => (seed: string, filename: string) => {
 				theme-hush
 				class=reveal
 				@click="${toggle}">
-				${reveal.value
+				${$reveal.value
 					? "Conceal"
 					: "Reveal"}
 			</button>

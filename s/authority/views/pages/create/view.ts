@@ -22,8 +22,8 @@ export const CreatePage = view(use => (situation: Situation.Create) => {
 	const draft = use.once(() => new IdentityDraft(situation.initialIdentity))
 	const first = situation.identities.length === 0
 	const purpose = manager.purpose.value
-	const wizard = use.signal<"editor" | "seeder">("editor")
-	const finalized = use.signal({
+	const $wizard = use.signal<"editor" | "seeder">("editor")
+	const $finalized = use.signal({
 		identity: situation.initialIdentity,
 		seed: situation.initialIdentitySeed,
 	})
@@ -39,8 +39,8 @@ export const CreatePage = view(use => (situation: Situation.Create) => {
 			if (identity) {
 				await situation.onSave(identity)
 				const seed = await seedPack(identity)
-				finalized.value = {identity: identity, seed}
-				wizard.value = "seeder"
+				$finalized.value = {identity: identity, seed}
+				$wizard.value = "seeder"
 			}
 		}
 
@@ -106,12 +106,12 @@ export const CreatePage = view(use => (situation: Situation.Create) => {
 
 		async function clickDone() {
 			await editor.reroll()
-			wizard.value = "editor"
+			$wizard.value = "editor"
 			situation.onDone()
 		}
 
 		function render() {
-			const {identity, seed} = finalized.value
+			const {identity, seed} = $finalized.value
 			return html`
 				${purpose.kind === "login"
 					? html`<h2>
@@ -163,8 +163,8 @@ export const CreatePage = view(use => (situation: Situation.Create) => {
 	})
 
 	return html`
-		<section theme-plate x-wizard="${wizard.value}">
-			${wizard.value === "editor"
+		<section theme-plate x-wizard="${$wizard.value}">
+			${$wizard.value === "editor"
 				? editor.render()
 				: seeder.render()}
 		</section>

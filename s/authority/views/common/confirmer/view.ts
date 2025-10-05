@@ -16,14 +16,14 @@ export const Confirmer = view(use => (options: ConfirmerOptions) => {
 	use.name("confirmer")
 	use.styles(themeCss, stylesCss)
 
-	const primed = use.signal(false)
+	const $primed = use.signal(false)
 
 	const onInput = use.once(() => debounce(100, (proposed: string) => {
-		primed.value = proposed === options.requiredText
+		$primed.value = proposed === options.requiredText
 	}))
 
 	function clickConfirm() {
-		if (primed.value)
+		if ($primed.value)
 			options.onConfirmed()
 	}
 
@@ -39,7 +39,7 @@ export const Confirmer = view(use => (options: ConfirmerOptions) => {
 				/>
 
 			<button theme-button theme-loud theme-angry
-				?disabled="${!primed.value}"
+				?disabled="${!$primed.value}"
 				@click="${clickConfirm}">
 					${options.buttonLabel()}
 			</button>

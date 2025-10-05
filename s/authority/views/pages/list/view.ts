@@ -29,7 +29,7 @@ export const ListPage = view(use => (
 	const identityMap = new Map(permits.map(p => [p.identity.id, p.identity]))
 
 	const purpose = manager.purpose.value
-	const selectMode = use.signal(false)
+	const $selectMode = use.signal(false)
 	const selected = use.once(() => new Set<string>())
 	const downloader = use.once(() => new Downloader(""))
 
@@ -39,7 +39,7 @@ export const ListPage = view(use => (
 	const clickSelectMode = () => {
 		selected.clear()
 		// identities.map(p => p.id).forEach(id => selected.add(id))
-		selectMode.value = !selectMode.value
+		$selectMode.value = !$selectMode.value
 	}
 
 	function renderNormalMode() {
@@ -216,7 +216,7 @@ export const ListPage = view(use => (
 	return html`
 		<section theme-plate
 			x-purpose="${purpose.kind}"
-			?x-select-mode="${selectMode.value}">
+			?x-select-mode="${$selectMode.value}">
 
 			<div theme-group>
 				${purpose.kind === "login" ? html`
@@ -229,7 +229,7 @@ export const ListPage = view(use => (
 				`}
 			</div>
 
-			${selectMode.value
+			${$selectMode.value
 				? renderSelectMode()
 				: renderNormalMode()}
 		</section>
