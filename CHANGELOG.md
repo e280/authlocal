@@ -4,9 +4,16 @@
 - 🔶 deprecation or possible breaking change
 - 🍏 harmless addition, fix, or enhancement
 
-<br/>
+
+
+<br/><br/>
 
 ## v0.2
+
+### v0.2.0-36
+- 🟥 rework installation
+- 🟥 rework how themes work (supplied as auth option)
+
 
 ### v0.2.0-34
 - 🍏 totally rewrite new `README.md`, which replaces the old one and the old `GUIDE.md` too
