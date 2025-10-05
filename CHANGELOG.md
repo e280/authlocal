@@ -10,6 +10,9 @@
 
 ## v0.2
 
+### v0.2.0-37
+- 🟥 fix app component themes, tweak vars and layout
+
 ### v0.2.0-36
 - 🟥 rework installation
 - 🟥 rework how themes work (supplied as auth option)
