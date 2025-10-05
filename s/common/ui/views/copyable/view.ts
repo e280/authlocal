@@ -10,16 +10,16 @@ export const Copyable = view(use => (payload: string, tooltipMax = 64) => {
 	use.name("copyable")
 	use.styles(commonCss, styleCss)
 
-	const copyStatus = use.signal<"good" | "bad" | undefined>(undefined)
+	const $status = use.signal<"good" | "bad" | undefined>(undefined)
 
 	const clearStatus = use.once(() => debounce(1000, () => {
-		copyStatus.value = undefined
+		$status.value = undefined
 	}))
 
 	function copy() {
 		navigator.clipboard.writeText(payload)
-			.then(() => { copyStatus.value = "good" })
-			.catch(() => { copyStatus.value = "bad" })
+			.then(() => { $status.value = "good" })
+			.catch(() => { $status.value = "bad" })
 			.finally(() => clearStatus())
 	}
 
@@ -28,7 +28,7 @@ export const Copyable = view(use => (payload: string, tooltipMax = 64) => {
 		: payload
 
 	return html`
-		<span x-copy="${copyStatus}" title="${tooltip}">
+		<span x-copy="${$status.value}" title="${tooltip}">
 			<slot @click="${copy}"></slot>
 			<span x-notify=good>Copied</span>
 			<span x-notify=bad>Copy Failed</span>
