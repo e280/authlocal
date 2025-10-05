@@ -5,8 +5,10 @@ import styleCss from "./style.css.js"
 import {Auth} from "../../parts/auth.js"
 
 export const AuthButton = (auth: Auth) => view(use => () => {
+	use.name("auth-button")
 	use.css(auth.theme, styleCss)
 	const attrs = use.attrs.spec({src: String})
+	use.states().assign(auth.login ? "authenticated" : "unauthenticated")
 
 	async function clickLogout() {
 		await auth.logout()

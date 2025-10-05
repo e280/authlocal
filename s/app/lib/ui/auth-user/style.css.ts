@@ -3,7 +3,7 @@ import {css} from "lit"
 export default css`@layer view {
 
 :host {
-	display: contents;
+	display: inline-flex;
 	--icon-size: var(--auth-user-icon-size, 3em);
 	--label-max-width: var(--auth-user-label-max-width, 4em);
 }
@@ -16,10 +16,12 @@ export default css`@layer view {
 
 	padding: 1em;
 	border-radius: 0.5em;
-	background: #333;
+	color: color-mix(in oklab, var(--idcolor), #fff 80%);
+	background: color-mix(in oklab, var(--idcolor), #4448 90%);
 }
 
 .icon {
+	color: var(--idcolor, white);
 	svg {
 		width: var(--icon-size);
 		height: var(--icon-size);

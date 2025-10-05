@@ -8,16 +8,19 @@ import {idHsl} from "../../../../common/utils/id-hue.js"
 import userIcon from "../../../../common/ui/icons/tabler/user.icon.js"
 
 export const AuthUser = (auth: Auth) => view(use => () => {
+	use.name("auth-user")
 	use.css(auth.theme, styleCss)
+	use.states().assign(auth.login ? "authenticated" : "unauthenticated")
 
 	if (!auth.login)
-		return html``
+		return null
 
 	const {id, label} = auth.login.nametag
+	const idcolor = idHsl(id)
 
 	return html`
-		<div part=shell>
-			<div class=icon style="color: ${idHsl(id)};">
+		<div part=shell style="--idcolor: ${idcolor};">
+			<div class=icon>
 				${svgLit(userIcon)}
 			</div>
 			<div class=box>

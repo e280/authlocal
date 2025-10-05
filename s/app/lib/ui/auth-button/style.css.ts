@@ -3,7 +3,7 @@ import {css} from "lit"
 export default css`@layer view {
 
 :host {
-	display: contents;
+	display: inline-flex;
 }
 
 slot {

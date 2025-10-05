@@ -21,12 +21,10 @@ export default ssg.page(import.meta.url, async orb => ({
 		url: `https://${domain}/app/`,
 	},
 
-	head: html`
-		<link rel="stylesheet" href="${orb.url("/themes/basic.css")}"/>
-	`,
+	head: html``,
 
 	body: html`
-		<h1>Example app using Authlocal</h1>
+		<h1>Example app using Authlocal <small>${orb.packageVersion()}</small></h1>
 		<p>This page is a test for a typical federated auth integration with <a href="/">Authlocal</a></p>
 		<auth-button src="/"></auth-button>
 		<auth-user></auth-user>

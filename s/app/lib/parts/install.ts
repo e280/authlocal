@@ -3,7 +3,7 @@ import {dom} from "@e280/sly"
 import {Auth} from "./auth.js"
 import {AuthOptions} from "./types.js"
 import {prepareViews} from "../ui/views.js"
-import {commonElements} from "../../../common/ui/views/views.js"
+import {commonElements, commonViews} from "../../../common/ui/views/views.js"
 
 export type AuthlocalInstallation = Awaited<ReturnType<typeof install>>
 
@@ -18,6 +18,6 @@ export async function install(options: AuthOptions) {
 		...elements,
 	})
 
-	return {auth, views}
+	return {auth, views: {...commonViews, ...views}}
 }
 
