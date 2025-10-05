@@ -1,11 +1,11 @@
 
 import {html} from "lit"
 import {view} from "@e280/sly"
-import stylesCss from "./styles.css.js"
+import styleCss from "./style.css.js"
 import {Auth} from "../../parts/auth.js"
 
 export const AuthButton = (auth: Auth) => view(use => () => {
-	use.css(stylesCss)
+	use.css(auth.theme, styleCss)
 	const attrs = use.attrs.spec({src: String})
 
 	async function clickLogout() {

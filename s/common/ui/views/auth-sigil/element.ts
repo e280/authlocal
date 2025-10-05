@@ -2,9 +2,13 @@
 import {html} from "lit"
 import {view} from "@e280/sly"
 import {Thumbprint} from "@e280/stz"
+
+import styleCss from "./style.css.js"
+import {commonCss} from "../common.css.js"
 import {Copyable} from "../copyable/view.js"
 
 export const AuthSigil = view.component(use => {
+	use.css(commonCss, styleCss)
 	const {hex} = use.attrs({hex: String})
 
 	if (hex === undefined)

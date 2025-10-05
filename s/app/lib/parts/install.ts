@@ -5,7 +5,7 @@ import {AuthOptions} from "./types.js"
 import {prepareViews} from "../ui/views.js"
 import {commonElements} from "../../../common/ui/views/views.js"
 
-export async function install(options?: Partial<AuthOptions>) {
+export async function install(options: AuthOptions) {
 	const auth = new Auth(options)
 	await auth.loadLogin()
 

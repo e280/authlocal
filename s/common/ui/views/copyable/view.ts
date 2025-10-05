@@ -2,11 +2,13 @@
 import {html} from "lit"
 import {view} from "@e280/sly"
 import {debounce} from "@e280/stz"
-import stylesCss from "./styles.css.js"
+
+import styleCss from "./style.css.js"
+import {commonCss} from "../common.css.js"
 
 export const Copyable = view(use => (payload: string, tooltipMax = 64) => {
 	use.name("copyable")
-	use.styles(stylesCss)
+	use.styles(commonCss, styleCss)
 
 	const copyStatus = use.signal<"good" | "bad" | undefined>(undefined)
 

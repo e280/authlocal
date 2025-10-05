@@ -1,12 +1,6 @@
 
 import {css} from "lit"
-export default css`
-
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
+export default css`@layer view {
 
 :host {
 	display: contents;
@@ -53,5 +47,5 @@ export default css`
 	font-size: 0.8em;
 }
 
-`
+}`
 

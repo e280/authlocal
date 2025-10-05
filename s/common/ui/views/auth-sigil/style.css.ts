@@ -1,6 +1,6 @@
 
 import {css} from "lit"
-export default css`
+export default css`@layer view {
 
 [part="copybox"] {
 	display: flex;
@@ -12,5 +12,5 @@ export default css`
 	opacity: 0.5;
 }
 
-`
+}`
 

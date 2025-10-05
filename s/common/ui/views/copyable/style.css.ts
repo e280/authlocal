@@ -1,6 +1,6 @@
 
 import {css} from "lit"
-export default css`
+export default css`@layer view {
 
 [x-copy] {
 	user-select: none;
@@ -41,5 +41,5 @@ export default css`
 [x-copy="good"] [x-notify="good"] { opacity: 1; }
 [x-copy="bad"] [x-notify="bad"] { opacity: 1; }
 
-`
+}`
 

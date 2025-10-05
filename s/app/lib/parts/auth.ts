@@ -2,7 +2,7 @@
 import {sub} from "@e280/stz"
 import {signal} from "@e280/strata"
 
-import {AuthOptions} from "./types.js"
+import {AuthOptions, AuthRequirements} from "./types.js"
 import {defaults} from "./utils/defaults.js"
 import {AuthStores} from "./utils/stores.js"
 import {Login} from "../../../trust/exports/app.js"
@@ -33,18 +33,22 @@ export class Auth {
 	 */
 	on = sub<[Login | null]>()
 
-	#options: AuthOptions
+	#options: AuthRequirements
 	#stores: AuthStores
 	#ready: Promise<void>
 	#login = signal<Login | null>(null)
 
-	constructor(options: Partial<AuthOptions> = {}) {
+	constructor(options: AuthOptions) {
 		this.#options = Auth.defaults(options)
 		this.src = this.#options.src
 		this.#stores = new AuthStores(this.#options.kv)
 		this.#ready = this.#stores.versionMigration(Auth.version)
 		this.#login.on(login => this.on.pub(login))
 		this.#options.onStorageChange(() => void this.loadLogin())
+	}
+
+	get theme() {
+		return this.#options.theme
 	}
 
 	/** Load and update the login state from storage */
