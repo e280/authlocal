@@ -21,7 +21,12 @@ export async function generateKeypair(): Promise<Keypair> {
 	return {id, secret}
 }
 
-export async function deriveSharedSecret(aliceSecretHex: string, bobIdHex: string, appOrigin: string, salt: string) {
+export async function deriveSharedSecret(
+		aliceSecretHex: string,
+		bobIdHex: string,
+		appOrigin: string,
+		salt: string,
+	) {
 	const aliceXSecretBytes = ed25519.utils.toMontgomerySecret(hex.toBytes(aliceSecretHex))
 	const bobXPubBytes = ed25519.utils.toMontgomery(hex.toBytes(bobIdHex))
 	const shared = x25519.getSharedSecret(aliceXSecretBytes, bobXPubBytes)
