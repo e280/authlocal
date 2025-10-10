@@ -1,17 +1,17 @@
 
 import {html} from "lit"
 import {view} from "@e280/sly"
-import {is, Thumbprint} from "@e280/stz"
+import {is, thumbprint} from "@e280/stz"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
 import {manager} from "../../../context.js"
-import {constants} from "../../../../constants.js"
+import {constants} from "../../../constants.js"
 import {hostcode} from "../../../utils/hostcode.js"
 import {Situation} from "../../../logic/situation.js"
 import {Downloader} from "../../../utils/downloader.js"
-import {Identity} from "../../../../trust/exports/authority.js"
+import {Identity} from "../../../../core/identity/types.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {crushUsername} from "../../../../app/utils/crush-username.js"
 import {IdentityWidget, IdentityWidgetOptions} from "../../common/identity-widget/view.js"
@@ -153,7 +153,7 @@ export const ListPage = view(use => (
 
 			downloader.text = selectedSeeds.join("\n\n")
 			const filename = selectedIdentityIds.length === 1
-				? crushUsername(Thumbprint.sigil.fromHex(selectedIdentityIds.at(0)!))
+				? crushUsername(thumbprint.sigil.fromHex(selectedIdentityIds.at(0)!))
 				: "identities" + constants.seedExtension
 
 			return html`

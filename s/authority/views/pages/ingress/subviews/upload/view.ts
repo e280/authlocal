@@ -6,10 +6,10 @@ import stylesCss from "./styles.css.js"
 import themeCss from "../../../../../theme.css.js"
 
 import {Intake} from "../../intake.js"
-import {constants} from "../../../../../../constants.js"
+import {constants} from "../../../../../constants.js"
 import {Summary} from "../../../../common/summary/view.js"
 import {Problems} from "../../../../common/problems/view.js"
-import {Identity} from "../../../../../../trust/exports/authority.js"
+import {Identity} from "../../../../../../core/identity/types.js"
 
 export type UploadOptions = {
 	intake: Intake

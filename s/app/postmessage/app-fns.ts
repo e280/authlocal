@@ -1,10 +1,9 @@
 
-import {Session} from "../concepts/session/types.js"
+import {Session} from "../../core/session/types.js"
 
 //
 // this is the postMessage api,
 // installed on the consumer app side
-//
 
 export type AppFns = {
 	v1: {

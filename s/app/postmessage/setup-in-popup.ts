@@ -8,6 +8,11 @@ import {AppFns} from "./app-fns.js"
 // and is installed on the authority side
 //
 
+// - we generate an identity for the user.
+// - the user can save their seed, or recover their identity from seed.
+// - when the user clicks "login", we generate a login session,
+//   and we send that to the consumer app via postmessage.
+
 export function setupInPopup(
 		popupWindow: Window,
 		appWindow: WindowProxy,

@@ -1,12 +1,18 @@
 
 import {Messenger, WindowConduit} from "@e280/renraku"
 import {makeAppFns} from "./app-fns.js"
-import {Session} from "../concepts/session/types.js"
+import {Session} from "../../core/session/types.js"
 
 //
 // this facilitates postMessages,
 // and is installed on the consumer app side
 //
+
+// - we are connected to the authority via a postmessage api.
+// - we receive a session from the authority via postmessage.
+// - we verify the session as a login object.
+// - we use the login object to sign claim tokens.
+// - we verify claim tokens, on our serverside or clientside.
 
 export function setupInApp(
 		appWindow: Window,

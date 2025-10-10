@@ -11,11 +11,13 @@ import {Situation} from "../../logic/situation.js"
 import {loader} from "../../../app/utils/loader.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {ListPage} from "../../views/pages/list/view.js"
+import {seedPack} from "../../../core/identity/seed.js"
+import {Identity} from "../../../core/identity/types.js"
 import {Intake} from "../../views/pages/ingress/intake.js"
 import {CreatePage} from "../../views/pages/create/view.js"
 import {DeletePage} from "../../views/pages/delete/view.js"
 import {IngressPage} from "../../views/pages/ingress/view.js"
-import {generateIdentity, Identity, seedPack} from "../../../trust/exports/authority.js"
+import {generateIdentity} from "../../../core/identity/identity.js"
 
 export const AuthManager = view.component(use => {
 	use.styles([themeCss, stylesCss])

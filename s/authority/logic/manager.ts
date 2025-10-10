@@ -8,8 +8,8 @@ import {Purpose} from "./purpose.js"
 import {Depot} from "./depot/depot.js"
 import {Situation} from "./situation.js"
 import {StoragePersistence} from "./storage-persistence.js"
-import {generateSession} from "../../trust/exports/authority.js"
-import {setupInPopup} from "../../trust/postmessage/setup-in-popup.js"
+import {generateSession} from "../../core/session/session.js"
+import {setupInPopup} from "../../app/postmessage/setup-in-popup.js"
 
 export class Manager {
 	storagePersistence = new StoragePersistence()

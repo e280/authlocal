@@ -1,10 +1,16 @@
 
+export * from "../core/index.js"
+
+export * from "./postmessage/app-fns.js"
+export * from "./postmessage/setup-in-app.js"
+
 export * from "./common/views.js"
 export * from "./common/copyable/view.js"
 export * from "./common/auth-sigil/element.js"
 
 export * from "./parts/auth.js"
 export * from "./parts/install.js"
+export * from "./parts/mock.js"
 export * from "./parts/types.js"
 
 export * from "./ui/auth-user/view.js"
