@@ -4,14 +4,14 @@ import {Content, view} from "@e280/sly"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
-import userIcon from "../../../../common/ui/icons/tabler/user.icon.js"
+import userIcon from "../../../../app/icons/tabler/user.icon.js"
 
 import {IdentityDraft} from "./draft.js"
-import {svgLit} from "../../../../tools/svg-lit.js"
-import {idHsl} from "../../../../common/utils/id-hue.js"
-import {inputString} from "../../../../tools/input-string.js"
+import {svgLit} from "../../../../app/utils/svg-lit.js"
+import {idHsl} from "../../../../app/utils/id-hue.js"
+import {inputString} from "../../../../app/utils/input-string.js"
 import {Identity} from "../../../../trust/exports/authority.js"
-import {maxLabelLength} from "../../../../common/utils/validation.js"
+import {maxLabelLength} from "../../../../app/utils/validation.js"
 
 export type IdentityWidgetOptions = {
 	editable?: boolean

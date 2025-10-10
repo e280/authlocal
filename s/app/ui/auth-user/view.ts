@@ -3,9 +3,9 @@ import {html} from "lit"
 import {view} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {Auth} from "../../parts/auth.js"
-import {svgLit} from "../../../../tools/svg-lit.js"
-import {idHsl} from "../../../../common/utils/id-hue.js"
-import userIcon from "../../../../common/ui/icons/tabler/user.icon.js"
+import {idHsl} from "../../utils/id-hue.js"
+import {svgLit} from "../../utils/svg-lit.js"
+import userIcon from "../../icons/tabler/user.icon.js"
 
 export const AuthUser = (auth: Auth) => view(use => () => {
 	use.name("auth-user")

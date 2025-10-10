@@ -7,6 +7,6 @@
 
 export * from "./exports.core.js"
 
-export * from "./app/lib/index.js"
-export * as authlocal from "./app/lib/index.js"
+export * from "./app/index.js"
+export * as authlocal from "./app/index.js"
 
