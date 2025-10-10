@@ -1,5 +1,5 @@
 
-import {Base64url, Txt} from "@e280/stz"
+import {base64url, txt} from "@e280/stz"
 import {TokenHeader, Token, WebToken} from "./types.js"
 
 export function decodeToken<P extends Token>(token: string): WebToken<P> {
@@ -7,15 +7,15 @@ export function decodeToken<P extends Token>(token: string): WebToken<P> {
 	if (!headerText || !payloadText || !signatureText)
 		throw new Error("invalid jwt structure")
 
-	const headerBytes = Base64url.bytes(headerText)
-	const headerJson = Txt.string(headerBytes)
+	const headerBytes = base64url.toBytes(headerText)
+	const headerJson = txt.fromBytes(headerBytes)
 	const header: TokenHeader = JSON.parse(headerJson)
 
-	const payloadBytes = Base64url.bytes(payloadText)
-	const payloadJson = Txt.string(payloadBytes)
+	const payloadBytes = base64url.toBytes(payloadText)
+	const payloadJson = txt.fromBytes(payloadBytes)
 	const payload: P = JSON.parse(payloadJson)
 
-	const signature = Base64url.bytes(signatureText)
+	const signature = base64url.toBytes(signatureText)
 	return {header, payload, signature}
 }
 

@@ -1,6 +1,6 @@
 
-import {Session} from "../session/types.js"
 import {Token} from "../token/types.js"
+import {Session} from "../session/types.js"
 
 export type SignClaimOptions<C> = {
 	claim: C
