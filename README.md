@@ -29,7 +29,7 @@ When you create an identity, download the seed and keep it safe. The seed *is* t
     ```
 1. **Javascript to install Authlocal on your page**  
     ```js
-    import authlocal from "@e280/authlocal"
+    import * as authlocal from "@e280/authlocal"
 
     const {auth} = await authlocal.install({
       theme: authlocal.themes.basic,
@@ -40,7 +40,7 @@ When you create an identity, download the seed and keep it safe. The seed *is* t
       else console.log("logged out")
     })
     ```
-1. **Put these new elements in your html `<body>`**  
+1. **Put these web components in your html `<body>`**  
     ```html
     <auth-user></auth-user>
     <auth-button></auth-button>
@@ -69,7 +69,7 @@ Spritually, a claim is trying to say something like *"This user gave permission 
 
 #### Sign a claim with a login, on the frontend
 ```ts
-import {Time} from "@e280/stz"
+import {time} from "@e280/stz"
 
 const claimToken = await login.signClaim({
 
@@ -77,7 +77,7 @@ const claimToken = await login.signClaim({
   claim: {message: "i love ice cream"},
 
   // when should this claim expire?
-  expiresAt: Time.future.hours(24),
+  expiresAt: time.future.hours(24),
 })
 ```
 
@@ -109,23 +109,23 @@ proof.nametag.label
 ```
 
 ### Thumbprint
-- **`Thumbprint` is an `@e280/stz` tool for visualizing 64-char ids**
+- **`thumbprint` is an `@e280/stz` tool for visualizing 64-char ids**
     ```ts
-    import {Thumbprint} from "@e280/stz"
+    import {thumbprint} from "@e280/stz"
     ```
 - **id to full thumbprint**
     ```ts
-    Thumbprint.fromHex("005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed")
+    thumbprint.fromHex("005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed")
       // "dozmut.winpex.linner.forsep.KgisJ8Pdgey1HC4o8cG59NaLYSoRTiHfA"
     ```
 - **id to short sigil**
     ```ts
-    Thumbprint.sigil.fromHex("005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed")
+    thumbprint.sigil.fromHex("005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed")
       // "dozmut.winpex"
     ```
 - **thumbprint to id**
     ```ts
-    Thumbprint.toHex("dozmut.winpex.linner.forsep.KgisJ8Pdgey1HC4o8cG59NaLYSoRTiHfA")
+    thumbprint.toHex("dozmut.winpex.linner.forsep.KgisJ8Pdgey1HC4o8cG59NaLYSoRTiHfA")
       // "005636bab2c73223ccf56f8112432212f57f01ef61452762cd142acd61ed44ed"
     ```
 
@@ -167,7 +167,7 @@ proof.nametag.label
 
 
 
-<br/>
+<br/><br/>
 
 ## 🧑‍💻 Authlocal is an [e280](https://e280.org/) project
 Open github issues or discussions if you have any questions.  
