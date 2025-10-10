@@ -8,7 +8,7 @@ import shieldOffIcon from "../../../app/icons/tabler/shield-off.icon.js"
 import shieldCheckFilledIcon from "../../../app/icons/tabler/shield-check-filled.icon.js"
 
 import {manager} from "../../context.js"
-import {svgLit} from "../../../app/utils/svg-lit.js"
+import {svgLit} from "../../../app/tools/svg-lit.js"
 
 export const AuthPersistence = view.component(use => {
 	use.styles(themeCss, stylesCss)

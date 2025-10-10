@@ -13,7 +13,7 @@ import {seedPack} from "../../../../core/identity/seed.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {IdentityWidget} from "../../common/identity-widget/view.js"
-import {crushUsername} from "../../../../app/utils/crush-username.js"
+import {crushUsername} from "../../../../app/tools/crush-username.js"
 import {generateIdentity} from "../../../../core/identity/identity.js"
 
 export const CreatePage = view(use => (situation: Situation.Create) => {
