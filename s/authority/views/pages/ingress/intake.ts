@@ -1,7 +1,7 @@
 
 import {signal} from "@e280/strata"
 import {Tabby} from "../../common/tabby/view.js"
-import {okErr, problematize} from "../../../../tools/errors.js"
+import {okErr, problematize} from "../../../utils/errors.js"
 import {dedupeIdentities, Identity, seedRecover} from "../../../../trust/exports/authority.js"
 
 export class Intake {

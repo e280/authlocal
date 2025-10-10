@@ -8,7 +8,7 @@ import themeCss from "../../../theme.css.js"
 import {Summary} from "../../common/summary/view.js"
 import {Situation} from "../../../logic/situation.js"
 import {Confirmer} from "../../common/confirmer/view.js"
-import {randomDigits} from "../../../../tools/random-digits.js"
+import {randomDigits} from "../../../utils/random-digits.js"
 
 export const DeletePage = view(use => (situation: Situation.Delete) => {
 	use.name("delete-page")

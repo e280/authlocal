@@ -13,7 +13,7 @@ import {Confirmer} from "../../common/confirmer/view.js"
 import {seedPack} from "../../../../trust/exports/authority.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
-import {crushUsername} from "../../../../common/utils/crush-username.js"
+import {crushUsername} from "../../../../app/utils/crush-username.js"
 import {identityWidget, IdentityWidget} from "../../common/identity-widget/view.js"
 
 export const EditPage = view(use => (situation: Situation.Edit) => {

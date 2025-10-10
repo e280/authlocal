@@ -6,6 +6,6 @@
 //
 
 export * from "./trust/exports/app.js"
-export * from "./common/utils/id-hue.js"
-export * from "./common/utils/validation.js"
+export * from "./app/utils/id-hue.js"
+export * from "./app/utils/validation.js"
 

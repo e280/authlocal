@@ -1,8 +1,8 @@
 
 import {Time} from "@e280/stz"
-import {Login} from "../concepts/session/login.js"
-import {generateSession} from "../concepts/session/session.js"
-import {generateIdentity} from "../concepts/identity/identity.js"
+import {Login} from "../../trust/concepts/session/login.js"
+import {generateSession} from "../../trust/concepts/session/session.js"
+import {generateIdentity} from "../../trust/concepts/identity/identity.js"
 
 export class Mock {
 	constructor(public options: {

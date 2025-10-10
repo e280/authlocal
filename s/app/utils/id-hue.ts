@@ -1,10 +1,10 @@
 
-import {Hex} from "@e280/stz"
+import {hex} from "@e280/stz"
 
 /** derive a hue (integer 0-359) from a hex id */
 export function idHue(id: string, byteIndex = -1) {
-	const bytes = Hex.toBytes(id)
-	const x = bytes.at(byteIndex)
+	const binary = hex.toBytes(id)
+	const x = binary.at(byteIndex)
 
 	if (x === undefined)
 		throw new Error(`id didn't have byte at ${byteIndex}`)

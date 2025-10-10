@@ -2,7 +2,7 @@
 import {Bytename, Hex, Thumbprint} from "@e280/stz"
 import {Identity} from "./types.js"
 import {deriveId, unpackKey} from "../crypto/crypto.js"
-import {validLabel} from "../../../common/utils/validation.js"
+import {validLabel} from "../../../app/utils/validation.js"
 
 /** serialize identities as seed text */
 export async function seedPack(...identities: Identity[]) {
@@ -45,7 +45,7 @@ export class SeedChecksumError extends SeedError {}
 /** convert hex key to seedling (with a 2-byte checksum) */
 async function dehydrate(secret: string) {
 	const secretBytes = unpackKey(secret)
-	const hash = new Uint8Array(await crypto.subtle.digest("SHA-256", secretBytes))
+	const hash = new Uint8Array(await crypto.subtle.digest("SHA-256", new Uint8Array(secretBytes)))
 	const checksumBytes = hash.slice(0, 2)
 	const seedBytes = new Uint8Array([...secretBytes, ...checksumBytes])
 	if (seedBytes.length !== 34)

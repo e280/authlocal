@@ -1,6 +1,6 @@
 
-import {install} from "./lib/parts/install.js"
-import {basic} from "./lib/themes/basic.css.js"
+import {install} from "./parts/install.js"
+import {basic} from "./themes/basic.css.js"
 
 const {auth} = await install({theme: basic})
 

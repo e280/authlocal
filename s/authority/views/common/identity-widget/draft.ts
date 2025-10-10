@@ -1,7 +1,7 @@
 
 import {signal, Signal} from "@e280/strata"
 import {Identity} from "../../../../trust/exports/authority.js"
-import {validLabel} from "../../../../common/utils/validation.js"
+import {validLabel} from "../../../../app/utils/validation.js"
 
 export class IdentityDraft {
 	#identity: Signal<Identity>
