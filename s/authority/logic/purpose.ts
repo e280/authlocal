@@ -1,5 +1,5 @@
 
-import {Identity} from "../../trust/exports/authority.js"
+import {Identity} from "../../core/identity/types.js"
 
 /** the reason the management app was opened */
 export namespace Purpose {

@@ -10,9 +10,9 @@
 		"s"
 	],
 	"exports": {
-		".": "./x/exports.web.js",
-		"./core": "./x/exports.core.js",
-		"./mock": "./x/exports.mock.js"
+		".": "./x/app/index.js",
+		"./bundle": "./x/app/index.bundle.js",
+		"./core": "./x/exports.core.js"
 	},
 	"dependencies": {
 		"@e280/kv": "^0.1.0",

@@ -1,8 +1,10 @@
 
 import {signal} from "@e280/strata"
 import {Tabby} from "../../common/tabby/view.js"
+import {Identity} from "../../../../core/identity/types.js"
 import {okErr, problematize} from "../../../utils/errors.js"
-import {dedupeIdentities, Identity, seedRecover} from "../../../../trust/exports/authority.js"
+import {seedRecover} from "../../../../core/identity/seed.js"
+import {dedupeIdentities} from "../../../../core/identity/identity.js"
 
 export class Intake {
 	tabby = new Tabby(0)

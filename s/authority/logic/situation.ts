@@ -1,6 +1,6 @@
 
+import {Identity} from "../../core/identity/types.js"
 import {Intake} from "../views/pages/ingress/intake.js"
-import {Identity} from "../../trust/exports/authority.js"
 
 export namespace Situation {
 	export type List = {

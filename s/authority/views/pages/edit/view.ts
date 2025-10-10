@@ -1,16 +1,16 @@
 
 import {html} from "lit"
 import {view} from "@e280/sly"
-import {Thumbprint} from "@e280/stz"
+import {thumbprint} from "@e280/stz"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
 import {Tabby} from "../../common/tabby/view.js"
-import {constants} from "../../../../constants.js"
+import {constants} from "../../../constants.js"
 import {Situation} from "../../../logic/situation.js"
 import {Confirmer} from "../../common/confirmer/view.js"
-import {seedPack} from "../../../../trust/exports/authority.js"
+import {seedPack} from "../../../../core/identity/seed.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {crushUsername} from "../../../../app/utils/crush-username.js"
@@ -70,7 +70,7 @@ export const EditPage = view(use => (situation: Situation.Edit) => {
 				${Confirmer
 					.props({
 						buttonLabel: () => "Delete",
-						requiredText: Thumbprint.sigil.fromHex(draft.identity.id),
+						requiredText: thumbprint.sigil.fromHex(draft.identity.id),
 						onConfirmed: async() => {
 							await situation.onDelete(draft.identity)
 							await situation.onBack()

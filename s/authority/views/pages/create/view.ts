@@ -6,14 +6,15 @@ import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
 import {manager} from "../../../context.js"
-import {constants} from "../../../../constants.js"
+import {constants} from "../../../constants.js"
 import {hostcode} from "../../../utils/hostcode.js"
 import {Situation} from "../../../logic/situation.js"
+import {seedPack} from "../../../../core/identity/seed.js"
 import {SeedReveal} from "../../common/seed-reveal/view.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
 import {IdentityWidget} from "../../common/identity-widget/view.js"
 import {crushUsername} from "../../../../app/utils/crush-username.js"
-import {generateIdentity, seedPack} from "../../../../trust/exports/authority.js"
+import {generateIdentity} from "../../../../core/identity/identity.js"
 
 export const CreatePage = view(use => (situation: Situation.Create) => {
 	use.name("create-page")

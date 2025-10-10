@@ -1,13 +1,13 @@
 
 import {html} from "lit"
 import {view} from "@e280/sly"
-import {deep, Thumbprint} from "@e280/stz"
+import {deep, thumbprint} from "@e280/stz"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
 
 import {manager} from "../../../context.js"
-import {Identity} from "../../../../trust/exports/authority.js"
+import {Identity} from "../../../../core/identity/types.js"
 
 export const Summary = view(use => (identities: Identity[]) => {
 	use.name("summary")
@@ -34,7 +34,7 @@ export const Summary = view(use => (identities: Identity[]) => {
 			${identities.map(identity => html`
 				<li x-id="${identity.id}" ?x-overwrite="${overwrites.has(identity.id)}">
 					<span class=label>${identity.label}</span>
-					<span class=id>${Thumbprint.sigil.fromHex(identity.id)}</span>
+					<span class=id>${thumbprint.sigil.fromHex(identity.id)}</span>
 				</li>
 			`)}
 		</ul>

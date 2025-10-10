@@ -5,11 +5,11 @@ import {signal} from "@e280/strata"
 import {AuthOptions, AuthRequirements} from "./types.js"
 import {defaults} from "./utils/defaults.js"
 import {AuthStores} from "./utils/stores.js"
-import {Login} from "../../trust/exports/app.js"
 import {openPopup} from "./utils/open-popup.js"
-import {Session} from "../../trust/exports/authority.js"
 import {nullcatch} from "../utils/nullcatch.js"
-import {setupInApp} from "../../trust/postmessage/setup-in-app.js"
+import {Login} from "../../core/session/login.js"
+import {Session} from "../../core/session/types.js"
+import {setupInApp} from "../postmessage/setup-in-app.js"
 
 /**
  * Authlocal's page-level auth control center.
