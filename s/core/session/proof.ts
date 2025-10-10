@@ -1,5 +1,5 @@
 
-import {Hex} from "@e280/stz"
+import {hex} from "@e280/stz"
 import {signToken} from "../token/sign.js"
 import {tokentime} from "../token/tokentime.js"
 import {decodeToken} from "../token/decode.js"
@@ -15,7 +15,7 @@ export async function signProof({
 	}: SignProofOptions) {
 
 	return signToken<ProofPayload>(identitySecret, {
-		jti: Hex.random(32),
+		jti: hex.random(32),
 		exp: tokentime.at(expiresAt),
 		sub: proof.nametag.id,
 		aud: appOrigin,

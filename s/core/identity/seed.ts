@@ -1,5 +1,5 @@
 
-import {Bytename, Hex, Thumbprint} from "@e280/stz"
+import {bytename, hex, thumbprint} from "@e280/stz"
 import {Identity} from "./types.js"
 import {deriveId, unpackKey} from "../crypto/crypto.js"
 import {validLabel} from "../../app/utils/validation.js"
@@ -32,7 +32,7 @@ export function seedRecover(seedtext: string) {
 				secret,
 				label: (label && validLabel(label))
 					? label
-					: Thumbprint.sigil.fromHex(id),
+					: thumbprint.sigil.fromHex(id),
 			}
 		}
 	)
@@ -50,24 +50,24 @@ async function dehydrate(secret: string) {
 	const seedBytes = new Uint8Array([...secretBytes, ...checksumBytes])
 	if (seedBytes.length !== 34)
 		throw new SeedIncompleteError("seed must be 34 bytes")
-	return Bytename.fromBytes(seedBytes)
+	return bytename.fromBytes(seedBytes)
 }
 
 /** convert seed to hex key (with checksum validation) */
 async function hydrate(seedling: string) {
-	const bytes = Bytename.toBytes(seedling)
+	const raw = bytename.toBytes(seedling)
 
-	if (bytes.length !== 34)
+	if (raw.length !== 34)
 		throw new SeedIncompleteError("seed must be 34 bytes")
 
-	const secretBytes = bytes.slice(0, 32)
-	const checksumBytes = bytes.slice(32, 34)
+	const secretBytes = raw.slice(0, 32)
+	const checksumBytes = raw.slice(32, 34)
 	const hash = new Uint8Array(await crypto.subtle.digest("SHA-256", secretBytes))
-	const invalidChecksum = Hex.string(hash.slice(0, 2)) !== Hex.string(checksumBytes)
+	const invalidChecksum = hex.fromBytes(hash.slice(0, 2)) !== hex.fromBytes(checksumBytes)
 
 	if (invalidChecksum)
 		throw new SeedChecksumError("invalid seed checksum")
 
-	return Hex.string(secretBytes)
+	return hex.fromBytes(secretBytes)
 }
 
