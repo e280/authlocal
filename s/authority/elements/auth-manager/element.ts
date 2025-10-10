@@ -8,7 +8,7 @@ import themeCss from "../../theme.css.js"
 
 import {manager} from "../../context.js"
 import {Situation} from "../../logic/situation.js"
-import {loader} from "../../../app/utils/loader.js"
+import {loader} from "../../../app/tools/loader.js"
 import {EditPage} from "../../views/pages/edit/view.js"
 import {ListPage} from "../../views/pages/list/view.js"
 import {seedPack} from "../../../core/identity/seed.js"

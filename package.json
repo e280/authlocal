@@ -12,6 +12,7 @@
 	"exports": {
 		".": "./x/app/index.js",
 		"./bundle": "./x/app/index.bundle.js",
+		"./mock": "./x/app/mock.js",
 		"./core": "./x/exports.core.js"
 	},
 	"dependencies": {

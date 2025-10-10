@@ -13,7 +13,7 @@ import {Situation} from "../../../logic/situation.js"
 import {Downloader} from "../../../utils/downloader.js"
 import {Identity} from "../../../../core/identity/types.js"
 import {IdentityDraft} from "../../common/identity-widget/draft.js"
-import {crushUsername} from "../../../../app/utils/crush-username.js"
+import {crushUsername} from "../../../../app/tools/crush-username.js"
 import {IdentityWidget, IdentityWidgetOptions} from "../../common/identity-widget/view.js"
 
 export const ListPage = view(use => (

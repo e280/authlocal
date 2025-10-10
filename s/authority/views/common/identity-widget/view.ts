@@ -7,11 +7,11 @@ import themeCss from "../../../theme.css.js"
 import userIcon from "../../../../app/icons/tabler/user.icon.js"
 
 import {IdentityDraft} from "./draft.js"
-import {idHsl} from "../../../../app/utils/id-hue.js"
-import {svgLit} from "../../../../app/utils/svg-lit.js"
+import {idHsl} from "../../../../app/tools/id-hue.js"
+import {svgLit} from "../../../../app/tools/svg-lit.js"
 import {Identity} from "../../../../core/identity/types.js"
-import {inputString} from "../../../../app/utils/input-string.js"
-import {maxLabelLength} from "../../../../app/utils/validation.js"
+import {inputString} from "../../../../app/tools/input-string.js"
+import {maxLabelLength} from "../../../../app/tools/validation.js"
 
 export type IdentityWidgetOptions = {
 	editable?: boolean

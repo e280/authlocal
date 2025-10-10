@@ -4,7 +4,7 @@ import {debounce} from "@e280/stz"
 import {Content, view} from "@e280/sly"
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
-import {inputString} from "../../../../app/utils/input-string.js"
+import {inputString} from "../../../../app/tools/input-string.js"
 
 export type ConfirmerOptions = {
 	requiredText: string

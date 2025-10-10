@@ -2,7 +2,7 @@
 import {bytename, hex, thumbprint} from "@e280/stz"
 import {Identity} from "./types.js"
 import {deriveId, unpackKey} from "../crypto/crypto.js"
-import {validLabel} from "../../app/utils/validation.js"
+import {validLabel} from "../../app/tools/validation.js"
 
 /** serialize identities as seed text */
 export async function seedPack(...identities: Identity[]) {
