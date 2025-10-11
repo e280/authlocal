@@ -1,6 +1,6 @@
 
 import {signProof} from "./proof.js"
-import {generateKeypair} from "../crypto/crypto.js"
+import {deriveSymkey, generateKeypair} from "../crypto/crypto.js"
 import {GenerateSessionOptions, Proof, Session} from "./types.js"
 
 export async function generateSession({
@@ -26,6 +26,7 @@ export async function generateSession({
 			authorityOrigin,
 			identitySecret: identity.secret,
 		}),
+		symkey: await deriveSymkey(identity.secret, appOrigin),
 	}
 }
 

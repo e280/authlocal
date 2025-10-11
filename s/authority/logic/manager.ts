@@ -71,8 +71,7 @@ export class Manager {
 							const secret = await deriveSharedSecret(
 								aliceIdentity.secret,
 								mandate.bobId,
-								appOrigin,
-								mandate.salt,
+								appOrigin + mandate.salt,
 							)
 							await app.v1.deliver({flow: "comms", secret})
 						},

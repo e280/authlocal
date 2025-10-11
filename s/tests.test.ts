@@ -1,4 +1,5 @@
 
+import {txt} from "@e280/stz"
 import {Science, test, expect} from "@e280/science"
 
 import identityTest from "./core/identity/identity.test.js"
@@ -37,6 +38,16 @@ await Science.run({
 			expect(proof.nametag.id).is(login.nametag.id)
 			expect(claim).is("hello")
 		}),
+	}),
+
+	"login symkey cryption": test(async() => {
+		const login = await setupLogin()
+		const exampleString = "d1e3b4036bab8e94ed4e9703ffe60ad13c27050aa6b552188e79f1331ada7a69"
+		const exampleBytes = txt.toBytes(exampleString)
+		const encrypted = await login.encrypt(exampleBytes)
+		const decrypted = await login.decrypt(encrypted)
+		const decryptedString = txt.fromBytes(decrypted)
+		expect(decryptedString).is(exampleString)
 	}),
 
 	identity: identityTest,
