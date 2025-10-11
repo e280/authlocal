@@ -14,6 +14,9 @@ export type Session = {
 
 	/** proof for this session */
 	proofToken: string
+
+	/** stable app-origin-scoped symmetric encryption key, so apps can do e2ee for this user */
+	symkey: string
 }
 
 export type GenerateSessionOptions = {
