@@ -1,13 +1,14 @@
 
 import {signProof} from "./proof.js"
-import {deriveSymkey, generateKeypair} from "../crypto/crypto.js"
 import {GenerateSessionOptions, Proof, Session} from "./types.js"
+import {deriveStableSecret, generateKeypair} from "../crypto/crypto.js"
 
 export async function generateSession({
 		expiresAt,
 		identity,
 		appOrigin,
 		authorityOrigin,
+		context,
 	}: GenerateSessionOptions): Promise<Session> {
 
 	const sessionKeypair = await generateKeypair()
@@ -19,6 +20,7 @@ export async function generateSession({
 
 	return {
 		secret: sessionKeypair.secret,
+		stableSecret: await deriveStableSecret(identity.secret, `${appOrigin}:${context}`),
 		proofToken: await signProof({
 			expiresAt,
 			proof,
@@ -26,7 +28,6 @@ export async function generateSession({
 			authorityOrigin,
 			identitySecret: identity.secret,
 		}),
-		symkey: await deriveSymkey(identity.secret, appOrigin),
 	}
 }
 

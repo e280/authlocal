@@ -1,7 +1,7 @@
 
 import {Session} from "../../core/session/types.js"
 
-export type LoginFlowMandate = {flow: "login"}
+export type LoginFlowMandate = {flow: "login", context: string}
 export type CommsFlowMandate = {flow: "comms", aliceId: string, bobId: string, salt: string}
 export type FlowMandate = LoginFlowMandate | CommsFlowMandate
 

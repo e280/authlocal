@@ -15,8 +15,8 @@ export type Session = {
 	/** proof for this session */
 	proofToken: string
 
-	/** stable app-origin-scoped symmetric encryption key, so apps can do e2ee for this user */
-	symkey: string
+	/** stable secret key scoped to this appOrigin and context. apps should keep this clientside. useful for users to encrypt their own data in your app. */
+	stableSecret: string
 }
 
 export type GenerateSessionOptions = {
@@ -24,6 +24,7 @@ export type GenerateSessionOptions = {
 	identity: Identity
 	appOrigin: string
 	authorityOrigin: string
+	context: string
 }
 
 /** proof that a session was signed by the user's identity */

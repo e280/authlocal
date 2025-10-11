@@ -49,6 +49,7 @@ export class Manager {
 								appOrigin,
 								expiresAt: time.future.days(7),
 								authorityOrigin: popupWindow.origin,
+								context: mandate.context,
 							})
 							await app.v1.deliver({flow: "login", session})
 						},
