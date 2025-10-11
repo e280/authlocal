@@ -2,14 +2,15 @@
 import {sub} from "@e280/stz"
 import {signal} from "@e280/strata"
 
-import {AuthOptions, AuthRequirements} from "./types.js"
 import {defaults} from "./utils/defaults.js"
 import {AuthStores} from "./utils/stores.js"
 import {openPopup} from "./utils/open-popup.js"
 import {nullcatch} from "../tools/nullcatch.js"
 import {Login} from "../../core/session/login.js"
 import {Session} from "../../core/session/types.js"
+import {AuthOptions, AuthRequirements} from "./types.js"
 import {setupInApp} from "../postmessage/setup-in-app.js"
+import {CommsFlowPayload, FlowMandate, FlowPayload, LoginFlowPayload} from "../postmessage/types.js"
 
 /**
  * Authlocal's page-level auth control center.
@@ -77,45 +78,84 @@ export class Auth {
 		return this.#login.value
 	}
 
-	/**
-	 * Spawn a login popup, requesting for the user to login.
-	 *   `src`:
-	 *     this is the url to open (defaults to "https://authlocal.org/")
-	 */
-	async popup(src = this.src) {
+	/** open a popup with a mandate, and await for the payload result */
+	async #popupMandate<P extends FlowPayload>(src: string, mandate: FlowMandate) {
+
 		const popupWindow = openPopup(src)
 		const popupOrigin = new URL(src, window.location.href).origin
 
 		if (!popupWindow)
 			return null
 
-		return new Promise<Login | null>((resolve, reject) => {
+		return new Promise<P | null>(resolve => {
 			const appWindow = window
+			popupWindow.onclose = () => {
+				dispose()
+				resolve(null)
+			}
 			const {dispose} = setupInApp(
 				appWindow,
 				popupWindow,
 				popupOrigin,
-				async session => {
+				mandate,
+				async payload => {
+
+					// always close the popop after any payload is delivered
 					popupWindow.close()
-					if (!session)
-						return undefined
-					try {
-						const login = await this.#verify(session)
-						await this.saveLogin(login)
-						dispose()
-						resolve(login)
+
+					// an empty payload is a refusal
+					if (payload === null) {
+						resolve(null)
+						return
 					}
-					catch (err) {
-						dispose()
-						reject(err)
-					}
+
+					// get angry if we get a payload for the wrong flow
+					if (payload.flow !== mandate.flow)
+						throw new Error(`wrong payload flow "${payload.flow}" when "${mandate.flow}" was mandated`)
+
+					// cleanup and resolve the payload
+					dispose()
+					resolve(payload as P)
 				},
 			)
-			popupWindow.onclose = () => {
-				dispose()
-				resolve(this.login)
-			}
 		})
+	}
+
+	/**
+	 * Spawn a login popup, requesting for the user to login.
+	 *  - `src`: this is the url to open (defaults to "https://authlocal.org/")
+	 */
+	async popupLogin(options?: {src?: string}) {
+		const previousLogin = this.login
+		const src = options?.src ?? this.src
+		const payload = await this.#popupMandate<LoginFlowPayload>(src, {flow: "login"})
+
+		// if we get a refusal, use previous login
+		if (!payload) return previousLogin
+
+		const login = await this.#verify(payload.session)
+
+		// if the new login is bunk, use previous login
+		if (!login) return previousLogin
+
+		await this.saveLogin(login)
+		return login
+	}
+
+	/**
+	 * Spawn a comms popup, requesting to access a secure comms channel
+	 *  - `src`: this is the url to open (defaults to "https://authlocal.org/")
+	 */
+	async popupComms(options: {aliceId: string, bobId: string, salt: string, src?: string}) {
+		return this.#popupMandate<CommsFlowPayload>(
+			options.src ?? this.src,
+			{
+				flow: "comms",
+				aliceId: options.aliceId,
+				bobId: options.bobId,
+				salt: options.salt,
+			},
+		)
 	}
 
 	#updateLoginSignal(login: Login | null) {

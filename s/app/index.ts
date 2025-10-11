@@ -1,9 +1,6 @@
 
 export * from "../core/index.js"
 
-export * from "./postmessage/app-fns.js"
-export * from "./postmessage/setup-in-app.js"
-
 export * from "./common/views.js"
 export * from "./common/copyable/view.js"
 export * from "./common/auth-sigil/element.js"

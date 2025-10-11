@@ -1,18 +1,16 @@
 
-import {defer} from "@e280/stz"
+import {concurrent, defer} from "@e280/stz"
 import {Messenger, WindowConduit} from "@e280/renraku"
 import {AppFns} from "./app-fns.js"
 
-//
-// this facilitates postMessages,
-// and is installed on the authority side
-//
-
-// - we generate an identity for the user.
-// - the user can save their seed, or recover their identity from seed.
-// - when the user clicks "login", we generate a login session,
-//   and we send that to the consumer app via postmessage.
-
+/**
+ * this facilitates postMessages,
+ * and is installed on the authority side
+ * - we generate an identity for the user.
+ * - the user can save their seed, or recover their identity from seed.
+ * - when the user clicks "login", we generate a login session,
+ *   and we send that to the consumer app via postmessage.
+ */
 export function setupInPopup(
 		popupWindow: Window,
 		appWindow: WindowProxy,
@@ -36,13 +34,15 @@ export function setupInPopup(
 		timeout: Infinity,
 	})
 
-	async function helloAndGetAppOrigin() {
-		await messenger.remote.v1.hello()
-		return appOriginDeferred.promise
+	async function sayHelloAndGetMandateAndAppOrigin() {
+		return concurrent({
+			mandate: messenger.remote.v1.hello(),
+			appOrigin: appOriginDeferred.promise,
+		})
 	}
 
 	return {
-		helloAndGetAppOrigin,
+		sayHelloAndGetMandateAndAppOrigin,
 		app: messenger.remote as AppFns,
 		dispose: () => conduit.dispose(),
 	}
