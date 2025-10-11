@@ -1,6 +1,7 @@
 
-import {Time} from "@e280/stz"
+import {time} from "@e280/stz"
 import {Login} from "../../core/session/login.js"
+import {defaultContext} from "../../core/crypto/crypto.js"
 import {generateSession} from "../../core/session/session.js"
 import {generateIdentity} from "../../core/identity/identity.js"
 
@@ -8,16 +9,17 @@ export class Mock {
 	constructor(public options: {
 		appOrigin?: string
 		authorityOrigin?: string
+		context?: string
 	} = {}) {}
 
 	async login({
-			expiresAt = Time.future.minutes(5),
+			expiresAt = time.future.minutes(5),
 		}: {
 			expiresAt?: number
 		} = {}) {
 
 		const o = "https://example.e280.org"
-		const {appOrigin = o, authorityOrigin = o} = this.options
+		const {appOrigin = o, authorityOrigin = o, context = defaultContext} = this.options
 
 		const identity = await generateIdentity()
 
@@ -26,6 +28,7 @@ export class Mock {
 			expiresAt,
 			appOrigin,
 			authorityOrigin,
+			context,
 		})
 
 		return Login.verify({

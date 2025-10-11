@@ -21,34 +21,43 @@ export async function generateKeypair(): Promise<Keypair> {
 	return {id, secret}
 }
 
-export async function hash(bytes: Iterable<number>) {
+async function hashCat(...byteGroups: Iterable<number>[]) {
+	const data: number[] = []
+
+	for (const [index, byteGroup] of byteGroups.entries()) {
+		if (index !== 0) data.push(0x00)
+		data.push(...byteGroup)
+	}
+
 	return hex.fromBytes(
 		new Uint8Array(
-			await crypto.subtle.digest("SHA-256", new Uint8Array(bytes))
+			await crypto.subtle.digest("SHA-256", new Uint8Array(data))
 		)
 	)
 }
 
-export async function deriveSymkey(secretHex: string, salt: string) {
+export const defaultContext = ""
+
+export async function deriveStableSecret(secretHex: string, context: string) {
 	const secretBytes = keyBytes(secretHex)
-	return hash([
-		...secretBytes,
-		...txt.toBytes(salt),
-	])
+	return hashCat(
+		secretBytes,
+		txt.toBytes(context),
+	)
 }
 
 export async function deriveSharedSecret(
 		aliceSecretHex: string,
 		bobIdHex: string,
-		salt: string,
+		context: string,
 	) {
 	const aliceXSecretBytes = ed25519.utils.toMontgomerySecret(hex.toBytes(aliceSecretHex))
 	const bobXPubBytes = ed25519.utils.toMontgomery(hex.toBytes(bobIdHex))
 	const shared = x25519.getSharedSecret(aliceXSecretBytes, bobXPubBytes)
-	return hash([
-		...shared,
-		...txt.toBytes(salt),
-	])
+	return hashCat(
+		shared,
+		txt.toBytes(context),
+	)
 }
 
 export async function sign(

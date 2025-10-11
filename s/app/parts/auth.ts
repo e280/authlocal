@@ -10,6 +10,7 @@ import {Login} from "../../core/session/login.js"
 import {Session} from "../../core/session/types.js"
 import {AuthOptions, AuthRequirements} from "./types.js"
 import {setupInApp} from "../postmessage/setup-in-app.js"
+import {defaultContext} from "../../core/crypto/crypto.js"
 import {CommsFlowPayload, FlowMandate, FlowPayload, LoginFlowPayload} from "../postmessage/types.js"
 
 /**
@@ -124,11 +125,16 @@ export class Auth {
 	/**
 	 * Spawn a login popup, requesting for the user to login.
 	 *  - `src`: this is the url to open (defaults to "https://authlocal.org/")
+	 *  - `context`: used to derive a unique stableSecret
 	 */
-	async popupLogin(options?: {src?: string}) {
+	async popupLogin(options?: {src?: string, context?: string}) {
 		const previousLogin = this.login
 		const src = options?.src ?? this.src
-		const payload = await this.#popupMandate<LoginFlowPayload>(src, {flow: "login"})
+		const context = options?.context ?? defaultContext
+		const payload = await this.#popupMandate<LoginFlowPayload>(
+			src,
+			{flow: "login", context},
+		)
 
 		// if we get a refusal, use previous login
 		if (!payload) return previousLogin

@@ -56,11 +56,11 @@ export class Login {
 	}
 
 	async encrypt(data: Iterable<number>) {
-		return encrypt(this.session.symkey, data)
+		return encrypt(this.session.stableSecret, data)
 	}
 
 	async decrypt(data: Uint8Array) {
-		return decrypt(this.session.symkey, data)
+		return decrypt(this.session.stableSecret, data)
 	}
 }
 
