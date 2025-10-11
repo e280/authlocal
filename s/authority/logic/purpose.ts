@@ -4,12 +4,12 @@ import {Identity} from "../../core/identity/types.js"
 /** the reason the management app was opened */
 export namespace Purpose {
 
-	/** the app was opened for the user to manage their identities */
+	/** authority-app was opened for the user to manage their identities */
 	export type Manage = {
 		kind: "manage"
 	}
 
-	/** the app was opened for the user to select a identity to login with */
+	/** authority-app was opened for the user to select a identity to login with */
 	export type Login = {
 		kind: "login"
 		appOrigin: string
@@ -17,8 +17,18 @@ export namespace Purpose {
 		onIdentity: (identity: Identity) => Promise<void>
 	}
 
+	/** authority-app was opened for the user to select a identity to login with */
+	export type Comms = {
+		kind: "comms"
+		appOrigin: string
+		aliceId: string | null // our own local id that the app wants to use
+		bobId: string // remote id of the other party the app wants comms with
+		onDeny: () => Promise<void>
+		onAccept: () => Promise<void>
+	}
+
 	////////////////////////////////
 
-	export type Any = Manage | Login
+	export type Any = Manage | Login | Comms
 }
 

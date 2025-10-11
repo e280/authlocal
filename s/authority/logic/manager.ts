@@ -1,6 +1,6 @@
 
 import {Op} from "@e280/sly"
-import {ev, Time} from "@e280/stz"
+import {ev, time} from "@e280/stz"
 import {signal} from "@e280/strata"
 import {Kv, StorageDriver} from "@e280/kv"
 
@@ -9,6 +9,7 @@ import {Depot} from "./depot/depot.js"
 import {Situation} from "./situation.js"
 import {StoragePersistence} from "./storage-persistence.js"
 import {generateSession} from "../../core/session/session.js"
+import {deriveSharedSecret} from "../../core/crypto/crypto.js"
 import {setupInPopup} from "../../app/postmessage/setup-in-popup.js"
 
 export class Manager {
@@ -32,24 +33,50 @@ export class Manager {
 		if (isPopup) {
 			const popupWindow = window
 			const appWindow = window.opener
-			const {app, helloAndGetAppOrigin} = setupInPopup(
+			const {app, sayHelloAndGetMandateAndAppOrigin} = setupInPopup(
 				popupWindow,
 				appWindow,
 			)
-			helloAndGetAppOrigin().then(appOrigin => {
-				purpose.value = {
-					kind: "login",
-					appOrigin,
-					onDeny: async() => app.v1.login(null),
-					onIdentity: async identity => {
-						const session = await generateSession({
-							identity,
-							appOrigin,
-							expiresAt: Time.future.days(7),
-							authorityOrigin: popupWindow.origin,
-						})
-						await app.v1.login(session)
-					},
+			sayHelloAndGetMandateAndAppOrigin().then(async({appOrigin, mandate}) => {
+				if (mandate.flow === "login") {
+					purpose.value = {
+						kind: "login",
+						appOrigin,
+						onDeny: async() => app.v1.deliver(null),
+						onIdentity: async identity => {
+							const session = await generateSession({
+								identity,
+								appOrigin,
+								expiresAt: time.future.days(7),
+								authorityOrigin: popupWindow.origin,
+							})
+							await app.v1.deliver({flow: "login", session})
+						},
+					}
+				}
+				else if (mandate.flow === "comms") {
+					const allIdentities = await this.depot.identities.list()
+					const aliceIdentity = allIdentities.find(identity => identity.id === mandate.aliceId)
+					purpose.value = {
+						kind: "comms",
+						appOrigin,
+						aliceId: aliceIdentity?.id ?? null,
+						bobId: mandate.bobId,
+						onDeny: async() => app.v1.deliver(null),
+						onAccept: async() => {
+							if (!aliceIdentity) {
+								await app.v1.deliver(null)
+								return
+							}
+							const secret = await deriveSharedSecret(
+								aliceIdentity.secret,
+								mandate.bobId,
+								appOrigin,
+								mandate.salt,
+							)
+							await app.v1.deliver({flow: "comms", secret})
+						},
+					}
 				}
 			}).catch(err => {
 				// TODO we should go to a user-facing error route

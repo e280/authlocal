@@ -1,29 +1,30 @@
 
-import {Session} from "../../core/session/types.js"
+import {FlowMandate, FlowPayload} from "./types.js"
 
-//
-// this is the postMessage api,
-// installed on the consumer app side
-
+/**
+ * this is the postMessage api,
+ * installed on the consumer app side
+ */
 export type AppFns = {
 	v1: {
 		
-		/** the authority popup calls the host when it's ready, asking for the appOrigin */
-		hello(): Promise<void>
+		/** authority popup calls this when it's done loading, asking for what auth flow we're doing, and also providing the app with the appOrigin */
+		hello(): Promise<FlowMandate>
 
-		/** the authority popup calls this app-side-function when the user has authorized a login */
-		login: (session: Session | null) => Promise<void>
+		/** authority popup calls this when it's done the work for its flow, providing back the flow's payload */
+		deliver(payload: FlowPayload | null): Promise<void>
 	}
 }
 
 export const makeAppFns = (
-		login: (session: Session | null) => Promise<void>,
+		flow: FlowMandate,
+		deliver: (payload: FlowPayload | null) => Promise<void>,
 	): AppFns => {
 
 	return {
 		v1: {
-			hello: async() => {},
-			login,
+			hello: async() => flow,
+			deliver,
 		},
 	}
 }
