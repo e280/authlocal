@@ -1,7 +1,7 @@
 
 import {Situation} from "./situation.js"
 import {Identity} from "../../core/identity/types.js"
-import {CommsFlowMandate, LoginFlowMandate} from "../../app/postmessage/types.js"
+import {ChannelFlowMandate, LoginFlowMandate} from "../../app/postmessage/types.js"
 
 export namespace Mission {
 	export type Management = {
@@ -20,10 +20,10 @@ export namespace Mission {
 		}
 	}
 
-	export type Comms = {
-		kind: "comms"
+	export type Channel = {
+		kind: "channel"
 		appOrigin: string
-		mandate: CommsFlowMandate
+		mandate: ChannelFlowMandate
 		availableAliceId: string | null
 		deliver: {
 			deny: () => Promise<void>
@@ -31,6 +31,6 @@ export namespace Mission {
 		}
 	}
 
-	export type Any = Management | Login | Comms
+	export type Any = Management | Login | Channel
 }
 

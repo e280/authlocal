@@ -26,7 +26,7 @@ When you create an identity, download the seed and keep it safe. The seed *is* t
 - 👤 **Logins** — let users authenticate themselves via authlocal popup *(ids are ed25519 pubkeys)*
 - ✍️ **Claims** — let users sign verifiable arbitrary claims *(ed25519 tokens)*
 - 🔐 **Cryption** — let users encrypt and decrypt their own data *(symmetric aes-gcm)*
-- 🛰️ **Comms** — let users open end-to-end-encryption channels with other users *(x25519 shared secrets)*
+- 🛰️ **Channels** — let users open end-to-end-encryption channels with other users *(x25519 shared secrets)*
 
 ### Install Authlocal logins into your web app
 1. **Install authlocal and friends via npm**
@@ -116,10 +116,10 @@ proof.nametag.label
   // "Michael Scott"
 ```
 
-### Comms: end-to-end encrypted channels
-- you can spawn an authlocal popup requesting to open a secure comms channel to another user like this
+### Channels: end-to-end encrypted channels
+- you can spawn an authlocal popup requesting to open a secure channel to another user like this
     ```ts
-    const comms = await auth.popupComms({
+    const channel = await auth.requestChannel({
 
       // the known local user
       aliceId: "96895ecdd982da7ea84f32b886940f08cc7e87d892916216e1f0a7c46436d304",
@@ -131,14 +131,14 @@ proof.nametag.label
       salt: "",
     })
 
-    console.log(comms?.secret)
+    console.log(channel?.secret)
     ```
-    - `comms` is null if the user denied the request or closed the popup
-    - `comms.secret` will be a hex secret key if successful
-- the resulting `comms.secret` is a shared key
+    - `channel` is null if the user denied the request or closed the popup
+    - `channel.secret` will be a hex secret key if successful
+- the resulting `channel.secret` is a shared key
     - if we flip roles, swapping alice and bob's ids, we will get the same key either way
     - thus, both alice and bob can derive the same cryption key between each other, totally offline
-    - thus either party can open this same secure comms channel — all they need are each other's ids
+    - thus either party can open this same secure channel — all they need are each other's ids
 
 ### Thumbprint
 - **`thumbprint` is an `@e280/stz` tool for visualizing 64-char ids**

@@ -55,11 +55,11 @@ export class Manager {
 						},
 					}
 				}
-				else if (mandate.flow === "comms") {
+				else if (mandate.flow === "channel") {
 					const allIdentities = await this.depot.identities.list()
 					const aliceIdentity = allIdentities.find(identity => identity.id === mandate.aliceId)
 					purpose.value = {
-						kind: "comms",
+						kind: "channel",
 						appOrigin,
 						aliceId: aliceIdentity?.id ?? null,
 						bobId: mandate.bobId,
@@ -74,7 +74,7 @@ export class Manager {
 								mandate.bobId,
 								`${appOrigin}:${mandate.salt}`,
 							)
-							await app.v1.deliver({flow: "comms", secret})
+							await app.v1.deliver({flow: "channel", secret})
 						},
 					}
 				}

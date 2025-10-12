@@ -11,7 +11,7 @@ import {Session} from "../../core/session/types.js"
 import {AuthOptions, AuthRequirements, PopupResult} from "./types.js"
 import {setupInApp} from "../postmessage/setup-in-app.js"
 import {defaultContext} from "../../core/crypto/crypto.js"
-import {CommsFlowPayload, FlowMandate, FlowPayload, LoginFlowPayload} from "../postmessage/types.js"
+import {ChannelFlowPayload, FlowMandate, FlowPayload, LoginFlowPayload} from "../postmessage/types.js"
 
 /**
  * Authlocal's page-level auth control center.
@@ -154,14 +154,14 @@ export class Auth {
 	}
 
 	/**
-	 * Spawn a comms popup, requesting to access a secure comms channel
+	 * Spawn a channel popup, requesting to access a secure channel
 	 *  - `src`: this is the url to open (defaults to "https://authlocal.org/")
 	 */
-	async requestComms(options: {aliceId: string, bobId: string, salt: string, src?: string}) {
-		return this.#popupMandate<CommsFlowPayload>(
+	async requestChannel(options: {aliceId: string, bobId: string, salt: string, src?: string}) {
+		return this.#popupMandate<ChannelFlowPayload>(
 			options.src ?? this.src,
 			{
-				flow: "comms",
+				flow: "channel",
 				aliceId: options.aliceId,
 				bobId: options.bobId,
 				salt: options.salt,
