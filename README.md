@@ -6,9 +6,9 @@
 ### 👉 https://authlocal.org/ 👈
 
 **Authlocal is a free login system for the web.**  
-Any website you visit can request your login by opening an Authlocal popup, but your identity seed files stay safely local on your device. You can go to the [authlocal.org](https://authlocal.org/) website any time to manage your identities.
+Any website you visit can request your login from an Authlocal popup, but your identity seed files stay safely local on your own device. You can go to the [authlocal.org](https://authlocal.org/) website any time to manage all your identities.
 
-- 🗽 **User-sovereign** – you hold your own seed files  
+- 🗽 **User-sovereign** – hold your own identity seed files  
 - 🔑 **Cryptographic** – no emails, no passwords  
 - 🥷 **Privacy-focused** – pseudonymous, device-local, no databases  
 - 💖 **Free and open-source** – zero-cost at global scale  
@@ -20,7 +20,13 @@ When you create an identity, download the seed and keep it safe. The seed *is* t
 
 <br/><br/>
 
-## 🍋‍🟩 Integration Manual for Web Developers
+## 📖 Integration Manual for Web Developers
+
+**Authlocal empowers your app with:**
+- 👤 **Logins** — let users authenticate themselves via authlocal popup *(ids are ed25519 pubkeys)*
+- ✍️ **Claims** — let users sign verifiable arbitrary claims *(ed25519 tokens)*
+- 🔐 **Cryption** — let users encrypt and decrypt their own data *(symmetric aes-gcm)*
+- 🛰️ **Comms** — let users open end-to-end-encryption channels with other users *(x25519 shared secrets)*
 
 ### Install Authlocal logins into your web app
 1. **Install authlocal and friends via npm**
@@ -57,12 +63,14 @@ When you create an identity, download the seed and keep it safe. The seed *is* t
   - `login.nametag.label` — user's chosen nickname
   - `login.expiresAt` — js timestamp of when this login expires
   - `login.isExpired()` — returns true if the login is expired now
-  - `login.signClaim(options)` — sign a claim
+  - `login.signClaim(options)` — sign a claim on behalf of this user
+  - `login.encrypt(data)` — encrypt data for this user
+  - `login.decrypt(data)` — decrypt data for this user
 
 ### Claims
-The purpose of a `login`, is that it can sign claims on the user's behalf. You can then send those claims to your server and verify them there. A claim contains a cryptographic proof that it stems from a genuine login session signed by the user's seed.
+A login can sign claims on the user's behalf. You can then send those claims to your server and verify them there. A claim contains a cryptographic proof that it stems from a genuine login session signed by the user's seed.
 
-Spritually, a claim is trying to say something like *"This user gave permission to this frontend to now say on their behalf:"*
+Spritually, a claim is trying to say something like *"This user gave my app permission to speak on their behalf:"*
 - *"we want to post this message..."*
 - *"we want to change their avatar..."*
 - *"we want to buy this microtransaction..."*
@@ -108,6 +116,30 @@ proof.nametag.label
   // "Michael Scott"
 ```
 
+### Comms: end-to-end encrypted channels
+- you can spawn an authlocal popup requesting to open a secure comms channel to another user like this
+    ```ts
+    const comms = await auth.popupComms({
+
+      // the known local user
+      aliceId: "96895ecdd982da7ea84f32b886940f08cc7e87d892916216e1f0a7c46436d304",
+
+      // any remote authlocal id
+      bobId: "74fc036d91656caa699549e82a8949713adb654421036fe494ade26ca87f870e",
+
+      // optional salt for creating different channels
+      salt: "",
+    })
+
+    console.log(comms?.secret)
+    ```
+    - `comms` is null if the user denied the request or closed the popup
+    - `comms.secret` will be a hex secret key if successful
+- the resulting `comms.secret` is a shared key
+    - if we flip roles, swapping alice and bob's ids, we will get the same key either way
+    - thus, both alice and bob can derive the same cryption key between each other, totally offline
+    - thus either party can open this same secure comms channel — all they need are each other's ids
+
 ### Thumbprint
 - **`thumbprint` is an `@e280/stz` tool for visualizing 64-char ids**
     ```ts
@@ -138,10 +170,10 @@ proof.nametag.label
   - `.id` is the public key (64 character hex string)
   - `.secret` is the private key (64 character hex string)
 - **Identity** — a keypair with a label string
-- **Seed** — text snippet or `.seed` file that stores an identity
 - **Nametag** — the public data associated with a user's identity
     - `.id` is the public key (64 character hex string)
     - `.label` is a nickname (max 32 character string)
+- **Seed** — text snippet or `.seed` file that stores an identity
 - **Thumbprint** — easier-to-read version of an id
     - `thumbprint` => `dozmut.winpex.linner.forsep.KgisJ8Pdgey1HC4o8cG59NaLYSoRTiHfA`
     - `sigil` (first two words) => `dozmut.winpex`
@@ -153,6 +185,8 @@ proof.nametag.label
     - `.expiresAt` js time of the moment this login expires
     - `.isExpired()` returns true if the login is now expired
     - `.signClaim(options)` sign a claim
+    - `.encrypt(data)` encrypt data for this user
+    - `.decrypt(data)` decrypt data for this user
 - **Proof** — provenance for login
     - is a token signed by an identity
     - is public, can be shared around
