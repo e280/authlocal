@@ -8,9 +8,9 @@ import {openPopup} from "./utils/open-popup.js"
 import {nullcatch} from "../tools/nullcatch.js"
 import {Login} from "../../core/session/login.js"
 import {Session} from "../../core/session/types.js"
-import {AuthOptions, AuthRequirements, PopupResult} from "./types.js"
 import {setupInApp} from "../postmessage/setup-in-app.js"
 import {defaultContext} from "../../core/crypto/crypto.js"
+import {AuthOptions, AuthRequirements, PopupResult} from "./types.js"
 import {ChannelFlowPayload, FlowMandate, FlowPayload, LoginFlowPayload} from "../postmessage/types.js"
 
 /**

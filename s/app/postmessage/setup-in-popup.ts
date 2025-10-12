@@ -24,6 +24,7 @@ export function setupInPopup(
 	})
 
 	const appOriginDeferred = defer<string>()
+
 	conduit.recv.sub((_m, {origin}) => {
 		conduit.targetOrigin = origin
 		appOriginDeferred.resolve(origin)
