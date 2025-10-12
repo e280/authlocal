@@ -18,17 +18,17 @@ export namespace Purpose {
 	}
 
 	/** authority-app was opened for the user to select a identity to login with */
-	export type Comms = {
-		kind: "comms"
+	export type Channel = {
+		kind: "channel"
 		appOrigin: string
-		aliceId: string | null // our own local id that the app wants to use
-		bobId: string // remote id of the other party the app wants comms with
+		aliceId: string | null // our own local id
+		bobId: string // remote id of the other party
 		onDeny: () => Promise<void>
 		onAccept: () => Promise<void>
 	}
 
 	////////////////////////////////
 
-	export type Any = Manage | Login | Comms
+	export type Any = Manage | Login | Channel
 }
 
