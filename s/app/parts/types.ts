@@ -5,7 +5,6 @@ import {CSSResultGroup} from "lit"
 
 export type AuthRequirements = {
 	theme: CSSResultGroup
-
 	kv: Kv
 	src: string
 	onStorageChange: Sub
@@ -13,9 +12,10 @@ export type AuthRequirements = {
 
 export type AuthOptions = {
 	theme: CSSResultGroup
-
 	kv?: Kv
 	src?: string
 	onStorageChange?: Sub
 }
+
+export type PopupResult<X> = [x: X | null, blocked: boolean]
 

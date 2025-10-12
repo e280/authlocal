@@ -8,7 +8,7 @@ import {openPopup} from "./utils/open-popup.js"
 import {nullcatch} from "../tools/nullcatch.js"
 import {Login} from "../../core/session/login.js"
 import {Session} from "../../core/session/types.js"
-import {AuthOptions, AuthRequirements} from "./types.js"
+import {AuthOptions, AuthRequirements, PopupResult} from "./types.js"
 import {setupInApp} from "../postmessage/setup-in-app.js"
 import {defaultContext} from "../../core/crypto/crypto.js"
 import {CommsFlowPayload, FlowMandate, FlowPayload, LoginFlowPayload} from "../postmessage/types.js"
@@ -80,15 +80,14 @@ export class Auth {
 	}
 
 	/** open a popup with a mandate, and await for the payload result */
-	async #popupMandate<P extends FlowPayload>(src: string, mandate: FlowMandate) {
-
+	async #popupMandate<P extends FlowPayload>(src: string, mandate: FlowMandate): Promise<PopupResult<P | null>> {
 		const popupWindow = openPopup(src)
 		const popupOrigin = new URL(src, window.location.href).origin
 
 		if (!popupWindow)
-			return null
+			return [null, true]
 
-		return new Promise<P | null>(resolve => {
+		const payload = await new Promise<P | null>(resolve => {
 			const appWindow = window
 			popupWindow.onclose = () => {
 				dispose()
@@ -120,6 +119,8 @@ export class Auth {
 				},
 			)
 		})
+
+		return [payload, false]
 	}
 
 	/**
@@ -127,32 +128,36 @@ export class Auth {
 	 *  - `src`: this is the url to open (defaults to "https://authlocal.org/")
 	 *  - `context`: used to derive a unique stableSecret
 	 */
-	async popupLogin(options?: {src?: string, context?: string}) {
+	async requestLogin(options?: {src?: string, context?: string}): Promise<PopupResult<Login | null>> {
 		const previousLogin = this.login
 		const src = options?.src ?? this.src
 		const context = options?.context ?? defaultContext
-		const payload = await this.#popupMandate<LoginFlowPayload>(
+
+		const [payload, blocked] = await this.#popupMandate<LoginFlowPayload>(
 			src,
 			{flow: "login", context},
 		)
 
-		// if we get a refusal, use previous login
-		if (!payload) return previousLogin
+		// on refusal, use previous login
+		if (!payload) return [previousLogin, blocked]
 
+		// verify the login
 		const login = await this.#verify(payload.session)
 
-		// if the new login is bunk, use previous login
-		if (!login) return previousLogin
+		// if the new login is invalid, use previous login
+		if (!login) return [previousLogin, blocked]
 
+		// if the new login is valid, save it
 		await this.saveLogin(login)
-		return login
+
+		return [login, blocked]
 	}
 
 	/**
 	 * Spawn a comms popup, requesting to access a secure comms channel
 	 *  - `src`: this is the url to open (defaults to "https://authlocal.org/")
 	 */
-	async popupComms(options: {aliceId: string, bobId: string, salt: string, src?: string}) {
+	async requestComms(options: {aliceId: string, bobId: string, salt: string, src?: string}) {
 		return this.#popupMandate<CommsFlowPayload>(
 			options.src ?? this.src,
 			{

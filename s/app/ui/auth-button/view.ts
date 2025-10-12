@@ -15,7 +15,7 @@ export const AuthButton = (auth: Auth) => view(use => () => {
 	}
 
 	async function clickLogin() {
-		await auth.popupLogin({src: attrs.src})
+		await auth.requestLogin({src: attrs.src})
 	}
 
 	return (auth.login
