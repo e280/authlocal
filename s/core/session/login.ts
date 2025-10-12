@@ -20,6 +20,9 @@ export class Login {
 		public readonly proofAppOrigin: string,
 	) {}
 
+	get id() { return this.proof.nametag.id }
+	get label() { return this.proof.nametag.label }
+
 	get nametag() { return this.proof.nametag }
 	get sessionId() { return this.proof.sessionId }
 	get proofToken() { return this.session.proofToken }
