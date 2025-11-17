@@ -1,7 +1,7 @@
 
 import {html} from "lit"
 import {view} from "@e280/sly"
-import {is, Thumbprint} from "@e280/stz"
+import {is, thumbprint} from "@e280/stz"
 
 import stylesCss from "./styles.css.js"
 import themeCss from "../../../theme.css.js"
@@ -153,7 +153,9 @@ export const ListPage = view(use => (
 
 			downloader.text = selectedSeeds.join("\n\n")
 			const filename = selectedIdentityIds.length === 1
-				? crushUsername(Thumbprint.sigil.fromHex(selectedIdentityIds.at(0)!))
+				? crushUsername(
+					thumbprint.sigil.fromHex(selectedIdentityIds.at(0)!)
+				) + constants.seedExtension
 				: "identities" + constants.seedExtension
 
 			return html`
