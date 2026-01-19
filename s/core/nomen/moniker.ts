@@ -22,7 +22,7 @@ function toBytes(moniker: string) {
 	const bulk = sigil.pop()
 
 	if (bulk === undefined) throw new Error("bulk missing")
-	if (sigil.length !== sigilSize) throw new Error("invalid sigil size")
+	if (sigil.length * 2 !== sigilSize) throw new Error("invalid sigil size")
 
 	return new Uint8Array([
 		...motesToBytes(sigil),
