@@ -2,7 +2,7 @@
 /** 64 hex characters */
 export type Hex = string
 
-/** random 64 hex characters */
+/** root secret from which secret keys are derived */
 export type Seed = Hex
 
 /** ed25519 public key as 64 hex chars (derived from seed) */

@@ -1,5 +1,4 @@
 
-import {Err} from "../utils/err.js"
 import {Id, Keypair} from "../cryp/types.js"
 
 /** public information about an identity */
@@ -13,7 +12,4 @@ export type Identity = Keypair & Profile
 
 /** human-friendly encoding of label and seed  */
 export type Code = string
-
-export class CodeIncompleteErr extends Err {}
-export class CodeChecksumErr extends Err {}
 

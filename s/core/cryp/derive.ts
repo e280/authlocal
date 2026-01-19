@@ -1,6 +1,7 @@
 
 import {hex, txt} from "@e280/stz"
 import {ed25519, x25519} from "@noble/curves/ed25519.js"
+
 import {Hex, Id} from "./types.js"
 import {hashCat, keyBytes} from "./kit.js"
 
@@ -10,8 +11,8 @@ export async function deriveId(secret: Hex): Promise<Id> {
 	return hex.fromBytes(idBytes)
 }
 
-export async function deriveStableSecret(secretHex: string, context: string) {
-	const secretBytes = keyBytes(secretHex)
+export async function deriveSecret(secret: string, context: string) {
+	const secretBytes = keyBytes(secret)
 	return hashCat(
 		secretBytes,
 		txt.toBytes(context),

@@ -1,9 +1,13 @@
 
 import {bytename, hex, thumbprint} from "@e280/stz"
-import {CodeChecksumErr, CodeIncompleteErr, Identity} from "./types.js"
+import {Identity} from "./types.js"
+import {Err} from "../utils/err.js"
 import {Hex} from "../cryp/types.js"
 import {validLabel} from "./validation.js"
 import {deriveId, keyBytes} from "../cryp.barrel.js"
+
+export class CodeIncompleteErr extends Err {}
+export class CodeChecksumErr extends Err {}
 
 /** serialize identities as code text */
 export async function pack(...identities: Identity[]) {
