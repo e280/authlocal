@@ -1,6 +1,6 @@
 
 import {base58, hex} from "@e280/stz"
-import {motesFromBytes, motesToBytes} from "./motes/motes.js"
+import {motesFromBytes, motesToBytes} from "./parts/motes.js"
 
 const sigilSize = 4
 const delimiter = "_"
