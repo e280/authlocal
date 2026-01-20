@@ -4,5 +4,6 @@
 */
 
 export * from "./identity.js"
+export * from "./purposes.js"
 export * from "./validation.js"
 

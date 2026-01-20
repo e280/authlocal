@@ -2,6 +2,7 @@
 import {hex} from "@e280/stz"
 import {Identity} from "./types.js"
 import {Root} from "../cryp/types.js"
+import {purposes} from "./purposes.js"
 import {moniker} from "../moniker/moniker.js"
 import {deriveId, deriveSecret} from "../cryp/derive.js"
 
@@ -10,7 +11,7 @@ export async function deriveIdentity(
 		label?: string,
 	): Promise<Identity> {
 
-	const secret = await deriveSecret(root, "id")
+	const secret = await deriveSecret(root, purposes.id)
 	const id = await deriveId(secret)
 
 	return {
