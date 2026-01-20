@@ -3,7 +3,7 @@
 export type Hex = string
 
 /** root secret hex key from which more secrets are derived */
-export type Seed = Hex
+export type Root = Hex
 
 /** secret hex key derived from the seed */
 export type Secret = Hex
