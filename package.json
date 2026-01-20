@@ -36,7 +36,7 @@
 		"start": "octo 'scute -vw' 'node --watch x/tests.test.js' 'tsc -w' 'http-server x'",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
 		"devlinks": "run-s _dl:slate _dl:renraku",
-		"monikers": "node x/core/moniker/parts/examples.js",
+		"nomen": "node x/core/moniker/parts/examples.js",
 		"_clean": "rm -rf x && mkdir x",
 		"_tsc": "tsc",
 		"_scute": "scute -v",
