@@ -2,26 +2,24 @@
 import {hex, txt} from "@e280/stz"
 import {ed25519, x25519} from "@noble/curves/ed25519.js"
 
-import {Hex, Id} from "./types.js"
+import {Id, Secret, Seed} from "./types.js"
 import {hashCat, keyBytes} from "./kit.js"
 
-export async function deriveId(secret: Hex): Promise<Id> {
-	const secretBytes = keyBytes(secret)
-	const idBytes = ed25519.getPublicKey(secretBytes)
+export async function deriveId(secret: Secret): Promise<Id> {
+	const idBytes = ed25519.getPublicKey(keyBytes(secret))
 	return hex.fromBytes(idBytes)
 }
 
-export async function deriveSecret(secret: string, context: string) {
-	const secretBytes = keyBytes(secret)
+export async function deriveSecret(seed: Seed, context: string) {
 	return hashCat(
-		secretBytes,
+		keyBytes(seed),
 		txt.toBytes(context),
 	)
 }
 
 export async function deriveSharedSecret(
-		aliceSecretHex: string,
-		bobIdHex: string,
+		aliceSecretHex: Secret,
+		bobIdHex: Id,
 		context: string,
 	) {
 

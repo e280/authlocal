@@ -1,5 +1,5 @@
 
-import {Id, Keypair} from "../cryp/types.js"
+import {Id, Keypair, Seed} from "../cryp/types.js"
 
 /** public information about an identity */
 export type Profile = {
@@ -8,8 +8,9 @@ export type Profile = {
 }
 
 /** private keypair that identifies a user */
-export type Identity = Keypair & Profile
-
-/** human-friendly encoding of label and seed  */
-export type Code = string
+export type Identity = {
+	seed: Seed
+	keypair: Keypair
+	profile: Profile
+}
 
