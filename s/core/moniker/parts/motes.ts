@@ -4,18 +4,22 @@ import {suffixes, suffixIndex} from "./suffixes.js"
 
 export function *motesFromBytes(buffer: Iterable<number>) {
 	for (const [a, b] of pairwise(buffer))
-		yield prefixes.require(a) + suffixes.require(b)
+		yield moteFromPair(a, b)
 }
 
 export function *motesToBytes(motes: Iterable<string>) {
 	for (const mote of motes) {
-		const [a, b] = moteToBytePair(mote)
+		const [a, b] = moteToPair(mote)
 		yield a
 		yield b
 	}
 }
 
-function moteToBytePair(mote: string) {
+export function moteFromPair(a: number, b: number) {
+	return prefixes.require(a) + suffixes.require(b)
+}
+
+export function moteToPair(mote: string) {
 	const prefix = mote.slice(0, 3)
 	const suffix = mote.slice(3, 6)
 	return [

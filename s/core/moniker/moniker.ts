@@ -1,23 +1,24 @@
 
 import {hex} from "@e280/stz"
+import {Id} from "../cryp/types.js"
 import {delimiter} from "./parts/options.js"
 import {fromBytes, toBytes} from "./parts/bytes.js"
 
-export function moniker(hexString: string) {
-	return fromBytes(hex.toBytes(hexString))
+export function moniker(id: Id) {
+	return fromBytes(hex.toBytes(id))
 }
 
-moniker.toHex = (monikerString: string) => {
-	return hex.fromBytes(toBytes(monikerString))
+moniker.toHex = (moniker: string) => {
+	return hex.fromBytes(toBytes(moniker))
 }
 
-moniker.sigil = (hexString: string) => {
-	const m = moniker(hexString)
+moniker.sigil = (id: Id) => {
+	const m = moniker(id)
 	const sigil = m.split(delimiter).filter(Boolean)
 	sigil.pop()
 	return delimiter + sigil.join(delimiter)
 }
 
-moniker.fromBytes = fromBytes
 moniker.toBytes = toBytes
+moniker.fromBytes = fromBytes
 
