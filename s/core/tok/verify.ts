@@ -52,6 +52,9 @@ export async function verify<P extends Payload>(
 	if (payload.aud && !options.allowedAudiences)
 		throw new VerifyError(`allowedAudiences verification option was not provided, but is required because the token included "aud"`)
 
+	if (payload.iss && !options.allowedIssuers)
+		throw new VerifyError(`allowedIssuers verification option was not provided, but is required because the token included "iss"`)
+
 	return payload
 }
 

@@ -3,11 +3,11 @@ import {decode} from "./decode.js"
 
 export const time = {
 
-	/** convert jtw seconds to js milliseconds */
+	/** convert jwt seconds to js milliseconds */
 	toMs: (t: number) => t * 1000,
 
 	/** convert js milliseconds to jwt seconds */
-	at: (ms: number) => ms / 1000,
+	at: (ms: number) => Math.floor(ms / 1000),
 
 	/** convert js milliseconds to jwt seconds, or undefined */
 	maybe: (ms?: number) => ms !== undefined
