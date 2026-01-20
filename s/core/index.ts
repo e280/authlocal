@@ -5,5 +5,6 @@ export * as cryp from "./cryp/index.barrel.js"
 export * from "./alco/types.js"
 export * from "./cryp/types.js"
 
-export * from "./moniker/moniker.js"
+export * from "./nomen/acorn.js"
+export * from "./nomen/moniker.js"
 
