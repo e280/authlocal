@@ -16,6 +16,8 @@ export type Payload = Partial<{
 	jti: string
 }>
 
+export type TokenString = string
+
 export type Token<P extends Payload = any> = {
 	header: Header
 	payload: P

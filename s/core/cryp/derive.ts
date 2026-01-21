@@ -3,14 +3,14 @@ import {hex, txt} from "@e280/stz"
 import {ed25519, x25519} from "@noble/curves/ed25519.js"
 
 import {hashCat, keyBytes} from "./kit.js"
-import {Id, Secret, Root} from "./types.js"
+import {Id, Secret, Root, Purpose} from "./types.js"
 
 export async function deriveId(secret: Secret): Promise<Id> {
 	const idBytes = ed25519.getPublicKey(keyBytes(secret))
 	return hex.fromBytes(idBytes)
 }
 
-export async function deriveSecret(root: Root, purpose: string) {
+export async function deriveSecret(root: Root, purpose: Purpose) {
 	return hashCat(
 		keyBytes(root),
 		txt.toBytes(purpose),

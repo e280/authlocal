@@ -8,7 +8,7 @@ import {deriveId, deriveSecret} from "../cryp/derive.js"
 
 export async function deriveIdentity(
 		root: Root = hex.random(32),
-		label?: string,
+		name?: string,
 	): Promise<Identity> {
 
 	const secret = await deriveSecret(root, purposes.id)
@@ -17,7 +17,7 @@ export async function deriveIdentity(
 	return {
 		root,
 		keypair: {id, secret},
-		profile: {id, label: label || moniker.sigil(id)},
+		profile: {id, name: name || moniker.sigil(id)},
 	}
 }
 

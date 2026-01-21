@@ -1,35 +1,50 @@
 
-import {Id, Keypair, Root, Secret} from "../cryp/types.js"
+import {Id, Keypair, Purpose, Root} from "../cryp/types.js"
 
 /** public information about an identity */
 export type Profile = {
 	id: Id
-	label: string
+	name: string
 }
 
-/** private keypair that identifies a user */
+/** private information about an identity */
 export type Identity = {
 	root: Root
 	keypair: Keypair
 	profile: Profile
 }
 
-/** a successful login */
-export type Session = {
+/** apps can request various things */
+export type Petition = {
 
-	/** private key for this specific session */
-	secret: Secret
+	/** how many milliseconds we're asking for this stuff to live */
+	lifespan: number
 
-	/** proves that this session is legit */
-	proofToken: string
-
-	/** derived secrets as requested from this login */
-	secrets: Secret[]
+	/** purpose strings for each delegate keypair */
+	delegates: Purpose[]
 }
 
-/** proof that a session was signed by the user's identity */
-export type Proof = {
-	sessionId: Id
+/** unverified/unprocessed grant */
+export type Offer = {
+	expiresAt: number
+	profileCert: CertToken
+	delegates: Delegate[]
+}
+
+/** verified information */
+export type Grant = {
+	expiresAt: number
 	profile: Profile
+	profileCert: CertToken
+	delegates: Delegate[]
 }
+
+/** root-derived keypair, with certified pubkey */
+export type Delegate = {
+	keypair: Keypair
+	proofCert: CertToken
+}
+
+export type CertToken = string
+export type Cert<X extends object> = X & {identityId: Id}
 
