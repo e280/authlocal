@@ -1,5 +1,5 @@
 
-import {Id, Keypair, Purpose, Root} from "../cryp/types.js"
+import {Id, Keypair, Purpose, Root, Secret} from "../cryp/types.js"
 
 /** public information about an identity */
 export type Profile = {
@@ -28,7 +28,7 @@ export type Petition = {
 export type Offer = {
 	expiresAt: number
 	profileCert: CertToken
-	delegates: Delegate[]
+	delegates: UnverifiedDelegate[]
 }
 
 /** verified information */
@@ -37,6 +37,12 @@ export type Grant = {
 	profile: Profile
 	profileCert: CertToken
 	delegates: Delegate[]
+}
+
+/** root-derived keypair, with certified pubkey */
+export type UnverifiedDelegate = {
+	secret: Secret
+	proofCert: CertToken
 }
 
 /** root-derived keypair, with certified pubkey */
