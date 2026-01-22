@@ -4,7 +4,7 @@ import {wordsFromBytes} from "./words.js"
 import {delimiter, sigilSize} from "./options.js"
 import {checksum16} from "../../utils/checksum.js"
 
-export function monikerFromBytes(buffer: Uint8Array) {
+export function monikerMake(buffer: Uint8Array) {
 	if (buffer.length < 5) throw new Error("buffer too small for moniker")
 
 	const checkBytes = checksum16(buffer)

@@ -1,15 +1,14 @@
 
 import {hex} from "@e280/stz"
 import {Id} from "../../cryp/types.js"
+import {monikerMake} from "./parts/make.js"
 import {delimiter} from "./parts/options.js"
-import {monikerFromBytes} from "./parts/make.js"
-import {monikerProblem, monikerToBytes, monikerParse} from "./parts/parse.js"
+import {monikerParse} from "./parts/parse.js"
+import {problematize, retrieve} from "../../utils/validation.js"
 
 export function moniker(id: Id) {
-	return monikerFromBytes(hex.toBytes(id))
+	return monikerMake(hex.toBytes(id))
 }
-
-moniker.toHex = (moniker: string) => hex.fromBytes(monikerToBytes(moniker))
 
 moniker.sigil = (id: Id) => {
 	const m = moniker(id)
@@ -18,8 +17,9 @@ moniker.sigil = (id: Id) => {
 	return delimiter + sigil.join(delimiter)
 }
 
+moniker.make = monikerMake
 moniker.parse = monikerParse
-moniker.problem = monikerProblem
-moniker.toBytes = monikerToBytes
-moniker.fromBytes = monikerFromBytes
+moniker.problem = (moniker: string) => problematize(monikerParse(moniker))
+moniker.toBytes = (moniker: string) => retrieve(monikerParse(moniker))
+moniker.toId = (text: string) => hex.fromBytes(moniker.toBytes(text))
 

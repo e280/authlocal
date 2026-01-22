@@ -26,16 +26,3 @@ export function monikerParse(moniker: string) {
 	return ok(body)
 }
 
-export function monikerProblem(moniker: string) {
-	const result = monikerParse(moniker)
-	return result.ok
-		? undefined
-		: result.problem
-}
-
-export function monikerToBytes(moniker: string) {
-	const result = monikerParse(moniker)
-	if (!result.ok) throw new Error(result.problem)
-	return result.item
-}
-

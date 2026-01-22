@@ -5,22 +5,23 @@ import {sha256} from "@noble/hashes/sha2.js"
 import {Root} from "../../cryp/types.js"
 import {checksum16} from "../utils/checksum.js"
 import {wordsFromBytes, wordsToBytes} from "../moniker/parts/words.js"
+import {ok, problem, problematize, retrieve} from "../../utils/validation.js"
 
 export function acorn(root: Root) {
 	const rootBytes = hex.toBytes(root)
 	const checksumBytes = sha256(rootBytes).slice(0, 2)
 
-	const motes = [
+	const words = [
 		...wordsFromBytes(rootBytes),
 		...wordsFromBytes(checksumBytes),
 	]
 
 	const lines = [
-		motes.slice(0, 4),
-		motes.slice(4, 8),
-		motes.slice(8, 12),
-		motes.slice(12, 16),
-		motes.slice(16, 17),
+		words.slice(0, 4),
+		words.slice(4, 8),
+		words.slice(8, 12),
+		words.slice(12, 16),
+		words.slice(16, 17),
 	]
 
 	return lines
@@ -28,23 +29,26 @@ export function acorn(root: Root) {
 		.join("\n")
 }
 
-acorn.toRoot = (text: string): Root => {
-	const motes = text
+acorn.parse = (text: string) => {
+	const words = text
 		.trim()
 		.split(/\s+/)
 		.map(m => m.trim().toLowerCase())
 		.filter(Boolean)
 
-	if (motes.length !== 17)
-		throw new Error("invalid number of motes")
+	if (words.length !== 17)
+		return problem("invalid number of words")
 
-	const reportedChecksumBytes = new Uint8Array(wordsToBytes([motes.pop()!]))
-	const rootBytes = new Uint8Array(wordsToBytes(motes))
+	const reportedChecksumBytes = new Uint8Array(wordsToBytes([words.pop()!]))
+	const rootBytes = new Uint8Array(wordsToBytes(words))
 	const checksumBytes = checksum16(rootBytes)
 
 	if (!bytes.eq(reportedChecksumBytes, checksumBytes))
-		throw new Error("invalid checksum")
+		return problem("invalid checksum")
 
-	return hex.fromBytes(rootBytes)
+	return ok(hex.fromBytes(rootBytes))
 }
+
+acorn.problem = (text: string) => problematize(acorn.parse(text))
+acorn.toRoot = (text: string) => retrieve(acorn.parse(text))
 

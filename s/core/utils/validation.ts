@@ -11,3 +11,14 @@ export function ok<X>(item: X): Ok<X> {
 	return {ok: true, item}
 }
 
+export function problematize(result: Result<unknown>) {
+	return result.ok
+		? undefined
+		: result.problem
+}
+
+export function retrieve<X>(result: Result<X>) {
+	if (!result.ok) throw new Error(result.problem)
+	return result.item
+}
+

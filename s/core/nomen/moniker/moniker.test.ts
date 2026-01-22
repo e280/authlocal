@@ -11,14 +11,14 @@ export default suite({
 	}),
 
 	"id->moniker->id": test(async() => {
-		expect(moniker.toHex(moniker(demoHex))).is(demoHex)
+		expect(moniker.toId(moniker(demoHex))).is(demoHex)
 	}),
 
 	"invalid moniker fails": test(async() => {
 		const badChars = [...demoMoniker]
 		badChars[24] = "X"
 		const bad = badChars.join("")
-		expect(() => moniker.toHex(bad)).throws()
+		expect(() => moniker.toId(bad)).throws()
 	}),
 })
 
