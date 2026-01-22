@@ -1,30 +1,29 @@
 
-import {prefixes, prefixIndex} from "./prefixes.js"
-import {suffixes, suffixIndex} from "./suffixes.js"
+import {prefixes, suffixes} from "../phonemes/phonemes.js"
 
-export function *motesFromBytes(buffer: Iterable<number>) {
+export function *wordsFromBytes(buffer: Iterable<number>) {
 	for (const [a, b] of pairwise(buffer))
-		yield moteFromPair(a, b)
+		yield wordFromPair(a, b)
 }
 
-export function *motesToBytes(motes: Iterable<string>) {
+export function *wordsToBytes(motes: Iterable<string>) {
 	for (const mote of motes) {
-		const [a, b] = moteToPair(mote)
+		const [a, b] = wordToPair(mote)
 		yield a
 		yield b
 	}
 }
 
-export function moteFromPair(a: number, b: number) {
+export function wordFromPair(a: number, b: number) {
 	return prefixes.require(a) + suffixes.require(b)
 }
 
-export function moteToPair(mote: string) {
+export function wordToPair(mote: string) {
 	const prefix = mote.slice(0, 3)
 	const suffix = mote.slice(3, 6)
 	return [
-		prefixIndex.require(prefix),
-		suffixIndex.require(suffix),
+		prefixes.index.require(prefix),
+		suffixes.index.require(suffix),
 	] as [number, number]
 }
 

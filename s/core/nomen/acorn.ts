@@ -3,15 +3,16 @@ import {bytes, hex} from "@e280/stz"
 import {sha256} from "@noble/hashes/sha2.js"
 
 import {Root} from "../cryp/types.js"
-import {motesFromBytes, motesToBytes} from "./parts/motes.js"
+import {checksum16} from "./parts/checksum.js"
+import {wordsFromBytes, wordsToBytes} from "./parts/words.js"
 
 export function acorn(root: Root) {
 	const rootBytes = hex.toBytes(root)
 	const checksumBytes = sha256(rootBytes).slice(0, 2)
 
 	const motes = [
-		...motesFromBytes(rootBytes),
-		...motesFromBytes(checksumBytes),
+		...wordsFromBytes(rootBytes),
+		...wordsFromBytes(checksumBytes),
 	]
 
 	const lines = [
@@ -37,9 +38,9 @@ acorn.toRoot = (text: string): Root => {
 	if (motes.length !== 17)
 		throw new Error("invalid number of motes")
 
-	const reportedChecksumBytes = new Uint8Array(motesToBytes([motes.pop()!]))
-	const rootBytes = new Uint8Array(motesToBytes(motes))
-	const checksumBytes = sha256(rootBytes).slice(0, 2)
+	const reportedChecksumBytes = new Uint8Array(wordsToBytes([motes.pop()!]))
+	const rootBytes = new Uint8Array(wordsToBytes(motes))
+	const checksumBytes = checksum16(rootBytes)
 
 	if (!bytes.eq(reportedChecksumBytes, checksumBytes))
 		throw new Error("invalid checksum")
