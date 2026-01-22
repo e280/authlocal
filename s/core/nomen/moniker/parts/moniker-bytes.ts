@@ -1,6 +1,6 @@
 
 import {base58, bytes} from "@e280/stz"
-import {checksum16} from "./checksum.js"
+import {checksum16} from "../../utils/checksum.js"
 import {delimiter, sigilSize} from "./options.js"
 import {wordsFromBytes, wordsToBytes} from "./words.js"
 

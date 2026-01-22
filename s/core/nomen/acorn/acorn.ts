@@ -2,9 +2,9 @@
 import {bytes, hex} from "@e280/stz"
 import {sha256} from "@noble/hashes/sha2.js"
 
-import {Root} from "../cryp/types.js"
-import {checksum16} from "./parts/checksum.js"
-import {wordsFromBytes, wordsToBytes} from "./parts/words.js"
+import {Root} from "../../cryp/types.js"
+import {checksum16} from "../utils/checksum.js"
+import {wordsFromBytes, wordsToBytes} from "../moniker/parts/words.js"
 
 export function acorn(root: Root) {
 	const rootBytes = hex.toBytes(root)

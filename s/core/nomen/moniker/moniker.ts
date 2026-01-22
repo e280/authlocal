@@ -1,6 +1,6 @@
 
 import {hex} from "@e280/stz"
-import {Id} from "../cryp/types.js"
+import {Id} from "../../cryp/types.js"
 import {delimiter} from "./parts/options.js"
 import {monikerFromBytes, monikerToBytes} from "./parts/moniker-bytes.js"
 
