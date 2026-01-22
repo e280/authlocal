@@ -11,3 +11,6 @@ export * from "./cryp/types.js"
 export * from "./nomen/acorn/acorn.js"
 export * from "./nomen/moniker/moniker.js"
 
+export * from "./utils/err.js"
+export * from "./utils/validation.js"
+
