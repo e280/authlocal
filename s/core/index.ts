@@ -5,5 +5,5 @@ export * from "./nomen/index.js"
 export * from "./tok/index.js"
 
 export * from "./utils/err.js"
-export * from "./utils/validation.js"
+export * from "./utils/yep.js"
 

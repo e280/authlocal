@@ -4,8 +4,8 @@ import {sha256} from "@noble/hashes/sha2.js"
 
 import {Root} from "../../cryp/types.js"
 import {checksum16} from "../utils/checksum.js"
+import {yep, nah, problems, yoink} from "../../utils/yep.js"
 import {wordsFromBytes, wordsToBytes} from "../moniker/parts/words.js"
-import {ok, problem, problematize, retrieve} from "../../utils/validation.js"
 
 export function acorn(root: Root) {
 	const rootBytes = hex.toBytes(root)
@@ -37,18 +37,18 @@ acorn.parse = (text: string) => {
 		.filter(Boolean)
 
 	if (words.length !== 17)
-		return problem("invalid number of words")
+		return nah("invalid number of words")
 
 	const reportedChecksumBytes = new Uint8Array(wordsToBytes([words.pop()!]))
 	const rootBytes = new Uint8Array(wordsToBytes(words))
 	const checksumBytes = checksum16(rootBytes)
 
 	if (!bytes.eq(reportedChecksumBytes, checksumBytes))
-		return problem("invalid checksum")
+		return nah("invalid checksum")
 
-	return ok(hex.fromBytes(rootBytes))
+	return yep(hex.fromBytes(rootBytes))
 }
 
-acorn.problem = (text: string) => problematize(acorn.parse(text))
-acorn.toRoot = (text: string) => retrieve(acorn.parse(text))
+acorn.problem = (text: string) => problems(acorn.parse(text))
+acorn.toRoot = (text: string) => yoink(acorn.parse(text))
 
