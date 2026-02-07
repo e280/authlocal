@@ -1,12 +1,12 @@
 
 import {Err} from "../utils/err.js"
 
-export type Header = {
+export type TokenHeader = {
 	typ: "JWT"
 	alg: "EdDSA"
 }
 
-export type Payload = Partial<{
+export type TokenPayload = Partial<{
 	iss: string
 	sub: string
 	aud: string
@@ -18,21 +18,21 @@ export type Payload = Partial<{
 
 export type TokenString = string
 
-export type Token<P extends Payload = any> = {
-	header: Header
+export type Token<P extends TokenPayload = any> = {
+	header: TokenHeader
 	payload: P
 	signature: Uint8Array
 }
 
-export type Verifications = {
+export type TokenVerifications = {
 	atTime?: number | null
 	allowedIssuers?: string[]
 	allowedAudiences?: string[]
 }
 
-export class VerifyError extends Err {}
+export class TokenVerifyErr extends Err {}
 
-export type Params = {
+export type TokenParams = {
 	expiresAt?: number
 	issuedAt?: number
 	notBefore?: number

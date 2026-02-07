@@ -1,10 +1,11 @@
 
 /*
-"cryp" facility for low-level cryptography
+"cryp" low-level cryptography primitives
 */
 
-export * from "./cipher.js"
-export * from "./derive.js"
-export * from "./kit.js"
-export * from "./signer.js"
+export *  from "./cipher.js"
+export *  from "./derive.js"
+export *  from "./kit.js"
+export *  from "./signing.js"
+export *  from "./types.js"
 

@@ -1,7 +1,7 @@
 
-import {decode} from "./decode.js"
+import {decodeToken} from "./decode.js"
 
-export const time = {
+export const tokenTime = {
 
 	/** convert jwt seconds to js milliseconds */
 	toMs: (t: number) => t * 1000,
@@ -16,18 +16,18 @@ export const time = {
 
 	/** read token expiry time in js milliseconds */
 	readExpiresAt(token: string) {
-		const {exp} = decode(token).payload
+		const {exp} = decodeToken(token).payload
 		return exp === undefined
 			? undefined
-			: time.toMs(exp)
+			: tokenTime.toMs(exp)
 	},
 
 	/** read token issued time in js milliseconds */
 	readIssuedAt(token: string) {
-		const {iat} = decode(token).payload
+		const {iat} = decodeToken(token).payload
 		return iat === undefined
 			? undefined
-			: time.toMs(iat)
+			: tokenTime.toMs(iat)
 	},
 
 	/** return true if the jwt is expired */

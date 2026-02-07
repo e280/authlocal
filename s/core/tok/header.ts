@@ -1,5 +1,5 @@
 
-import {Header} from "./types.js"
+import {TokenHeader} from "./types.js"
 
-export const header: Header = {typ: "JWT", alg: "EdDSA"}
+export const tokenHeader: TokenHeader = {typ: "JWT", alg: "EdDSA"}
 

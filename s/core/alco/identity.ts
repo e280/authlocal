@@ -3,7 +3,7 @@ import {hex} from "@e280/stz"
 import {Identity} from "./types.js"
 import {Root} from "../cryp/types.js"
 import {purposes} from "./purposes.js"
-import {moniker} from "../nomen/moniker/moniker.js"
+import {sigil} from "../nomen/moniker/sigil.js"
 import {deriveId, deriveSecret} from "../cryp/derive.js"
 
 export async function deriveIdentity(
@@ -17,7 +17,7 @@ export async function deriveIdentity(
 	return {
 		root,
 		keypair: {id, secret},
-		profile: {id, name: name || moniker.sigil(id)},
+		profile: {id, name: name || sigil(id)},
 	}
 }
 

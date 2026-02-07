@@ -1,59 +1,59 @@
 
-import {time} from "./time.js"
-import {cryp} from "../index.js"
-import {decode} from "./decode.js"
+import {tokenTime} from "./time.js"
+import {decodeToken} from "./decode.js"
 import {Id} from "../cryp/types.js"
-import {Payload, Verifications, VerifyError} from "./types.js"
+import {verifyBytes} from "../cryp/signing.js"
+import {TokenPayload, TokenVerifications, TokenVerifyErr} from "./types.js"
 
-export async function verify<P extends Payload>(
+export async function verifyToken<P extends TokenPayload>(
 		id: Id,
 		token: string,
-		options: Verifications = {},
+		options: TokenVerifications = {},
 	): Promise<P> {
 
 	const [headerText, payloadText] = token.split(".")
-	const {payload, signature} = decode<P>(token)
+	const {payload, signature} = decodeToken<P>(token)
 	const signingText = `${headerText}.${payloadText}`
 	const signingBytes = new TextEncoder().encode(signingText)
 
-	if (!await cryp.verify(id, signingBytes, signature))
-		throw new VerifyError("token signature invalid")
+	if (!await verifyBytes(id, signingBytes, signature))
+		throw new TokenVerifyErr("token signature invalid")
 
 	if (options.atTime !== null) {
 		const atTime = options.atTime ?? Date.now()
 
 		if (payload.exp) {
-			const expiresAt = time.toMs(payload.exp)
+			const expiresAt = tokenTime.toMs(payload.exp)
 			if (atTime > expiresAt)
-				throw new VerifyError("token expired")
+				throw new TokenVerifyErr("token expired")
 		}
 
 		if (payload.nbf) {
-			const notBefore = time.toMs(payload.nbf)
+			const notBefore = tokenTime.toMs(payload.nbf)
 			if (atTime < notBefore)
-				throw new VerifyError("token not ready")
+				throw new TokenVerifyErr("token not ready")
 		}
 	}
 
 	if (options.allowedIssuers) {
 		if (!payload.iss)
-			throw new VerifyError(`required iss (issuer) is missing`)
+			throw new TokenVerifyErr(`required iss (issuer) is missing`)
 		if (!options.allowedIssuers.includes(payload.iss))
-			throw new VerifyError(`invalid iss (issuer) "${payload.iss}"`)
+			throw new TokenVerifyErr(`invalid iss (issuer) "${payload.iss}"`)
 	}
 
 	if (options.allowedAudiences) {
 		if (!payload.aud)
-			throw new VerifyError(`required aud (audience) is missing`)
+			throw new TokenVerifyErr(`required aud (audience) is missing`)
 		if (!options.allowedAudiences.includes(payload.aud))
-			throw new VerifyError(`invalid aud (audience) "${payload.aud}"`)
+			throw new TokenVerifyErr(`invalid aud (audience) "${payload.aud}"`)
 	}
 
 	if (payload.aud && !options.allowedAudiences)
-		throw new VerifyError(`allowedAudiences verification option was not provided, but is required because the token included "aud"`)
+		throw new TokenVerifyErr(`allowedAudiences verification option was not provided, but is required because the token included "aud"`)
 
 	if (payload.iss && !options.allowedIssuers)
-		throw new VerifyError(`allowedIssuers verification option was not provided, but is required because the token included "iss"`)
+		throw new TokenVerifyErr(`allowedIssuers verification option was not provided, but is required because the token included "iss"`)
 
 	return payload
 }

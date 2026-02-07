@@ -1,15 +1,15 @@
 
 import {base64url, txt} from "@e280/stz"
-import {Header, Payload, Token} from "./types.js"
+import {TokenHeader, TokenPayload, Token} from "./types.js"
 
-export function decode<P extends Payload>(token: string): Token<P> {
+export function decodeToken<P extends TokenPayload>(token: string): Token<P> {
 	const [headerText, payloadText, signatureText] = token.split(".")
 	if (!headerText || !payloadText || !signatureText)
 		throw new Error("invalid jwt structure")
 
 	const headerBytes = base64url.toBytes(headerText)
 	const headerJson = txt.fromBytes(headerBytes)
-	const header: Header = JSON.parse(headerJson)
+	const header: TokenHeader = JSON.parse(headerJson)
 
 	const payloadBytes = base64url.toBytes(payloadText)
 	const payloadJson = txt.fromBytes(payloadBytes)

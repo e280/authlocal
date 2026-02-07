@@ -1,15 +1,8 @@
 
-export * as alco from "./alco/index.barrel.js"
-export * as cryp from "./cryp/index.barrel.js"
-export * as tok from "./tok/index.barrel.js"
-
-export {TokenString} from "./tok/index.barrel.js"
-
-export * from "./alco/types.js"
-export * from "./cryp/types.js"
-
-export * from "./nomen/acorn/acorn.js"
-export * from "./nomen/moniker/moniker.js"
+export * from "./alco/index.js"
+export * from "./cryp/index.js"
+export * from "./nomen/index.js"
+export * from "./tok/index.js"
 
 export * from "./utils/err.js"
 export * from "./utils/validation.js"

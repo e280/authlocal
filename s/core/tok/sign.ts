@@ -1,12 +1,12 @@
 
 import {base64url, txt} from "@e280/stz"
-import {cryp} from "../index.js"
-import {Payload} from "./types.js"
-import {header} from "./header.js"
+import {TokenPayload} from "./types.js"
+import {tokenHeader} from "./header.js"
 import {Secret} from "../cryp/types.js"
+import {signBytes} from "../cryp/signing.js"
 
-export async function sign<P extends Payload>(secret: Secret, payload: P): Promise<string> {
-	const headerBytes = txt.toBytes(JSON.stringify(header))
+export async function signToken<P extends TokenPayload>(secret: Secret, payload: P): Promise<string> {
+	const headerBytes = txt.toBytes(JSON.stringify(tokenHeader))
 	const headerText = base64url.fromBytes(headerBytes)
 
 	const payloadBytes = txt.toBytes(JSON.stringify(payload))
@@ -14,7 +14,7 @@ export async function sign<P extends Payload>(secret: Secret, payload: P): Promi
 
 	const signingText = `${headerText}.${payloadText}`
 	const signingBytes = new TextEncoder().encode(signingText)
-	const signature = base64url.fromBytes(await cryp.sign(secret, signingBytes))
+	const signature = base64url.fromBytes(await signBytes(secret, signingBytes))
 
 	return `${signingText}.${signature}`
 }
