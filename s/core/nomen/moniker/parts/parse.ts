@@ -1,7 +1,7 @@
 
 import {base58, bytes} from "@e280/stz"
 import {wordsToBytes} from "./words.js"
-import {yay, nay} from "../../../utils/yep.js"
+import {yay, nay} from "../../../utils/yay.js"
 import {delimiter, sigilSize} from "./options.js"
 import {checksum16} from "../../utils/checksum.js"
 

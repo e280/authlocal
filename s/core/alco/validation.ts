@@ -1,5 +1,5 @@
 
-import {validator, deny} from "../utils/yep.js"
+import {validator, deny} from "../utils/yay.js"
 
 export const maxLabelLength = 32
 

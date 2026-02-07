@@ -4,7 +4,7 @@ import {sha256} from "@noble/hashes/sha2.js"
 
 import {Root} from "../../cryp/types.js"
 import {checksum16} from "../utils/checksum.js"
-import {yay, nay, problems, yoink} from "../../utils/yep.js"
+import {yay, nay, problems, yoink} from "../../utils/yay.js"
 import {wordsFromBytes, wordsToBytes} from "../moniker/parts/words.js"
 
 export function acorn(root: Root) {

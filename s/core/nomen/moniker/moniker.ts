@@ -3,7 +3,7 @@ import {hex} from "@e280/stz"
 import {Id} from "../../cryp/types.js"
 import {monikerMake} from "./parts/make.js"
 import {monikerParse} from "./parts/parse.js"
-import {problems, yoink} from "../../utils/yep.js"
+import {problems, yoink} from "../../utils/yay.js"
 
 export function moniker(id: Id) {
 	return monikerMake(hex.toBytes(id))

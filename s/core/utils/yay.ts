@@ -1,33 +1,33 @@
 
 /** valid value */
-export type Yay<X> = {yep: true, value: X}
+export type Yay<X> = {yay: true, value: X}
 
 /** invalid value, was rejected for the given problem strings */
-export type Nay = {yep: false, problems: string[]}
+export type Nay = {yay: false, problems: string[]}
 
 /** either a valid value, or a validation failure with problems */
 export type Maybe<X> = Yay<X> | Nay
 
 /** succeeded in getting a value */
 export function yay<X>(value: X): Yay<X> {
-	return {yep: true, value}
+	return {yay: true, value}
 }
 
 /** failed to get a value, now we have problems instead */
 export function nay(...problems: string[]): Nay {
-	return {yep: false, problems}
+	return {yay: false, problems}
 }
 
 /** gimmie the problems array, or undefined */
 export function problems(maybe: Maybe<unknown>) {
-	return maybe.yep
+	return maybe.yay
 		? undefined
 		: maybe.problems
 }
 
 /** gimmie the value, or throw an error */
 export function yoink<X>(maybe: Maybe<X>) {
-	if (!maybe.yep) throw new Error(maybe.problems.join("; "))
+	if (!maybe.yay) throw new Error(maybe.problems.join("; "))
 	return maybe.value
 }
 
@@ -42,7 +42,7 @@ export function validator<X>(...validators: Validator<X>[]): Validator<X> {
 
 		for (const validator of validators) {
 			const maybe = validator(transformed)
-			if (!maybe.yep) probs.push(...maybe.problems)
+			if (!maybe.yay) probs.push(...maybe.problems)
 			else transformed = maybe.value
 		}
 
