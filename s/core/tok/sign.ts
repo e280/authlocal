@@ -1,11 +1,11 @@
 
 import {base64url, txt} from "@e280/stz"
-import {TokenPayload} from "./types.js"
+import {Payload} from "./types.js"
 import {tokenHeader} from "./header.js"
 import {Secret} from "../cryp/types.js"
 import {signBytes} from "../cryp/signing.js"
 
-export async function signToken<P extends TokenPayload>(secret: Secret, payload: P): Promise<string> {
+export async function signToken<P extends Payload>(secret: Secret, payload: P): Promise<string> {
 	const headerBytes = txt.toBytes(JSON.stringify(tokenHeader))
 	const headerText = base64url.fromBytes(headerBytes)
 

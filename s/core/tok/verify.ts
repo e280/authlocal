@@ -1,11 +1,11 @@
 
 import {tokenTime} from "./time.js"
-import {decodeToken} from "./decode.js"
 import {Id} from "../cryp/types.js"
+import {decodeToken} from "./decode.js"
 import {verifyBytes} from "../cryp/signing.js"
-import {TokenPayload, TokenVerifications, TokenVerifyErr} from "./types.js"
+import {Payload, TokenVerifications, TokenVerifyErr} from "./types.js"
 
-export async function verifyToken<P extends TokenPayload>(
+export async function verifyToken<P extends Payload>(
 		id: Id,
 		token: string,
 		options: TokenVerifications = {},

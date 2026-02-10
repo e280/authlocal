@@ -13,11 +13,8 @@ export async function deriveIdentity(
 
 	const secret = await deriveSecret(root, purposes.id)
 	const id = await deriveId(secret)
+	name ||= sigil(id)
 
-	return {
-		root,
-		keypair: {id, secret},
-		profile: {id, name: name || sigil(id)},
-	}
+	return {root, name, keypair: {id, secret}}
 }
 

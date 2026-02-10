@@ -1,5 +1,9 @@
 
+const prefix = "authlocal:1"
+
 export const purposes = Object.freeze({
-	id: "authlocal:1:id",
+	id: `${prefix}:id`,
+	viceroy: `${prefix}:viceroy`,
+	login: `${prefix}:login`,
 } as const)
 

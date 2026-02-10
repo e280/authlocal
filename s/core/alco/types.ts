@@ -1,56 +1,31 @@
 
 import {Id, Keypair, Purpose, Root, Secret} from "../cryp/types.js"
 
-/** public information about an identity */
-export type Profile = {
-	id: Id
-	name: string
-}
-
 /** private information about an identity */
 export type Identity = {
 	root: Root
+	name: string
 	keypair: Keypair
-	profile: Profile
 }
 
-/** apps can request various things */
+/** secret derived from a root, scoped to an app's origin */
+export type Viceroy = Secret
+
+/** a request for a delegate */
 export type Petition = {
-
-	/** how many milliseconds we're asking for this stuff to live */
-	lifespan: number
-
-	/** purpose strings for each delegate keypair */
-	delegates: Purpose[]
-}
-
-/** unverified/unprocessed grant */
-export type Offer = {
+	purpose: Purpose
 	expiresAt: number
-	profileCert: CertToken
-	delegates: UnverifiedDelegate[]
 }
 
-/** verified information */
-export type Grant = {
-	expiresAt: number
-	profile: Profile
-	profileCert: CertToken
-	delegates: Delegate[]
-}
-
-/** root-derived keypair, with certified pubkey */
-export type UnverifiedDelegate = {
-	secret: Secret
-	proofCert: CertToken
-}
-
-/** root-derived keypair, with certified pubkey */
+/**  */
 export type Delegate = {
+	signedBy: Id
 	keypair: Keypair
-	proofCert: CertToken
+	proofToken: CertToken
 }
 
+export type Cert<X extends object> = X & {signedBy: Id}
 export type CertToken = string
-export type Cert<X extends object> = X & {identityId: Id}
+
+export type Proof = Cert<{delegateId: Id}>
 
