@@ -12,10 +12,10 @@
 	"exports": {
 		".": "./x/index.js",
 		"core": "./x/core/index.js",
-		"alco": "./x/core/alco/index.js",
-		"cryp": "./x/core/cryp/index.js",
-		"nomen": "./x/core/nomen/index.js",
-		"tok": "./x/core/tok/index.js"
+		"core/alco": "./x/core/alco/index.js",
+		"core/cryp": "./x/core/cryp/index.js",
+		"core/nomen": "./x/core/nomen/index.js",
+		"core/tok": "./x/core/tok/index.js"
 	},
 	"dependencies": {
 		"@e280/kv": "^0.1.0",
