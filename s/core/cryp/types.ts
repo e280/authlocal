@@ -11,8 +11,8 @@ export type Secret = Hex
 /** ed25519 public hex key */
 export type Id = Hex
 
-/** string scope for derived keys */
-export type Purpose = string
+/** string purpose for derived keys */
+export type Scope = string
 
 /** ed25519 keypair */
 export type Keypair = {

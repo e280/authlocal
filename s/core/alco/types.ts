@@ -1,31 +1,26 @@
 
-import {Id, Keypair, Purpose, Root, Secret} from "../cryp/types.js"
-
-/** private information about an identity */
-export type Identity = {
-	root: Root
-	name: string
-	keypair: Keypair
-}
+import {Id, Keypair, Scope, Secret} from "../cryp/types.js"
 
 /** secret derived from a root, scoped to an app's origin */
 export type Viceroy = Secret
 
 /** a request for a delegate */
 export type Petition = {
-	purpose: Purpose
+	scope: Scope
 	expiresAt: number
 }
 
-/**  */
+/** a delegate keypair is a scoped keypair derived from a viceroy */
 export type Delegate = {
 	signedBy: Id
 	keypair: Keypair
-	proofToken: CertToken
+	proofToken: AttestationToken
 }
 
-export type Cert<X extends object> = X & {signedBy: Id}
-export type CertToken = string
+/** verifiable claim signed by a viceroy */
+export type Attestation<X extends object> = X & {signedBy: Id}
+export type AttestationToken = string
 
-export type Proof = Cert<{delegateId: Id}>
+/** proof certifies that a delegate was signed by a viceroy */
+export type Proof = Attestation<{delegateId: Id}>
 

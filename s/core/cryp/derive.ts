@@ -1,35 +1,24 @@
 
-import {hex, txt} from "@e280/stz"
+import {hex} from "@e280/stz"
 import {ed25519, x25519} from "@noble/curves/ed25519.js"
 
-import {hashBytes, keyBytes} from "./kit.js"
-import {Id, Secret, Root, Purpose} from "./types.js"
+import {hash} from "./hashing.js"
+import {keyBytes} from "./kit.js"
+import {Id, Secret, Scope} from "./types.js"
 
-export async function deriveId(secret: Secret): Promise<Id> {
-	const idBytes = ed25519.getPublicKey(keyBytes(secret))
+export function deriveId(secret: Secret): Id {
+	const secretBytes = keyBytes(secret)
+	const idBytes = ed25519.getPublicKey(secretBytes)
 	return hex.fromBytes(idBytes)
 }
 
-export async function deriveSecret(root: Root, purpose: Purpose): Promise<Secret> {
-	return hashBytes(
-		keyBytes(root),
-		txt.toBytes(purpose),
-	)
+export function deriveScopedSecret(secret: Secret, scope: Scope): Secret {
+	return hash(secret, scope)
 }
 
-export async function deriveSharedSecret(
-		aliceSecret: Secret,
-		bobId: Id,
-		purpose: Purpose,
-	): Promise<Secret> {
-
+export function deriveSharedSecret(aliceSecret: Secret, bobId: Id): Secret {
 	const aliceXSecretBytes = ed25519.utils.toMontgomerySecret(hex.toBytes(aliceSecret))
 	const bobXPubBytes = ed25519.utils.toMontgomery(hex.toBytes(bobId))
-	const shared = x25519.getSharedSecret(aliceXSecretBytes, bobXPubBytes)
-
-	return hashBytes(
-		shared,
-		txt.toBytes(purpose),
-	)
+	return hex.fromBytes(x25519.getSharedSecret(aliceXSecretBytes, bobXPubBytes))
 }
 

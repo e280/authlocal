@@ -5,18 +5,18 @@ import {decodeToken} from "./decode.js"
 import {verifyBytes} from "../cryp/signing.js"
 import {Payload, TokenVerifications, TokenVerifyErr} from "./types.js"
 
-export async function verifyToken<P extends Payload>(
+export function verifyToken<P extends Payload>(
 		id: Id,
 		token: string,
 		options: TokenVerifications = {},
-	): Promise<P> {
+	): P {
 
 	const [headerText, payloadText] = token.split(".")
 	const {payload, signature} = decodeToken<P>(token)
 	const signingText = `${headerText}.${payloadText}`
 	const signingBytes = new TextEncoder().encode(signingText)
 
-	if (!await verifyBytes(id, signingBytes, signature))
+	if (!verifyBytes(id, signingBytes, signature))
 		throw new TokenVerifyErr("token signature invalid")
 
 	if (options.atTime !== null) {

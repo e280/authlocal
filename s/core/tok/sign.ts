@@ -5,7 +5,7 @@ import {tokenHeader} from "./header.js"
 import {Secret} from "../cryp/types.js"
 import {signBytes} from "../cryp/signing.js"
 
-export async function signToken<P extends Payload>(secret: Secret, payload: P): Promise<string> {
+export function signToken<P extends Payload>(secret: Secret, payload: P): string {
 	const headerBytes = txt.toBytes(JSON.stringify(tokenHeader))
 	const headerText = base64url.fromBytes(headerBytes)
 
@@ -14,7 +14,7 @@ export async function signToken<P extends Payload>(secret: Secret, payload: P): 
 
 	const signingText = `${headerText}.${payloadText}`
 	const signingBytes = new TextEncoder().encode(signingText)
-	const signature = base64url.fromBytes(await signBytes(secret, signingBytes))
+	const signature = base64url.fromBytes(signBytes(secret, signingBytes))
 
 	return `${signingText}.${signature}`
 }

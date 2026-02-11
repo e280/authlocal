@@ -6,24 +6,24 @@ import {keyBytes} from "./kit.js"
 import {deriveId} from "./derive.js"
 import {Id, Keypair, Secret} from "./types.js"
 
-export async function generateKeypair(): Promise<Keypair> {
+export function generateKeypair(): Keypair {
 	const secret = hex.random(32)
-	const id = await deriveId(secret)
+	const id = deriveId(secret)
 	return {id, secret}
 }
 
-export async function signBytes(
+export function signBytes(
 		secret: Secret,
 		message: Uint8Array,
-	): Promise<Uint8Array> {
+	): Uint8Array {
 	return ed25519.sign(message, keyBytes(secret))
 }
 
-export async function verifyBytes(
+export function verifyBytes(
 		id: Id,
 		message: Uint8Array,
 		signature: Uint8Array,
-	): Promise<boolean> {
+	): boolean {
 	return ed25519.verify(signature, message, keyBytes(id))
 }
 

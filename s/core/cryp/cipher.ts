@@ -1,47 +1,35 @@
 
 import {bytes} from "@e280/stz"
+import {xchacha20poly1305} from "@noble/ciphers/chacha.js"
+
 import {keyBytes} from "./kit.js"
 import {Secret} from "./types.js"
 
-const ivByteCount = 12
+const nonceByteCount = 24
 
-export async function encrypt(secret: Secret, buffer: Uint8Array) {
-	const iv = bytes.random(ivByteCount)
+export function encrypt(secret: Secret, buffer: Uint8Array, aad?: Uint8Array) {
+	const nonce = bytes.random(nonceByteCount)
+	const key = new Uint8Array(keyBytes(secret))
 
-	const ciphertext = new Uint8Array(
-		await crypto.subtle.encrypt(
-			{name: "AES-GCM", iv},
-			await prepKey(secret),
-			new Uint8Array(buffer),
-		)
-	)
+	const cipher = xchacha20poly1305(key, nonce, aad)
+	const ciphertext = cipher.encrypt(new Uint8Array(buffer))
 
-	return new Uint8Array([...iv, ...ciphertext])
+	const out = new Uint8Array(nonceByteCount + ciphertext.length)
+	out.set(nonce, 0)
+	out.set(ciphertext, nonceByteCount)
+	return out
 }
 
-export async function decrypt(secret: Secret, buffer: Uint8Array) {
-	if (buffer.length < ivByteCount)
-		throw new Error("invalid data byte count, less than required iv")
+export function decrypt(secret: Secret, buffer: Uint8Array, aad?: Uint8Array) {
+	if (buffer.length < nonceByteCount)
+		throw new Error("invalid data byte count, less than required nonce")
 
-	const iv = buffer.slice(0, ivByteCount)
-	const ciphertext = buffer.slice(ivByteCount)
+	const nonce = buffer.slice(0, nonceByteCount)
+	const ciphertext = buffer.slice(nonceByteCount)
 
-	return new Uint8Array(
-		await crypto.subtle.decrypt(
-			{name: "AES-GCM", iv},
-			await prepKey(secret),
-			ciphertext,
-		)
-	)
-}
+	const key = new Uint8Array(keyBytes(secret))
+	const cipher = xchacha20poly1305(key, nonce, aad)
 
-async function prepKey(secret: Secret) {
-	return crypto.subtle.importKey(
-		"raw",
-		new Uint8Array(keyBytes(secret)),
-		{name: "AES-GCM"},
-		false,
-		["encrypt", "decrypt"],
-	)
+	return cipher.decrypt(ciphertext)
 }
 
