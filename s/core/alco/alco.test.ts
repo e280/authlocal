@@ -4,7 +4,7 @@ import {suite, test, expect} from "@e280/science"
 
 import {scopes} from "./scopes.js"
 import {deriveViceroy} from "./viceroy.js"
-import {generateSecret} from "../cryp/kit.js"
+import {generateSecret} from "../cryp/gen.js"
 import {signDelegate, verifyDelegate} from "./delegation.js"
 
 export default suite({

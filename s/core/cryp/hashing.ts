@@ -4,6 +4,10 @@ import {blake3} from "@noble/hashes/blake3.js"
 
 const delimiter = Uint8Array.of(0x00)
 
+export function hash(...parts: (string | Uint8Array)[]) {
+	return hex.fromBytes(rawHash(...parts))
+}
+
 export function rawHash(...parts: (string | Uint8Array)[]) {
 	const hasher = blake3.create()
 
@@ -21,9 +25,5 @@ export function rawHash(...parts: (string | Uint8Array)[]) {
 	}
 
 	return hasher.digest()
-}
-
-export function hash(...parts: (string | Uint8Array)[]) {
-	return hex.fromBytes(rawHash(...parts))
 }
 
