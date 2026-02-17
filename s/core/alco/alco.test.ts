@@ -10,7 +10,6 @@ import {signDelegate, verifyDelegate} from "./delegation.js"
 
 export default suite({
 	"login flow": test(async() => {
-
 		// authlocal locally keeps the user's root secret
 		const root = generateSecret()
 
@@ -26,6 +25,17 @@ export default suite({
 		expect(delegate.signedBy).is(deriveId(viceroy))
 		expect(() => verifyDelegate(delegate)).not.throws()
 		expect(() => verifyDelegate({...delegate, signedBy: generateSecret()})).throws()
+	}),
+
+	"delegate can expire": test(async() => {
+		const secret = generateSecret()
+		const delegate = signDelegate(secret, {
+			scope: scopes.login,
+			expiresAt: 12_000,
+		})
+		expect(() => verifyDelegate(delegate, {atTime: 11_000})).not.throws()
+		expect(() => verifyDelegate(delegate, {atTime: 13_000})).throws()
+		expect(() => verifyDelegate(delegate, {atTime: 12_000})).throws()
 	}),
 })
 

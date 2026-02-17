@@ -24,7 +24,7 @@ export function verifyToken<P extends Payload>(
 
 		if (payload.exp) {
 			const expiresAt = tokenTime.toMs(payload.exp)
-			if (atTime > expiresAt)
+			if (atTime >= expiresAt)
 				throw new TokenVerifyErr("token expired")
 		}
 
