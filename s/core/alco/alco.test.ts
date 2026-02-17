@@ -16,8 +16,8 @@ export default suite({
 			expiresAt: time.future.hours(1),
 		})
 		expect(delegate.signedBy).ok()
-		await expect(async() => verifyDelegate(delegate)).not.throwsAsync()
-		await expect(async() => verifyDelegate({...delegate, signedBy: generateSecret()})).throwsAsync()
+		expect(() => verifyDelegate(delegate)).not.throws()
+		expect(() => verifyDelegate({...delegate, signedBy: generateSecret()})).throwsAsync()
 	}),
 })
 
