@@ -1,5 +1,5 @@
 
-import {Id, Keypair, Scope, Secret} from "../cryp/types.js"
+import {Id, Scope, Secret} from "../cryp/types.js"
 
 /** secret derived from a root, scoped to an app's origin */
 export type Viceroy = Secret
@@ -13,7 +13,7 @@ export type Petition = {
 /** a delegate keypair is a scoped keypair derived from a viceroy */
 export type Delegate = {
 	signedBy: Id
-	keypair: Keypair
+	secret: Secret
 	proofToken: AttestationToken
 }
 
