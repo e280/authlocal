@@ -5,6 +5,7 @@
 
 export *  from "./cipher.js"
 export *  from "./derive.js"
+export *  from "./gen.js"
 export *  from "./hashing.js"
 export *  from "./kit.js"
 export *  from "./signing.js"
