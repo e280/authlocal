@@ -7,7 +7,7 @@ export type Viceroy = Secret
 /** a request for a delegate */
 export type Petition = {
 	scope: Scope
-	issuer: string
+	issuer: string // TODO i think we remove this?
 	audience: string
 	expiresAt: number
 }
