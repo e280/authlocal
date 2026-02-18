@@ -18,12 +18,18 @@ export function signDelegate(viceroy: Secret, petition: Petition): Delegate {
 	const proofToken = signToken<Payload<{proof: Proof}>>(viceroy, {
 		proof,
 		exp: tokenTime.at(expiresAt),
+		iss: petition.issuer,
+		aud: petition.audience,
 	})
 
 	return {signedBy, secret, proofToken}
 }
 
-export function verifyDelegate(delegate: Delegate, options?: TokenVerifications) {
+export function verifyDelegate(delegate: Delegate, options: {
+		allowedIssuers: string[]
+		allowedAudiences: string[]
+	} & TokenVerifications) {
+
 	const {signedBy, secret, proofToken} = delegate
 	const delegateId = deriveId(secret)
 	const {proof} = verifyToken<Payload<{proof: Proof}>>(signedBy, proofToken, options)

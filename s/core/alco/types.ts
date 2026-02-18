@@ -7,6 +7,8 @@ export type Viceroy = Secret
 /** a request for a delegate */
 export type Petition = {
 	scope: Scope
+	issuer: string
+	audience: string
 	expiresAt: number
 }
 
