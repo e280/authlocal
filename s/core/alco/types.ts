@@ -16,13 +16,13 @@ export type Petition = {
 export type Delegate = {
 	signedBy: Id
 	secret: Secret
-	proofToken: AttestationToken
+	proofToken: TestimonyToken
 }
 
 /** verifiable claim signed by a viceroy */
-export type Attestation<X extends object> = X & {signedBy: Id}
-export type AttestationToken = string
+export type Testimony<X extends object> = X & {signedBy: Id}
+export type TestimonyToken = string
 
 /** proof certifies that a delegate was signed by a viceroy */
-export type Proof = Attestation<{delegateId: Id}>
+export type Proof = Testimony<{delegateId: Id}>
 
