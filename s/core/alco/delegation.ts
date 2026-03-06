@@ -1,11 +1,12 @@
 
 import {Secret} from "../cryp/types.js"
+import {deriveId} from "../cryp/derive-id.js"
 import {signToken} from "../tok/sign-token.js"
 import {tokenTime} from "../tok/token-time.js"
 import {verifyToken} from "../tok/verify-token.js"
 import {Delegate, Petition, Proof} from "./types.js"
 import {Payload, TokenVerifications} from "../tok/types.js"
-import {deriveId, deriveScopedSecret} from "../cryp/derive.js"
+import {deriveScopedSecret} from "../cryp/derive-scoped-secret.js"
 
 export function signDelegate(viceroy: Secret, petition: Petition): Delegate {
 	const {scope, expiresAt} = petition

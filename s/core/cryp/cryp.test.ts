@@ -1,8 +1,9 @@
 
 import {suite, test, expect} from "@e280/science"
-import {hash} from "./hashing.js"
-import {generateKeypair} from "./gen.js"
-import {deriveScopedSecret, deriveSharedSecret} from "./derive.js"
+import {hash} from "./hash.js"
+import {generateKeypair} from "./generate-keypair.js"
+import {deriveSharedSecret} from "./derive-shared-secret.js"
+import {deriveScopedSecret} from "./derive-scoped-secret.js"
 
 export default suite({
 	hashing: suite({

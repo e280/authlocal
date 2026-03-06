@@ -3,11 +3,16 @@
 "cryp" low-level cryptography primitives
 */
 
-export *  from "./cipher.js"
-export *  from "./derive.js"
-export *  from "./gen.js"
-export *  from "./hashing.js"
-export *  from "./kit.js"
-export *  from "./signing.js"
+export *  from "./decrypt.js"
+export *  from "./derive-id.js"
+export *  from "./derive-scoped-secret.js"
+export *  from "./derive-shared-secret.js"
+export *  from "./encrypt.js"
+export *  from "./generate-keypair.js"
+export *  from "./generate-secret.js"
+export *  from "./hash.js"
+export *  from "./key-bytes.js"
+export *  from "./sign-bytes.js"
+export *  from "./verify-bytes.js"
 export *  from "./types.js"
 

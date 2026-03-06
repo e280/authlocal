@@ -1,8 +1,8 @@
 
-import {tokenTime} from "./token-time.js"
 import {Id} from "../cryp/types.js"
+import {tokenTime} from "./token-time.js"
 import {decodeToken} from "./decode-token.js"
-import {verifyBytes} from "../cryp/signing.js"
+import {verifyBytes} from "../cryp/verify-bytes.js"
 import {Payload, TokenVerifications, TokenVerifyErr} from "./types.js"
 
 export function verifyToken<P extends Payload>(

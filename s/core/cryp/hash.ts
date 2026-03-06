@@ -8,7 +8,7 @@ export function hash(...parts: (string | Uint8Array)[]) {
 	return hex.fromBytes(rawHash(...parts))
 }
 
-export function rawHash(...parts: (string | Uint8Array)[]) {
+function rawHash(...parts: (string | Uint8Array)[]) {
 	const hasher = blake3.create()
 
 	for (const [index, part] of parts.entries()) {
