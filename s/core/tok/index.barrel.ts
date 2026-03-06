@@ -1,8 +1,8 @@
 
-export * from "./decode.js"
-export * from "./header.js"
-export * from "./sign.js"
-export * from "./time.js"
+export * from "./decode-token.js"
+export * from "./token-header.js"
+export * from "./sign-token.js"
+export * from "./token-time.js"
 export * from "./types.js"
-export * from "./verify.js"
+export * from "./verify-token.js"
 

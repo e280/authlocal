@@ -3,7 +3,7 @@ import {bytes, hex} from "@e280/stz"
 import {sha256} from "@noble/hashes/sha2.js"
 
 import {Root} from "../../cryp/types.js"
-import {checksum16} from "../utils/checksum.js"
+import {littleChecksum} from "../utils/little-checksum.js"
 import {yay, nay, problems, yoink} from "../../utils/yay.js"
 import {wordsFromBytes, wordsToBytes} from "../moniker/parts/words.js"
 
@@ -41,7 +41,7 @@ acorn.parse = (text: string) => {
 
 	const reportedChecksumBytes = new Uint8Array(wordsToBytes([words.pop()!]))
 	const rootBytes = new Uint8Array(wordsToBytes(words))
-	const checksumBytes = checksum16(rootBytes)
+	const checksumBytes = littleChecksum(rootBytes)
 
 	if (!bytes.eq(reportedChecksumBytes, checksumBytes))
 		return nay("invalid checksum")

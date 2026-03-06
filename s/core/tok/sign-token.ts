@@ -1,7 +1,7 @@
 
 import {base64url, txt} from "@e280/stz"
 import {Payload} from "./types.js"
-import {tokenHeader} from "./header.js"
+import {tokenHeader} from "./token-header.js"
 import {Secret} from "../cryp/types.js"
 import {signBytes} from "../cryp/signing.js"
 

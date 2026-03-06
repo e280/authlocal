@@ -1,8 +1,8 @@
 
 import {Secret} from "../cryp/types.js"
-import {signToken} from "../tok/sign.js"
-import {tokenTime} from "../tok/time.js"
-import {verifyToken} from "../tok/verify.js"
+import {signToken} from "../tok/sign-token.js"
+import {tokenTime} from "../tok/token-time.js"
+import {verifyToken} from "../tok/verify-token.js"
 import {Delegate, Petition, Proof} from "./types.js"
 import {Payload, TokenVerifications} from "../tok/types.js"
 import {deriveId, deriveScopedSecret} from "../cryp/derive.js"

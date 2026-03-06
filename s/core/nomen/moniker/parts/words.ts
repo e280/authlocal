@@ -1,5 +1,6 @@
 
-import {prefixes, suffixes} from "../../phonemes/phonemes.js"
+import {prefixes} from "../../phonemes/prefixes.js"
+import {suffixes} from "../../phonemes/suffixes.js"
 
 export function *wordsFromBytes(buffer: Iterable<number>) {
 	for (const [a, b] of pairwise(buffer))

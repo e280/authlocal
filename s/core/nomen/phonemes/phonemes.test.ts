@@ -1,6 +1,7 @@
 
 import {suite, test, expect} from "@e280/science"
-import {prefixes, suffixes} from "./phonemes.js"
+import {prefixes} from "./prefixes.js"
+import {suffixes} from "./suffixes.js"
 
 export default suite({
 	"256 prefix count": test(async() => {

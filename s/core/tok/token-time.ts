@@ -1,5 +1,5 @@
 
-import {decodeToken} from "./decode.js"
+import {decodeToken} from "./decode-token.js"
 
 export const tokenTime = {
 

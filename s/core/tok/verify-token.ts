@@ -1,7 +1,7 @@
 
-import {tokenTime} from "./time.js"
+import {tokenTime} from "./token-time.js"
 import {Id} from "../cryp/types.js"
-import {decodeToken} from "./decode.js"
+import {decodeToken} from "./decode-token.js"
 import {verifyBytes} from "../cryp/signing.js"
 import {Payload, TokenVerifications, TokenVerifyErr} from "./types.js"
 
