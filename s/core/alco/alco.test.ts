@@ -4,10 +4,11 @@ import {suite, test, expect} from "@e280/science"
 
 import {scopes} from "./scopes.js"
 import {Delegate} from "./types.js"
-import {deriveViceroy} from "./viceroy.js"
+import {deriveViceroy} from "./derive-viceroy.js"
 import {deriveId} from "../cryp/derive-id.js"
+import {signDelegate} from "./sign-delegate.js"
+import {verifyDelegate} from "./verify-delegate.js"
 import {generateSecret} from "../cryp/generate-secret.js"
-import {signDelegate, verifyDelegate} from "./delegation.js"
 
 const audience = "https://e280.org"
 const issuer = "https://authlocal.org"

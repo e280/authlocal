@@ -1,7 +1,8 @@
 
-export * from "./delegation.js"
+export * from "./derive-viceroy.js"
 export * from "./scopes.js"
-export * from "./types.js"
+export * from "./sign-delegate.js"
 export * from "./validation.js"
-export * from "./viceroy.js"
+export * from "./types.js"
+export * from "./verify-delegate.js"
 
