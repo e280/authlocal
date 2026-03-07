@@ -1,15 +1,15 @@
 
 import {suite, test, expect} from "@e280/science"
 import {hash} from "./hash.js"
+import {deriveSecret} from "./derive-secret.js"
 import {generateKeypair} from "./generate-keypair.js"
 import {deriveSharedSecret} from "./derive-shared-secret.js"
-import {deriveScopedSecret} from "./derive-scoped-secret.js"
 
 export default suite({
 	hashing: suite({
 		"hash 'hello'": test(async() => {
 			const text = "hello"
-			expect(hash(text).length).is(64)
+			expect(hash(text).length).is(32)
 		}),
 
 		"deriveSharedSecret": test(async() => {
@@ -26,8 +26,8 @@ export default suite({
 			const bob = generateKeypair()
 			const aliceShared = deriveSharedSecret(alice.secret, bob.id)
 			const bobShared = deriveSharedSecret(bob.secret, alice.id)
-			const aliceScoped = deriveScopedSecret(aliceShared, "scope:alpha")
-			const bobScoped = deriveScopedSecret(bobShared, "scope:alpha")
+			const aliceScoped = deriveSecret(aliceShared, hash("scope:alpha"))
+			const bobScoped = deriveSecret(bobShared, hash("scope:alpha"))
 			expect(aliceShared).isnt(aliceScoped)
 			expect(aliceScoped).is(bobScoped)
 		}),

@@ -1,14 +1,10 @@
 
-import {hex, txt} from "@e280/stz"
+import {txt} from "@e280/stz"
 import {blake3} from "@noble/hashes/blake3.js"
 
 const delimiter = Uint8Array.of(0x00)
 
 export function hash(...parts: (string | Uint8Array)[]) {
-	return hex.fromBytes(rawHash(...parts))
-}
-
-function rawHash(...parts: (string | Uint8Array)[]) {
 	const hasher = blake3.create()
 
 	for (const [index, part] of parts.entries()) {
@@ -24,6 +20,6 @@ function rawHash(...parts: (string | Uint8Array)[]) {
 			hasher.update(delimiter)
 	}
 
-	return hasher.digest()
+	return hasher.digest() as Uint8Array
 }
 

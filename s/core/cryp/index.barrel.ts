@@ -5,7 +5,7 @@
 
 export *  from "./decrypt.js"
 export *  from "./derive-id.js"
-export *  from "./derive-scoped-secret.js"
+export *  from "./derive-secret.js"
 export *  from "./derive-shared-secret.js"
 export *  from "./encrypt.js"
 export *  from "./generate-keypair.js"
