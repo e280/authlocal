@@ -7,9 +7,13 @@ export type Viceroy = Secret
 /** a request for a delegate */
 export type Petition = {
 	scope: Scope
-	issuer: string // TODO i think we remove this?
-	audience: string
 	expiresAt: number
+}
+
+/** audience and issuer jwt claims for the delegate */
+export type Venue = {
+	issuer: string
+	audience: string
 }
 
 /** a delegate keypair is a scoped keypair derived from a viceroy */
