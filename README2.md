@@ -23,6 +23,15 @@ each identity you create has a permanent *"root key"* — don't lose it — don'
 
 ## authlocal for developers
 
+#### how authlocal works
+- authlocal.org is the first delegator implementing the protocol
+- any website can act as a petitioner, and send petitions to the delegator
+- the delegator may respond with delegates
+- each delegate is a keypair derived from the user's root, scoped to the petitioner, and can:
+  - act as a login session
+  - sign id tokens
+  - be used for end-to-end encryption
+
 ### glossary
 
 #### cryp terms
@@ -33,13 +42,14 @@ each identity you create has a permanent *"root key"* — don't lose it — don'
 - **Scope** — a string used to deterministically derive a new Secret from another Secret  
 
 #### alco terms
-- **Viceroy** — a Secret derived from the root, scoped to a particular app origin  
-- **Delegate** — contains a scoped Secret derived from a Viceroy, and a signed Proof  
+- **Delegator** — the origin that is issuing delegates (ie, `https://authlocal.org`)  
+- **Petitioner** — the origin that sends petitions (ie, `https://e280.org`)  
 - **Petition** — a request describing the scope and expiry for a Delegate  
+- **Venue** — contains the Delegator and Petitioner needed to sign a Delegate  
+- **Viceroy** — a Secret derived from the Root, scoped to a particular Petitioner  
+- **Delegate** — contains a scoped Secret derived from a Viceroy, and a signed Proof  
 - **Testimony** — token signed by a Viceroy  
 - **Proof** — Testimony that proves a Viceroy signed a Delegate  
-- **Issuer** — the origin that is issuing delegates (ie, `https://authlocal.org`)  
-- **Audience** — the origin that requests delegates (ie, `https://e280.org`)  
 
 #### nomen terms
 - **Acorn** — human-friendly text that encodes a Root  

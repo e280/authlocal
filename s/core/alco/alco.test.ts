@@ -16,13 +16,13 @@ const petition = (): Petition => ({
 })
 
 const venue = (): Venue => ({
-	issuer: "https://authlocal.org",
-	audience: "https://e280.org",
+	delegator: "https://authlocal.org",
+	petitioner: "https://e280.org",
 })
 
 const allowed = () => ({
-	allowedIssuers: [venue().issuer],
-	allowedAudiences: [venue().audience],
+	allowedDelegators: [venue().delegator],
+	allowedPetitioners: [venue().petitioner],
 })
 
 export default suite({
@@ -68,7 +68,7 @@ export default suite({
 			const delegate = signDelegate(
 				generateSecret(),
 				petition(),
-				{...venue(), audience: undefined as any},
+				{...venue(), petitioner: undefined as any},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
@@ -77,7 +77,7 @@ export default suite({
 			const delegate = signDelegate(
 				generateSecret(),
 				petition(),
-				{...venue(), issuer: undefined as any},
+				{...venue(), delegator: undefined as any},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
@@ -86,7 +86,7 @@ export default suite({
 			const delegate = signDelegate(
 				generateSecret(),
 				petition(),
-				{...venue(), audience: "https://bad.e280.org"},
+				{...venue(), petitioner: "https://bad.e280.org"},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
@@ -95,7 +95,7 @@ export default suite({
 			const delegate = signDelegate(
 				generateSecret(),
 				petition(),
-				{...venue(), issuer: "https://bad.e280.org"},
+				{...venue(), delegator: "https://bad.e280.org"},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),

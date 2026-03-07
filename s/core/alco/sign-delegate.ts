@@ -5,13 +5,13 @@ import {Payload} from "../tok/types.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {signToken} from "../tok/sign-token.js"
 import {tokenTime} from "../tok/token-time.js"
-import {Delegate, Venue, Petition, Proof} from "./types.js"
 import {deriveSecret} from "../cryp/derive-secret.js"
+import {Delegate, Venue, Petition, Proof} from "./types.js"
 
 export function signDelegate(
 		viceroy: Secret,
 		petition: Petition,
-		context: Venue,
+		venue: Venue,
 	): Delegate {
 
 	const {scope, expiresAt} = petition
@@ -24,8 +24,8 @@ export function signDelegate(
 	const proofToken = signToken<Payload<{proof: Proof}>>(viceroy, {
 		proof,
 		exp: tokenTime.at(expiresAt),
-		aud: context.audience,
-		iss: context.issuer,
+		aud: venue.petitioner,
+		iss: venue.delegator,
 	})
 
 	return {signedBy, secret, proofToken}

@@ -1,17 +1,22 @@
 
+import {Payload} from "../tok/types.js"
 import {Delegate, Proof} from "./types.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {verifyToken} from "../tok/verify-token.js"
-import {Payload, TokenVerifications} from "../tok/types.js"
 
 export function verifyDelegate(delegate: Delegate, options: {
-		allowedIssuers: string[]
-		allowedAudiences: string[]
-	} & TokenVerifications) {
+		atTime?: number
+		allowedDelegators?: string[]
+		allowedPetitioners?: string[]
+	} = {}) {
 
 	const {signedBy, secret, proofToken} = delegate
 	const delegateId = deriveId(secret)
-	const {proof} = verifyToken<Payload<{proof: Proof}>>(signedBy, proofToken, options)
+	const {proof} = verifyToken<Payload<{proof: Proof}>>(signedBy, proofToken, {
+		atTime: options.atTime,
+		allowedIssuers: options.allowedDelegators,
+		allowedAudiences: options.allowedPetitioners,
+	})
 
 	if (signedBy !== proof.signedBy)
 		throw new Error("verification failed (signedBy)")
