@@ -11,11 +11,11 @@
 	],
 	"exports": {
 		".": "./x/index.js",
-		"core": "./x/core/index.js",
-		"core/alco": "./x/core/alco/index.js",
-		"core/cryp": "./x/core/cryp/index.js",
-		"core/nomen": "./x/core/nomen/index.js",
-		"core/tok": "./x/core/tok/index.js"
+		"./core": "./x/core/index.js",
+		"./core/alco": "./x/core/alco/index.js",
+		"./core/cryp": "./x/core/cryp/index.js",
+		"./core/nomen": "./x/core/nomen/index.js",
+		"./core/tok": "./x/core/tok/index.js"
 	},
 	"dependencies": {
 		"@e280/kv": "^0.1.0",
@@ -46,9 +46,8 @@
 		"_clean": "rm -rf x && mkdir x",
 		"_tsc": "tsc",
 		"_scute": "scute -v",
-		"_ln": "run-s _ln:s _ln:assets",
+		"_ln": "run-s _ln:s",
 		"_ln:s": "ln -s \"$(realpath s)\" x/s",
-		"_ln:assets": "ln -s \"$(realpath assets)\" x/assets",
 		"_dl:slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
 		"_dl:turtle": "rm -rf node_modules/@benev/turtle && ln -s \"$(realpath ../../@benev/turtle)\" node_modules/@benev/turtle",
 		"_dl:renraku": "rm -rf node_modules/renraku && ln -s \"$(realpath ../../chase-moskal/renraku)\" node_modules/renraku"

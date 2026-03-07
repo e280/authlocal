@@ -1,0 +1,26 @@
+
+@layer page {
+	html, body {
+		font-size: 18px;
+		font-family: sans-serif;
+
+		min-height: 100%;
+		background: var(--bg);
+		color: var(--text);
+		text-shadow: var(--text-shadow);
+	}
+
+	body {
+		max-width: 42em;
+		margin: 1em auto;
+		padding: 1em;
+		text-align: center;
+		background: #fff2;
+		border-radius: var(--rounded);
+	}
+
+	.version {
+		opacity: 0.5;
+	}
+}
+

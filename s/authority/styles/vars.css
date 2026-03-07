@@ -1,0 +1,16 @@
+
+@layer vars {
+	:root {
+		--bg: #06141d;
+		--text: color-mix(in lch, var(--alpha), white 50%);
+		--text-shadow: 0.1em 0.1em 0.1em #0004;
+
+		--link: cyan;
+		--rounded: 0.5em;
+
+		--prime: lime;
+		--alpha: #00ff93;
+
+	}
+}
+
