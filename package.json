@@ -17,6 +17,22 @@
 		"./core/nomen": "./x/core/nomen/index.js",
 		"./core/tok": "./x/core/tok/index.js"
 	},
+	"scripts": {
+		"build": "rm -rf x && mkdir x && run-s _tsc _ln _scute",
+		"test": "node x/tests.test.js",
+		"start": "octo 'scute -vw' 'node --watch x/tests.test.js' 'tsc -w' 'http-server x'",
+		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
+		"devlinks": "run-s _dl:slate _dl:renraku",
+		"nomen": "node x/core/nomen/examples.js",
+		"_clean": "rm -rf x && mkdir x",
+		"_tsc": "tsc",
+		"_scute": "scute -v",
+		"_ln": "run-s _ln:s",
+		"_ln:s": "ln -s \"$(realpath s)\" x/s",
+		"_dl:slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
+		"_dl:turtle": "rm -rf node_modules/@benev/turtle && ln -s \"$(realpath ../../@benev/turtle)\" node_modules/@benev/turtle",
+		"_dl:renraku": "rm -rf node_modules/renraku && ln -s \"$(realpath ../../chase-moskal/renraku)\" node_modules/renraku"
+	},
 	"dependencies": {
 		"@e280/kv": "^0.1.0",
 		"@e280/renraku": "^0.5.6",
@@ -35,22 +51,6 @@
 		"http-server": "^14.1.1",
 		"npm-run-all": "^4.1.5",
 		"typescript": "^5.9.3"
-	},
-	"scripts": {
-		"build": "rm -rf x && mkdir x && run-s _tsc _ln _scute",
-		"test": "node x/tests.test.js",
-		"start": "octo 'scute -vw' 'node --watch x/tests.test.js' 'tsc -w' 'http-server x'",
-		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
-		"devlinks": "run-s _dl:slate _dl:renraku",
-		"nomen": "node x/core/nomen/examples.js",
-		"_clean": "rm -rf x && mkdir x",
-		"_tsc": "tsc",
-		"_scute": "scute -v",
-		"_ln": "run-s _ln:s",
-		"_ln:s": "ln -s \"$(realpath s)\" x/s",
-		"_dl:slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
-		"_dl:turtle": "rm -rf node_modules/@benev/turtle && ln -s \"$(realpath ../../@benev/turtle)\" node_modules/@benev/turtle",
-		"_dl:renraku": "rm -rf node_modules/renraku && ln -s \"$(realpath ../../chase-moskal/renraku)\" node_modules/renraku"
 	},
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
 	"homepage": "https://github.com/e280/authlocal#readme",
