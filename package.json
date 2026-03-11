@@ -1,9 +1,9 @@
 {
 	"name": "@e280/authlocal",
 	"version": "0.3.0-0",
-	"description": "User-sovereign login system for everybody",
+	"description": "user-sovereign login system for everybody",
 	"license": "MIT",
-	"main": "./x/exports.web.js",
+	"main": "./x/index.js",
 	"type": "module",
 	"files": [
 		"x",
@@ -18,25 +18,16 @@
 		"./core/tok": "./x/core/tok/index.js"
 	},
 	"scripts": {
-		"build": "rm -rf x && mkdir x && run-s _tsc _ln _scute",
+		"build": "rm -rf x && mkdir x && tsc && ln -s '$(realpath s)' x/s && scute -v",
+		"start": "octo 'tsc -w' 'scute -vw' 'node --watch x/tests.test.js' 'http-server x'",
 		"test": "node x/tests.test.js",
-		"start": "octo parallel --ui 'scute -vw' 'node --watch x/tests.test.js' 'tsc -w' 'http-server x'",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
-		"devlinks": "run-s _dl:slate _dl:renraku",
-		"nomen": "node x/core/nomen/examples.js",
-		"_clean": "rm -rf x && mkdir x",
-		"_tsc": "tsc",
-		"_scute": "scute -v",
-		"_ln": "run-s _ln:s",
-		"_ln:s": "ln -s \"$(realpath s)\" x/s",
-		"_dl:slate": "rm -rf node_modules/@benev/slate && ln -s \"$(realpath ../../@benev/slate)\" node_modules/@benev/slate",
-		"_dl:turtle": "rm -rf node_modules/@benev/turtle && ln -s \"$(realpath ../../@benev/turtle)\" node_modules/@benev/turtle",
-		"_dl:renraku": "rm -rf node_modules/renraku && ln -s \"$(realpath ../../chase-moskal/renraku)\" node_modules/renraku"
+		"nomen": "node x/core/nomen/examples.js"
 	},
 	"dependencies": {
 		"@e280/kv": "^0.1.0",
 		"@e280/renraku": "^0.5.6",
-		"@e280/sly": "^0.3.0-7",
+		"@e280/sly": "^0.3.0-8",
 		"@e280/strata": "^0.3.0-1",
 		"@e280/stz": "^0.2.24",
 		"@noble/ciphers": "^2.1.1",
@@ -46,7 +37,7 @@
 		"lit": "^3.3.2"
 	},
 	"devDependencies": {
-		"@e280/octo": "^0.1.0-8",
+		"@e280/octo": "^0.1.0-12",
 		"@e280/science": "^0.1.8",
 		"@e280/scute": "^0.3.0-1",
 		"http-server": "^14.1.1",
