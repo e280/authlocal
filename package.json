@@ -19,8 +19,8 @@
 	},
 	"scripts": {
 		"build": "rm -rf x && mkdir x && tsc && ln -s '$(realpath s)' x/s && scute -v",
-		"start": "octo 'tsc -w' 'scute -vw' 'node --watch x/tests.test.js' 'http-server x'",
-		"test": "node x/tests.test.js",
+		"start": "octo 'tsc -w' 'scute -vw' 'node --watch x/test.js' 'http-server x'",
+		"test": "node x/test.js",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
 		"nomen": "node x/core/nomen/examples.js"
 	},
