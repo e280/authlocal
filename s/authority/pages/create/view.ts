@@ -24,13 +24,14 @@ export const CreatePage = shadow((done: (draft: CreateDraft) => void) => {
 	const $step = useSignal<"name" | "root" | "acorn">("name")
 
 	const draft = useOnce<CreateDraft>(() => {
+		const startPage = 1
 		const secret = generateSecret()
-		const root = deriveIndexedDraftRoot(secret, 0)
+		const root = deriveIndexedDraftRoot(secret, startPage)
 		return {
 			$name: signal("anon"),
 			$root: signal(root),
 			$secret: signal(secret),
-			$page: signal(0),
+			$page: signal(startPage),
 		}
 	})
 
