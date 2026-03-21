@@ -3,9 +3,10 @@ import {html} from "lit"
 import {shadow, useCss, useName, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
+import {NameView} from "./subpages/name.js"
 import {RootView} from "./subpages/root.js"
 import {AcornView} from "./subpages/acorn.js"
-import {NicknameView} from "./subpages/nickname.js"
+import {generateSecret} from "../../../core/index.js"
 
 export type IdentityDraft = {
 	name: string
@@ -16,25 +17,38 @@ export const CreatePage = shadow((done: (draft: IdentityDraft) => void) => {
 	useName("create page")
 	useCss(theme(), styleCss)
 
-	const $step = useSignal<"nickname" | "root" | "acorn">("nickname")
-	const $draft = useSignal<Partial<IdentityDraft>>({})
+	const $step = useSignal<"name" | "root" | "acorn">("name")
+	const $draft = useSignal<IdentityDraft>({
+		name: "anon",
+		root: generateSecret(),
+	})
 
 	function renderStep() {
 		switch ($step()) {
-			case "nickname":
-				return NicknameView(name => {
-					$draft({...$draft(), name})
-					$step("root")
+			case "name":
+				return NameView({
+					name: $draft().name,
+					next: name => {
+						$draft({...$draft(), name})
+						$step("root")
+					},
 				})
 
 			case "root":
-				return RootView(root => {
-					$draft({...$draft(), root})
-					$step("acorn")
+				return RootView({
+					name: $draft().name,
+					next: root => {
+						$draft({...$draft(), root})
+						$step("acorn")
+					},
 				})
 
 			case "acorn":
-				return AcornView(() => done($draft() as IdentityDraft))
+				return AcornView({
+					name: $draft().name,
+					root: $draft().root,
+					next: () => done($draft() as IdentityDraft),
+				})
 		}
 	}
 
