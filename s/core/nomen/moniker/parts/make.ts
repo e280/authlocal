@@ -11,7 +11,7 @@ export function monikerMake(buffer: Uint8Array) {
 	const sigilBytes = buffer.slice(0, sigilSize)
 	const bulkBytes = buffer.slice(sigilSize)
 
-	const sigil = delimiter + [...wordsFromBytes(sigilBytes)].join(delimiter)
+	const sigil = [...wordsFromBytes(sigilBytes)].join(delimiter)
 	const bulk = base58.fromBytes(new Uint8Array([...bulkBytes, ...checkBytes]))
 
 	return [sigil, bulk].join(delimiter)
