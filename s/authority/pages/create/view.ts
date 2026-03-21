@@ -18,6 +18,7 @@ export const CreatePage = shadow((done: (draft: IdentityDraft) => void) => {
 	useCss(theme(), styleCss)
 
 	const $step = useSignal<"name" | "root" | "acorn">("name")
+
 	const $draft = useSignal<IdentityDraft>({
 		name: "anon",
 		root: generateSecret(),
