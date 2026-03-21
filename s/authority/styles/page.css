@@ -3,20 +3,33 @@
 	html, body {
 		font-size: 18px;
 		font-family: sans-serif;
-
 		min-height: 100%;
-		background: var(--bg);
+	}
+
+	html {
+		--tint: #1118;
+		background: linear-gradient(to bottom, var(--tint), var(--tint)), var(--bg) url("/assets/1dea2105.avif") center center / cover;
 		color: var(--text);
 		text-shadow: var(--text-shadow);
 	}
 
 	body {
+		display: flex;
+		flex-direction: column;
+
 		max-width: 42em;
 		margin: 1em auto;
-		padding: 1em;
+		padding: var(--padding);
+		gap: var(--padding);
+
 		text-align: center;
-		background: #fff2;
 		border-radius: var(--rounded);
+	}
+
+	main {
+		display: block;
+		background: #3334;
+		padding: var(--padding);
 	}
 
 	.version {

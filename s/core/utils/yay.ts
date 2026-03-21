@@ -1,35 +1,23 @@
 
-/** valid value */
 export type Yay<X> = {yay: true, value: X}
-
-/** invalid value, was rejected for the given problem strings */
 export type Nay = {yay: false, problems: string[]}
-
-/** either a valid value, or a validation failure with problems */
 export type Maybe<X> = Yay<X> | Nay
 
-/** succeeded in getting a value */
 export function yay<X>(value: X): Yay<X> {
 	return {yay: true, value}
 }
-
-/** failed to get a value, now we have problems instead */
-export function nay(...problems: string[]): Nay {
-	return {yay: false, problems}
-}
-
-/** gimmie the problems array, or undefined */
-export function problems(maybe: Maybe<unknown>) {
-	return maybe.yay
-		? undefined
-		: maybe.problems
-}
-
-/** gimmie the value, or throw an error */
-export function yoink<X>(maybe: Maybe<X>) {
+yay.is = <X>(maybe: Maybe<X>): maybe is Yay<X> => maybe.yay
+yay.get = <X>(maybe: Maybe<X>) => maybe.yay ? maybe.value : undefined
+yay.require = <X>(maybe: Maybe<X>) => {
 	if (!maybe.yay) throw new Error(maybe.problems.join("; "))
 	return maybe.value
 }
+
+export function nay(...problems: string[]): Nay {
+	return {yay: false, problems}
+}
+nay.is = (maybe: Maybe<any>): maybe is Nay => !maybe.yay
+nay.problems = (maybe: Maybe<unknown>) => maybe.yay ? undefined : maybe.problems
 
 /** a validator can transform values, or return problems */
 export type Validator<X> = (x: X) => Maybe<X>

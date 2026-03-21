@@ -1,9 +1,9 @@
 
 import {hex} from "@e280/stz"
 import {Id} from "../../cryp/types.js"
+import {yay, nay} from "../../utils/yay.js"
 import {monikerMake} from "./parts/make.js"
 import {monikerParse} from "./parts/parse.js"
-import {problems, yoink} from "../../utils/yay.js"
 
 export function moniker(id: Id) {
 	return monikerMake(hex.toBytes(id))
@@ -11,7 +11,7 @@ export function moniker(id: Id) {
 
 moniker.make = monikerMake
 moniker.parse = monikerParse
-moniker.problem = (moniker: string) => problems(monikerParse(moniker))
-moniker.toBytes = (moniker: string) => yoink(monikerParse(moniker))
+moniker.problem = (moniker: string) => nay.problems(monikerParse(moniker))
+moniker.toBytes = (moniker: string) => yay.require(monikerParse(moniker))
 moniker.toId = (text: string) => hex.fromBytes(moniker.toBytes(text))
 

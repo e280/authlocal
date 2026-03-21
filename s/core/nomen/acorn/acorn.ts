@@ -3,8 +3,8 @@ import {bytes, hex} from "@e280/stz"
 import {sha256} from "@noble/hashes/sha2.js"
 
 import {Root} from "../../cryp/types.js"
+import {yay, nay} from "../../utils/yay.js"
 import {littleChecksum} from "../utils/little-checksum.js"
-import {yay, nay, problems, yoink} from "../../utils/yay.js"
 import {wordsFromBytes, wordsToBytes} from "../moniker/parts/words.js"
 
 export function acorn(root: Root) {
@@ -49,6 +49,6 @@ acorn.parse = (text: string) => {
 	return yay(hex.fromBytes(rootBytes))
 }
 
-acorn.problem = (text: string) => problems(acorn.parse(text))
-acorn.toRoot = (text: string) => yoink(acorn.parse(text))
+acorn.problem = (text: string) => nay.problems(acorn.parse(text))
+acorn.toRoot = (text: string) => yay.require(acorn.parse(text))
 

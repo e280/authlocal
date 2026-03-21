@@ -13,9 +13,9 @@ export default template(import.meta.url, async orb => html`
 			<title>authlocal</title>
 			<link rel="icon" href="/assets/favicon.png"/>
 			<script type="module" src="${orb.hashurl("authority/main.bundle.min.js")}"></script>
-			<style>${orb.inject("authority/styles/layers.css")}</style>
-			<style>${orb.inject("authority/styles/vars.css")}</style>
-			<style>${orb.inject("authority/styles/base.css")}</style>
+			<style data-theme>${orb.inject("authority/styles/layers.css")}</style>
+			<style data-theme>${orb.inject("authority/styles/vars.css")}</style>
+			<style data-theme>${orb.inject("authority/styles/base.css")}</style>
 			<style>${orb.inject("authority/styles/page.css")}</style>
 
 			${socialCard({
@@ -27,8 +27,15 @@ export default template(import.meta.url, async orb => html`
 			})}
 		</head>
 		<body>
-			<h1>authlocal</h1>
-			<p class=version>v${orb.packageVersion()}</p>
+			<header>
+				<h1>authlocal</h1>
+				<p>own your identity. open-source. privacy-focused. user-sovereign.</p>
+			</header>
+			<main></main>
+			<footer>
+				<p>learn more on <a href="https://github.com/e280/authlocal#readme">github.</a></p>
+				<p class=version>v${orb.packageVersion()}</p>
+			</footer>
 		</body>
 	</html>
 `)
