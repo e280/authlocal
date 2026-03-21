@@ -9,9 +9,9 @@ export default css`
 
 .acorn-view {
 	textarea {
-		user-select: all;
 		width: 20em;
 		min-height: 8em;
+		padding: 1em;
 	}
 }
 

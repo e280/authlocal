@@ -1,27 +1,45 @@
 
 import {html} from "lit"
-import {light} from "@e280/sly"
 import {ShinyCopy} from "@e280/shiny"
+import {light, useSignal} from "@e280/sly"
+import {CreateDraft} from "../view.js"
 import {acorn, deriveId, sigil} from "../../../../core/index.js"
 
 export const AcornView = light((options: {
-		name: string
-		root: string
+		draft: CreateDraft
 		next: () => void
+		back: () => void
 	}) => {
 
-	const id = deriveId(options.root)
-	const secretText = acorn(options.root)
+	const {$root, $name} = options.draft
+	const id = deriveId($root())
+	const secretText = acorn($root())
+	const $checked = useSignal(false)
+
+	const onClick = (e: Event) => (e.currentTarget as HTMLTextAreaElement).select()
+	const onCheck = (e: Event) => $checked((e.currentTarget as HTMLInputElement).checked)
 
 	return html`
 		<div class=acorn-view>
-			<p>${options.name}</p>
+			<p>hey ${$name()},</p>
 			<p>${sigil(id)}</p>
+
 			<div>
 				<header>${ShinyCopy(secretText)}</header>
-				<textarea readonly .value="${secretText}"></textarea>
+				<textarea readonly .value="${secretText}" @click="${onClick}"></textarea>
 			</div>
-			<button @click="${options.next}">done</button>
+
+			<div>
+				<label>
+					<input type="checkbox" @change="${onCheck}"/>
+					<span>i kept this safe</span>
+				</label>
+			</div>
+
+			<nav>
+				<button @click="${options.back}">back</button>
+				<button @click="${options.next}" ?disabled="${!$checked()}">done</button>
+			</nav>
 		</div>
 	`
 })

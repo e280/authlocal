@@ -1,24 +1,29 @@
 
 import {html} from "lit"
-import {light, useOnce, useSignal} from "@e280/sly"
-import {deriveId, deriveSecret, generateSecret, moniker, sigil} from "../../../../core/index.js"
 import {count} from "@e280/stz"
+import {light} from "@e280/sly"
+import {CreateDraft} from "../view.js"
+import {deriveId, moniker, sigil} from "../../../../core/index.js"
+import {deriveIndexedDraftRoot} from "../utils/generate-id-draft.js"
 
 export const RootView = light((options: {
-		name: string
-		next: (root: string) => void
+		draft: CreateDraft
+		next: () => void
+		back: () => void
 	}) => {
 
-	const material = useOnce(() => generateSecret())
-	const $offset = useSignal(0)
 	const n = 3
+	const {$name, $root, $secret, $page} = options.draft
 
 	function renderIdentity(index: number) {
-		const b = new Uint8Array([index])
-		const root = deriveSecret(material, b)
+		const root = deriveIndexedDraftRoot($secret(), index)
 		const id = deriveId(root)
+		const onClick = () => {
+			$root(root)
+			options.next()
+		}
 		return html`
-			<button @click="${() => options.next(root)}">
+			<button @click="${onClick}">
 				<p>${sigil(id)}</p>
 				<p>${moniker(id)}</p>
 			</button>
@@ -27,16 +32,18 @@ export const RootView = light((options: {
 
 	return html`
 		<div class=root-view>
-			<p>hey ${options.name},</p>
+			<p>hey ${$name()},</p>
 			<p>choose your permanent id</p>
 
 			<div class=cards>
-				${Array.from(count(n)).map(i => renderIdentity($offset() + i))}
+				${Array.from(count(n)).map(i => renderIdentity(($page() * n) + i))}
 			</div>
 
 			<nav>
-				<button @click="${() => $offset.value -= n}">⬅️</button>
-				<button @click="${() => $offset.value += n}">➡️</button>
+				<button @click="${options.back}">back</button>
+				<button @click="${() => $page.value--}">⬅️</button>
+				<span>${$page()}</span>
+				<button @click="${() => $page.value++}">➡️</button>
 			</nav>
 		</div>
 	`

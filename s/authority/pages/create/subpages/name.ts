@@ -2,14 +2,15 @@
 import {html} from "lit"
 import {when} from "lit/directives/when.js"
 import {light, useDerived, useSignal} from "@e280/sly"
+import {CreateDraft} from "../view.js"
 import {nay, validateLabel, yay} from "../../../../core/index.js"
 
 export const NameView = light((options: {
-		name: string
-		next: (name: string) => void
+		draft: CreateDraft
+		next: () => void
 	}) => {
 
-	const $value = useSignal(options.name)
+	const $value = useSignal(options.draft.$name())
 	const $nameMaybe = useDerived(() => validateLabel($value()))
 	const problems = nay.problems($nameMaybe())
 
@@ -20,7 +21,10 @@ export const NameView = light((options: {
 
 	const onClick = () => {
 		const name = yay.get($nameMaybe())
-		if (name) options.next(name)
+		if (name) {
+			options.draft.$name(name)
+			options.next()
+		}
 	}
 
 	return html`
