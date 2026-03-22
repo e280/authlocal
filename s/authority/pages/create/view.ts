@@ -4,9 +4,9 @@ import {signal, Signal} from "@e280/strata"
 import {shadow, useCss, useName, useOnce, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
-import {NameView} from "./subpages/name.js"
-import {RootView} from "./subpages/root.js"
-import {AcornView} from "./subpages/acorn.js"
+import {NameStep} from "./steps/name.js"
+import {RootStep} from "./steps/root.js"
+import {AcornStep} from "./steps/acorn.js"
 import {generateSecret} from "../../../core/index.js"
 import {deriveIndexedDraftRoot} from "./utils/generate-id-draft.js"
 
@@ -17,7 +17,11 @@ export type CreateDraft = {
 	$page: Signal<number>
 }
 
-export const CreatePage = shadow((done: (draft: CreateDraft) => void) => {
+export const CreatePage = shadow((options: {
+		done: (draft: CreateDraft) => void
+		back: () => void
+	}) => {
+
 	useName("create page")
 	useCss(theme(), styleCss)
 
@@ -38,22 +42,23 @@ export const CreatePage = shadow((done: (draft: CreateDraft) => void) => {
 	function renderStep() {
 		switch ($step()) {
 			case "name":
-				return NameView({
+				return NameStep({
 					draft,
 					next: () => $step("root"),
+					back: options.back,
 				})
 
 			case "root":
-				return RootView({
+				return RootStep({
 					draft,
 					next: () => $step("acorn"),
 					back: () => $step("name"),
 				})
 
 			case "acorn":
-				return AcornView({
+				return AcornStep({
 					draft,
-					next: () => done(draft),
+					next: () => options.done(draft),
 					back: () => $step("root"),
 				})
 		}

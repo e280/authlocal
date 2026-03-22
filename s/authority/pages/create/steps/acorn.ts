@@ -5,7 +5,7 @@ import {light, useSignal} from "@e280/sly"
 import {CreateDraft} from "../view.js"
 import {acorn, deriveId, sigil} from "../../../../core/index.js"
 
-export const AcornView = light((options: {
+export const AcornStep = light((options: {
 		draft: CreateDraft
 		next: () => void
 		back: () => void

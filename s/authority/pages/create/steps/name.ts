@@ -5,9 +5,10 @@ import {light, useDerived, useSignal} from "@e280/sly"
 import {CreateDraft} from "../view.js"
 import {nay, validateLabel, yay} from "../../../../core/index.js"
 
-export const NameView = light((options: {
+export const NameStep = light((options: {
 		draft: CreateDraft
 		next: () => void
+		back: () => void
 	}) => {
 
 	const $value = useSignal(options.draft.$name())
@@ -42,6 +43,7 @@ export const NameView = light((options: {
 			</label>
 
 			<nav>
+				<button @click="${options.back}">back</button>
 				<button @click="${onClick}" ?disabled="${nay.is($nameMaybe())}">next</button>
 			</nav>
 		</div>

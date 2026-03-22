@@ -6,7 +6,7 @@ import {CreateDraft} from "../view.js"
 import {deriveId, moniker, sigil} from "../../../../core/index.js"
 import {deriveIndexedDraftRoot} from "../utils/generate-id-draft.js"
 
-export const RootView = light((options: {
+export const RootStep = light((options: {
 		draft: CreateDraft
 		next: () => void
 		back: () => void
