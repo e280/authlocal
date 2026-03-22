@@ -4,7 +4,8 @@ import {shadow, useCss, useName} from "@e280/sly"
 import {Bank} from "../../bank.js"
 import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
-import {deriveId, moniker} from "../../../core/index.js"
+import {deriveId} from "../../../core/index.js"
+import {IdCard} from "../../../ui/views/id-card/view.js"
 
 export const ListPage = shadow((options: {
 		bank: Bank
@@ -17,14 +18,17 @@ export const ListPage = shadow((options: {
 	return html`
 		<h2>your identities</h2>
 
-		<ul>
+		<ol>
 			${options.bank.$identities().map(identity => html`
 				<li>
-					<h4>${identity.name}</h4>
-					<p>${moniker(deriveId(identity.root))}</p>
+					${IdCard({
+						name: identity.name,
+						id: deriveId(identity.root),
+						copyable: true,
+					})}
 				</li>
 			`)}
-		</ul>
+		</ol>
 
 		<nav>
 			<button @click="${options.create}">new identity</button>
