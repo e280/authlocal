@@ -11,9 +11,10 @@ export const AcornStep = light((options: {
 		back: () => void
 	}) => {
 
-	const {$root, $name} = options.draft
-	const id = deriveId($root())
-	const secretText = acorn($root())
+	const root = options.draft.$root()
+	const id = deriveId(root)
+
+	const secretText = acorn(root)
 	const $checked = useSignal(false)
 
 	const onClick = (e: Event) => (e.currentTarget as HTMLTextAreaElement).select()
@@ -22,8 +23,8 @@ export const AcornStep = light((options: {
 	return html`
 		<div data-step=acorn>
 			<div>
-				<p>hey ${$name()},</p>
-				<p>${sigil(id)}</p>
+				<h2>save your recovery codes</h2>
+				<p>this is for your id "${sigil(id)}"</p>
 			</div>
 
 			<div>
@@ -32,14 +33,17 @@ export const AcornStep = light((options: {
 			</div>
 
 			<div>
-				<label>
-					<input type="checkbox" @change="${onCheck}"/>
-					<span>i kept this safe</span>
-				</label>
+				<p><strong>keep it safe. keep it secret.</strong></p>
+				<p>otherwise, it'll be gone <em>forever.</em></p>
 			</div>
 
+			<label>
+				<input type="checkbox" @change="${onCheck}"/>
+				<span>i kept this safe and secret.</span>
+			</label>
+
 			<nav>
-				<button @click="${options.back}">back</button>
+				<button data-vibe=cancel @click="${options.back}">back</button>
 				<button @click="${options.next}" ?disabled="${!$checked()}">done</button>
 			</nav>
 		</div>

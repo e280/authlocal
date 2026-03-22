@@ -36,14 +36,35 @@
 	}
 
 	button {
+		font: inherit;
 		color: currentColor;
+		cursor: default;
 		padding: calc(var(--padding) / 2);
 		border: 1px solid currentColor;
 		background: transparent;
+		user-select: none;
 
 		&[data-vibe="cancel"] {
 			color: #888;
 		}
+
+		&[disabled] {
+			opacity: 0.2;
+			text-decoration: line-through;
+		}
+
+		&:not([disabled]) {
+			opacity: 0.8;
+			cursor: pointer;
+
+			&:is(:hover, :focus-visible) {
+				opacity: 1;
+			}
+		}
+	}
+
+	label > span {
+		user-select: none;
 	}
 }
 

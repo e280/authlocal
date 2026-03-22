@@ -30,17 +30,16 @@ export const NameStep = light((options: {
 
 	return html`
 		<div data-step=name>
-			<label>
-				<span>choose your public nickname:</span>
-				<input type="text" .value="${$value()}" @input="${onInput}"/>
-				${when(problems, problems => html`
-					<ol class="problems">
-						${problems.map(problem => html`
-							<li>${problem}</li>
-						`)}
-					</ol>
-				`)}
-			</label>
+			<h2>choose your public nickname</h2>
+
+			<input type="text" .value="${$value()}" @input="${onInput}"/>
+			${when(problems, problems => html`
+				<ol class="problems">
+					${problems.map(problem => html`
+						<li>${problem}</li>
+					`)}
+				</ol>
+			`)}
 
 			<nav>
 				${options.back && html`

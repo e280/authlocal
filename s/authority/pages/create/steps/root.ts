@@ -3,8 +3,9 @@ import {html} from "lit"
 import {count} from "@e280/stz"
 import {light} from "@e280/sly"
 import {CreateDraft} from "../view.js"
-import {deriveId, moniker, sigil} from "../../../../core/index.js"
-import {deriveIndexedDraftRoot} from "../utils/generate-id-draft.js"
+import {deriveId} from "../../../../core/index.js"
+import {IdCard} from "../../../../ui/views/id-card/view.js"
+import {deriveIndexedDraftRoot} from "../utils/derive-indexed-draft-root.js"
 
 export const RootStep = light((options: {
 		draft: CreateDraft
@@ -16,6 +17,7 @@ export const RootStep = light((options: {
 	const {$root, $secret, $page} = options.draft
 
 	function renderIdentity(index: number) {
+		const name = options.draft.$name()
 		const root = deriveIndexedDraftRoot($secret(), index)
 		const id = deriveId(root)
 		const onClick = () => {
@@ -24,17 +26,14 @@ export const RootStep = light((options: {
 		}
 		return html`
 			<button @click="${onClick}">
-				<p>${sigil(id)}</p>
-				<p>${moniker(id)}</p>
+				${IdCard({id, name})}
 			</button>
 		`
 	}
 
 	return html`
 		<div data-step=root>
-			<div>
-				<p>choose your permanent id</p>
-			</div>
+			<h2>choose your permanent id</h2>
 
 			<div class=cards>
 				${Array.from(count(n)).map(i => renderIdentity(($page() * n) + i))}
