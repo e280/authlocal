@@ -2,18 +2,21 @@
 import {hex} from "@e280/stz"
 
 /** derive a color from a hex id */
-export function idColor(id: string, byteIndex = -1) {
-	return `oklch(1 0.2 ${idHue(id, byteIndex)})`
+export function idColor(id: string) {
+	const hue = toDegrees(byteValue(id, -1))
+	const chroma = byteValue(id, -2) * 0.3
+	return `oklch(1 ${chroma} ${hue})`
 }
 
-/** derive a hue (integer 0-359) from a hex id */
-function idHue(id: string, byteIndex = -1) {
+function byteValue(id: string, index: number) {
 	const binary = hex.toBytes(id)
-	const x = binary.at(byteIndex)
+	const byte = binary.at(index)
+	if (byte === undefined)
+		throw new Error(`id didn't have byte at ${index}`)
+	return byte / 255
+}
 
-	if (x === undefined)
-		throw new Error(`id didn't have byte at ${byteIndex}`)
-
-	return Math.floor((x / 255) * 359)
+function toDegrees(x: number) {
+	return Math.floor(x * 359)
 }
 
