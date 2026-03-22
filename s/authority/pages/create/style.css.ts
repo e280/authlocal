@@ -2,11 +2,17 @@
 import {css} from "lit"
 export default css`
 
-.name-view {}
+[data-step] {
+	display: flex;
+	flex-direction: column;
+	gap: var(--padding);
+}
 
-.root-view {}
+[data-step="name"] {}
 
-.acorn-view {
+[data-step="root"] {}
+
+[data-step="acorn"] {
 	textarea {
 		width: 20em;
 		min-height: 8em;

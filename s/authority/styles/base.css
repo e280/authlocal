@@ -34,5 +34,16 @@
 			color: color-mix(in srgb, white, var(--link) 50%);
 		}
 	}
+
+	button {
+		color: currentColor;
+		padding: calc(var(--padding) / 2);
+		border: 1px solid currentColor;
+		background: transparent;
+
+		&[data-vibe="cancel"] {
+			color: #888;
+		}
+	}
 }
 

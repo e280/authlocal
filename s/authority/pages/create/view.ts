@@ -19,7 +19,7 @@ export type CreateDraft = {
 
 export const CreatePage = shadow((options: {
 		done: (draft: CreateDraft) => void
-		back: () => void
+		back?: () => void
 	}) => {
 
 	useName("create page")

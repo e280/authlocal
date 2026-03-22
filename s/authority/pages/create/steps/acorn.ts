@@ -20,9 +20,11 @@ export const AcornStep = light((options: {
 	const onCheck = (e: Event) => $checked((e.currentTarget as HTMLInputElement).checked)
 
 	return html`
-		<div class=acorn-view>
-			<p>hey ${$name()},</p>
-			<p>${sigil(id)}</p>
+		<div data-step=acorn>
+			<div>
+				<p>hey ${$name()},</p>
+				<p>${sigil(id)}</p>
+			</div>
 
 			<div>
 				<header>${ShinyCopy(secretText)}</header>

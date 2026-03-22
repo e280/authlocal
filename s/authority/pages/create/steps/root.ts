@@ -13,7 +13,7 @@ export const RootStep = light((options: {
 	}) => {
 
 	const n = 3
-	const {$name, $root, $secret, $page} = options.draft
+	const {$root, $secret, $page} = options.draft
 
 	function renderIdentity(index: number) {
 		const root = deriveIndexedDraftRoot($secret(), index)
@@ -31,16 +31,17 @@ export const RootStep = light((options: {
 	}
 
 	return html`
-		<div class=root-view>
-			<p>hey ${$name()},</p>
-			<p>choose your permanent id</p>
+		<div data-step=root>
+			<div>
+				<p>choose your permanent id</p>
+			</div>
 
 			<div class=cards>
 				${Array.from(count(n)).map(i => renderIdentity(($page() * n) + i))}
 			</div>
 
 			<nav>
-				<button @click="${options.back}">back</button>
+				<button data-vibe=cancel @click="${options.back}">back</button>
 				<button @click="${() => $page.value--}">⬅️</button>
 				<span>${$page()}</span>
 				<button @click="${() => $page.value++}">➡️</button>

@@ -8,7 +8,7 @@ import {nay, validateLabel, yay} from "../../../../core/index.js"
 export const NameStep = light((options: {
 		draft: CreateDraft
 		next: () => void
-		back: () => void
+		back?: () => void
 	}) => {
 
 	const $value = useSignal(options.draft.$name())
@@ -29,7 +29,7 @@ export const NameStep = light((options: {
 	}
 
 	return html`
-		<div class=name-view>
+		<div data-step=name>
 			<label>
 				<span>choose your public nickname:</span>
 				<input type="text" .value="${$value()}" @input="${onInput}"/>
@@ -43,7 +43,9 @@ export const NameStep = light((options: {
 			</label>
 
 			<nav>
-				<button @click="${options.back}">back</button>
+				${options.back && html`
+					<button @click="${options.back}">back</button>
+				`}
 				<button @click="${onClick}" ?disabled="${nay.is($nameMaybe())}">next</button>
 			</nav>
 		</div>

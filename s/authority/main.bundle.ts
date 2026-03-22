@@ -19,7 +19,9 @@ dom.render(dom("main"), light(() => {
 				await bank.addIdentity({name: draft.$name(), root: draft.$root()})
 				$route("list")
 			},
-			back: () => $route("list"),
+			back: bank.$identities().length
+				? () => $route("list")
+				: undefined,
 		})
 
 	else
