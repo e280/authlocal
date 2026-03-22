@@ -18,7 +18,6 @@ ol {
 	li {
 		[view="id-card"] {
 			display: block;
-			max-width: 24em;
 		}
 	}
 }

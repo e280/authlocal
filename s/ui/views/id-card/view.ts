@@ -23,8 +23,7 @@ export const IdCard = shadow((card: {
 
 	const monikerSpan = html`
 		<span class=moniker>
-			<span class=sigil>${first}_${second}</span>
-			<span class=bulk>_${third}</span>
+			<span class=sigil>${first}_${second}</span><span class=bulk>_${third}</span>
 		</span>
 	`
 

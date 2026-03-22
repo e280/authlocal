@@ -21,16 +21,12 @@ export default css`
 			button {
 				border: none;
 				padding: 0;
-				max-width: 24em;
+				width: max-content;
 			}
 		}
 	}
 
 	&[data-step="acorn"] {
-		[view="id-card"] {
-			max-width: 24em;
-		}
-
 		textarea {
 			width: 20em;
 			min-height: 8em;

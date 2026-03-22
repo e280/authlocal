@@ -2,11 +2,17 @@
 import {css} from "lit"
 export default css`
 
+:host {
+	display: flex;
+}
+
 .card {
 	display: flex;
 	align-items: center;
 	gap: var(--padding);
 	padding: var(--padding);
+
+	max-width: 24em;
 
 	background: color-mix(in oklch, #111, var(--color) 5%);
 	border: 0.1em solid color-mix(in oklch, transparent, var(--color) 50%);
@@ -21,7 +27,7 @@ export default css`
 		min-width: 0;
 
 		> * {
-			display: flex;
+			display: block;
 			width: 100%;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -48,16 +54,26 @@ export default css`
 }
 
 [view="shiny-copy"] {
+	display: block;
+	width: 100%;
 	--inactive-opacity: 0.8;
+
+	&::part(button) {
+		width: 100%;
+	}
 
 	&::part(icon) {
 		opacity: 0.5;
+	}
+
+	> * {
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 }
 
 .moniker {
 	opacity: 0.5;
-	display: flex;
 	align-items: baseline;
 
 	font-size: 1em;
