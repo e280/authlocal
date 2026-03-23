@@ -4,9 +4,9 @@ import {ShinyCopy} from "@e280/shiny"
 import {cssReset, shadow, useCss, useName} from "@e280/sly"
 
 import styleCss from "./style.css.js"
-import {idColor} from "../../utils/id-color.js"
 import {moniker} from "../../../core/index.js"
-import userIcon from "../../icons/user.icon.js"
+import {idColor} from "../../utils/id-color.js"
+import {sigilSvg} from "../../utils/sigil-svg.js"
 
 export const IdCard = shadow((card: {
 		id: string
@@ -29,7 +29,7 @@ export const IdCard = shadow((card: {
 
 	return html`
 		<div class=card style="${color}" part=card>
-			<div class=icon>${userIcon}</div>
+			<div class=icon>${sigilSvg(card.id)}</div>
 			<div class=content>
 				${card.name && html`<span class=name>${card.name}</span>`}
 				${card.copyable
