@@ -3,7 +3,7 @@ import {html} from "lit"
 import {when} from "lit/directives/when.js"
 import {light, useDerived, useSignal} from "@e280/sly"
 import {CreateDraft} from "../view.js"
-import {nay, validateLabel, yay} from "../../../../core/index.js"
+import {deriveId, nay, sigil, validateLabel, yay} from "../../../../core/index.js"
 
 export const NameStep = light((options: {
 		draft: CreateDraft
@@ -11,8 +11,8 @@ export const NameStep = light((options: {
 		back?: () => void
 	}) => {
 
-	const $value = useSignal(options.draft.$name())
-	const $nameMaybe = useDerived(() => validateLabel($value()))
+	const $value = useSignal(options.draft.$name() ?? sigil(deriveId(options.draft.$root())))
+	const $nameMaybe = useDerived(() => validateLabel($value() ?? ""))
 	const problems = nay.problems($nameMaybe())
 
 	const onInput = (event: InputEvent) => {

@@ -3,6 +3,7 @@ import {dom, light, useOnce, useSignal} from "@e280/sly"
 import {Bank} from "./bank.js"
 import {ListPage} from "./pages/list/view.js"
 import {CreatePage} from "./pages/create/view.js"
+import { deriveId, sigil } from "../core/index.js"
 
 dom.render(dom("main"), light(() => {
 	const bank = useOnce(() => new Bank())
@@ -16,7 +17,9 @@ dom.render(dom("main"), light(() => {
 	if ($route() === "create")
 		return CreatePage({
 			done: async draft => {
-				await bank.addIdentity({name: draft.$name(), root: draft.$root()})
+				const root = draft.$root()
+				const name = draft.$name() ?? sigil(deriveId(root))
+				await bank.addIdentity({root, name})
 				$route("list")
 			},
 			back: bank.$identities().length

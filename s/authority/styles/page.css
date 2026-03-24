@@ -7,7 +7,7 @@
 	}
 
 	html {
-		--tint: #1118;
+		--tint: #1112;
 		background: linear-gradient(to bottom, var(--tint), var(--tint)), var(--bg) url("/assets/1dea2105.avif") center center / cover;
 		color: var(--text);
 		text-shadow: var(--text-shadow);
@@ -17,18 +17,15 @@
 		display: flex;
 		flex-direction: column;
 
-		max-width: 42em;
 		margin: 1em auto;
-		padding: var(--padding);
 		gap: var(--padding);
 
 		text-align: center;
-		border-radius: var(--rounded);
+		border-radius: var(--round);
 	}
 
 	main {
 		display: block;
-		background: #3334;
 		padding: var(--padding);
 	}
 

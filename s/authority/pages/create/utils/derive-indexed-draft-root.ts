@@ -1,8 +1,9 @@
 
-import {deriveSecret} from "../../../../core/index.js"
+import {deriveId, deriveSecret} from "../../../../core/index.js"
 
-export function deriveIndexedDraftRoot(secret: string, index: number) {
-	const b = new Uint8Array([index])
-	return deriveSecret(secret, b)
+export function deriveIdentityFromIndex(secret: string, index: number) {
+	const root = deriveSecret(secret, new Uint8Array([index]))
+	const id = deriveId(root)
+	return {id, root}
 }
 

@@ -1,18 +1,18 @@
 
 import {signal} from "@e280/strata"
 import {generateSecret} from "../../../../core/index.js"
-import {deriveIndexedDraftRoot} from "./derive-indexed-draft-root.js"
+import {deriveIdentityFromIndex} from "./derive-indexed-draft-root.js"
 
 export function initDraft() {
-	const startPage = 1
+	const startIndex = 1
 	const secret = generateSecret()
-	const root = deriveIndexedDraftRoot(secret, startPage)
+	const {root} = deriveIdentityFromIndex(secret, startIndex)
 
 	return {
-		$name: signal("Anon Anonymous"),
-		$root: signal(root),
+		$index: signal(startIndex),
 		$secret: signal(secret),
-		$page: signal(startPage),
+		$root: signal(root),
+		$name: signal<string | null>(null),
 	}
 }
 
