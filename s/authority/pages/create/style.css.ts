@@ -74,15 +74,24 @@ export default css`
 	}
 
 	&[data-step="acorn"] {
+		.concealer {
+			width: 20em;
+			max-width: 100%;
+			color: var(--secret);
+
+			.whomst {
+				padding: 0.2em;
+				background: color;
+			}
+		}
+
 		.codebox {
 			position: relative;
 			display: flex;
 			flex-direction: column;
-			width: 20em;
 			padding: calc(var(--padding) * 0.5);
 			gap: calc(var(--padding) * 0.5);
 
-			color: var(--secret);
 			background: color-mix(in oklch, #0002, currentColor 20%);
 			border: 0.2em solid currentColor;
 			box-shadow: 0 0 5em color-mix(in oklch, transparent, currentColor 50%);
@@ -93,13 +102,15 @@ export default css`
 				display: flex;
 				justify-content: end;
 				align-items: center;
+				gap: calc(var(--padding) * 0.5);
 
 				button {
 					border: none;
+					padding: 0;
 				}
 
 				[view="shiny-copy"] {
-					font-size: 1.5em;
+					font-size: 1.2em;
 				}
 			}
 
@@ -121,6 +132,7 @@ export default css`
 				position: absolute;
 				z-index: 2;
 				inset: 0;
+				user-select: none;
 				width: 100%;
 				height: 100%;
 				display: flex;

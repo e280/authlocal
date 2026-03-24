@@ -1,7 +1,7 @@
 
 import {html} from "lit"
 import {ShinyCopy} from "@e280/shiny"
-import {light, useSignal} from "@e280/sly"
+import {light, useDerived, useSignal} from "@e280/sly"
 import {CreateDraft} from "../view.js"
 import {acorn, deriveId, sigil} from "../../../../core/index.js"
 
@@ -20,7 +20,8 @@ export const AcornStep = light((options: {
 	}) => {
 
 	const root = options.draft.$root()
-	const id = deriveId(root)
+	const $id = useDerived(() => deriveId(options.draft.$root()))
+	const $sigil = useDerived(() => sigil($id()))
 
 	const secretText = acorn(root)
 	const $checked = useSignal(false)
@@ -35,24 +36,23 @@ export const AcornStep = light((options: {
 		<div data-step=acorn>
 			<div>
 				<h2>save your recovery code</h2>
-				<p>if you lose it, this identity is gone <em>forever.</em></p>
+				<p>if you lose it, "${$sigil()}" is gone <em>forever</em></p>
 			</div>
 
-			<div>
-				<p>for "${sigil(id)}"</p>
+			<div class=concealer>
 				<div class=codebox ?data-concealed="${$concealed()}">
 					<header>
 						<button @click="${toggleConceal}">${$concealed() ? "reveal" : "conceal"}</button>
 						${ShinyCopy(secretText)}
 					</header>
 					<textarea readonly .value="${displayText}" @click="${onClick}"></textarea>
-					<div class=blanket>CONFIDENTIAL</div>
+					<div class=blanket>CONCEALED</div>
 				</div>
 			</div>
 
 			<label class=checkbox>
 				<input type=checkbox @change="${onCheck}"/>
-				<span>i kept it safe and secret.</span>
+				<span>i saved this somewhere safe</span>
 			</label>
 
 			<nav>
