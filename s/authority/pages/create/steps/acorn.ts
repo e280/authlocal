@@ -23,23 +23,19 @@ export const AcornStep = light((options: {
 	return html`
 		<div data-step=acorn>
 			<div>
-				<h2>save your recovery codes</h2>
-				<p>for "${sigil(id)}"</p>
+				<h2>save your recovery code</h2>
+				<p>otherwise, it'll be gone <em>forever.</em></p>
 			</div>
 
 			<div>
+				<p>for "${sigil(id)}"</p>
 				<header>${ShinyCopy(secretText)}</header>
 				<textarea readonly .value="${secretText}" @click="${onClick}"></textarea>
 			</div>
 
-			<div>
-				<p><strong>keep it safe. keep it secret.</strong></p>
-				<p>otherwise, it'll be gone <em>forever.</em></p>
-			</div>
-
-			<label>
+			<label class=checkbox>
 				<input type="checkbox" @change="${onCheck}"/>
-				<span>i kept this safe and secret.</span>
+				<span>i kept it safe and secret.</span>
 			</label>
 
 			<nav>

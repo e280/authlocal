@@ -81,6 +81,16 @@ export default css`
 			font-size: 1em;
 			font-family: monospace;
 		}
+
+		.checkbox {
+			font-size: 1.2em;
+			font-weight: bold;
+
+			input {
+				transform: scale(150%);
+				margin-right: 0.5em;
+			}
+		}
 	}
 }
 
