@@ -29,7 +29,7 @@
 		padding: var(--padding);
 	}
 
-	.version {
+	footer, small {
 		opacity: 0.5;
 	}
 }

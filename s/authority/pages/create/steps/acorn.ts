@@ -24,7 +24,7 @@ export const AcornStep = light((options: {
 		<div data-step=acorn>
 			<div>
 				<h2>save your recovery codes</h2>
-				<p>this is for your id "${sigil(id)}"</p>
+				<p>for "${sigil(id)}"</p>
 			</div>
 
 			<div>

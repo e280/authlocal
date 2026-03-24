@@ -29,12 +29,12 @@ export default template(import.meta.url, async orb => html`
 		<body>
 			<header>
 				<h1>authlocal</h1>
-				<p>own your identity. open-source. privacy-focused. user-sovereign.</p>
+				<small>own your identity. open-source. privacy-focused. user-sovereign.</small>
 			</header>
 			<main></main>
 			<footer>
 				<p>learn more on <a href="https://github.com/e280/authlocal#readme">github.</a></p>
-				<p class=version>v${orb.packageVersion()}</p>
+				<small class=version>v${orb.packageVersion()}</small>
 			</footer>
 		</body>
 	</html>

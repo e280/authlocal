@@ -1,6 +1,6 @@
 
-import {hex} from "@e280/stz"
 import {svg} from "lit"
+import {hash} from "../../core/index.js"
 
 /**
  * deterministic symbolic avatar
@@ -13,7 +13,7 @@ import {svg} from "lit"
  * 4: ornament   [0..1]  rings / dots / sparkle density
  */
 export function sigilSvg(id: string) {
-	const [a, b, c, d, e] = [...hex.toBytes(id)]
+	const [a, b, c, d, e] = [...hash(id)]
 		.slice(0, 5)
 		.map(n => (n / 255))
 

@@ -1,22 +1,17 @@
 
-import {hex} from "@e280/stz"
+import {hash} from "../../core/index.js"
 
 /** derive a color from a hex id */
 export function idColor(id: string) {
-	const hue = toDegrees(byteValue(id, -1))
-	const chroma = byteValue(id, -2) * 0.3
-	return `oklch(1 ${chroma} ${hue})`
+	const [a, b] = values(id, 2)
+	const hue = a * 360
+	const chroma = b * 0.2
+	return `oklch(0.8 ${chroma} ${hue})`
 }
 
-function byteValue(id: string, index: number) {
-	const binary = hex.toBytes(id)
-	const byte = binary.at(index)
-	if (byte === undefined)
-		throw new Error(`id didn't have byte at ${index}`)
-	return byte / 255
-}
-
-function toDegrees(x: number) {
-	return Math.floor(x * 359)
+function values(id: string, length: number) {
+	return [...hash(id)]
+		.slice(0, length)
+		.map(byte => byte / 255)
 }
 
