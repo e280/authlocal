@@ -22,7 +22,7 @@ export const CreatePage = shadow((options: {
 	useName("create page")
 	useCss(theme(), styleCss)
 
-	const $step = useSignal<"selector" | "acorn">("selector")
+	const $step = useSignal<"selector" | "acorn">("acorn")
 	const draft = useOnce<CreateDraft>(initDraft)
 
 	function renderStep() {

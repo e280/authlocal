@@ -5,12 +5,14 @@
 		--text: color-mix(in lch, var(--alpha), white 50%);
 		--text-shadow: 0.1em 0.1em 0.1em #0004;
 
-		--link: cyan;
 		--round: 0.5em;
 		--padding: 1em;
+		--anim: 200ms;
 
+		--link: cyan;
 		--prime: lime;
 		--alpha: #00ff93;
+		--secret: #f90;
 	}
 }
 
