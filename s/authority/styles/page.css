@@ -16,15 +16,39 @@
 	body {
 		display: flex;
 		flex-direction: column;
-
-		margin: 1em auto;
-		gap: var(--padding);
+		padding: calc(var(--padding) * 0.5) 0;
+		gap: calc(var(--padding) * 2);
 
 		text-align: center;
 		border-radius: var(--round);
 	}
 
-	header, footer, small {
+	hr {
+		margin: 0 auto;
+		width: 100%;
+		max-width: 24em;
+		background: var(--text);
+		border: none;
+		height: 0.1em;
+		border-radius: 1em;
+		opacity: 0.4;
+	}
+
+	h1 {
+		font-weight: normal;
+	}
+
+	header, footer {
+		opacity: 0.4;
+	}
+
+	footer {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--padding) * 0.25);
+	}
+
+	.version {
 		opacity: 0.5;
 	}
 }

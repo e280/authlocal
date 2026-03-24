@@ -14,9 +14,9 @@ export default css`
 
 	color: var(--color);
 	border: 0.2em solid var(--color);
-	box-shadow: 0 0 5em color-mix(in oklch, transparent, var(--color) 25%);
-	background: color-mix(in oklch, transparent, var(--color) 20%);
+	background: color-mix(in oklch, transparent, var(--color) 12%);
 	backdrop-filter: blur(0.4em);
+	box-shadow: 0 0 5em color-mix(in oklch, transparent, var(--color) 25%);
 	filter:
 		drop-shadow(0 0 0.5em var(--color));
 		drop-shadow(0 0 2em var(--color));
