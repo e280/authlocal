@@ -1,7 +1,7 @@
 
-import {sha256} from "@noble/hashes/sha2.js"
+import {hash} from "../../cryp/hash.js"
 
 export function littleChecksum(buffer: Uint8Array) {
-	return sha256(buffer).slice(0, 2)
+	return hash(buffer).slice(0, 2)
 }
 
