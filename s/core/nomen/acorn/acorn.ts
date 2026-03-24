@@ -1,27 +1,22 @@
 
-import {bytes, hex} from "@e280/stz"
-import {sha256} from "@noble/hashes/sha2.js"
-
-import {Root} from "../../cryp/types.js"
+import {hex} from "@e280/stz"
+import {sigil} from "../moniker/sigil.js"
+import {Secret} from "../../cryp/types.js"
 import {yay, nay} from "../../utils/yay.js"
-import {littleChecksum} from "../utils/little-checksum.js"
+import {deriveId} from "../../cryp/derive-id.js"
 import {wordsFromBytes, wordsToBytes} from "../moniker/parts/words.js"
 
-export function acorn(root: Root) {
-	const rootBytes = hex.toBytes(root)
-	const checksumBytes = sha256(rootBytes).slice(0, 2)
-
-	const words = [
-		...wordsFromBytes(rootBytes),
-		...wordsFromBytes(checksumBytes),
-	]
+export function acorn(secret: Secret) {
+	const id = deriveId(secret)
+	const secretBytes = hex.toBytes(secret)
+	const words = [...wordsFromBytes(secretBytes)]
 
 	const lines = [
+		[sigil(id).replace("_", " ")],
 		words.slice(0, 4),
 		words.slice(4, 8),
 		words.slice(8, 12),
 		words.slice(12, 16),
-		words.slice(16, 17),
 	]
 
 	return lines
@@ -36,19 +31,23 @@ acorn.parse = (text: string) => {
 		.map(m => m.trim().toLowerCase())
 		.filter(Boolean)
 
-	if (words.length !== 17)
+	if (words.length !== 18)
 		return nay("invalid number of words")
 
-	const reportedChecksumBytes = new Uint8Array(wordsToBytes([words.pop()!]))
-	const rootBytes = new Uint8Array(wordsToBytes(words))
-	const checksumBytes = littleChecksum(rootBytes)
+	const [a, b, ...secretWords] = words
+	const reportedSig = `${a}_${b}`
 
-	if (!bytes.eq(reportedChecksumBytes, checksumBytes))
-		return nay("invalid checksum")
+	const secretBytes = new Uint8Array(wordsToBytes(secretWords))
+	const secret = hex(secretBytes)
+	const id = deriveId(secret)
+	const sig = sigil(id)
 
-	return yay(hex.fromBytes(rootBytes))
+	if (sig !== reportedSig)
+		return nay(`invalid sigil, expected "${reportedSig}", but got "${sig}"`)
+
+	return yay(secret)
 }
 
 acorn.problem = (text: string) => nay.problems(acorn.parse(text))
-acorn.toRoot = (text: string) => yay.require(acorn.parse(text))
+acorn.toSecret = (text: string) => yay.require(acorn.parse(text))
 
