@@ -7,37 +7,38 @@ export default css`
 	flex-direction: column;
 	align-items: stretch;
 
-	max-width: 18em;
+	max-width: 14em;
 	padding: var(--padding);
 	gap: var(--padding);
 	border-radius: var(--round);
 
 	color: var(--color);
 	border: 0.2em solid var(--color);
-	background: color-mix(in oklch, #0004, var(--color) 10%);
 	box-shadow: 0 0 5em color-mix(in oklch, transparent, var(--color) 25%);
+	background: color-mix(in oklch, transparent, var(--color) 20%);
+	backdrop-filter: blur(0.4em);
 	filter:
 		drop-shadow(0 0 0.5em var(--color));
 		drop-shadow(0 0 2em var(--color));
 
 	.icon {
-		width: 10em;
+		width: 50%;
 		align-self: center;
 	}
 
 	.content {
 		display: flex;
 		flex-direction: column;
-		gap: 1em;
+		gap: calc(var(--padding) / 2);
 
 		.name {
-			font-size: 1.4em;
+			font-size: 1.2em;
 			font-weight: bold;
 		}
 
 		.moniker {
-			opacity: 0.5;
-			font-size: 0.8em;
+			opacity: 0.6;
+			font-size: 0.6em;
 			font-family: monospace;
 			display: block;
 			width: 100%;

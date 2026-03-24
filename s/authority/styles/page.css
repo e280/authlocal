@@ -24,12 +24,7 @@
 		border-radius: var(--round);
 	}
 
-	main {
-		display: block;
-		padding: var(--padding);
-	}
-
-	footer, small {
+	header, footer, small {
 		opacity: 0.5;
 	}
 }

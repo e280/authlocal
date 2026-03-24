@@ -3,7 +3,7 @@ import {Signal} from "@e280/strata"
 import {shadow, useCss, useName, useOnce, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
-import {RootStep} from "./steps/root.js"
+import {SelectorStep} from "./steps/selector.js"
 import {AcornStep} from "./steps/acorn.js"
 import {initDraft} from "./utils/init-draft.js"
 
@@ -22,13 +22,13 @@ export const CreatePage = shadow((options: {
 	useName("create page")
 	useCss(theme(), styleCss)
 
-	const $step = useSignal<"root" | "name" | "acorn">("root")
+	const $step = useSignal<"selector" | "acorn">("selector")
 	const draft = useOnce<CreateDraft>(initDraft)
 
 	function renderStep() {
 		switch ($step()) {
-			case "root":
-				return RootStep({
+			case "selector":
+				return SelectorStep({
 					draft,
 					next: () => $step("acorn"),
 					back: options.back,
@@ -38,7 +38,7 @@ export const CreatePage = shadow((options: {
 				return AcornStep({
 					draft,
 					next: () => options.done(draft),
-					back: () => $step("root"),
+					back: () => $step("selector"),
 				})
 		}
 	}

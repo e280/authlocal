@@ -3,11 +3,10 @@ import {html} from "lit"
 import {light} from "@e280/sly"
 import {ShinyButton} from "@e280/shiny"
 import {CreateDraft} from "../view.js"
-import {sigil} from "../../../../core/index.js"
 import {IdPoster} from "../../../../ui/views/id-poster/view.js"
 import {deriveIdentityFromIndex} from "../utils/derive-indexed-draft-root.js"
 
-export const RootStep = light((options: {
+export const SelectorStep = light((options: {
 		draft: CreateDraft
 		next: () => void
 		back?: () => void
@@ -16,7 +15,9 @@ export const RootStep = light((options: {
 	const {$root, $secret, $index} = options.draft
 	const selected = deriveIdentityFromIndex($secret(), $index())
 
-	function onChoose() {
+	const shimmyRight = () => $index($index() + 1)
+	const shimmyLeft = () => $index($index() - 1)
+	const clickChoose = () => {
 		$root(selected.root)
 		options.next()
 	}
@@ -34,7 +35,7 @@ export const RootStep = light((options: {
 	}
 
 	return html`
-		<div data-step=root>
+		<div data-step=selector>
 			<h2>choose your new identity</h2>
 
 			<div class=cards>
@@ -44,7 +45,11 @@ export const RootStep = light((options: {
 			</div>
 
 			<nav>
-				${ShinyButton(`choose ${sigil(selected.id)}`, {vibe: "happy", onClick: onChoose})}
+				<div>
+					${ShinyButton("<", {vibe: "lame", onClick: shimmyLeft})}
+					${ShinyButton("choose", {vibe: "happy", onClick: clickChoose})}
+					${ShinyButton(">", {vibe: "lame", onClick: shimmyRight})}
+				</div>
 
 				${(options.back ?? null) && html`
 					<div>
@@ -53,7 +58,6 @@ export const RootStep = light((options: {
 					</div>
 				`}
 			</nav>
-
 		</div>
 	`
 })

@@ -10,23 +10,38 @@ export default css`
 
 	&[data-step="name"] {}
 
-	&[data-step="root"] {
+	&[data-step="selector"] {
+		overflow: hidden;
+
 		.cards {
+			position: relative;
 			display: flex;
 			align-items: stretch;
 			width: max-content;
-			margin: calc(var(--padding) * 2) auto;
-			gap: calc(var(--padding) * 4);
 
 			> * {
-				opacity: 0.2;
-				transform: scale(100%);
 				user-select: none;
 
+				&:nth-child(1) {
+					position: absolute;
+					z-index: 1;
+					opacity: 0.2;
+					transform: translateX(calc(min(30dvw, 70%) * -1)) scale(66%);
+				}
+
 				&:nth-child(2) {
+					position: relative;
+					z-index: 2;
 					opacity: 1;
-					transform: scale(110%);
+					transform: scale(100%);
 					cursor: default;
+				}
+
+				&:nth-child(3) {
+					position: absolute;
+					z-index: 1;
+					opacity: 0.2;
+					transform: translateX(min(30dvw, 70%)) scale(66%);
 				}
 			}
 
@@ -45,11 +60,10 @@ export default css`
 			gap: 0.5em;
 
 			[view="shiny-button"] {
-				font-size: 1.5em;
+				font-size: 1.2em;
 				font-weight: bold;
 				&::part(button) {
 					padding: var(--padding);
-					min-width: 15em;
 				}
 			}
 
