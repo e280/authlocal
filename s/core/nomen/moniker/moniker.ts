@@ -11,7 +11,7 @@ export function moniker(id: Id) {
 
 moniker.make = monikerMake
 moniker.parse = monikerParse
-moniker.problem = (moniker: string) => nay.problems(monikerParse(moniker))
+moniker.problems = (moniker: string) => nay.problems(monikerParse(moniker))
 moniker.toBytes = (moniker: string) => yay.require(monikerParse(moniker))
 moniker.toId = (text: string) => hex.fromBytes(moniker.toBytes(text))
 

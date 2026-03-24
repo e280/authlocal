@@ -48,6 +48,6 @@ acorn.parse = (text: string) => {
 	return yay(secret)
 }
 
-acorn.problem = (text: string) => nay.problems(acorn.parse(text))
+acorn.problems = (text: string) => nay.problems(acorn.parse(text))
 acorn.toSecret = (text: string) => yay.require(acorn.parse(text))
 
