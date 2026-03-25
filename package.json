@@ -14,7 +14,7 @@
 		"./core": "./x/core/index.js",
 		"./core/alco": "./x/core/alco/index.js",
 		"./core/cryp": "./x/core/cryp/index.js",
-		"./core/nomen": "./x/core/nomen/index.js",
+		"./core/ergo": "./x/core/ergo/index.js",
 		"./core/tok": "./x/core/tok/index.js"
 	},
 	"scripts": {

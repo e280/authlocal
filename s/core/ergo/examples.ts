@@ -1,10 +1,10 @@
 
 import {count, hex} from "@e280/stz"
 import {acorn} from "./acorn/acorn.js"
-import {moniker} from "./moniker/moniker.js"
+import {nomen} from "./moniker/nomen.js"
 
 for (const _ of count(10))
-	console.log(moniker(hex.random(32)))
+	console.log(nomen(hex.random(32)))
 
 for (const _ of count(2)) {
 	console.log()

@@ -6,7 +6,7 @@ import {cssReset, shadow, useCss, useName} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {idColor} from "../../utils/id-color.js"
 import {sigilSvg} from "../../utils/sigil-svg.js"
-import {moniker, sigil} from "../../../core/index.js"
+import {nomen, nom} from "../../../core/index.js"
 
 export const IdPoster = shadow((options: {
 		id: string
@@ -17,9 +17,9 @@ export const IdPoster = shadow((options: {
 	useName("id-card")
 	useCss(cssReset, styleCss)
 
-	const name = options.name || sigil(options.id)
+	const name = options.name || nom(options.id)
 	const color = `--color: ${idColor(options.id)};`
-	const m = moniker(options.id)
+	const m = nomen(options.id)
 	const [first, second, third] = m.split("_")
 
 	const monikerSpan = html`

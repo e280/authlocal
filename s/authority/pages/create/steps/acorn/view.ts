@@ -6,7 +6,7 @@ import {shadow, useCss, useDerived, useName, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
-import {acorn, deriveId, sigil} from "../../../../../core/index.js"
+import {acorn, deriveId, nom} from "../../../../../core/index.js"
 
 const fakeAcorn = `
 nopnop_fakers
@@ -27,7 +27,7 @@ export const AcornStep = shadow((options: {
 
 	const root = options.draft.$root()
 	const $id = useDerived(() => deriveId(options.draft.$root()))
-	const $sigil = useDerived(() => sigil($id()))
+	const $sigil = useDerived(() => nom($id()))
 
 	const secretText = acorn(root)
 	const $checked = useSignal(false)

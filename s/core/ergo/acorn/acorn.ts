@@ -1,6 +1,6 @@
 
 import {hex} from "@e280/stz"
-import {sigil} from "../moniker/sigil.js"
+import {nom} from "../moniker/nom.js"
 import {Secret} from "../../cryp/types.js"
 import {yay, nay} from "../../utils/yay.js"
 import {deriveId} from "../../cryp/derive-id.js"
@@ -12,7 +12,7 @@ export function acorn(secret: Secret) {
 	const words = [...wordsFromBytes(secretBytes)]
 
 	const lines = [
-		[sigil(id).replace("_", " ")],
+		[nom(id).replace("_", " ")],
 		words.slice(0, 4),
 		words.slice(4, 8),
 		words.slice(8, 12),
@@ -40,7 +40,7 @@ acorn.parse = (text: string) => {
 	const secretBytes = new Uint8Array(wordsToBytes(secretWords))
 	const secret = hex(secretBytes)
 	const id = deriveId(secret)
-	const sig = sigil(id)
+	const sig = nom(id)
 
 	if (sig !== reportedSig)
 		return nay(`invalid sigil, expected "${reportedSig}", but got "${sig}"`)
