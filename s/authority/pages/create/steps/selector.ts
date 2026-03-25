@@ -2,7 +2,7 @@
 import {html} from "lit"
 import {light} from "@e280/sly"
 import {ShinyButton} from "@e280/shiny"
-import {CreateDraft} from "../view.js"
+import {CreateDraft} from "../types.js"
 import {IdPoster} from "../../../../ui/views/id-poster/view.js"
 import {deriveIdentityFromIndex} from "../utils/derive-indexed-draft-root.js"
 

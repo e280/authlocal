@@ -1,18 +1,11 @@
 
-import {Signal} from "@e280/strata"
 import {shadow, useCss, useName, useOnce, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
+import {CreateDraft} from "./types.js"
 import {theme} from "../../utils/theme.js"
-import {SelectorStep} from "./steps/selector.js"
 import {AcornStep} from "./steps/acorn.js"
 import {initDraft} from "./utils/init-draft.js"
-
-export type CreateDraft = {
-	$index: Signal<number>
-	$root: Signal<string>
-	$secret: Signal<string>
-	$name: Signal<string | null>
-}
+import {SelectorStep} from "./steps/selector.js"
 
 export const CreatePage = shadow((options: {
 		done: (draft: CreateDraft) => void

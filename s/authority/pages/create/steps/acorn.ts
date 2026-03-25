@@ -2,10 +2,10 @@
 import {html} from "lit"
 import {ShinyCopy} from "@e280/shiny"
 import {light, useDerived, useSignal} from "@e280/sly"
-import {CreateDraft} from "../view.js"
+import {CreateDraft} from "../types.js"
 import {acorn, deriveId, sigil} from "../../../../core/index.js"
 
-export const fakeAcorn = `
+const fakeAcorn = `
 nopnop_fakers
 dedyak befbef gidvyx mamryd
 burdyb pidmyn lentak kemlex
