@@ -1,16 +1,22 @@
 
 import {html} from "lit"
-import {light} from "@e280/sly"
 import {ShinyButton} from "@e280/shiny"
-import {CreateDraft} from "../types.js"
-import {IdPoster} from "../../../../ui/views/id-poster/view.js"
-import {deriveIdentityFromIndex} from "../utils/derive-indexed-draft-root.js"
+import {shadow, useCss, useName} from "@e280/sly"
 
-export const SelectorStep = light((options: {
+import styleCss from "./style.css.js"
+import {CreateDraft} from "../../types.js"
+import {theme} from "../../../../utils/theme.js"
+import {IdPoster} from "../../../../../ui/views/id-poster/view.js"
+import {deriveIdentityFromIndex} from "../../utils/derive-identity-from-index.js"
+
+export const SelectorStep = shadow((options: {
 		draft: CreateDraft
 		next: () => void
 		back?: () => void
 	}) => {
+
+	useName("acorn-step")
+	useCss(theme(), styleCss)
 
 	const {$root, $secret, $index} = options.draft
 	const selected = deriveIdentityFromIndex($secret(), $index())
@@ -35,7 +41,7 @@ export const SelectorStep = light((options: {
 	}
 
 	return html`
-		<div data-step=selector>
+		<div class=plate>
 			<h2>choose your new identity</h2>
 
 			<div class=cards>

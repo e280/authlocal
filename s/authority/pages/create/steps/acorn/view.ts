@@ -1,9 +1,12 @@
 
 import {html} from "lit"
 import {ShinyCopy} from "@e280/shiny"
-import {light, useDerived, useSignal} from "@e280/sly"
-import {CreateDraft} from "../types.js"
-import {acorn, deriveId, sigil} from "../../../../core/index.js"
+import {shadow, useCss, useDerived, useName, useSignal} from "@e280/sly"
+
+import styleCss from "./style.css.js"
+import {CreateDraft} from "../../types.js"
+import {theme} from "../../../../utils/theme.js"
+import {acorn, deriveId, sigil} from "../../../../../core/index.js"
 
 const fakeAcorn = `
 nopnop_fakers
@@ -13,11 +16,14 @@ demkex purzen sallak lidmac
 nidwyn yabmer vemfek wursyr
 `.trim()
 
-export const AcornStep = light((options: {
+export const AcornStep = shadow((options: {
 		draft: CreateDraft
 		next: () => void
 		back: () => void
 	}) => {
+
+	useName("acorn-step")
+	useCss(theme(), styleCss)
 
 	const root = options.draft.$root()
 	const $id = useDerived(() => deriveId(options.draft.$root()))
@@ -33,7 +39,7 @@ export const AcornStep = light((options: {
 	const toggleConceal = () => $concealed(!$concealed())
 
 	return html`
-		<div data-step=acorn>
+		<div class=plate>
 			<div>
 				<h2>save your recovery code</h2>
 				<p>if you lose it, "${$sigil()}" is gone <em>forever</em></p>
