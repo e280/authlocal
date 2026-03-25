@@ -69,7 +69,4 @@ each identity you create has a permanent *"root key"* — don't lose it — don'
     molrad_tobpyx
     ```
 - **Sigil** — visual glyph svg representing an Id  
-    ```
-    molrad_tobpyx
-    ```
 
