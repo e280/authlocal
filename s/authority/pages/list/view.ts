@@ -1,8 +1,8 @@
 
 import {html} from "lit"
 import {shadow, useCss, useName} from "@e280/sly"
-import {Bank} from "../../bank.js"
 import styleCss from "./style.css.js"
+import {Bank} from "../../sys/bank.js"
 import {theme} from "../../utils/theme.js"
 import {deriveId} from "../../../core/index.js"
 import {IdCard} from "../../../ui/views/id-card/view.js"
