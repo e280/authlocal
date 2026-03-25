@@ -51,21 +51,25 @@ each identity you create has a permanent *"root key"* — don't lose it — don'
 - **Testimony** — token signed by a Viceroy  
 - **Proof** — Testimony that proves a Viceroy signed a Delegate  
 
-#### nomen terms
-- **Acorn** — human-friendly text that encodes a Root  
+#### ergo terms
+- **Seed** — human-friendly text that encodes a Root  
     ```
-    yenzud borbob kemkog remjox
-    pulfek coltyr matkyr zorfur
-    bobrek wabmur pobbob wemlur
-    korwyd lidfek gorvok kiddok
-    fabraz
+    molrad tobpyx
+    folryd fidvyn pordax mabtur
+    tulrok curmux pidpex kamyak
+    rumhur minlyx mornod nindex
+    borbur wolkar bodlan binkak
     ```
-- **Moniker** — human-friendly text that encodes an Id  
+- **Nomen** — human-friendly text that encodes an Id  
     ```
-    _wixzad_tobwyk_qkqwi2doLnmVrCKY2gib8v22aAimZNpuw1Y3Nvd1z
+    molrad_tobpyx_aFHY73ALGfPbwvQUTdYLCSzr29KPosbY24YV3KfJw
     ```
-- **Sigil** — first part of the moniker  
+- **Nom** — just the first parts of the Nomen  
     ```
-    _wixzad_tobwyk
+    molrad_tobpyx
+    ```
+- **Sigil** — visual glyph svg representing an Id  
+    ```
+    molrad_tobpyx
     ```
 
