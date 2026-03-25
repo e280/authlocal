@@ -4,6 +4,8 @@
 		--bg: #06141d;
 		--text: color-mix(in lch, var(--alpha), white 50%);
 		--text-shadow: 0.1em 0.1em 0.1em #0004;
+		--selection: white;
+		--selection-bg: color-mix(in oklch, transparent, var(--secret) 90%);
 
 		--round: 0.5em;
 		--padding: 1em;

@@ -55,9 +55,11 @@ export default css`
 			font-size: 1em;
 			width: 100%;
 			min-height: 6em;
-			font-family: monospace;
 			border: none;
+			font-family: monospace;
 			color: color-mix(in oklch, currentColor, white);
+			font-weight: bold;
+			text-shadow: 0 0 0.5em var(--secret);
 			background: transparent;
 			outline: none;
 		}
