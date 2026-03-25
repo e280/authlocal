@@ -1,7 +1,7 @@
 
 import {html} from "lit"
 import {ShinyButton} from "@e280/shiny"
-import {shadow, useCss, useName} from "@e280/sly"
+import {shadow, useCss} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {CreateDraft} from "../../types.js"
@@ -15,7 +15,6 @@ export const SelectorStep = shadow((options: {
 		back?: () => void
 	}) => {
 
-	useName("acorn-step")
 	useCss(theme(), styleCss)
 
 	const {$root, $secret, $index} = options.draft

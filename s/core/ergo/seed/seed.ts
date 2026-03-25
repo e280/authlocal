@@ -1,12 +1,12 @@
 
 import {hex} from "@e280/stz"
-import {nom} from "../moniker/nom.js"
+import {nom} from "../nomen/nom.js"
 import {Secret} from "../../cryp/types.js"
 import {yay, nay} from "../../utils/yay.js"
 import {deriveId} from "../../cryp/derive-id.js"
-import {wordsFromBytes, wordsToBytes} from "../moniker/parts/words.js"
+import {wordsFromBytes, wordsToBytes} from "../nomen/parts/words.js"
 
-export function acorn(secret: Secret) {
+export function seed(secret: Secret) {
 	const id = deriveId(secret)
 	const secretBytes = hex.toBytes(secret)
 	const words = [...wordsFromBytes(secretBytes)]
@@ -24,7 +24,7 @@ export function acorn(secret: Secret) {
 		.join("\n")
 }
 
-acorn.parse = (text: string) => {
+seed.parse = (text: string) => {
 	const words = text
 		.trim()
 		.split(/\s+/)
@@ -48,6 +48,6 @@ acorn.parse = (text: string) => {
 	return yay(secret)
 }
 
-acorn.problems = (text: string) => nay.problems(acorn.parse(text))
-acorn.toSecret = (text: string) => yay.require(acorn.parse(text))
+seed.problems = (text: string) => nay.problems(seed.parse(text))
+seed.toSecret = (text: string) => yay.require(seed.parse(text))
 

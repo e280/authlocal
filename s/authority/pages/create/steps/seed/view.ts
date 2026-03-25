@@ -1,14 +1,14 @@
 
 import {html} from "lit"
 import {ShinyCopy} from "@e280/shiny"
-import {shadow, useCss, useDerived, useName, useSignal} from "@e280/sly"
+import {shadow, useCss, useDerived, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
-import {acorn, deriveId, nom} from "../../../../../core/index.js"
+import {seed, deriveId, nom} from "../../../../../core/index.js"
 
-const fakeAcorn = `
+const fakeSeed = `
 nopnop_fakers
 dedyak befbef gidvyx mamryd
 burdyb pidmyn lentak kemlex
@@ -16,23 +16,22 @@ demkex purzen sallak lidmac
 nidwyn yabmer vemfek wursyr
 `.trim()
 
-export const AcornStep = shadow((options: {
+export const SeedStep = shadow((options: {
 		draft: CreateDraft
 		next: () => void
 		back: () => void
 	}) => {
 
-	useName("acorn-step")
 	useCss(theme(), styleCss)
 
 	const root = options.draft.$root()
 	const $id = useDerived(() => deriveId(options.draft.$root()))
 	const $sigil = useDerived(() => nom($id()))
 
-	const secretText = acorn(root)
+	const secretText = seed(root)
 	const $checked = useSignal(false)
 	const $concealed = useSignal(true)
-	const displayText = $concealed() ? fakeAcorn : secretText
+	const displayText = $concealed() ? fakeSeed : secretText
 
 	const onClick = (e: Event) => (e.currentTarget as HTMLTextAreaElement).select()
 	const onCheck = (e: Event) => $checked((e.currentTarget as HTMLInputElement).checked)

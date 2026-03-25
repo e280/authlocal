@@ -1,9 +1,9 @@
 
-import {acorn} from "./acorn.js"
+import {seed} from "./seed.js"
 import {suite, test, expect} from "@e280/science"
 
 const demoSecret = "0000deadbeefb00b82a92b28590a1ec93e64a026d593ceded40055d7bf4270cf"
-const demoAcorn = `
+const demoSeed = `
 nidtak hatzyn
 nopnop dedyak befbef bobbob
 pidvak mormox zanzok kalpyk
@@ -12,16 +12,16 @@ turnop yenbyr molvyr hidwyd
 `.trim()
 
 export default suite({
-	"secret->acorn->secret": test(async() => {
-		expect(acorn.toSecret(acorn(demoSecret))).is(demoSecret)
+	"secret->seed->secret": test(async() => {
+		expect(seed.toSecret(seed(demoSecret))).is(demoSecret)
 	}),
 
-	"acorn matches demo": test(async() => {
-		expect(acorn(demoSecret)).is(demoAcorn)
+	"seed matches demo": test(async() => {
+		expect(seed(demoSecret)).is(demoSeed)
 	}),
 
 	"tolerate whitespace": test(async() => {
-		expect(acorn.toSecret(`
+		expect(seed.toSecret(`
 			nidtak hatzyn
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk
@@ -31,7 +31,7 @@ export default suite({
 	}),
 
 	"tolerate lettercase": test(async() => {
-		expect(acorn.toSecret(`
+		expect(seed.toSecret(`
 			NIDTAK hatzyn
 			nopnop dedyak befbef bobbob
 			PIDVAK MORMOX ZANZOK KALPYK
@@ -41,11 +41,11 @@ export default suite({
 	}),
 
 	"throw on empty": test(async() => {
-		expect(() => acorn.toSecret("")).throws()
+		expect(() => seed.toSecret("")).throws()
 	}),
 
 	"throw when leading sigil is missing": test(async() => {
-		expect(() => acorn.toSecret(`
+		expect(() => seed.toSecret(`
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk
 			sinhet curmyn varhek selmyd
@@ -54,7 +54,7 @@ export default suite({
 	}),
 
 	"throw on corrupted sigil": test(async() => {
-		expect(() => acorn.toSecret(`
+		expect(() => seed.toSecret(`
 			nidtak hatnop
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk
@@ -64,7 +64,7 @@ export default suite({
 	}),
 
 	"throw on corrupted secret": test(async() => {
-		expect(() => acorn.toSecret(`
+		expect(() => seed.toSecret(`
 			nidtak hatzyn
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk

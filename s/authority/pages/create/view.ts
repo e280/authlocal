@@ -1,9 +1,8 @@
 
 import {shadow, useCss, useName, useOnce, useSignal} from "@e280/sly"
-import styleCss from "./style.css.js"
 import {CreateDraft} from "./types.js"
 import {theme} from "../../utils/theme.js"
-import {AcornStep} from "./steps/acorn/view.js"
+import {SeedStep} from "./steps/seed/view.js"
 import {initDraft} from "./utils/init-draft.js"
 import {SelectorStep} from "./steps/selector/view.js"
 
@@ -13,9 +12,9 @@ export const CreatePage = shadow((options: {
 	}) => {
 
 	useName("create page")
-	useCss(theme(), styleCss)
+	useCss(theme())
 
-	const $step = useSignal<"selector" | "acorn">("selector")
+	const $step = useSignal<"selector" | "seed">("selector")
 	const draft = useOnce<CreateDraft>(initDraft)
 
 	function renderStep() {
@@ -23,12 +22,12 @@ export const CreatePage = shadow((options: {
 			case "selector":
 				return SelectorStep({
 					draft,
-					next: () => $step("acorn"),
+					next: () => $step("seed"),
 					back: options.back,
 				})
 
-			case "acorn":
-				return AcornStep({
+			case "seed":
+				return SeedStep({
 					draft,
 					next: () => options.done(draft),
 					back: () => $step("selector"),

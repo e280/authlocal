@@ -12,7 +12,7 @@ export const ListPage = shadow((options: {
 		create: () => void
 	}) => {
 
-	useName("create page")
+	useName("list page")
 	useCss(theme(), styleCss)
 
 	return html`
