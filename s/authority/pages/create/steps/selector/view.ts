@@ -10,6 +10,7 @@ import {IdPoster} from "../../../../../ui/views/id-poster/view.js"
 import {deriveIdentityFromIndex} from "../../utils/derive-identity-from-index.js"
 import { nom } from "../../../../../core/index.js"
 import { debounce } from "@e280/stz"
+import { NameInput } from "../../../../views/name-input/view.js"
 
 export const SelectorStep = shadow((options: {
 		draft: CreateDraft
@@ -53,12 +54,10 @@ export const SelectorStep = shadow((options: {
 		<div class=plate>
 			<h2>choose your new identity</h2>
 
-			<input
-				class=name-input
-				type="text"
-				placeholder="optional name"
-				.value="${$name()}"
-				@input="${onNameInput}"/>
+			${NameInput(name => {
+				if (name)
+					updateName(name)
+			})}
 
 			<div class=cards>
 				${renderIdentity(true, $index() - 1)}

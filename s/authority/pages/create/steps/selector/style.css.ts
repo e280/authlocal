@@ -10,13 +10,8 @@ export default css`
 
 	overflow: hidden;
 
-	.name-input {
-		padding: var(--pad);
+	[view="name-input"]::part(input) {
 		text-align: center;
-	}
-
-	.problems {
-		
 	}
 
 	.cards {
