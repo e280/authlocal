@@ -6,7 +6,7 @@ export default css`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: var(--pad);
+	gap: var(--space);
 
 	overflow: hidden;
 
@@ -19,6 +19,7 @@ export default css`
 		display: flex;
 		align-items: stretch;
 		width: max-content;
+		margin: var(--space) auto;
 
 		> * {
 			user-select: none;
@@ -26,7 +27,7 @@ export default css`
 			&:nth-child(1) {
 				position: absolute;
 				z-index: 1;
-				opacity: 0.2;
+				opacity: 0.4;
 				transform: translateX(calc(min(30dvw, 70%) * -1)) scale(66%);
 			}
 
@@ -41,7 +42,7 @@ export default css`
 			&:nth-child(3) {
 				position: absolute;
 				z-index: 1;
-				opacity: 0.2;
+				opacity: 0.4;
 				transform: translateX(min(30dvw, 70%)) scale(66%);
 			}
 		}
