@@ -2,12 +2,17 @@
 import {css} from "lit"
 export default css`
 
+:host {
+	display: block;
+	width: 100%;
+	max-width: 24em;
+}
+
 .box {
 	display: flex;
 	flex-direction: column;
 
-	width: 24em;
-	max-width: 100%;
+	width: 100%;
 	padding: var(--pad);
 
 	input {
