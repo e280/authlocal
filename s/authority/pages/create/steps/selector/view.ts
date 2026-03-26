@@ -5,8 +5,9 @@ import {shadow, useCss} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
-import {NameInput} from "../../../../views/name-input/view.js"
+import {TextInput} from "../../../../views/text-input/view.js"
 import {IdPoster} from "../../../../../ui/views/id-poster/view.js"
+import {fork, maxNameLength, validateName, allowEmptyString} from "../../../../../core/index.js"
 import {deriveIdentityFromIndex} from "../../utils/derive-identity-from-index.js"
 
 export const SelectorStep = shadow((options: {
@@ -44,7 +45,12 @@ export const SelectorStep = shadow((options: {
 		<div class=plate>
 			<h2>choose your new identity</h2>
 
-			${NameInput(name => $name(name ?? ""))}
+			${TextInput({
+				maxLength: maxNameLength,
+				placeholder: "optional name",
+				validator: fork(validateName, allowEmptyString),
+				on: maybe => $name(maybe.yay ? maybe.value : ""),
+			})}
 
 			<div class=cards>
 				${renderIdentity(true, $index() - 1)}

@@ -10,7 +10,7 @@ export default css`
 
 	overflow: hidden;
 
-	[view="name-input"]::part(input) {
+	[view="text-input"]::part(input) {
 		text-align: center;
 	}
 

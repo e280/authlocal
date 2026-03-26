@@ -25,16 +25,20 @@ export type Validator<X> = (x: X) => Maybe<X>
 /** validators can be composed together */
 export function validator<X>(...validators: Validator<X>[]): Validator<X> {
 	return x => {
+		let failures = 0
 		let transformed = x
 		const probs: string[] = []
 
 		for (const validator of validators) {
 			const maybe = validator(transformed)
-			if (!maybe.yay) probs.push(...maybe.problems)
+			if (!maybe.yay) {
+				failures++
+				probs.push(...maybe.problems)
+			}
 			else transformed = maybe.value
 		}
 
-		return probs.length
+		return (failures > 0)
 			? nay(...probs)
 			: yay(transformed)
 	}
@@ -47,5 +51,29 @@ export function deny<X>(problem: string, failed: (x: X) => boolean): Validator<X
 			? nay(problem)
 			: yay(x)
 	)
+}
+
+/** make a validator that returns a problem when the success callback returns false */
+export function allow<X>(problem: string | null, success: (x: X) => boolean): Validator<X> {
+	return x => (
+		success(x)
+			? yay(x)
+			: (problem ? nay(problem) : nay())
+	)
+}
+
+/** compose validators with an 'or' relationship, only one needs to succeed */
+export function fork<X>(...validators: Validator<X>[]): Validator<X> {
+	return x => {
+		const probs: string[] = []
+
+		for (const validator of validators) {
+			const maybe = validator(x)
+			if (maybe.yay) return maybe
+			else probs.push(...maybe.problems)
+		}
+
+		return nay(...probs)
+	}
 }
 
