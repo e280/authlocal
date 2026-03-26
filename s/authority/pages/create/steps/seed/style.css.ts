@@ -18,11 +18,6 @@ export default css`
 		width: 20em;
 		max-width: 100%;
 		color: var(--secret);
-
-		.whomst {
-			padding: 0.2em;
-			background: color;
-		}
 	}
 
 	.codebox {
@@ -43,11 +38,6 @@ export default css`
 			justify-content: end;
 			align-items: center;
 			gap: var(--pad);
-
-			button {
-				border: none;
-				padding: 0;
-			}
 
 			[view="shiny-copy"] {
 				font-size: 1.2em;

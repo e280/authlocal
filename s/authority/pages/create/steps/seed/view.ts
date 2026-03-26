@@ -47,7 +47,9 @@ export const SeedStep = shadow((options: {
 			<div class=concealer>
 				<div class=codebox ?data-concealed="${$concealed()}">
 					<header>
-						<button @click="${toggleConceal}">${$concealed() ? "reveal" : "conceal"}</button>
+						<button data-vibe=naked @click="${toggleConceal}">
+							${$concealed() ? "reveal" : "conceal"}
+						</button>
 						${ShinyCopy(secretSeed)}
 					</header>
 					<textarea readonly .value="${displayText}" @click="${onClick}"></textarea>
