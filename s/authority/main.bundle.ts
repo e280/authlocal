@@ -14,23 +14,21 @@ dom.render(dom("main"), light(() => {
 			: "create"
 	)
 
-	if ($route() === "create")
-		return CreatePage({
-			done: async draft => {
-				const root = draft.$root()
-				const name = draft.$name() ?? nom(deriveId(root))
-				await bank.addIdentity({root, name})
-				$route("list")
-			},
-			back: bank.$identities().length
-				? () => $route("list")
-				: undefined,
-		})
+	if ($route() === "create") return CreatePage({
+		done: async draft => {
+			const root = draft.$root()
+			const name = draft.$name() ?? nom(deriveId(root))
+			await bank.addIdentity({root, name})
+			$route("list")
+		},
+		back: bank.$identities().length
+			? () => $route("list")
+			: undefined,
+	})
 
-	else
-		return ListPage({
-			bank,
-			create: () => $route("create"),
-		})
+	else return ListPage({
+		bank,
+		create: () => $route("create"),
+	})
 })())
 
