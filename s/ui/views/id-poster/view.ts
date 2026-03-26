@@ -23,7 +23,7 @@ export const IdPoster = shadow((options: {
 	const [first, second, third] = m.split("_")
 
 	const monikerSpan = html`
-		<div class=moniker title="${m}">
+		<div class=nomen title="${m}">
 			<span>${first}_${second}</span><span>_${third}</span>
 		</div>
 	`

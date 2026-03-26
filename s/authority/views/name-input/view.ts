@@ -5,7 +5,7 @@ import {shadow, useCss, useName, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
-import {validateLabel, yay} from "../../../core/index.js"
+import {maxNameLength, validateName, yay} from "../../../core/index.js"
 
 export const NameInput = shadow((onChange: (name: string | null) => void) => {
 	useName("name-input")
@@ -17,20 +17,17 @@ export const NameInput = shadow((onChange: (name: string | null) => void) => {
 
 	const update = debounce(200, (name: string) => {
 		const previous = $name()
-		if (name === previous) return
 		$name(name)
-		if (name === "") {
+		if (name === previous) return
+		const maybe = validateName(name)
+		if (name === "" || yay.is(maybe)) {
 			$problems(null)
-			return
-		}
-		const maybe = validateLabel(name)
-		if (yay.is(maybe)) {
-			$problems(null)
+			onChange(name)
 		}
 		else {
 			$problems(maybe.problems)
+			onChange(name)
 		}
-		onChange($name())
 	})
 
 	const onInput = (event: Event) => {
@@ -43,7 +40,7 @@ export const NameInput = shadow((onChange: (name: string | null) => void) => {
 			type=text
 			part=input
 			placeholder="optional name"
-			.value="${$name()}"
+			maxlength="${maxNameLength}"
 			@input="${onInput}"/>
 
 		${problems && html`

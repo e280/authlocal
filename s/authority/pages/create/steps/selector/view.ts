@@ -6,11 +6,9 @@ import {shadow, useCss} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
+import {NameInput} from "../../../../views/name-input/view.js"
 import {IdPoster} from "../../../../../ui/views/id-poster/view.js"
 import {deriveIdentityFromIndex} from "../../utils/derive-identity-from-index.js"
-import { nom } from "../../../../../core/index.js"
-import { debounce } from "@e280/stz"
-import { NameInput } from "../../../../views/name-input/view.js"
 
 export const SelectorStep = shadow((options: {
 		draft: CreateDraft
@@ -30,13 +28,6 @@ export const SelectorStep = shadow((options: {
 		options.next()
 	}
 
-	const updateName = debounce(100, (name: string) => $name(name))
-
-	const onNameInput = (event: Event) => {
-		const input = event.currentTarget as HTMLInputElement
-		updateName(input.value)
-	}
-
 	function renderIdentity(clickable: boolean, index: number) {
 		const {id} = deriveIdentityFromIndex($secret(), index)
 		const onClick = () => $index(index)
@@ -54,10 +45,7 @@ export const SelectorStep = shadow((options: {
 		<div class=plate>
 			<h2>choose your new identity</h2>
 
-			${NameInput(name => {
-				if (name)
-					updateName(name)
-			})}
+			${NameInput(name => $name(name ?? ""))}
 
 			<div class=cards>
 				${renderIdentity(true, $index() - 1)}

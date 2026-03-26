@@ -34,15 +34,15 @@ export default css`
 		.name {
 			font-size: 1.2em;
 			font-weight: bold;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 
-		.moniker {
-			opacity: 0.6;
-			font-size: 0.6em;
+		.nomen {
+			opacity: 0.7;
+			font-size: 0.8em;
 			font-family: monospace;
-			display: block;
-			width: 100%;
-			min-width: 0;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
