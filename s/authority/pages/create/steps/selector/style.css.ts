@@ -59,7 +59,7 @@ export default css`
 	nav {
 		display: flex;
 		flex-direction: column;
-		gap: 0.5em;
+		gap: var(--space);
 
 		[view="shiny-button"] {
 			font-size: 1.2em;

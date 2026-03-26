@@ -46,7 +46,6 @@ export default css`
 
 		> slot {
 			flex: 0 0 auto;
-			display: block;
 		}
 	}
 

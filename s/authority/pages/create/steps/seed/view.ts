@@ -61,7 +61,7 @@ export const SeedStep = shadow((options: {
 			</label>
 
 			<nav>
-				<button data-vibe=cancel @click="${options.back}">back</button>
+				<button data-vibe=lame @click="${options.back}">back</button>
 				<button @click="${options.next}" ?disabled="${!$checked()}">done</button>
 			</nav>
 		</div>

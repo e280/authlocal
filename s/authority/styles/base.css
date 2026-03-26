@@ -50,8 +50,17 @@
 		background: transparent;
 		user-select: none;
 
-		&[data-vibe="cancel"] {
-			color: #888;
+		&[data-vibe~="naked"] {
+			padding: 0;
+			border: none;
+		}
+
+		&[data-vibe~="lame"] {
+			color: var(--lame);
+		}
+
+		&[data-vibe~="happy"] {
+			color: var(--happy);
 		}
 
 		&[disabled] {
@@ -65,6 +74,10 @@
 
 			&:is(:hover, :focus-visible) {
 				opacity: 1;
+			}
+
+			&:active {
+				opacity: 0.8;
 			}
 		}
 	}

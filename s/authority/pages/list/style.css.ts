@@ -18,6 +18,13 @@ ol {
 	max-width: 32em;
 	margin: 0 auto;
 	padding: 0 var(--pad);
+
+	[view="id-card"] {
+		&::part(slot) {
+			display: flex;
+			gap: var(--pad);
+		}
+	}
 }
 
 `

@@ -1,6 +1,5 @@
 
 import {html} from "lit"
-import {ShinyButton} from "@e280/shiny"
 import {shadow, useCss} from "@e280/sly"
 
 import styleCss from "./style.css.js"
@@ -55,15 +54,15 @@ export const SelectorStep = shadow((options: {
 
 			<nav>
 				<div>
-					${ShinyButton("<", {vibe: "lame", onClick: shimmyLeft})}
-					${ShinyButton("choose", {vibe: "happy", onClick: clickChoose})}
-					${ShinyButton(">", {vibe: "lame", onClick: shimmyRight})}
+					<button data-vibe=lame @click="${shimmyLeft}">&lt;</button>
+					<button data-vibe=happy @click="${clickChoose}">choose</button>
+					<button data-vibe=lame @click="${shimmyRight}">&gt;</button>
 				</div>
 
 				${(options.back ?? null) && html`
 					<div>
 						<span class=boring>or go</span>
-						<button data-vibe=cancel @click="${options.back}">back</button>
+						<button data-vibe="naked lame" @click="${options.back}">back</button>
 					</div>
 				`}
 			</nav>

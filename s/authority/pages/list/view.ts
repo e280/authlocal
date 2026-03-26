@@ -28,8 +28,8 @@ export const ListPage = shadow((options: {
 							copyable: true,
 						}],
 						children: html`
-							<button>edit</button>
-							<button>login</button>
+							<button data-vibe="naked">edit</button>
+							<button data-vibe="naked">login</button>
 						`,
 					})}
 				</li>
@@ -37,7 +37,7 @@ export const ListPage = shadow((options: {
 		</ol>
 
 		<nav>
-			<button @click="${options.create}">new identity</button>
+			<button @click="${options.create}">new</button>
 		</nav>
 	`
 })
