@@ -6,7 +6,7 @@ export default css`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: var(--padding);
+	gap: var(--pad);
 
 	overflow: hidden;
 
@@ -60,7 +60,7 @@ export default css`
 			font-size: 1.2em;
 			font-weight: bold;
 			&::part(button) {
-				padding: var(--padding);
+				padding: var(--pad);
 			}
 		}
 

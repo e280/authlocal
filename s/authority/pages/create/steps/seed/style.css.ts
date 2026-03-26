@@ -6,7 +6,7 @@ export default css`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: var(--padding);
+	gap: var(--pad);
 
 	.concealer {
 		width: 20em;
@@ -23,8 +23,8 @@ export default css`
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		padding: calc(var(--padding) * 0.5);
-		gap: calc(var(--padding) * 0.5);
+		padding: calc(var(--pad) * 0.5);
+		gap: calc(var(--pad) * 0.5);
 
 		background: color-mix(in oklch, #0002, currentColor 20%);
 		border: 0.2em solid currentColor;
@@ -36,7 +36,7 @@ export default css`
 			display: flex;
 			justify-content: end;
 			align-items: center;
-			gap: calc(var(--padding) * 0.5);
+			gap: calc(var(--pad) * 0.5);
 
 			button {
 				border: none;

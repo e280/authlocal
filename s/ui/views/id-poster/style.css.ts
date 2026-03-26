@@ -8,8 +8,8 @@ export default css`
 	align-items: stretch;
 
 	max-width: 14em;
-	padding: var(--padding);
-	gap: var(--padding);
+	padding: var(--pad);
+	gap: var(--pad);
 	border-radius: var(--round);
 
 	color: var(--color);
@@ -29,7 +29,7 @@ export default css`
 	.content {
 		display: flex;
 		flex-direction: column;
-		gap: calc(var(--padding) / 2);
+		gap: calc(var(--pad) / 2);
 
 		.name {
 			font-size: 1.2em;

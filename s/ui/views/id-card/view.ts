@@ -4,8 +4,8 @@ import {ShinyCopy} from "@e280/shiny"
 import {cssReset, shadow, useCss, useName} from "@e280/sly"
 
 import styleCss from "./style.css.js"
-import {nomen} from "../../../core/index.js"
 import {idColor} from "../../utils/id-color.js"
+import {nom, nomen} from "../../../core/index.js"
 import {sigilSvg} from "../../utils/sigil-svg.js"
 
 export const IdCard = shadow((card: {
@@ -18,27 +18,30 @@ export const IdCard = shadow((card: {
 	useCss(cssReset, styleCss)
 
 	const color = `--color: ${idColor(card.id)};`
-	const m = nomen(card.id)
-	const [first, second, third] = m.split("_")
+	const n = nomen(card.id)
+	const [first, second, third] = n.split("_")
 
-	const monikerSpan = html`
-		<span class=moniker>
-			<span class=sigil>${first}_${second}</span><span class=bulk>_${third}</span>
+	const nomenSpan = html`
+		<span part=nomen title="${n}">
+			<span class=nom>${first}_${second}</span><span class=bulk>_${third}</span>
 		</span>
 	`
 
 	return html`
-		<div class=card style="${color}" part=card>
-			<div class=icon>${sigilSvg(card.id)}</div>
-			<div class=content>
-				${card.name && html`<span class=name>${card.name}</span>`}
+		<div part=card style="${color}">
+			<div part=plate>
+				<div part=icon>${sigilSvg(card.id)}</div>
+				<div part=name>${card.name || nom(card.id)}</div>
+			</div>
+			<footer part=footer>
 				${card.copyable
 					? ShinyCopy.with({
-						props: [m],
-						children: monikerSpan,
+						props: [n],
+						attrs: {title: n},
+						children: nomenSpan,
 					})
-					: monikerSpan}
-			</div>
+					: nomenSpan}
+			</footer>
 		</div>
 	`
 })

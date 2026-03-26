@@ -3,54 +3,55 @@ import {css} from "lit"
 export default css`
 
 :host {
-	display: flex;
+	--icon-size: 3em;
+	max-width: 100%;
 }
 
-.card {
-	display: flex;
-	align-items: center;
-	gap: var(--padding);
-	padding: var(--padding);
-
-	max-width: 24em;
-
-	background: color-mix(in oklch, #111, var(--color) 5%);
-	border: 0.1em solid color-mix(in oklch, transparent, var(--color) 50%);
-	color: color-mix(in oklch, white, var(--color) 40%);
-
-	.icon {
-		flex: 0 0 auto;
-	}
-
-	.content {
-		flex: 1 1 auto;
-		min-width: 0;
-
-		> * {
-			display: block;
-			width: 100%;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-	}
-}
-
-.icon svg {
-	width: 3em;
-	height: 3em;
-	color: var(--color);
-}
-
-.content {
+[part="card"] {
 	display: flex;
 	flex-direction: column;
-	text-align: left;
-}
+	gap: calc(var(--pad) * 0.25);
+	width: 100%;
+	max-width: 32em;
+	color: color-mix(in oklch, white, var(--color) 40%);
 
-.name {
-	font-size: 1.2em;
-	font-weight: bold;
+	> [part="plate"] {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		text-align: left;
+		gap: calc(var(--pad) * 0.5);
+
+		background: color-mix(in oklch, transparent, var(--color) 10%);
+		border: 0.1em solid color-mix(in oklch, transparent, var(--color) 50%);
+		padding: calc(var(--pad) * 0.5);
+
+		[part="icon"] {
+			flex: 0 0 auto;
+			user-select: none;
+			svg {
+				display: block;
+				width: var(--icon-size);
+				height: var(--icon-size);
+				color: var(--color);
+			}
+		}
+
+		[part="name"] {
+			flex: 1 1 auto;
+			font-size: 1.2em;
+			font-weight: bold;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+	> [part="footer"] {
+		user-select: none;
+		opacity: 0.5;
+		font-size: 0.7em;
+	}
 }
 
 [view="shiny-copy"] {
@@ -60,10 +61,7 @@ export default css`
 
 	&::part(button) {
 		width: 100%;
-	}
-
-	&::part(icon) {
-		opacity: 0.5;
+		gap: 0.2em;
 	}
 
 	> * {
@@ -72,19 +70,14 @@ export default css`
 	}
 }
 
-.moniker {
-	opacity: 0.5;
+[part="nomen"] {
 	align-items: baseline;
 
 	font-size: 1em;
 	font-family: monospace;
 
-	.sigil {
+	.nom {
 		font-weight: bold;
-	}
-
-	.bulk {
-		font-size: 0.7em;
 	}
 }
 
