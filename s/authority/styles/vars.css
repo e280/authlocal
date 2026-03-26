@@ -7,7 +7,8 @@
 		--selection: white;
 		--selection-bg: color-mix(in oklch, transparent, var(--secret) 90%);
 
-		--pad: 1em;
+		--pad: 0.5em;
+		--space: 1em;
 		--round: 0.5em;
 		--anim: 200ms;
 

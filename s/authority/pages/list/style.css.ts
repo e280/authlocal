@@ -5,14 +5,14 @@ export default css`
 :host {
 	display: flex;
 	flex-direction: column;
-	gap: var(--pad);
+	gap: var(--space);
 }
 
 ol {
 	list-style: none;
 	display: flex;
 	flex-direction: column;
-	gap: var(--pad);
+	gap: var(--space);
 
 	> li {
 		display: flex;

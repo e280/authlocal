@@ -29,7 +29,7 @@ export default css`
 	.content {
 		display: flex;
 		flex-direction: column;
-		gap: calc(var(--pad) / 2);
+		gap: var(--pad);
 
 		.name {
 			font-size: 1.2em;

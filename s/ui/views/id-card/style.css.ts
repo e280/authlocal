@@ -10,7 +10,6 @@ export default css`
 [part="card"] {
 	display: flex;
 	flex-direction: column;
-	gap: calc(var(--pad) * 0.25);
 	width: 100%;
 	max-width: 32em;
 	color: color-mix(in oklch, white, var(--color) 40%);
@@ -21,11 +20,11 @@ export default css`
 		align-items: center;
 		justify-content: center;
 		text-align: left;
-		gap: calc(var(--pad) * 0.5);
+		gap: var(--pad);
 
 		background: color-mix(in oklch, transparent, var(--color) 10%);
 		border: 0.1em solid color-mix(in oklch, transparent, var(--color) 50%);
-		padding: calc(var(--pad) * 0.5);
+		padding: var(--pad);
 
 		[part="icon"] {
 			flex: 0 0 auto;

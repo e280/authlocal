@@ -45,7 +45,7 @@
 		font: inherit;
 		color: currentColor;
 		cursor: default;
-		padding: calc(var(--pad) / 2);
+		padding: var(--pad);
 		border: 1px solid currentColor;
 		background: transparent;
 		user-select: none;

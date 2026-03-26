@@ -16,8 +16,8 @@
 	body {
 		display: flex;
 		flex-direction: column;
-		padding: calc(var(--pad) * 0.5) 0;
-		gap: calc(var(--pad) * 2);
+		padding: var(--pad) 0;
+		gap: var(--space);
 
 		text-align: center;
 		border-radius: var(--round);
