@@ -14,11 +14,10 @@ ol {
 	flex-direction: column;
 	gap: var(--space);
 
-	> li {
-		display: flex;
-		justify-content: center;
-		width: 100%;
-	}
+	width: 100%;
+	max-width: 32em;
+	margin: 0 auto;
+	padding: 0 var(--pad);
 }
 
 `

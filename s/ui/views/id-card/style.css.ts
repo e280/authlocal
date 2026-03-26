@@ -3,28 +3,25 @@ import {css} from "lit"
 export default css`
 
 :host {
-	--icon-size: 3em;
+	--icon-size: 2em;
 	max-width: 100%;
 }
 
 [part="card"] {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	max-width: 32em;
+	gap: 0.1em;
 	color: color-mix(in oklch, white, var(--color) 40%);
 
 	> [part="plate"] {
 		display: flex;
-		flex-wrap: wrap;
 		align-items: center;
-		justify-content: center;
 		text-align: left;
 		gap: var(--pad);
 
-		background: color-mix(in oklch, transparent, var(--color) 10%);
-		border: 0.1em solid color-mix(in oklch, transparent, var(--color) 50%);
 		padding: var(--pad);
+		background: color-mix(in oklch, #1114, var(--color) 10%);
+		border: 0.1em solid color-mix(in oklch, transparent, var(--color) 50%);
 
 		[part="icon"] {
 			flex: 0 0 auto;
@@ -39,17 +36,24 @@ export default css`
 
 		[part="name"] {
 			flex: 1 1 auto;
-			font-size: 1.2em;
+			font-size: 1em;
 			font-weight: bold;
+			width: 100%;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		> slot {
+			flex: 0 0 auto;
+			display: block;
 		}
 	}
 
-	> [part="footer"] {
+	> [part="nomen"] {
 		user-select: none;
 		opacity: 0.5;
-		font-size: 0.7em;
+		font-size: 0.9em;
 	}
 }
 

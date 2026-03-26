@@ -21,10 +21,16 @@ export const ListPage = shadow((options: {
 		<ol>
 			${options.bank.$identities().map(identity => html`
 				<li>
-					${IdCard({
-						name: identity.name,
-						id: deriveId(identity.root),
-						copyable: true,
+					${IdCard.with({
+						props: [{
+							name: identity.name,
+							id: deriveId(identity.root),
+							copyable: true,
+						}],
+						children: html`
+							<button>edit</button>
+							<button>login</button>
+						`,
 					})}
 				</li>
 			`)}
