@@ -45,20 +45,20 @@ export function validator<X>(...validators: Validator<X>[]): Validator<X> {
 }
 
 /** make a validator that returns a problem when the failed callback returns true */
-export function deny<X>(problem: string, failed: (x: X) => boolean): Validator<X> {
+export function deny<X>(denied: string, failed: (x: X) => boolean): Validator<X> {
 	return x => (
 		failed(x)
-			? nay(problem)
+			? nay(`denied: ${denied}`)
 			: yay(x)
 	)
 }
 
 /** make a validator that returns a problem when the success callback returns false */
-export function allow<X>(problem: string | null, success: (x: X) => boolean): Validator<X> {
+export function allow<X>(failed: string | null, success: (x: X) => boolean): Validator<X> {
 	return x => (
 		success(x)
 			? yay(x)
-			: (problem ? nay(problem) : nay())
+			: (failed ? nay(`failed: ${failed}`) : nay())
 	)
 }
 
