@@ -8,6 +8,8 @@ import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
 import {IdPoster} from "../../../../../ui/views/id-poster/view.js"
 import {deriveIdentityFromIndex} from "../../utils/derive-identity-from-index.js"
+import { nom } from "../../../../../core/index.js"
+import { debounce } from "@e280/stz"
 
 export const SelectorStep = shadow((options: {
 		draft: CreateDraft
@@ -17,7 +19,7 @@ export const SelectorStep = shadow((options: {
 
 	useCss(theme(), styleCss)
 
-	const {$root, $secret, $index} = options.draft
+	const {$root, $secret, $index, $name} = options.draft
 	const selected = deriveIdentityFromIndex($secret(), $index())
 
 	const shimmyRight = () => $index($index() + 1)
@@ -27,21 +29,36 @@ export const SelectorStep = shadow((options: {
 		options.next()
 	}
 
+	const updateName = debounce(100, (name: string) => $name(name))
+
+	const onNameInput = (event: Event) => {
+		const input = event.currentTarget as HTMLInputElement
+		updateName(input.value)
+	}
+
 	function renderIdentity(clickable: boolean, index: number) {
 		const {id} = deriveIdentityFromIndex($secret(), index)
 		const onClick = () => $index(index)
+		const name = $name() || undefined
 		return clickable
 			? html`
 				<button @click="${onClick}">
-					${IdPoster({id})}
+					${IdPoster({id, name})}
 				</button>
 			`
-			: IdPoster({id})
+			: IdPoster({id, name})
 	}
 
 	return html`
 		<div class=plate>
 			<h2>choose your new identity</h2>
+
+			<input
+				class=name-input
+				type="text"
+				placeholder="optional name"
+				.value="${$name()}"
+				@input="${onNameInput}"/>
 
 			<div class=cards>
 				${renderIdentity(true, $index() - 1)}

@@ -10,6 +10,15 @@ export default css`
 
 	overflow: hidden;
 
+	.name-input {
+		padding: var(--pad);
+		text-align: center;
+	}
+
+	.problems {
+		
+	}
+
 	.cards {
 		position: relative;
 		display: flex;

@@ -12,7 +12,7 @@ export function initDraft() {
 		$index: signal(startIndex),
 		$secret: signal(secret),
 		$root: signal(root),
-		$name: signal<string | null>(null),
+		$name: signal<string>(""),
 	}
 }
 
