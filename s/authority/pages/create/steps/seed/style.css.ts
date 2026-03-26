@@ -6,7 +6,13 @@ export default css`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: var(--pad);
+	gap: var(--space);
+
+	.content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--pad);
+	}
 
 	.concealer {
 		width: 20em;

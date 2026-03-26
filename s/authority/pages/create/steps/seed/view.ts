@@ -9,7 +9,7 @@ import {theme} from "../../../../utils/theme.js"
 import {seed, deriveId, nom} from "../../../../../core/index.js"
 
 const fakeSeed = `
-nopnop_fakers
+fakely fakers
 dedyak befbef gidvyx mamryd
 burdyb pidmyn lentak kemlex
 demkex purzen sallak lidmac
@@ -26,12 +26,12 @@ export const SeedStep = shadow((options: {
 
 	const root = options.draft.$root()
 	const $id = useDerived(() => deriveId(options.draft.$root()))
-	const $sigil = useDerived(() => nom($id()))
+	const $nom = useDerived(() => nom($id()))
 
-	const secretText = seed(root)
+	const secretSeed = seed(root)
 	const $checked = useSignal(false)
 	const $concealed = useSignal(true)
-	const displayText = $concealed() ? fakeSeed : secretText
+	const displayText = $concealed() ? fakeSeed : secretSeed
 
 	const onClick = (e: Event) => (e.currentTarget as HTMLTextAreaElement).select()
 	const onCheck = (e: Event) => $checked((e.currentTarget as HTMLInputElement).checked)
@@ -39,16 +39,16 @@ export const SeedStep = shadow((options: {
 
 	return html`
 		<div class=plate>
-			<div>
-				<h2>save your recovery code</h2>
-				<p>if you lose it, "${$sigil()}" is gone <em>forever</em></p>
+			<div class=content>
+				<h2>save your recovery seed</h2>
+				<p>if you lose it, "${$nom()}" is gone <em>forever</em></p>
 			</div>
 
 			<div class=concealer>
 				<div class=codebox ?data-concealed="${$concealed()}">
 					<header>
 						<button @click="${toggleConceal}">${$concealed() ? "reveal" : "conceal"}</button>
-						${ShinyCopy(secretText)}
+						${ShinyCopy(secretSeed)}
 					</header>
 					<textarea readonly .value="${displayText}" @click="${onClick}"></textarea>
 					<div class=blanket>CONCEALED</div>
