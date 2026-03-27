@@ -5,6 +5,7 @@ import {Secret} from "../../../cryp/types.js"
 import {deriveId} from "../../../cryp/derive-id.js"
 import {wordsFromBytes} from "../../phonemes/words.js"
 
+/** convert a 64-char hex string into a seed-phrase recovery-code */
 export function from(secret: Secret) {
 	const id = deriveId(secret)
 	const secretBytes = hex.toBytes(secret)

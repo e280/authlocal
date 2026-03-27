@@ -4,6 +4,7 @@ import {wordsToBytes} from "../../phonemes/words.js"
 import {delimiter, sigilSize} from "./options.js"
 import {littleChecksum} from "../../utils/little-checksum.js"
 
+/** convert a nomen string back into a hex id */
 export function parse(nomen: string): Maybe<string> {
 	const nom = nomen.split(delimiter).filter(Boolean)
 	const bulk = nom.pop()

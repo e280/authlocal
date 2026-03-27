@@ -4,6 +4,7 @@ import {nomen} from "../../nomen/index.js"
 import {deriveId} from "../../../cryp/derive-id.js"
 import {wordsToBytes} from "../../phonemes/words.js"
 
+/** convert a seed-phrase recovery-code back into a 64-char hex string  */
 export function parse(seed: string): Maybe<string> {
 	const words = seed
 		.trim()
