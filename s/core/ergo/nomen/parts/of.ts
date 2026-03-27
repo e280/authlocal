@@ -1,7 +1,7 @@
 
 import {base58, hex} from "@e280/stz"
 import {wordsFromBytes} from "../../phonemes/words.js"
-import {delimiter, sigilSize} from "../parts/options.js"
+import {delimiter, sigilSize} from "./options.js"
 import {littleChecksum} from "../../utils/little-checksum.js"
 
 export function of(id: string) {
