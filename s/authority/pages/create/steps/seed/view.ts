@@ -6,7 +6,7 @@ import {shadow, useCss, useDerived, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
-import {seed, deriveId, nom} from "../../../../../core/index.js"
+import {seed, deriveId, nomen} from "../../../../../core/index.js"
 
 const fakeSeed = `
 fakely fakers
@@ -26,7 +26,7 @@ export const SeedStep = shadow((options: {
 
 	const root = options.draft.$root()
 	const $id = useDerived(() => deriveId(options.draft.$root()))
-	const $nom = useDerived(() => nom($id()))
+	const $nom = useDerived(() => nomen.of($id()))
 
 	const secretSeed = seed(root)
 	const $checked = useSignal(false)

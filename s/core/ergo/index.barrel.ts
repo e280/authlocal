@@ -1,5 +1,4 @@
 
 export * from "./seed/seed.js"
-export * from "./nomen/nomen.js"
-export * from "./nomen/nom.js"
+export * from "./nomen/index.js"
 

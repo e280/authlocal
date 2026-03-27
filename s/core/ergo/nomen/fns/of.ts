@@ -1,11 +1,12 @@
 
-import {base58} from "@e280/stz"
-import {wordsFromBytes} from "./words.js"
-import {delimiter, sigilSize} from "./options.js"
+import {base58, hex} from "@e280/stz"
+import {wordsFromBytes} from "../parts/words.js"
+import {delimiter, sigilSize} from "../parts/options.js"
 import {littleChecksum} from "../../utils/little-checksum.js"
 
-export function monikerMake(buffer: Uint8Array) {
-	if (buffer.length < 5) throw new Error("buffer too small for moniker")
+export function of(id: string) {
+	const buffer = hex.toBytes(id)
+	if (buffer.length < 5) throw new Error("buffer too small")
 
 	const checkBytes = littleChecksum(buffer)
 	const sigilBytes = buffer.slice(0, sigilSize)
