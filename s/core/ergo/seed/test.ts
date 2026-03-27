@@ -44,7 +44,7 @@ export default suite({
 		expect(() => seed.secret("")).throws()
 	}),
 
-	"throw when leading sigil is missing": test(async() => {
+	"throw when leading nom is missing": test(async() => {
 		expect(() => seed.secret(`
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk
@@ -53,7 +53,7 @@ export default suite({
 		`)).throws()
 	}),
 
-	"throw on corrupted sigil": test(async() => {
+	"throw on corrupted nom": test(async() => {
 		expect(() => seed.secret(`
 			nidtak hatnop
 			nopnop dedyak befbef bobbob

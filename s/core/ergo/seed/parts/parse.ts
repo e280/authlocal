@@ -16,15 +16,15 @@ export function parse(seed: string): Maybe<string> {
 		return maybe.nay("invalid number of words")
 
 	const [a, b, ...secretWords] = words
-	const reportedSig = `${a}_${b}`
+	const reportedNom = `${a}_${b}`
 
 	const secretBytes = new Uint8Array(wordsToBytes(secretWords))
 	const secret = hex(secretBytes)
 	const id = deriveId(secret)
-	const sig = nomen.nom(id)
+	const nom = nomen.nom(id)
 
-	if (sig !== reportedSig)
-		return maybe.nay(`invalid sigil, expected "${reportedSig}", but got "${sig}"`)
+	if (nom !== reportedNom)
+		return maybe.nay(`corruption detected, expected nom "${reportedNom}" but got "${nom}"`)
 
 	return maybe.yay(secret)
 }

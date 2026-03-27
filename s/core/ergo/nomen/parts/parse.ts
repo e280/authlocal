@@ -1,7 +1,7 @@
 
 import {base58, bytes, hex, Maybe, maybe} from "@e280/stz"
+import {delimiter, nomByteSize} from "./options.js"
 import {wordsToBytes} from "../../phonemes/words.js"
-import {delimiter, sigilSize} from "./options.js"
 import {littleChecksum} from "../../utils/little-checksum.js"
 
 /** convert a nomen string back into a hex id */
@@ -10,7 +10,7 @@ export function parse(nomen: string): Maybe<string> {
 	const bulk = nom.pop()
 
 	if (bulk === undefined) return maybe.nay("bulk missing")
-	if ((nom.length * 2) !== sigilSize) return maybe.nay("nom is wrong size")
+	if ((nom.length * 2) !== nomByteSize) return maybe.nay("nom is wrong size")
 
 	const buffer = new Uint8Array([
 		...wordsToBytes(nom),
@@ -21,7 +21,7 @@ export function parse(nomen: string): Maybe<string> {
 	const check = buffer.slice(buffer.length - 2)
 
 	if (!bytes.eq(check, littleChecksum(body)))
-		return maybe.nay("failed checksum, typo detected")
+		return maybe.nay("corruption detected, failed checksum")
 
 	return maybe.yay(hex(body))
 }
