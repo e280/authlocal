@@ -4,7 +4,7 @@ import {seed} from "./seed/index.js"
 import {nomen} from "./nomen/index.js"
 
 for (const _ of count(10))
-	console.log(nomen.of(hex.random(32)))
+	console.log(nomen.from(hex.random(32)))
 
 for (const _ of count(2)) {
 	console.log()

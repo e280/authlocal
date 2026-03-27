@@ -17,7 +17,7 @@ dom.render(dom("main"), light(() => {
 	if ($route() === "create") return CreatePage({
 		done: async draft => {
 			const root = draft.$root()
-			const name = draft.$name() ?? nomen.of(deriveId(root))
+			const name = draft.$name() ?? nomen.from(deriveId(root))
 			await bank.addIdentity({root, name})
 			$route("list")
 		},

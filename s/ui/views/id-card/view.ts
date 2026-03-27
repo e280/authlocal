@@ -18,7 +18,7 @@ export const IdCard = shadow((card: {
 	useCss(cssReset, styleCss)
 
 	const color = `--color: ${idColor(card.id)};`
-	const n = nomen.of(card.id)
+	const n = nomen.from(card.id)
 	const [first, second, third] = n.split("_")
 
 	const nomenSpan = html`

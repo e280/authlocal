@@ -4,7 +4,7 @@ import {wordsFromBytes} from "../../phonemes/words.js"
 import {delimiter, sigilSize} from "./options.js"
 import {littleChecksum} from "../../utils/little-checksum.js"
 
-export function of(id: string) {
+export function from(id: string) {
 	const buffer = hex.toBytes(id)
 	if (buffer.length < 5) throw new Error("buffer too small")
 

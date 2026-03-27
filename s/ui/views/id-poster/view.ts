@@ -19,7 +19,7 @@ export const IdPoster = shadow((options: {
 
 	const name = options.name || nomen.nom(options.id)
 	const color = `--color: ${idColor(options.id)};`
-	const m = nomen.of(options.id)
+	const m = nomen.from(options.id)
 	const [first, second, third] = m.split("_")
 
 	const monikerSpan = html`

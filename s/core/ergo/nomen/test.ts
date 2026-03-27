@@ -7,11 +7,11 @@ const demoNomen = "nopnop_dedyak_fFzXVjwKr4BfwSEcovapQSZvrqg3EtnSNiuUFknsb"
 
 export default suite({
 	"nomen matches demo": test(async() => {
-		expect(nomen.of(demoHex)).is(demoNomen)
+		expect(nomen.from(demoHex)).is(demoNomen)
 	}),
 
 	"id->nomen->id": test(async() => {
-		expect(nomen.id(nomen.of(demoHex))).is(demoHex)
+		expect(nomen.id(nomen.from(demoHex))).is(demoHex)
 	}),
 
 	"invalid nomen fails": test(async() => {

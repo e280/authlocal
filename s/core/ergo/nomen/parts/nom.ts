@@ -1,7 +1,7 @@
 
-import {of} from "./of.js"
+import {from} from "./from.js"
 
 export function nom(id: string) {
-	return of(id).slice(0, 13)
+	return from(id).slice(0, 13)
 }
 
