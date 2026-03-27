@@ -1,11 +1,10 @@
 
 import {html} from "lit"
-import {debounce} from "@e280/stz"
+import {debounce, maybe, Maybe, Validator} from "@e280/stz"
 import {shadow, useCss, useName, useOnce, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
-import {Maybe, nay, Validator} from "../../../core/index.js"
 
 export const TextInput = shadow((options: {
 		maxLength: number
@@ -24,9 +23,9 @@ export const TextInput = shadow((options: {
 	const update = useOnce(() => debounce(
 		options.debounceMs ?? 100,
 		(value: string) => {
-			const maybe = options.validator(value)
-			$problems(nay.problems(maybe))
-			options.on(maybe)
+			const m = options.validator(value)
+			$problems(maybe.problems(m))
+			options.on(m)
 		},
 	))
 

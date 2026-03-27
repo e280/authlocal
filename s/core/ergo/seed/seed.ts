@@ -1,8 +1,7 @@
 
-import {hex} from "@e280/stz"
+import {hex, maybe, nay, yay} from "@e280/stz"
 import {nom} from "../nomen/nom.js"
 import {Secret} from "../../cryp/types.js"
-import {yay, nay} from "../../utils/yay.js"
 import {deriveId} from "../../cryp/derive-id.js"
 import {wordsFromBytes, wordsToBytes} from "../nomen/parts/words.js"
 
@@ -48,6 +47,6 @@ seed.parse = (text: string) => {
 	return yay(secret)
 }
 
-seed.problems = (text: string) => nay.problems(seed.parse(text))
-seed.toSecret = (text: string) => yay.require(seed.parse(text))
+seed.problems = (text: string) => maybe.problems(seed.parse(text))
+seed.toSecret = (text: string) => maybe.require(seed.parse(text))
 

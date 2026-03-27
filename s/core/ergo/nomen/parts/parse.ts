@@ -1,7 +1,6 @@
 
-import {base58, bytes} from "@e280/stz"
+import {base58, bytes, nay, yay} from "@e280/stz"
 import {wordsToBytes} from "./words.js"
-import {yay, nay} from "../../../utils/yay.js"
 import {delimiter, sigilSize} from "./options.js"
 import {littleChecksum} from "../../utils/little-checksum.js"
 

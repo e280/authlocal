@@ -5,5 +5,4 @@ export * from "./ergo/index.js"
 export * from "./tok/index.js"
 
 export * from "./utils/err.js"
-export * from "./utils/yay.js"
 

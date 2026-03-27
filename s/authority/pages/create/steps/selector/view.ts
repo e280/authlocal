@@ -1,5 +1,6 @@
 
 import {html} from "lit"
+import {yay} from "@e280/stz"
 import {shadow, useCss} from "@e280/sly"
 
 import styleCss from "./style.css.js"
@@ -7,7 +8,7 @@ import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
 import {TextInput} from "../../../../views/text-input/view.js"
 import {IdPoster} from "../../../../../ui/views/id-poster/view.js"
-import {fork, maxNameLength, validateName, allowEmptyString} from "../../../../../core/index.js"
+import {maxNameLength, validateName} from "../../../../../core/index.js"
 import {deriveIdentityFromIndex} from "../../utils/derive-identity-from-index.js"
 
 export const SelectorStep = shadow((options: {
@@ -48,7 +49,9 @@ export const SelectorStep = shadow((options: {
 			${TextInput({
 				maxLength: maxNameLength,
 				placeholder: "optional name",
-				validator: fork(validateName, allowEmptyString),
+				validator: name => (name === "")
+					? yay(name)
+					: validateName(name),
 				on: maybe => $name(maybe.yay ? maybe.value : ""),
 			})}
 
