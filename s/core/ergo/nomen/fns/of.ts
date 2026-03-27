@@ -1,6 +1,6 @@
 
 import {base58, hex} from "@e280/stz"
-import {wordsFromBytes} from "../parts/words.js"
+import {wordsFromBytes} from "../../phonemes/words.js"
 import {delimiter, sigilSize} from "../parts/options.js"
 import {littleChecksum} from "../../utils/little-checksum.js"
 

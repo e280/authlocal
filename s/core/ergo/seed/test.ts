@@ -1,5 +1,5 @@
 
-import {seed} from "./seed.js"
+import {seed} from "./index.js"
 import {suite, test, expect} from "@e280/science"
 
 const demoSecret = "0000deadbeefb00b82a92b28590a1ec93e64a026d593ceded40055d7bf4270cf"
@@ -13,15 +13,15 @@ turnop yenbyr molvyr hidwyd
 
 export default suite({
 	"secret->seed->secret": test(async() => {
-		expect(seed.toSecret(seed(demoSecret))).is(demoSecret)
+		expect(seed.secret(seed.from(demoSecret))).is(demoSecret)
 	}),
 
 	"seed matches demo": test(async() => {
-		expect(seed(demoSecret)).is(demoSeed)
+		expect(seed.from(demoSecret)).is(demoSeed)
 	}),
 
 	"tolerate whitespace": test(async() => {
-		expect(seed.toSecret(`
+		expect(seed.secret(`
 			nidtak hatzyn
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk
@@ -31,7 +31,7 @@ export default suite({
 	}),
 
 	"tolerate lettercase": test(async() => {
-		expect(seed.toSecret(`
+		expect(seed.secret(`
 			NIDTAK hatzyn
 			nopnop dedyak befbef bobbob
 			PIDVAK MORMOX ZANZOK KALPYK
@@ -41,11 +41,11 @@ export default suite({
 	}),
 
 	"throw on empty": test(async() => {
-		expect(() => seed.toSecret("")).throws()
+		expect(() => seed.secret("")).throws()
 	}),
 
 	"throw when leading sigil is missing": test(async() => {
-		expect(() => seed.toSecret(`
+		expect(() => seed.secret(`
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk
 			sinhet curmyn varhek selmyd
@@ -54,7 +54,7 @@ export default suite({
 	}),
 
 	"throw on corrupted sigil": test(async() => {
-		expect(() => seed.toSecret(`
+		expect(() => seed.secret(`
 			nidtak hatnop
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk
@@ -64,7 +64,7 @@ export default suite({
 	}),
 
 	"throw on corrupted secret": test(async() => {
-		expect(() => seed.toSecret(`
+		expect(() => seed.secret(`
 			nidtak hatzyn
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk

@@ -28,10 +28,10 @@ export const SeedStep = shadow((options: {
 	const $id = useDerived(() => deriveId(options.draft.$root()))
 	const $nom = useDerived(() => nomen.of($id()))
 
-	const secretSeed = seed(root)
+	const seedText = seed.from(root)
 	const $checked = useSignal(false)
 	const $concealed = useSignal(true)
-	const displayText = $concealed() ? fakeSeed : secretSeed
+	const displayText = $concealed() ? fakeSeed : seedText
 
 	const onClick = (e: Event) => (e.currentTarget as HTMLTextAreaElement).select()
 	const onCheck = (e: Event) => $checked((e.currentTarget as HTMLInputElement).checked)
@@ -50,7 +50,7 @@ export const SeedStep = shadow((options: {
 						<button data-vibe=naked @click="${toggleConceal}">
 							${$concealed() ? "reveal" : "conceal"}
 						</button>
-						${ShinyCopy(secretSeed)}
+						${ShinyCopy(seedText)}
 					</header>
 					<textarea readonly .value="${displayText}" @click="${onClick}"></textarea>
 					<div class=blanket>CONCEALED</div>
