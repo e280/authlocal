@@ -6,8 +6,8 @@ import {Bank} from "../../sys/bank.js"
 import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {TextInput} from "../../views/text-input/view.js"
+import {IdPoster} from "../../../ui/views/id-poster/view.js"
 import {allowEmptyString, deriveId, maxNameLength, nomen, seed, validateName} from "../../../core/index.js"
-import { IdPoster } from "../../../ui/views/id-poster/view.js"
 
 export const RecoveryPage = shadow((options: {
 		bank: Bank
