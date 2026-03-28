@@ -1,5 +1,6 @@
 
-import {dom, light, useSignal} from "@e280/sly"
+import {html} from "lit"
+import {dom, hashNav, hashSignal, light, router} from "@e280/sly"
 import {Bank} from "./sys/bank.js"
 import {ListPage} from "./pages/list/view.js"
 import {deriveId, nomen} from "../core/index.js"
@@ -8,53 +9,48 @@ import {RecoveryPage} from "./pages/recovery/view.js"
 
 const bank = await Bank.init()
 
-dom.render(dom("main"), light(() => {
-	type Route = "list" | "create" | "recovery"
+const go = hashNav({
+	list: () => ``,
+	create: () => `create`,
+	recovery: () => `recovery`,
+	home: () => (
+		(bank.$identities().length)
+			? ``
+			: `create`
+	),
+})
 
-	function home(): Route {
-		return bank.$identities().length
-			? "list"
-			: "create"
-	}
+const $content = hashSignal(router({
+	"": () => ListPage({
+		bank,
+		create: go.create,
+		recovery: go.recovery,
+	}),
 
-	const $route = useSignal<Route>(home())
+	"create": () => CreatePage({
+		done: async draft => {
+			const root = draft.$root()
+			const name = draft.$name() ?? nomen.from(deriveId(root))
+			await bank.addIdentity({root, name})
+			go.list()
+		},
+		recovery: go.recovery,
+		back: bank.$identities().length
+			? go.list
+			: undefined,
+	}),
 
-	switch ($route()) {
-		case "list":
-			return ListPage({
-				bank,
-				create: () => $route("create"),
-				recovery: () => $route("recovery"),
-			})
+	"recovery": () => RecoveryPage({
+		bank,
+		back: go.home,
+		done: async identity => {
+			await bank.addIdentity(identity)
+			go.list()
+		},
+	}),
+}))
 
-		case "create":
-			return CreatePage({
-				done: async draft => {
-					const root = draft.$root()
-					const name = draft.$name() ?? nomen.from(deriveId(root))
-					await bank.addIdentity({root, name})
-					$route("list")
-				},
-				recovery: () => {
-					$route("recovery")
-				},
-				back: bank.$identities().length
-					? () => $route("list")
-					: undefined,
-			})
+const App = light(() => $content() ?? html`<h2>404 not found</h2>`)
 
-		case "recovery":
-			return RecoveryPage({
-				bank,
-				back: () => $route(home()),
-				done: async identity => {
-					await bank.addIdentity(identity)
-					$route("list")
-				},
-			})
-
-		default:
-			throw new Error(`unknown route "${$route()}"`)
-	}
-})())
+dom.render(dom("main"), App())
 
