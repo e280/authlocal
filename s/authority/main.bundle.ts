@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {dom, hashNav, hashSignal, light, router} from "@e280/sly"
+import {dom, hashNav, hashSignal, light, norm, router} from "@e280/sly"
 import {Bank} from "./sys/bank.js"
 import {ListPage} from "./pages/list/view.js"
 import {deriveId, nomen} from "../core/index.js"
@@ -49,6 +49,14 @@ const $content = hashSignal(router({
 		},
 	}),
 }))
+
+{
+	const isHome = norm(location.hash) === ""
+	const noIdentities = bank.$identities().length === 0
+
+	if (isHome && noIdentities)
+		go.home()
+}
 
 const App = light(() => $content() ?? html`<h2>404 not found</h2>`)
 
