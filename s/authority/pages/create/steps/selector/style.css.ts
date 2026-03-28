@@ -60,18 +60,6 @@ export default css`
 		display: flex;
 		flex-direction: column;
 		gap: var(--space);
-
-		[view="shiny-button"] {
-			font-size: 1.2em;
-			font-weight: bold;
-			&::part(button) {
-				padding: var(--pad);
-			}
-		}
-
-		.boring {
-			opacity: 0.5;
-		}
 	}
 }
 

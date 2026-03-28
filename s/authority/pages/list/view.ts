@@ -10,6 +10,7 @@ import {IdCard} from "../../../ui/views/id-card/view.js"
 export const ListPage = shadow((options: {
 		bank: Bank
 		create: () => void
+		recovery: () => void
 	}) => {
 
 	useName("list page")
@@ -28,8 +29,8 @@ export const ListPage = shadow((options: {
 							copyable: true,
 						}],
 						children: html`
-							<button data-vibe="naked">edit</button>
-							<button data-vibe="naked">login</button>
+							<button data-vibe=naked>edit</button>
+							<button data-vibe=naked>login</button>
 						`,
 					})}
 				</li>
@@ -37,7 +38,17 @@ export const ListPage = shadow((options: {
 		</ol>
 
 		<nav>
-			<button @click="${options.create}">new</button>
+			<button
+				data-vibe="naked lame"
+				@click="${options.recovery}">
+					recovery
+			</button>
+
+			<button
+				data-vibe="happy"
+				@click="${options.create}">
+					new
+			</button>
 		</nav>
 	`
 })

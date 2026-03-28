@@ -15,6 +15,7 @@ export const SelectorStep = shadow((options: {
 		draft: CreateDraft
 		next: () => void
 		back?: () => void
+		recovery?: () => void
 	}) => {
 
 	useCss(theme(), styleCss)
@@ -68,12 +69,21 @@ export const SelectorStep = shadow((options: {
 					<button data-vibe=lame @click="${shimmyRight}">&gt;</button>
 				</div>
 
-				${(options.back ?? null) && html`
-					<div>
-						<span class=boring>or go</span>
-						<button data-vibe="naked lame" @click="${options.back}">back</button>
-					</div>
-				`}
+				<div>
+					${(options.back ?? null) && html`
+						<button
+							data-vibe="naked lame"
+							@click="${options.back}">
+								back
+						</button>
+					`}
+
+					<button
+						data-vibe="naked lame"
+						@click="${options.recovery}">
+							recover
+					</button>
+				</div>
 			</nav>
 		</div>
 	`

@@ -7,11 +7,12 @@ import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
 
 export const TextInput = shadow((options: {
-		maxLength: number
-		placeholder: string
 		validator: Validator<string>
 		on: (maybe: Maybe<string>) => void
+		textarea?: boolean
+		maxLength?: number
 		debounceMs?: number
+		placeholder?: string
 	}) => {
 
 	useName("text-input")
@@ -30,17 +31,27 @@ export const TextInput = shadow((options: {
 	))
 
 	const onInput = (event: Event) => update(
-		(event.currentTarget as HTMLInputElement).value
+		(event.currentTarget as HTMLInputElement | HTMLTextAreaElement).value
 	)
 
 	return html`
 		<div class=box ?data-problems="${!!problems}">
-			<input
-				type=text
-				part=input
-				placeholder="${options.placeholder}"
-				maxlength="${options.maxLength}"
-				@input="${onInput}"/>
+			${options.textarea ? html`
+				<textarea
+					part="input textarea"
+					placeholder="${options.placeholder}"
+					maxlength="${options.maxLength}"
+					@input="${onInput}"
+				></textarea>
+			` : html`
+				<input
+					type=text
+					part="input text"
+					placeholder="${options.placeholder}"
+					maxlength="${options.maxLength}"
+					@input="${onInput}"
+				/>
+			`}
 
 			<p class=problems>
 				${problems && problems.map(problem => `• ${problem}`).join(" ")}

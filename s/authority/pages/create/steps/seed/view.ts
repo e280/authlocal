@@ -26,7 +26,7 @@ export const SeedStep = shadow((options: {
 
 	const root = options.draft.$root()
 	const $id = useDerived(() => deriveId(options.draft.$root()))
-	const $nom = useDerived(() => nomen.from($id()))
+	const $nom = useDerived(() => nomen.nom($id()))
 
 	const seedText = seed.from(root)
 	const $checked = useSignal(false)
@@ -63,8 +63,18 @@ export const SeedStep = shadow((options: {
 			</label>
 
 			<nav>
-				<button data-vibe=lame @click="${options.back}">back</button>
-				<button @click="${options.next}" ?disabled="${!$checked()}">done</button>
+				<button
+					data-vibe="naked lame"
+					@click="${options.back}">
+						back
+				</button>
+
+				<button
+					data-vibe="happy"
+					@click="${options.next}"
+					?disabled="${!$checked()}">
+						done
+				</button>
 			</nav>
 		</div>
 	`

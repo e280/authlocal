@@ -18,14 +18,19 @@ export function parse(seed: string): Maybe<string> {
 	const [a, b, ...secretWords] = words
 	const reportedNom = `${a}_${b}`
 
-	const secretBytes = new Uint8Array(wordsToBytes(secretWords))
-	const secret = hex(secretBytes)
-	const id = deriveId(secret)
-	const nom = nomen.nom(id)
+	try {
+		const secretBytes = new Uint8Array(wordsToBytes(secretWords))
+		const secret = hex(secretBytes)
+		const id = deriveId(secret)
+		const nom = nomen.nom(id)
 
-	if (nom !== reportedNom)
-		return maybe.nay(`corruption detected, expected nom "${reportedNom}" but got "${nom}"`)
+		if (nom !== reportedNom)
+			return maybe.nay(`corruption detected, expected nom "${reportedNom}" but got "${nom}"`)
 
-	return maybe.yay(secret)
+		return maybe.yay(secret)
+	}
+	catch {
+		return maybe.nay("invalid")
+	}
 }
 

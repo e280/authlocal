@@ -8,6 +8,7 @@ import {SelectorStep} from "./steps/selector/view.js"
 
 export const CreatePage = shadow((options: {
 		done: (draft: CreateDraft) => void
+		recovery: () => void
 		back?: () => void
 	}) => {
 
@@ -24,6 +25,7 @@ export const CreatePage = shadow((options: {
 					draft,
 					next: () => $step("seed"),
 					back: options.back,
+					recovery: options.recovery,
 				})
 
 			case "seed":

@@ -1,5 +1,5 @@
 
-import {validator, deny} from "@e280/stz"
+import {validator, deny, Validator, maybe} from "@e280/stz"
 
 export const maxNameLength = 32
 
@@ -11,4 +11,12 @@ export const validateName = validator<string>(
 	deny("bad weird whitespace", s => /\s/.test(s.replaceAll(" ", ""))),
 	deny("bad unicode control chars", s => /\p{Z}\p{C}/u.test(s.replaceAll(" ", ""))),
 )
+
+export function allowEmptyString(validate: Validator<string>): Validator<string> {
+	return (s: string) => (
+		(s === "")
+			? maybe.yay(s)
+			: validate(s)
+	)
+}
 

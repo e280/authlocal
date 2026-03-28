@@ -11,11 +11,11 @@ export default css`
 .box {
 	display: flex;
 	flex-direction: column;
-
 	width: 100%;
-	padding: var(--pad);
 
-	input {
+	[part~="input"] {
+		width: 100%;
+		font-family: monospace;
 		font-size: 1em;
 		padding: var(--pad);
 		border: 1px solid color-mix(in oklch, transparent, var(--input) 25%);
@@ -33,7 +33,7 @@ export default css`
 	}
 
 	&[data-problems] {
-		input {
+		[part~="input"] {
 			border-color: var(--angry);
 			background: color-mix(in oklch, var(--input-bg), var(--angry) 10%);
 		}

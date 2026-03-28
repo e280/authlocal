@@ -39,6 +39,10 @@ export default css`
 			align-items: center;
 			gap: var(--pad);
 
+			button {
+				padding: 0;
+			}
+
 			[view="shiny-copy"] {
 				font-size: 1.2em;
 			}
