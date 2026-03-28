@@ -2,13 +2,13 @@
 import {html} from "lit"
 import {shadow, useCss, useName} from "@e280/sly"
 import styleCss from "./style.css.js"
-import {Bank} from "../../sys/bank.js"
+import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {deriveId} from "../../../core/index.js"
 import {IdCard} from "../../../ui/views/id-card/view.js"
 
 export const ListPage = shadow((options: {
-		bank: Bank
+		identities: Identity[]
 		create: () => void
 		recovery: () => void
 	}) => {
@@ -20,7 +20,7 @@ export const ListPage = shadow((options: {
 		<h2>your identities</h2>
 
 		<ol>
-			${options.bank.$identities().map(identity => html`
+			${options.identities.map(identity => html`
 				<li>
 					${IdCard.with({
 						props: [{

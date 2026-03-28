@@ -22,7 +22,7 @@ const go = hashNav({
 
 const $content = hashSignal(router({
 	"": () => ListPage({
-		bank,
+		identities: bank.$identities(),
 		create: go.create,
 		recovery: go.recovery,
 	}),
@@ -41,7 +41,6 @@ const $content = hashSignal(router({
 	}),
 
 	"recovery": () => RecoveryPage({
-		bank,
 		back: go.home,
 		done: async identity => {
 			await bank.addIdentity(identity)

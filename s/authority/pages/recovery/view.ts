@@ -10,7 +10,6 @@ import {IdPoster} from "../../../ui/views/id-poster/view.js"
 import {allowEmptyString, deriveId, maxNameLength, nomen, seed, validateName} from "../../../core/index.js"
 
 export const RecoveryPage = shadow((options: {
-		bank: Bank
 		back: () => void
 		done: (identity: Identity) => void
 	}) => {
