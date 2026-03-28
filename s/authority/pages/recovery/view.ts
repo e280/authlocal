@@ -1,12 +1,13 @@
 
 import {html} from "lit"
-import {shadow, useCss, useName, useSignal} from "@e280/sly"
+import {shadow, useCss, useDerived, useName, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {Bank} from "../../sys/bank.js"
 import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {TextInput} from "../../views/text-input/view.js"
 import {allowEmptyString, deriveId, maxNameLength, nomen, seed, validateName} from "../../../core/index.js"
+import { IdPoster } from "../../../ui/views/id-poster/view.js"
 
 export const RecoveryPage = shadow((options: {
 		bank: Bank
@@ -19,6 +20,14 @@ export const RecoveryPage = shadow((options: {
 
 	const $name = useSignal("")
 	const $root = useSignal("")
+	const $identity = useDerived<Identity | null>(() => {
+		const root = $root()
+		if (root === "") return null
+		const name = $name() || nomen.nom(deriveId(root))
+		return {root, name}
+	})
+
+	const identity = $identity()
 
 	function done() {
 		const root = $root()
@@ -45,6 +54,13 @@ export const RecoveryPage = shadow((options: {
 			})}
 		</div>
 
+		${identity
+			? IdPoster({
+				name: identity.name,
+				id: deriveId(identity.root),
+			})
+			: null}
+
 		<nav>
 			<button data-vibe="naked lame" @click="${options.back}">
 				back
@@ -54,7 +70,7 @@ export const RecoveryPage = shadow((options: {
 				data-vibe="happy"
 				?disabled="${!$root()}"
 				@click="${done}">
-					done
+					recover
 			</button>
 		</nav>
 	`

@@ -41,6 +41,10 @@
 		}
 	}
 
+	nav {
+		cursor: default;
+	}
+
 	button {
 		font: inherit;
 		color: currentColor;
@@ -60,6 +64,10 @@
 
 		&[data-vibe~="happy"] {
 			color: var(--happy);
+		}
+
+		&[data-vibe~="angry"] {
+			color: var(--angry);
 		}
 
 		&[disabled] {
