@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {dom, hashNav, hashSignal, light, norm, router} from "@e280/sly"
+import {dom, hashNav, hashRouteSignal, light, norm, router} from "@e280/sly"
 import {Bank} from "./sys/bank.js"
 import {ListPage} from "./pages/list/view.js"
 import {deriveId, nomen} from "../core/index.js"
@@ -20,7 +20,7 @@ const go = hashNav({
 	),
 })
 
-const $content = hashSignal(router({
+const $content = hashRouteSignal(router({
 	"": () => ListPage({
 		identities: bank.$identities(),
 		create: go.create,
