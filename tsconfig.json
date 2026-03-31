@@ -3,16 +3,13 @@
 		"strict": true,
 		"rootDir": "s",
 		"outDir": "x",
-		"target": "es2023",
-		"lib": ["es2023", "dom", "webworker"],
-		"module": "node16",
-		"moduleResolution": "node16",
-		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
+		"target": "es2024",
+		"lib": ["es2024", "dom", "webworker"],
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"skipLibCheck": true,
 		"sourceMap": true,
-		"declaration": true,
-		"skipLibCheck": true
+		"declaration": true
 	},
 	"include": [
 		"s/**/*.ts",
