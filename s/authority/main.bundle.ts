@@ -3,8 +3,9 @@ import {html} from "lit"
 import {dom, hashNav, hashRouteSignal, light, norm, router} from "@e280/sly"
 import {Bank} from "./sys/bank.js"
 import {ListPage} from "./pages/list/view.js"
-import {deriveId, nomen} from "../core/index.js"
+import {EditPage} from "./pages/edit/view.js"
 import {CreatePage} from "./pages/create/view.js"
+import {deriveId, Id, nomen} from "../core/index.js"
 import {RecoveryPage} from "./pages/recovery/view.js"
 
 const bank = await Bank.init()
@@ -12,9 +13,10 @@ const bank = await Bank.init()
 const go = hashNav({
 	list: () => ``,
 	create: () => `create`,
+	edit: (id: Id) => `edit/${nomen.from(id)}`,
 	recovery: () => `recovery`,
 	home: () => (
-		(bank.$identities().length)
+		(bank.identities.length)
 			? ``
 			: `create`
 	),
@@ -22,20 +24,21 @@ const go = hashNav({
 
 const $content = hashRouteSignal(router({
 	"": () => ListPage({
-		identities: bank.$identities(),
+		identities: bank.identities,
 		create: go.create,
 		recovery: go.recovery,
+		edit: go.edit,
 	}),
 
 	"create": () => CreatePage({
 		done: async draft => {
 			const root = draft.$root()
 			const name = draft.$name() ?? nomen.from(deriveId(root))
-			await bank.addIdentity({root, name})
+			await bank.setIdentity({root, name})
 			go.list()
 		},
 		recovery: go.recovery,
-		back: bank.$identities().length
+		back: bank.identities.length
 			? go.list
 			: undefined,
 	}),
@@ -43,21 +46,40 @@ const $content = hashRouteSignal(router({
 	"recovery": () => RecoveryPage({
 		back: go.home,
 		done: async identity => {
-			await bank.addIdentity(identity)
+			await bank.setIdentity(identity)
 			go.list()
 		},
 	}),
+
+	"edit/{n}": params => {
+		const idMaybe = nomen.parse(params.n)
+		if (!idMaybe.yay) return undefined
+		const id = idMaybe.value
+		const identity = bank.getIdentity(id)
+		if (!identity) return undefined
+		return EditPage({
+			identity,
+			back: go.home,
+			changeName: async name => {
+				console.log("NAME SAVE", name)
+				await bank.setIdentity({...identity, name})
+				go.home()
+			},
+		})
+	},
 }))
 
 {
 	const isHome = norm(location.hash) === ""
-	const noIdentities = bank.$identities().length === 0
-
+	const noIdentities = bank.identities.length === 0
 	if (isHome && noIdentities)
 		go.home()
 }
 
-const App = light(() => $content() ?? html`<h2>404 not found</h2>`)
+const App = light(() => $content() ?? html`
+	<h2>404 not found.</h2>
+	<button data-vibe="naked lame" @click="${go.home}">home</button>
+`)
 
 dom.render(dom("main"), App())
 

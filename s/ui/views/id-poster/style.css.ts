@@ -47,6 +47,13 @@ export default css`
 			text-overflow: ellipsis;
 			white-space: nowrap;
 		}
+
+		[view="shiny-copy"] {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			--inactive-opacity: 0.9;
+		}
 	}
 }
 
