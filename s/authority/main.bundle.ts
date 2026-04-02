@@ -16,9 +16,9 @@ const go = hashNav({
 	list: () => ``,
 	create: () => `create`,
 	edit: (id: Id) => `edit/${nomen.from(id)}`,
-	editSeed: (id: Id) => `edit/${nomen.from(id)}/seed`,
-	editDelete: (id: Id) => `edit/${nomen.from(id)}/delete`,
-	recovery: () => `recovery`,
+	seed: (id: Id) => `seed/${nomen.from(id)}`,
+	delete: (id: Id) => `delete/${nomen.from(id)}`,
+	recovery: () => `recover`,
 	home: () => (
 		(bank.identities.length)
 			? ``
