@@ -4,7 +4,7 @@ import {shadow, useCss, useName, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
 import {Identity} from "../../types.js"
-import {IdPoster} from "../../../ui/views/id-poster/view.js"
+import {IdCard} from "../../../ui/views/id-card/view.js"
 import {deriveId, nomen} from "../../../core/index.js"
 import {Tabnav} from "../../views/tabnav/view.js"
 
@@ -31,6 +31,8 @@ export const DeletePage = shadow((options: {
 
 	return html`
 		<div class=plate>
+			${IdCard({id, name: options.identity.name, copyable: true})}
+
 			${Tabnav({
 				active: "delete",
 				edit: options.edit,
@@ -41,23 +43,20 @@ export const DeletePage = shadow((options: {
 			<section class=warning>
 				<h2>delete identity</h2>
 				<p><strong>this is permanent.</strong> deleting this identity removes it from this device.</p>
-				<p>you will only get it back if you still have the recovery seed for <code>${nom}</code>.</p>
-				<p>if you are not absolutely sure, back out now.</p>
+
+				<div class=confirm>
+					<label for=confirm-delete>type <code>${nom}</code> exactly to confirm deletion</label>
+					<input
+						id=confirm-delete
+						type=text
+						placeholder="${nom}"
+						autocomplete=off
+						spellcheck=false
+						@input="${onInput}"
+					/>
+				</div>
 			</section>
 
-			${IdPoster({id, name: options.identity.name, copyable: true})}
-
-			<div class=confirm>
-				<label for=confirm-delete>type <code>${nom}</code> exactly to confirm deletion</label>
-				<input
-					id=confirm-delete
-					type=text
-					placeholder="${nom}"
-					autocomplete=off
-					spellcheck=false
-					@input="${onInput}"
-				/>
-			</div>
 
 			<nav>
 				<button

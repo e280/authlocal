@@ -6,8 +6,8 @@ import styleCss from "./style.css.js"
 import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {Tabnav} from "../../views/tabnav/view.js"
+import {IdCard} from "../../../ui/views/id-card/view.js"
 import {TextInput} from "../../views/text-input/view.js"
-import {IdPoster} from "../../../ui/views/id-poster/view.js"
 import {allowEmptyString, deriveId, maxNameLength, nomen, validateName} from "../../../core/index.js"
 
 export const EditPage = shadow((options: {
@@ -26,16 +26,14 @@ export const EditPage = shadow((options: {
 
 	return html`
 		<div class=plate>
+			${IdCard({id, name: options.identity.name, copyable: true})}
+
 			${Tabnav({
 				active: "edit",
 				edit: () => {},
 				seed: options.seed,
 				delete: options.delete,
 			})}
-
-			<h2>edit identity</h2>
-
-			${IdPoster({id, name: $name(), copyable: true})}
 
 			${TextInput({
 				placeholder: "optional name",

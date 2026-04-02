@@ -4,7 +4,7 @@ import {shadow, useCss, useName} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
-import {IdPoster} from "../../../ui/views/id-poster/view.js"
+import {IdCard} from "../../../ui/views/id-card/view.js"
 import {deriveId, nomen, seed} from "../../../core/index.js"
 import {RecoverySeed} from "../../views/recovery-seed/view.js"
 import {Tabnav} from "../../views/tabnav/view.js"
@@ -26,6 +26,8 @@ export const SeedPage = shadow((options: {
 
 	return html`
 		<div class=plate>
+			${IdCard({id, name: options.identity.name, copyable: true})}
+
 			${Tabnav({
 				active: "seed",
 				edit: options.edit,
@@ -34,11 +36,9 @@ export const SeedPage = shadow((options: {
 			})}
 
 			<div class=content>
-				<h2>view recovery seed</h2>
-				<p>this seed fully restores "${nom}". keep it offline and private.</p>
+				<p>this seed fully restores "${nom}". keep it secret. keep it safe.</p>
 			</div>
 
-			${IdPoster({id, name: options.identity.name, copyable: true})}
 			${RecoverySeed({seedText})}
 
 			<nav>

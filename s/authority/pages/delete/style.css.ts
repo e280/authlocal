@@ -12,7 +12,6 @@ export default css`
 
 	margin: 0 auto;
 	padding: 0 var(--pad);
-	color: var(--angry);
 }
 
 .warning {
@@ -23,6 +22,7 @@ export default css`
 	border: 0.15em solid currentColor;
 	background: color-mix(in oklch, transparent, currentColor 12%);
 	box-shadow: 0 0 3em color-mix(in oklch, transparent, currentColor 25%);
+	color: var(--angry);
 }
 
 .warning h2,
@@ -52,6 +52,7 @@ export default css`
 	border: 1px solid currentColor;
 	color: var(--input);
 	background: color-mix(in oklch, var(--input-bg), var(--angry) 10%);
+	text-align: center;
 	outline: none;
 }
 
