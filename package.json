@@ -18,7 +18,8 @@
 		"./core/tok": "./x/core/tok/index.js"
 	},
 	"scripts": {
-		"build": "rm -rf x && mkdir x && tsc && ln -s '$(realpath s)' x/s && scute -v",
+		"build": "rm -rf x && mkdir x && tsc && ln -s \"$(realpath s)\" x/s && npm run check -s",
+		"check": "tsc && scute -v",
 		"dev": "octo 'tsc -w' 'scute -vw' 'node --watch x/test.js' 'hottie x'",
 		"test": "node x/test.js",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
