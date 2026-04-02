@@ -6,10 +6,14 @@ import {theme} from "../../utils/theme.js"
 import {Identity} from "../../types.js"
 import {IdPoster} from "../../../ui/views/id-poster/view.js"
 import {deriveId, nomen} from "../../../core/index.js"
+import {Tabnav} from "../../views/tabnav/view.js"
 
 export const DeletePage = shadow((options: {
 		identity: Identity
 		back: () => void
+		edit: () => void
+		seed: () => void
+		deleteTab: () => void
 		delete: () => void
 	}) => {
 
@@ -27,6 +31,13 @@ export const DeletePage = shadow((options: {
 
 	return html`
 		<div class=plate>
+			${Tabnav({
+				active: "delete",
+				edit: options.edit,
+				seed: options.seed,
+				delete: options.deleteTab,
+			})}
+
 			<section class=warning>
 				<h2>delete identity</h2>
 				<p><strong>this is permanent.</strong> deleting this identity removes it from this device.</p>

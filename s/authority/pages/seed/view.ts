@@ -7,10 +7,14 @@ import {theme} from "../../utils/theme.js"
 import {IdPoster} from "../../../ui/views/id-poster/view.js"
 import {deriveId, nomen, seed} from "../../../core/index.js"
 import {RecoverySeed} from "../../views/recovery-seed/view.js"
+import {Tabnav} from "../../views/tabnav/view.js"
 
 export const SeedPage = shadow((options: {
 		identity: Identity
 		back: () => void
+		edit: () => void
+		seed: () => void
+		delete: () => void
 	}) => {
 
 	useName("seed page")
@@ -22,6 +26,13 @@ export const SeedPage = shadow((options: {
 
 	return html`
 		<div class=plate>
+			${Tabnav({
+				active: "seed",
+				edit: options.edit,
+				seed: options.seed,
+				delete: options.delete,
+			})}
+
 			<div class=content>
 				<h2>view recovery seed</h2>
 				<p>this seed fully restores "${nom}". keep it offline and private.</p>

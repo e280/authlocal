@@ -82,6 +82,9 @@ const $content = hashRouteSignal(router({
 		return SeedPage({
 			identity,
 			back: () => go.edit(id),
+			edit: () => go.edit(id),
+			seed: () => go.seed(id),
+			delete: () => go.delete(id),
 		})
 	},
 
@@ -94,6 +97,9 @@ const $content = hashRouteSignal(router({
 		return DeletePage({
 			identity,
 			back: () => go.edit(id),
+			edit: () => go.edit(id),
+			seed: () => go.seed(id),
+			deleteTab: () => go.delete(id),
 			delete: async() => {
 				await bank.deleteIdentity(id)
 				go.home()
