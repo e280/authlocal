@@ -2,18 +2,18 @@ import {html} from "lit"
 import {shadow, useCss, useName, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
-import {theme} from "../../../utils/theme.js"
-import {Identity} from "../../../types.js"
-import {IdPoster} from "../../../../ui/views/id-poster/view.js"
-import {deriveId, nomen} from "../../../../core/index.js"
+import {theme} from "../../utils/theme.js"
+import {Identity} from "../../types.js"
+import {IdPoster} from "../../../ui/views/id-poster/view.js"
+import {deriveId, nomen} from "../../../core/index.js"
 
-export const EditDeletePage = shadow((options: {
+export const DeletePage = shadow((options: {
 		identity: Identity
 		back: () => void
 		delete: () => void
 	}) => {
 
-	useName("edit delete page")
+	useName("delete page")
 	useCss(theme(), styleCss)
 
 	const id = deriveId(options.identity.root)
