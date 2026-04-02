@@ -7,6 +7,8 @@ import {EditPage} from "./pages/edit/view.js"
 import {CreatePage} from "./pages/create/view.js"
 import {deriveId, Id, nomen} from "../core/index.js"
 import {RecoveryPage} from "./pages/recovery/view.js"
+import {EditSeedPage} from "./pages/edit/seed/view.js"
+import {EditDeletePage} from "./pages/edit/delete/view.js"
 
 const bank = await Bank.init()
 
@@ -14,6 +16,8 @@ const go = hashNav({
 	list: () => ``,
 	create: () => `create`,
 	edit: (id: Id) => `edit/${nomen.from(id)}`,
+	editSeed: (id: Id) => `edit/${nomen.from(id)}/seed`,
+	editDelete: (id: Id) => `edit/${nomen.from(id)}/delete`,
 	recovery: () => `recovery`,
 	home: () => (
 		(bank.identities.length)
@@ -60,9 +64,39 @@ const $content = hashRouteSignal(router({
 		return EditPage({
 			identity,
 			back: go.home,
+			seed: () => go.editSeed(id),
+			delete: () => go.editDelete(id),
 			changeName: async name => {
 				console.log("NAME SAVE", name)
 				await bank.setIdentity({...identity, name})
+				go.home()
+			},
+		})
+	},
+
+	"edit/{n}/seed": params => {
+		const idMaybe = nomen.parse(params.n)
+		if (!idMaybe.yay) return undefined
+		const id = idMaybe.value
+		const identity = bank.getIdentity(id)
+		if (!identity) return undefined
+		return EditSeedPage({
+			identity,
+			back: () => go.edit(id),
+		})
+	},
+
+	"edit/{n}/delete": params => {
+		const idMaybe = nomen.parse(params.n)
+		if (!idMaybe.yay) return undefined
+		const id = idMaybe.value
+		const identity = bank.getIdentity(id)
+		if (!identity) return undefined
+		return EditDeletePage({
+			identity,
+			back: () => go.edit(id),
+			delete: async() => {
+				await bank.deleteIdentity(id)
 				go.home()
 			},
 		})
@@ -82,4 +116,3 @@ const App = light(() => $content() ?? html`
 `)
 
 dom.render(dom("main"), App())
-

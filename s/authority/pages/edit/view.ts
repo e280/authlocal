@@ -12,6 +12,8 @@ import { maybe } from "@e280/stz"
 export const EditPage = shadow((options: {
 		identity: Identity
 		back: () => void
+		seed: () => void
+		delete: () => void
 		changeName: (name: string) => void
 	}) => {
 
@@ -36,6 +38,20 @@ export const EditPage = shadow((options: {
 
 			<nav>
 				<button
+					data-vibe="naked"
+					@click="${options.seed}">
+						seed
+				</button>
+
+				<button
+					data-vibe="naked angry"
+					@click="${options.delete}">
+						delete
+				</button>
+			</nav>
+
+			<nav>
+				<button
 					data-vibe="naked lame"
 					@click="${options.back}">
 						back
@@ -50,4 +66,3 @@ export const EditPage = shadow((options: {
 		</div>
 	`
 })
-

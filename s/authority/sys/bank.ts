@@ -60,6 +60,13 @@ export class Bank {
 		await this.load()
 	}
 
+	async deleteIdentity(id: Id) {
+		await this.#tables.identities.del(id)
+		await this.#tables.identityTimings.del(id)
+		await this.#tables.identityDelegations.del(id)
+		await this.load()
+	}
+
 	async #touchIdentity(id: string) {
 		const now = Date.now()
 		const timing = await this.#tables.identityTimings.get(id)
@@ -68,4 +75,3 @@ export class Bank {
 		await this.#tables.identityTimings.set(id, timing)
 	}
 }
-

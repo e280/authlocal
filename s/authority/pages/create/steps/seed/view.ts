@@ -1,20 +1,12 @@
 
 import {html} from "lit"
-import {ShinyCopy} from "@e280/shiny"
 import {shadow, useCss, useDerived, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
 import {seed, deriveId, nomen} from "../../../../../core/index.js"
-
-const fakeSeed = `
-fakely fakers
-dedyak befbef gidvyx mamryd
-burdyb pidmyn lentak kemlex
-demkex purzen sallak lidmac
-nidwyn yabmer vemfek wursyr
-`.trim()
+import {RecoverySeed} from "../../../../views/recovery-seed/view.js"
 
 export const SeedStep = shadow((options: {
 		draft: CreateDraft
@@ -30,12 +22,8 @@ export const SeedStep = shadow((options: {
 
 	const seedText = seed.from(root)
 	const $checked = useSignal(false)
-	const $concealed = useSignal(true)
-	const displayText = $concealed() ? fakeSeed : seedText
 
-	const onClick = (e: Event) => (e.currentTarget as HTMLTextAreaElement).select()
 	const onCheck = (e: Event) => $checked((e.currentTarget as HTMLInputElement).checked)
-	const toggleConceal = () => $concealed(!$concealed())
 
 	return html`
 		<div class=plate>
@@ -44,18 +32,7 @@ export const SeedStep = shadow((options: {
 				<p>if you lose it, "${$nom()}" is gone <em>forever</em></p>
 			</div>
 
-			<div class=concealer>
-				<div class=codebox ?data-concealed="${$concealed()}">
-					<header>
-						<button data-vibe=naked @click="${toggleConceal}">
-							${$concealed() ? "reveal" : "conceal"}
-						</button>
-						${ShinyCopy(seedText)}
-					</header>
-					<textarea readonly .value="${displayText}" @click="${onClick}"></textarea>
-					<div class=blanket>CONCEALED</div>
-				</div>
-			</div>
+			${RecoverySeed({seedText})}
 
 			<label class=checkbox>
 				<input type=checkbox @change="${onCheck}"/>
@@ -79,4 +56,3 @@ export const SeedStep = shadow((options: {
 		</div>
 	`
 })
-
