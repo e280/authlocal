@@ -5,7 +5,7 @@ import {wordsFromBytes} from "../../phonemes/words.js"
 import {littleChecksum} from "../../utils/little-checksum.js"
 
 /** convert a hex id into an address string, looks like `@salrux_nemroy_8bEGQFbAmWUZB8Ddq4MkaBnu975sgQwW3tpRCzEAx` */
-export function address(id: string) {
+export function from(id: string) {
 	const buffer = hex.toBytes(id)
 	if (buffer.length < 5) throw new Error("id too small")
 

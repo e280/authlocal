@@ -4,7 +4,7 @@ import {ShinyCopy} from "@e280/shiny"
 import {cssReset, shadow, useCss, useName} from "@e280/sly"
 
 import styleCss from "./style.css.js"
-import {addr, address} from "../../../core/index.js"
+import {address} from "../../../core/index.js"
 import {idColor} from "../../utils/id-color.js"
 import {sigilSvg} from "../../utils/sigil-svg.js"
 
@@ -17,9 +17,9 @@ export const IdPoster = shadow((options: {
 	useName("id-card")
 	useCss(cssReset, styleCss)
 
-	const alias = options.alias || addr(options.id)
+	const alias = options.alias || address.addr(options.id)
 	const color = `--color: ${idColor(options.id)};`
-	const m = address(options.id)
+	const m = address.from(options.id)
 	const [first, second, third] = m.split("_")
 
 	const monikerSpan = html`

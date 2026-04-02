@@ -6,7 +6,7 @@ import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {TextInput} from "../../views/text-input/view.js"
 import {IdPoster} from "../../../ui/views/id-poster/view.js"
-import {addr, allowEmptyString, deriveId, maxNameLength, seed, validateName} from "../../../core/index.js"
+import {address, allowEmptyString, deriveId, maxNameLength, seed, validateName} from "../../../core/index.js"
 
 export const RecoveryPage = shadow((options: {
 		back: () => void
@@ -21,7 +21,7 @@ export const RecoveryPage = shadow((options: {
 	const $identity = useDerived<Identity | null>(() => {
 		const root = $root()
 		if (root === "") return null
-		const alias = $alias() || addr(deriveId(root))
+		const alias = $alias() || address.addr(deriveId(root))
 		return {root, alias}
 	})
 
@@ -29,7 +29,7 @@ export const RecoveryPage = shadow((options: {
 
 	function done() {
 		const root = $root()
-		const alias = $alias() || addr(deriveId(root))
+		const alias = $alias() || address.addr(deriveId(root))
 		options.done({root, alias})
 	}
 

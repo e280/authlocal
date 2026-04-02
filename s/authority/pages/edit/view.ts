@@ -8,7 +8,7 @@ import {theme} from "../../utils/theme.js"
 import {Tabnav} from "../../views/tabnav/view.js"
 import {IdCard} from "../../../ui/views/id-card/view.js"
 import {TextInput} from "../../views/text-input/view.js"
-import {addr, allowEmptyString, deriveId, maxNameLength, validateName} from "../../../core/index.js"
+import {address, allowEmptyString, deriveId, maxNameLength, validateName} from "../../../core/index.js"
 
 export const EditPage = shadow((options: {
 		identity: Identity
@@ -40,7 +40,7 @@ export const EditPage = shadow((options: {
 				initialValue: options.identity.alias,
 				maxLength: maxNameLength,
 				validator: allowEmptyString(validateName),
-				on: alias => $alias(maybe.get(alias) ?? addr(id)),
+				on: alias => $alias(maybe.get(alias) ?? address.addr(id)),
 			})}
 
 			<nav>

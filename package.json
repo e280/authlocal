@@ -23,7 +23,7 @@
 		"dev": "octo 'tsc -w' 'scute -vw' 'node --watch x/test.js' 'hottie x'",
 		"test": "node x/test.js",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
-		"nomen": "node x/core/nomen/examples.js"
+		"address": "node x/core/ergo/examples.js"
 	},
 	"dependencies": {
 		"@e280/kv": "^0.1.2",

@@ -7,7 +7,7 @@ import {EditPage} from "./pages/edit/view.js"
 import {SeedPage} from "./pages/seed/view.js"
 import {DeletePage} from "./pages/delete/view.js"
 import {CreatePage} from "./pages/create/view.js"
-import {address, deriveId, Id, parse} from "../core/index.js"
+import {address, deriveId, Id} from "../core/index.js"
 import {RecoveryPage} from "./pages/recovery/view.js"
 
 const bank = await Bank.init()
@@ -15,9 +15,9 @@ const bank = await Bank.init()
 const go = hashNav({
 	list: () => ``,
 	create: () => `create`,
-	edit: (id: Id) => `edit/${address(id)}`,
-	seed: (id: Id) => `seed/${address(id)}`,
-	delete: (id: Id) => `delete/${address(id)}`,
+	edit: (id: Id) => `edit/${address.from(id)}`,
+	seed: (id: Id) => `seed/${address.from(id)}`,
+	delete: (id: Id) => `delete/${address.from(id)}`,
 	recovery: () => `recover`,
 	home: () => (
 		(bank.identities.length)
@@ -37,7 +37,7 @@ const $content = hashRouteSignal(router({
 	"create": () => CreatePage({
 		done: async draft => {
 			const root = draft.$root()
-			const alias = draft.$alias() || address(deriveId(root))
+			const alias = draft.$alias() || address.from(deriveId(root))
 			await bank.setIdentity({root, alias})
 			go.list()
 		},
@@ -56,7 +56,7 @@ const $content = hashRouteSignal(router({
 	}),
 
 	"edit/{n}": params => {
-		const idMaybe = parse(params.n)
+		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
 		const identity = bank.getIdentity(id)
@@ -74,7 +74,7 @@ const $content = hashRouteSignal(router({
 	},
 
 	"seed/{n}": params => {
-		const idMaybe = parse(params.n)
+		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
 		const identity = bank.getIdentity(id)
@@ -89,7 +89,7 @@ const $content = hashRouteSignal(router({
 	},
 
 	"delete/{n}": params => {
-		const idMaybe = parse(params.n)
+		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
 		const identity = bank.getIdentity(id)

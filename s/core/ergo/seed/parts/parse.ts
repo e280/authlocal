@@ -1,6 +1,6 @@
 
 import {hex, maybe, Maybe} from "@e280/stz"
-import {addr} from "../../nomen/index.barrel.js"
+import {address} from "../../address/index.js"
 import {deriveId} from "../../../cryp/derive-id.js"
 import {wordsToBytes} from "../../phonemes/words.js"
 
@@ -22,10 +22,10 @@ export function parse(seed: string): Maybe<string> {
 		const secretBytes = new Uint8Array(wordsToBytes(secretWords))
 		const secret = hex(secretBytes)
 		const id = deriveId(secret)
-		const address = addr(id)
+		const actualAddress = address.addr(id)
 
-		if (address.replace(/^@/, "") !== reportedAddr)
-			return maybe.nay(`corruption detected, expected addr "${reportedAddr}" but got "${address}"`)
+		if (actualAddress.replace(/^@/, "") !== reportedAddr)
+			return maybe.nay(`corruption detected, expected addr "${reportedAddr}" but got "${actualAddress}"`)
 
 		return maybe.yay(secret)
 	}

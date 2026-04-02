@@ -1,6 +1,6 @@
 
 import {hex} from "@e280/stz"
-import {addr} from "../../nomen/index.barrel.js"
+import {address} from "../../address/index.js"
 import {Secret} from "../../../cryp/types.js"
 import {deriveId} from "../../../cryp/derive-id.js"
 import {wordsFromBytes} from "../../phonemes/words.js"
@@ -12,7 +12,7 @@ export function from(secret: Secret) {
 	const words = [...wordsFromBytes(secretBytes)]
 
 	const lines = [
-		[addr(id).replace("_", " ")],
+		[address.addr(id).replace("_", " ")],
 		words.slice(0, 4),
 		words.slice(4, 8),
 		words.slice(8, 12),

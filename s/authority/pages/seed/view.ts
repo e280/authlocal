@@ -5,7 +5,7 @@ import styleCss from "./style.css.js"
 import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {IdCard} from "../../../ui/views/id-card/view.js"
-import {addr, deriveId, seed} from "../../../core/index.js"
+import {address, deriveId, seed} from "../../../core/index.js"
 import {RecoverySeed} from "../../views/recovery-seed/view.js"
 import {Tabnav} from "../../views/tabnav/view.js"
 
@@ -21,7 +21,7 @@ export const SeedPage = shadow((options: {
 	useCss(theme(), styleCss)
 
 	const id = deriveId(options.identity.root)
-	const address = addr(id)
+	const ad = address.addr(id)
 	const seedText = seed.from(options.identity.root)
 
 	return html`
@@ -38,7 +38,7 @@ export const SeedPage = shadow((options: {
 			${RecoverySeed({seedText})}
 
 			<div class=content>
-				<p>this seed fully restores "${address}".</p>
+				<p>this seed fully restores "${ad}".</p>
 				<p>keep it secret. keep it safe.</p>
 			</div>
 
