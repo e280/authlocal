@@ -35,11 +35,12 @@ export const SeedPage = shadow((options: {
 				delete: options.delete,
 			})}
 
-			<div class=content>
-				<p>this seed fully restores "${nom}". keep it secret. keep it safe.</p>
-			</div>
-
 			${RecoverySeed({seedText})}
+
+			<div class=content>
+				<p>this seed fully restores "${nom}".</p>
+				<p>keep it secret. keep it safe.</p>
+			</div>
 
 			<nav>
 				<button

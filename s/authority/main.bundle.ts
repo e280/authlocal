@@ -81,7 +81,7 @@ const $content = hashRouteSignal(router({
 		if (!identity) return undefined
 		return SeedPage({
 			identity,
-			back: () => go.edit(id),
+			back: go.list,
 			edit: () => go.edit(id),
 			seed: () => go.seed(id),
 			delete: () => go.delete(id),
@@ -96,7 +96,7 @@ const $content = hashRouteSignal(router({
 		if (!identity) return undefined
 		return DeletePage({
 			identity,
-			back: () => go.edit(id),
+			back: go.list,
 			edit: () => go.edit(id),
 			seed: () => go.seed(id),
 			deleteTab: () => go.delete(id),

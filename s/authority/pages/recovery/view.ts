@@ -2,7 +2,6 @@
 import {html} from "lit"
 import {shadow, useCss, useDerived, useName, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
-import {Bank} from "../../sys/bank.js"
 import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {TextInput} from "../../views/text-input/view.js"
@@ -47,7 +46,7 @@ export const RecoveryPage = shadow((options: {
 
 			${TextInput({
 				textarea: true,
-				placeholder: "seed",
+				placeholder: "recovery seed",
 				validator: allowEmptyString(seed.parse),
 				on: root => $root(root.yay ? root.value : ""),
 			})}
