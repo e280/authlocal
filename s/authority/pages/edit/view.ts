@@ -38,6 +38,12 @@ export const EditPage = shadow((options: {
 
 			<nav>
 				<button
+					data-vibe="naked lame"
+					@click="${options.back}">
+						back
+				</button>
+
+				<button
 					data-vibe="naked"
 					@click="${options.seed}">
 						seed
@@ -47,14 +53,6 @@ export const EditPage = shadow((options: {
 					data-vibe="naked angry"
 					@click="${options.delete}">
 						delete
-				</button>
-			</nav>
-
-			<nav>
-				<button
-					data-vibe="naked lame"
-					@click="${options.back}">
-						back
 				</button>
 
 				<button
