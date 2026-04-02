@@ -44,7 +44,7 @@ export const ListPage = shadow((options: {
 			<button
 				data-vibe="naked lame"
 				@click="${options.recovery}">
-					recovery
+					recover existing
 			</button>
 
 			<button

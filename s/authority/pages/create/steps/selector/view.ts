@@ -81,7 +81,7 @@ export const SelectorStep = shadow((options: {
 					<button
 						data-vibe="naked lame"
 						@click="${options.recovery}">
-							recovery
+							recover existing
 					</button>
 				</div>
 			</nav>
