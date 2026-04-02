@@ -6,7 +6,7 @@ import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {TextInput} from "../../views/text-input/view.js"
 import {IdPoster} from "../../../ui/views/id-poster/view.js"
-import {allowEmptyString, deriveId, maxNameLength, nomen, seed, validateName} from "../../../core/index.js"
+import {addr, allowEmptyString, deriveId, maxNameLength, seed, validateName} from "../../../core/index.js"
 
 export const RecoveryPage = shadow((options: {
 		back: () => void
@@ -16,21 +16,21 @@ export const RecoveryPage = shadow((options: {
 	useName("import page")
 	useCss(theme(), styleCss)
 
-	const $name = useSignal("")
+	const $alias = useSignal("")
 	const $root = useSignal("")
 	const $identity = useDerived<Identity | null>(() => {
 		const root = $root()
 		if (root === "") return null
-		const name = $name() || nomen.nom(deriveId(root))
-		return {root, name}
+		const alias = $alias() || addr(deriveId(root))
+		return {root, alias}
 	})
 
 	const identity = $identity()
 
 	function done() {
 		const root = $root()
-		const name = $name() || nomen.nom(deriveId(root))
-		options.done({root, name})
+		const alias = $alias() || addr(deriveId(root))
+		options.done({root, alias})
 	}
 
 	return html`
@@ -39,9 +39,9 @@ export const RecoveryPage = shadow((options: {
 		<div class=inputs>
 			${TextInput({
 				maxLength: maxNameLength,
-				placeholder: "optional name",
+				placeholder: "optional alias",
 				validator: allowEmptyString(validateName),
-				on: name => $name(name.yay ? name.value : ""),
+				on: alias => $alias(alias.yay ? alias.value : ""),
 			})}
 
 			${TextInput({
@@ -54,7 +54,7 @@ export const RecoveryPage = shadow((options: {
 
 		${identity
 			? IdPoster({
-				name: identity.name,
+				alias: identity.alias,
 				id: deriveId(identity.root),
 			})
 			: null}
@@ -73,4 +73,3 @@ export const RecoveryPage = shadow((options: {
 		</nav>
 	`
 })
-

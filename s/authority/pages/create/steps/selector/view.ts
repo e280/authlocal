@@ -20,7 +20,7 @@ export const SelectorStep = shadow((options: {
 
 	useCss(theme(), styleCss)
 
-	const {$root, $secret, $index, $name} = options.draft
+	const {$root, $secret, $index, $alias} = options.draft
 	const selected = deriveIdentityFromIndex($secret(), $index())
 
 	const shimmyRight = () => $index($index() + 1)
@@ -33,14 +33,14 @@ export const SelectorStep = shadow((options: {
 	function renderIdentity(clickable: boolean, index: number) {
 		const {id} = deriveIdentityFromIndex($secret(), index)
 		const onClick = () => $index(index)
-		const name = $name() || undefined
+		const alias = $alias() || undefined
 		return clickable
 			? html`
 				<button @click="${onClick}">
-					${IdPoster({id, name})}
+					${IdPoster({id, alias})}
 				</button>
 			`
-			: IdPoster({id, name})
+			: IdPoster({id, alias})
 	}
 
 	return html`
@@ -49,11 +49,11 @@ export const SelectorStep = shadow((options: {
 
 			${TextInput({
 				maxLength: maxNameLength,
-				placeholder: "optional name",
-				validator: name => (name === "")
-					? yay(name)
-					: validateName(name),
-				on: maybe => $name(maybe.yay ? maybe.value : ""),
+				placeholder: "optional alias",
+				validator: alias => (alias === "")
+					? yay(alias)
+					: validateName(alias),
+				on: maybe => $alias(maybe.yay ? maybe.value : ""),
 			})}
 
 			<div class=cards>

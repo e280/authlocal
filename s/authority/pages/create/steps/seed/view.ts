@@ -5,7 +5,7 @@ import {shadow, useCss, useDerived, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
-import {seed, deriveId, nomen} from "../../../../../core/index.js"
+import {addr, seed, deriveId} from "../../../../../core/index.js"
 import {RecoverySeed} from "../../../../views/recovery-seed/view.js"
 
 export const SeedStep = shadow((options: {
@@ -18,7 +18,7 @@ export const SeedStep = shadow((options: {
 
 	const root = options.draft.$root()
 	const $id = useDerived(() => deriveId(options.draft.$root()))
-	const $nom = useDerived(() => nomen.nom($id()))
+	const $addr = useDerived(() => addr($id()))
 
 	const seedText = seed.from(root)
 	const $checked = useSignal(false)
@@ -29,7 +29,7 @@ export const SeedStep = shadow((options: {
 		<div class=plate>
 			<div class=content>
 				<h2>save your recovery seed</h2>
-				<p>if you lose it, "${$nom()}" is gone <em>forever</em></p>
+				<p>if you lose it, "${$addr()}" is gone <em>forever</em></p>
 			</div>
 
 			${RecoverySeed({seedText})}

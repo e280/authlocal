@@ -5,12 +5,12 @@ import {cssReset, shadow, useCss, useName} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {idColor} from "../../utils/id-color.js"
-import {nomen} from "../../../core/index.js"
+import {addr, address} from "../../../core/index.js"
 import {sigilSvg} from "../../utils/sigil-svg.js"
 
 export const IdCard = shadow((card: {
 		id: string
-		name?: string
+		alias?: string
 		copyable?: boolean
 	}) => {
 
@@ -18,7 +18,7 @@ export const IdCard = shadow((card: {
 	useCss(cssReset, styleCss)
 
 	const color = `--color: ${idColor(card.id)};`
-	const n = nomen.from(card.id)
+	const n = address(card.id)
 	const [first, second, third] = n.split("_")
 
 	const nomenSpan = html`
@@ -31,7 +31,7 @@ export const IdCard = shadow((card: {
 		<div part=card style="${color}">
 			<div part=plate>
 				<div part=icon>${sigilSvg(card.id)}</div>
-				<div part=name>${card.name || nomen.nom(card.id)}</div>
+				<div part=name>${card.alias || addr(card.id)}</div>
 				<slot part=slot></slot>
 			</div>
 
@@ -47,4 +47,3 @@ export const IdCard = shadow((card: {
 		</div>
 	`
 })
-

@@ -5,6 +5,5 @@ export type CreateDraft = {
 	$index: Signal<number>
 	$root: Signal<string>
 	$secret: Signal<string>
-	$name: Signal<string>
+	$alias: Signal<string>
 }
-

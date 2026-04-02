@@ -4,7 +4,7 @@ import {suite, test, expect} from "@e280/science"
 
 const demoSecret = "0000deadbeefb00b82a92b28590a1ec93e64a026d593ceded40055d7bf4270cf"
 const demoSeed = `
-nidtak hatzyn
+@nidtak hatzyn
 nopnop dedyak befbef bobbob
 pidvak mormox zanzok kalpyk
 sinhet curmyn varhek selmyd
@@ -44,7 +44,7 @@ export default suite({
 		expect(() => seed.secret("")).throws()
 	}),
 
-	"throw when leading nom is missing": test(async() => {
+	"throw when leading addr is missing": test(async() => {
 		expect(() => seed.secret(`
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk
@@ -53,9 +53,9 @@ export default suite({
 		`)).throws()
 	}),
 
-	"throw on corrupted nom": test(async() => {
+	"throw on corrupted addr": test(async() => {
 		expect(() => seed.secret(`
-			nidtak hatnop
+			@nidtak hatnop
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk
 			sinhet curmyn varhek selmyd
@@ -65,7 +65,7 @@ export default suite({
 
 	"throw on corrupted secret": test(async() => {
 		expect(() => seed.secret(`
-			nidtak hatzyn
+			@nidtak hatzyn
 			nopnop dedyak befbef bobbob
 			pidvak mormox zanzok kalpyk
 			sinhet curmyn varhek selmyd
@@ -73,4 +73,3 @@ export default suite({
 		`)).throws()
 	}),
 })
-

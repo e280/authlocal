@@ -7,7 +7,7 @@ import {EditPage} from "./pages/edit/view.js"
 import {SeedPage} from "./pages/seed/view.js"
 import {DeletePage} from "./pages/delete/view.js"
 import {CreatePage} from "./pages/create/view.js"
-import {deriveId, Id, nomen} from "../core/index.js"
+import {address, deriveId, Id, parse} from "../core/index.js"
 import {RecoveryPage} from "./pages/recovery/view.js"
 
 const bank = await Bank.init()
@@ -15,9 +15,9 @@ const bank = await Bank.init()
 const go = hashNav({
 	list: () => ``,
 	create: () => `create`,
-	edit: (id: Id) => `edit/${nomen.from(id)}`,
-	seed: (id: Id) => `seed/${nomen.from(id)}`,
-	delete: (id: Id) => `delete/${nomen.from(id)}`,
+	edit: (id: Id) => `edit/${address(id)}`,
+	seed: (id: Id) => `seed/${address(id)}`,
+	delete: (id: Id) => `delete/${address(id)}`,
 	recovery: () => `recover`,
 	home: () => (
 		(bank.identities.length)
@@ -37,8 +37,8 @@ const $content = hashRouteSignal(router({
 	"create": () => CreatePage({
 		done: async draft => {
 			const root = draft.$root()
-			const name = draft.$name() ?? nomen.from(deriveId(root))
-			await bank.setIdentity({root, name})
+			const alias = draft.$alias() || address(deriveId(root))
+			await bank.setIdentity({root, alias})
 			go.list()
 		},
 		recovery: go.recovery,
@@ -56,7 +56,7 @@ const $content = hashRouteSignal(router({
 	}),
 
 	"edit/{n}": params => {
-		const idMaybe = nomen.parse(params.n)
+		const idMaybe = parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
 		const identity = bank.getIdentity(id)
@@ -66,15 +66,15 @@ const $content = hashRouteSignal(router({
 			back: go.home,
 			seed: () => go.seed(id),
 			delete: () => go.delete(id),
-			changeName: async name => {
-				await bank.setIdentity({...identity, name})
+			changeAlias: async alias => {
+				await bank.setIdentity({...identity, alias})
 				go.home()
 			},
 		})
 	},
 
 	"seed/{n}": params => {
-		const idMaybe = nomen.parse(params.n)
+		const idMaybe = parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
 		const identity = bank.getIdentity(id)
@@ -89,7 +89,7 @@ const $content = hashRouteSignal(router({
 	},
 
 	"delete/{n}": params => {
-		const idMaybe = nomen.parse(params.n)
+		const idMaybe = parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
 		const identity = bank.getIdentity(id)

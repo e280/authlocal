@@ -1,3 +1,2 @@
 
-export * as nomen from "./index.barrel.js"
-
+export * from "./index.barrel.js"

@@ -1,9 +1,8 @@
 
-import {parse} from "./parse.js"
 import {maybe} from "@e280/stz"
+import {parse} from "./parse.js"
 
-/** convert a nomen string back into a hex id */
-export function id(nomen: string) {
-	return maybe.require(parse(nomen))
+/** convert an address string back into a hex id */
+export function id(address: string) {
+	return maybe.require(parse(address))
 }
-

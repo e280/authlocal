@@ -1,6 +1,6 @@
 
 export type Identity = {
-	name: string
+	alias: string
 	root: string
 }
 
@@ -16,4 +16,3 @@ export type IdentityDelegation = {
 	time: number
 	expiresAt: number
 }
-

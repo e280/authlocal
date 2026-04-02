@@ -18,13 +18,13 @@ export const ListPage = shadow((options: {
 	useCss(theme(), styleCss)
 
 	function renderIdentity(identity: Identity) {
-		const {name} = identity
+		const {alias} = identity
 		const id = deriveId(identity.root)
 		const clickEdit = () => options.edit(id)
 		return html`
 			<li>
 				${IdCard.with({
-					props: [{name, id, copyable: true}],
+					props: [{alias, id, copyable: true}],
 					children: html`
 						<button data-vibe=naked @click="${clickEdit}">edit</button>
 					`,

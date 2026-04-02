@@ -1,24 +1,23 @@
 
-import {nomen} from "./index.js"
+import {address, id} from "./index.barrel.js"
 import {suite, test, expect} from "@e280/science"
 
 const demoHex = "0000deadbeefb00b82a92b28590a1ec93e64a026d593ceded40055d7bf4270cf"
-const demoNomen = "nopnop_dedyak_fFzXVjwKr4BfwSEcovapQSZvrqg3EtnSNiuUFknsb"
+const demoAddress = "@nopnop_dedyak_fFzXVjwKr4BfwSEcovapQSZvrqg3EtnSNiuUFknsb"
 
 export default suite({
-	"nomen matches demo": test(async() => {
-		expect(nomen.from(demoHex)).is(demoNomen)
+	"address matches demo": test(async() => {
+		expect(address(demoHex)).is(demoAddress)
 	}),
 
-	"id->nomen->id": test(async() => {
-		expect(nomen.id(nomen.from(demoHex))).is(demoHex)
+	"id->address->id": test(async() => {
+		expect(id(address(demoHex))).is(demoHex)
 	}),
 
-	"invalid nomen fails": test(async() => {
-		const badChars = [...demoNomen]
+	"invalid address fails": test(async() => {
+		const badChars = [...demoAddress]
 		badChars[24] = "X"
 		const bad = badChars.join("")
-		expect(() => nomen.id(bad)).throws()
+		expect(() => id(bad)).throws()
 	}),
 })
-

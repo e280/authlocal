@@ -8,25 +8,25 @@ import {theme} from "../../utils/theme.js"
 import {Tabnav} from "../../views/tabnav/view.js"
 import {IdCard} from "../../../ui/views/id-card/view.js"
 import {TextInput} from "../../views/text-input/view.js"
-import {allowEmptyString, deriveId, maxNameLength, nomen, validateName} from "../../../core/index.js"
+import {addr, allowEmptyString, deriveId, maxNameLength, validateName} from "../../../core/index.js"
 
 export const EditPage = shadow((options: {
 		identity: Identity
 		back: () => void
 		seed: () => void
 		delete: () => void
-		changeName: (name: string) => void
+		changeAlias: (alias: string) => void
 	}) => {
 
 	useName("edit page")
 	useCss(theme(), styleCss)
 
 	const id = deriveId(options.identity.root)
-	const $name = useSignal(options.identity.name)
+	const $alias = useSignal(options.identity.alias)
 
 	return html`
 		<div class=plate>
-			${IdCard({id, name: options.identity.name, copyable: true})}
+			${IdCard({id, alias: options.identity.alias, copyable: true})}
 
 			${Tabnav({
 				active: "edit",
@@ -36,11 +36,11 @@ export const EditPage = shadow((options: {
 			})}
 
 			${TextInput({
-				placeholder: "optional name",
-				initialValue: options.identity.name,
+				placeholder: "optional alias",
+				initialValue: options.identity.alias,
 				maxLength: maxNameLength,
 				validator: allowEmptyString(validateName),
-				on: name => $name(maybe.get(name) ?? nomen.nom(id)),
+				on: alias => $alias(maybe.get(alias) ?? addr(id)),
 			})}
 
 			<nav>
@@ -52,7 +52,7 @@ export const EditPage = shadow((options: {
 
 				<button
 					data-vibe="happy"
-					@click="${() => options.changeName($name())}">
+					@click="${() => options.changeAlias($alias())}">
 						save
 				</button>
 			</nav>
