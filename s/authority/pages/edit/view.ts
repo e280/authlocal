@@ -31,6 +31,7 @@ export const EditPage = shadow((options: {
 
 			${TextInput({
 				placeholder: "optional name",
+				initialValue: options.identity.name,
 				maxLength: maxNameLength,
 				validator: allowEmptyString(validateName),
 				on: name => $name(maybe.get(name) ?? nomen.nom(id)),

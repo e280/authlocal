@@ -13,6 +13,7 @@ export const TextInput = shadow((options: {
 		maxLength?: number
 		debounceMs?: number
 		placeholder?: string
+		initialValue?: string
 	}) => {
 
 	useName("text-input")
@@ -41,6 +42,7 @@ export const TextInput = shadow((options: {
 					part="input textarea"
 					placeholder="${options.placeholder}"
 					maxlength="${options.maxLength}"
+					.value="${options.initialValue ?? ""}"
 					@input="${onInput}"
 				></textarea>
 			` : html`
@@ -49,6 +51,7 @@ export const TextInput = shadow((options: {
 					part="input text"
 					placeholder="${options.placeholder}"
 					maxlength="${options.maxLength}"
+					.value="${options.initialValue ?? ""}"
 					@input="${onInput}"
 				/>
 			`}
@@ -59,4 +62,3 @@ export const TextInput = shadow((options: {
 		</div>
 	`
 })
-
