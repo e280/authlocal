@@ -1,9 +1,11 @@
 
 /x
+/node_modules
+
 /notes
 /temp
 /mount
 
-/node_modules
+/.codex
 /yarn.lock
 
