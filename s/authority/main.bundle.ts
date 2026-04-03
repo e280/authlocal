@@ -5,6 +5,7 @@ import {Bank} from "./sys/bank.js"
 import {ListPage} from "./pages/list/view.js"
 import {EditPage} from "./pages/edit/view.js"
 import {SeedPage} from "./pages/seed/view.js"
+import {Banner} from "./views/banner/view.js"
 import {DeletePage} from "./pages/delete/view.js"
 import {CreatePage} from "./pages/create/view.js"
 import {address, deriveId, Id} from "../core/index.js"
@@ -115,9 +116,19 @@ const $content = hashRouteSignal(router({
 		go.home()
 }
 
-const App = light(() => $content() ?? html`
-	<h2>404 not found.</h2>
-	<button data-vibe="naked lame" @click="${go.home}">home</button>
-`)
+const App = light(() => {
+	norm("")
+
+	return html`
+		${Banner({
+		})}
+
+		${$content() ?? html`
+			<h2>404 not found.</h2>
+			<button data-vibe="naked lame" @click="${go.home}">home</button>
+		`}
+	`
+})
 
 dom.render(dom("main"), App())
+
