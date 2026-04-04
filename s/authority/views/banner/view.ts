@@ -6,7 +6,7 @@ import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
 
 export const Banner = shadow((options: {
-		active: null | "list" | "recovery" | "create"
+		route: string
 		gotoList: () => void
 		gotoRecovery: () => void
 		gotoCreate: () => void
@@ -16,7 +16,7 @@ export const Banner = shadow((options: {
 	useCss(theme(), styleCss)
 
 	function isActive(s: string) {
-		return s === options.active
+		return s === options.route
 	}
 
 	return html`
