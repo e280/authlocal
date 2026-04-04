@@ -24,15 +24,5 @@ nav {
 	flex-wrap: wrap;
 }
 
-a {
-	color: inherit;
-	text-decoration: none;
-}
-
-a:hover,
-a:focus-visible {
-	text-decoration: underline;
-}
-
 `
 

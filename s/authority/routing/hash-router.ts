@@ -8,16 +8,16 @@ import {routes} from "./routes.js"
 export function makeHashRouter(bank: Bank) {
 	const $hash = hashSignal()
 	const go = makeGo(bank)
-	const $route = signal("")
-	const render = routes(bank, go, $route)
+	const $zone = signal("")
+	const render = routes(bank, go, $zone)
 	const $content = derived(() => render($hash()))
 
 	function startAtHome() {
 		const noIdentities = bank.identities.length === 0
-		if ($route() === "list" && noIdentities)
+		if ($zone() === "list" && noIdentities)
 			go.home()
 	}
 
-	return {go, $route, $content, startAtHome}
+	return {go, $zone, $content, startAtHome}
 }
 

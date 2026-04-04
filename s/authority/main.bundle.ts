@@ -13,7 +13,7 @@ router.startAtHome()
 const App = light(() => {
 	return html`
 		${Banner({
-			route: router.$route(),
+			zone: router.$zone(),
 			gotoList: () => router.go.list(),
 			gotoCreate: () => router.go.create(),
 			gotoRecovery: () => router.go.recovery(),

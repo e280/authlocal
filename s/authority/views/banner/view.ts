@@ -6,7 +6,7 @@ import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
 
 export const Banner = shadow((options: {
-		route: string
+		zone: string
 		gotoList: () => void
 		gotoRecovery: () => void
 		gotoCreate: () => void
@@ -16,16 +16,16 @@ export const Banner = shadow((options: {
 	useCss(theme(), styleCss)
 
 	function isActive(s: string) {
-		return s === options.route
+		return s === options.zone
 	}
 
 	return html`
 		<h1>authlocal</h1>
 
 		<nav aria-label="primary">
-			<button ?data-active="${isActive("list")}" @click="${options.gotoList}">list</button>
-			<button ?data-active="${isActive("recovery")}"  @click="${options.gotoRecovery}">recovery</button>
-			<button ?data-active="${isActive("create")}" @click="${options.gotoCreate}">create</button>
+			<button ?disabled="${isActive("list")}" @click="${options.gotoList}">list</button>
+			<button ?disabled="${isActive("recovery")}"  @click="${options.gotoRecovery}">recovery</button>
+			<button ?disabled="${isActive("create")}" @click="${options.gotoCreate}">create</button>
 		</nav>
 	`
 })

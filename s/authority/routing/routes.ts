@@ -11,9 +11,9 @@ import {CreatePage} from "../pages/create/view.js"
 import {address, deriveId} from "../../core/index.js"
 import {RecoveryPage} from "../pages/recovery/view.js"
 
-export const routes = (bank: Bank, go: Go, $route: Signal<string>) => router({
+export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
 	"": () => {
-		$route("list")
+		$zone("list")
 		return ListPage({
 			identities: bank.identities,
 			create: go.create,
@@ -23,7 +23,7 @@ export const routes = (bank: Bank, go: Go, $route: Signal<string>) => router({
 	},
 
 	"create": () => {
-		$route("create")
+		$zone("create")
 		return CreatePage({
 			done: async draft => {
 				const root = draft.$root()
@@ -39,7 +39,7 @@ export const routes = (bank: Bank, go: Go, $route: Signal<string>) => router({
 	},
 
 	"recovery": () => {
-		$route("recovery")
+		$zone("recovery")
 		return RecoveryPage({
 			back: go.home,
 			done: async identity => {
@@ -50,7 +50,7 @@ export const routes = (bank: Bank, go: Go, $route: Signal<string>) => router({
 	},
 
 	"edit/{n}": params => {
-		$route("edit")
+		$zone("edit")
 		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
@@ -69,7 +69,7 @@ export const routes = (bank: Bank, go: Go, $route: Signal<string>) => router({
 	},
 
 	"seed/{n}": params => {
-		$route("seed")
+		$zone("seed")
 		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
@@ -85,7 +85,7 @@ export const routes = (bank: Bank, go: Go, $route: Signal<string>) => router({
 	},
 
 	"delete/{n}": params => {
-		$route("delete")
+		$zone("delete")
 		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
