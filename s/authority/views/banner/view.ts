@@ -6,7 +6,7 @@ import styleCss from "./style.css.js"
 import {theme} from "../../utils/theme.js"
 
 export const Banner = shadow((options: {
-		active: "list" | "recovery" | "create"
+		active: null | "list" | "recovery" | "create"
 		gotoList: () => void
 		gotoRecovery: () => void
 		gotoCreate: () => void

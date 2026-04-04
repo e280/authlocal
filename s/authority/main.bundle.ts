@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {dom, hashNav, hashRouteSignal, light, norm, router} from "@e280/sly"
+import {dom, hashNav, light, norm, router} from "@e280/sly"
 import {Bank} from "./sys/bank.js"
 import {ListPage} from "./pages/list/view.js"
 import {EditPage} from "./pages/edit/view.js"
@@ -8,10 +8,14 @@ import {SeedPage} from "./pages/seed/view.js"
 import {Banner} from "./views/banner/view.js"
 import {DeletePage} from "./pages/delete/view.js"
 import {CreatePage} from "./pages/create/view.js"
+import {hashSignal} from "./utils/hash-signal.js"
 import {address, deriveId, Id} from "../core/index.js"
 import {RecoveryPage} from "./pages/recovery/view.js"
+import { derived } from "@e280/strata"
 
 const bank = await Bank.init()
+
+const $hash = hashSignal()
 
 const go = hashNav({
 	list: () => ``,
@@ -27,7 +31,7 @@ const go = hashNav({
 	),
 })
 
-const $content = hashRouteSignal(router({
+const route = router({
 	"": () => ListPage({
 		identities: bank.identities,
 		create: go.create,
@@ -107,7 +111,9 @@ const $content = hashRouteSignal(router({
 			},
 		})
 	},
-}))
+})
+
+const $content = derived(() => route($hash()))
 
 {
 	const isHome = norm(location.hash) === ""
@@ -117,10 +123,12 @@ const $content = hashRouteSignal(router({
 }
 
 const App = light(() => {
-	norm("")
-
 	return html`
 		${Banner({
+			active: null,
+			gotoList: () => go.list(),
+			gotoCreate: () => go.create(),
+			gotoRecovery: () => go.recovery(),
 		})}
 
 		${$content() ?? html`
