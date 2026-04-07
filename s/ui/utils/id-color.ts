@@ -1,5 +1,5 @@
 
-import {hash} from "../../core/index.js"
+import {hash} from "../../lib/index.js"
 
 /** derive a color from a hex id */
 export function idColor(id: string) {

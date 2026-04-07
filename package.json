@@ -11,26 +11,22 @@
 	],
 	"exports": {
 		".": "./x/index.js",
-		"./core": "./x/core/index.js",
-		"./core/alco": "./x/core/alco/index.js",
-		"./core/cryp": "./x/core/cryp/index.js",
-		"./core/ergo": "./x/core/ergo/index.js",
-		"./core/tok": "./x/core/tok/index.js"
+		"./lib": "./x/lib/index.js"
 	},
 	"scripts": {
 		"build": "rm -rf x && mkdir x && tsc && ln -s \"$(realpath s)\" x/s && npm run check -s",
 		"check": "tsc && scute -v",
-		"dev": "octo 'tsc -w' 'scute -vw' 'node --watch x/test.js' 'hottie x'",
+		"dev": "octo 'node --watch x/test.js' 'hottie x' 'tsc -w' 'scute -vw'",
 		"test": "node x/test.js",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
-		"address": "node x/core/ergo/examples.js"
+		"address": "node x/lib/ergo/examples.js"
 	},
 	"dependencies": {
 		"@e280/kv": "^0.1.2",
 		"@e280/renraku": "^0.5.7",
 		"@e280/shiny": "^0.1.0-20",
 		"@e280/sly": "^0.3.2",
-		"@e280/strata": "^0.3.1",
+		"@e280/strata": "^0.3.2",
 		"@e280/stz": "^0.2.29",
 		"@noble/ciphers": "^2.1.1",
 		"@noble/curves": "^2.0.1",

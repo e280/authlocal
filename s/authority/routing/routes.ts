@@ -8,7 +8,7 @@ import {EditPage} from "../pages/edit/view.js"
 import {SeedPage} from "../pages/seed/view.js"
 import {DeletePage} from "../pages/delete/view.js"
 import {CreatePage} from "../pages/create/view.js"
-import {address, deriveId} from "../../core/index.js"
+import {address, deriveId} from "../../lib/index.js"
 import {RecoveryPage} from "../pages/recovery/view.js"
 
 export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({

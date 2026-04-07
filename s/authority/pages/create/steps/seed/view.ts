@@ -5,7 +5,7 @@ import {shadow, useCss, useDerived, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
-import {address, seed, deriveId} from "../../../../../core/index.js"
+import {address, seed, deriveId} from "../../../../../lib/index.js"
 import {RecoverySeed} from "../../../../views/recovery-seed/view.js"
 
 export const SeedStep = shadow((options: {

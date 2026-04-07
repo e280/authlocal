@@ -1,6 +1,6 @@
 
 import {signal} from "@e280/strata"
-import {generateSecret} from "../../../../core/index.js"
+import {generateSecret} from "../../../../lib/index.js"
 import {deriveIdentityFromIndex} from "./derive-identity-from-index.js"
 
 export function initDraft() {

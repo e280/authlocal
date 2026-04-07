@@ -6,7 +6,7 @@ import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {Tabnav} from "../../views/tabnav/view.js"
 import {IdCard} from "../../../ui/views/id-card/view.js"
-import {address, deriveId, seed} from "../../../core/index.js"
+import {address, deriveId, seed} from "../../../lib/index.js"
 import {RecoverySeed} from "../../views/recovery-seed/view.js"
 
 export const SeedPage = shadow((options: {

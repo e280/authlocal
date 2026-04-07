@@ -1,6 +1,6 @@
 
 import {svg} from "lit"
-import {hash} from "../../core/index.js"
+import {hash} from "../../lib/index.js"
 
 /**
  * deterministic symbolic avatar

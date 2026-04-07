@@ -8,7 +8,7 @@ import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
 import {TextInput} from "../../../../views/text-input/view.js"
 import {IdPoster} from "../../../../../ui/views/id-poster/view.js"
-import {maxNameLength, validateName} from "../../../../../core/index.js"
+import {maxNameLength, validateName} from "../../../../../lib/index.js"
 import {deriveIdentityFromIndex} from "../../utils/derive-identity-from-index.js"
 
 export const SelectorStep = shadow((options: {

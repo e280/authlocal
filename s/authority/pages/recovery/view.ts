@@ -6,7 +6,7 @@ import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {TextInput} from "../../views/text-input/view.js"
 import {IdPoster} from "../../../ui/views/id-poster/view.js"
-import {address, allowEmptyString, deriveId, maxNameLength, seed, validateName} from "../../../core/index.js"
+import {address, allowEmptyString, deriveId, maxNameLength, seed, validateName} from "../../../lib/index.js"
 
 export const RecoveryPage = shadow((options: {
 		back: () => void

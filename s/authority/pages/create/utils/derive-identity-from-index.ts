@@ -1,5 +1,5 @@
 
-import {deriveId, deriveSecret} from "../../../../core/index.js"
+import {deriveId, deriveSecret} from "../../../../lib/index.js"
 
 export function deriveIdentityFromIndex(secret: string, index: number) {
 	const root = deriveSecret(secret, new Uint8Array([index]))

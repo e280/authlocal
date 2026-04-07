@@ -4,7 +4,7 @@ import {ShinyCopy} from "@e280/shiny"
 import {cssReset, shadow, useCss, useName} from "@e280/sly"
 
 import styleCss from "./style.css.js"
-import {address} from "../../../core/index.js"
+import {address} from "../../../lib/index.js"
 import {idColor} from "../../utils/id-color.js"
 import {sigilSvg} from "../../utils/sigil-svg.js"
 

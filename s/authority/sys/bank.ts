@@ -3,8 +3,8 @@ import {GMap} from "@e280/stz"
 import {RMap} from "@e280/strata"
 import {collect, Kv, StorageDriver} from "@e280/kv"
 
-import {Id} from "../../core/index.js"
-import {deriveId} from "../../core/cryp/derive-id.js"
+import {Id} from "../../lib/index.js"
+import {deriveId} from "../../lib/cryp/derive-id.js"
 import {Identity, IdentityDelegation, IdentityTiming} from "../types.js"
 
 export class Bank {

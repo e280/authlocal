@@ -4,7 +4,7 @@ import {shadow, useCss, useName} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
-import {deriveId, Id} from "../../../core/index.js"
+import {deriveId, Id} from "../../../lib/index.js"
 import {IdCard} from "../../../ui/views/id-card/view.js"
 
 export const ListPage = shadow((options: {

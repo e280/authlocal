@@ -6,7 +6,7 @@ import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {Tabnav} from "../../views/tabnav/view.js"
 import {IdCard} from "../../../ui/views/id-card/view.js"
-import {address, deriveId} from "../../../core/index.js"
+import {address, deriveId} from "../../../lib/index.js"
 
 export const DeletePage = shadow((options: {
 		identity: Identity
