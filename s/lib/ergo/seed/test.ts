@@ -1,43 +1,23 @@
 
+import {demo} from "../demo.js"
 import {seed} from "./index.js"
 import {suite, test, expect} from "@e280/science"
 
-const demoSecret = "0000deadbeefb00b82a92b28590a1ec93e64a026d593ceded40055d7bf4270cf"
-const demoSeed = `
-@nidtak hatzyn
-nopnop dedyak befbef bobbob
-pidvak mormox zanzok kalpyk
-sinhet curmyn varhek selmyd
-turnop yenbyr molvyr hidwyd
-`.trim()
-
 export default suite({
 	"secret->seed->secret": test(async() => {
-		expect(seed.secret(seed.from(demoSecret))).is(demoSecret)
+		expect(seed.secret(seed.from(demo.secret))).is(demo.secret)
 	}),
 
 	"seed matches demo": test(async() => {
-		expect(seed.from(demoSecret)).is(demoSeed)
+		expect(seed.from(demo.secret)).is(demo.seed)
 	}),
 
 	"tolerate whitespace": test(async() => {
-		expect(seed.secret(`
-			nidtak hatzyn
-			nopnop dedyak befbef bobbob
-			pidvak mormox zanzok kalpyk
-			sinhet curmyn varhek selmyd
-			turnop yenbyr molvyr hidwyd
-		`)).is(demoSecret)
+		expect(seed.secret(`\n\t ${demo.seed} \t\n`)).is(demo.secret)
 	}),
 
 	"tolerate lettercase": test(async() => {
-		expect(seed.secret(`
-			NIDTAK hatzyn
-			nopnop dedyak befbef bobbob
-			PIDVAK MORMOX ZANZOK KALPYK
-			sinhet curmyn varhek selmyd
-			turnop yenbyr molvyr hidwyd
-		`)).is(demoSecret)
+		expect(seed.secret(demo.seed.toUpperCase())).is(demo.secret)
 	}),
 
 	"throw on empty": test(async() => {
@@ -46,30 +26,31 @@ export default suite({
 
 	"throw when leading addr is missing": test(async() => {
 		expect(() => seed.secret(`
-			nopnop dedyak befbef bobbob
-			pidvak mormox zanzok kalpyk
-			sinhet curmyn varhek selmyd
-			turnop yenbyr molvyr hidwyd
+			janvuz yidgyx normok delsek
+			yarbek kemlyx wordak nurgex
+			calryz gelhet kabdak wobyok
+			garfyr varnyd folyur lenray
 		`)).throws()
 	}),
 
 	"throw on corrupted addr": test(async() => {
 		expect(() => seed.secret(`
-			@nidtak hatnop
-			nopnop dedyak befbef bobbob
-			pidvak mormox zanzok kalpyk
-			sinhet curmyn varhek selmyd
-			turnop yenbyr molvyr hidwyd
+			NOPkon bodwyx
+			janvuz yidgyx normok delsek
+			yarbek kemlyx wordak nurgex
+			calryz gelhet kabdak wobyok
+			garfyr varnyd folyur lenray
 		`)).throws()
 	}),
 
 	"throw on corrupted secret": test(async() => {
 		expect(() => seed.secret(`
-			@nidtak hatzyn
-			nopnop dedyak befbef bobbob
-			pidvak mormox zanzok kalpyk
-			sinhet curmyn varhek selmyd
-			turnop yenbyr molvyr hidnop
+			gurkon bodwyx
+			NOPvuz yidgyx normok delsek
+			yarbek kemlyx wordak nurgex
+			calryz gelhet kabdak wobyok
+			garfyr varnyd folyur lenray
 		`)).throws()
 	}),
 })
+

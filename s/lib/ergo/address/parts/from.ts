@@ -1,20 +1,18 @@
 
 import {base58, hex} from "@e280/stz"
-import {delimiter, nomByteSize} from "./options.js"
+import {hash} from "../../../cryp/hash.js"
+import {delimiter, addrByteSize} from "./options.js"
 import {wordsFromBytes} from "../../phonemes/words.js"
-import {littleChecksum} from "../../utils/little-checksum.js"
 
-/** convert a hex id into an address string, looks like `@salrux_nemroy_8bEGQFbAmWUZB8Ddq4MkaBnu975sgQwW3tpRCzEAx` */
+/** convert a hex id into an address string, looks like `gurkon_bodwyx_6xbtp7e6EWrUNGNavzF9MnuuerYcEDpEtmKoPVioXG8P` */
 export function from(id: string) {
-	const buffer = hex.toBytes(id)
-	if (buffer.length < 5) throw new Error("id too small")
+	const b = hex.toBytes(id)
+	if (b.length !== 32) throw new Error(`invalid id length expected 32, got ${b.length} from ${id} ${id.length}`)
 
-	const checkBytes = littleChecksum(buffer)
-	const sigilBytes = buffer.slice(0, nomByteSize)
-	const bulkBytes = buffer.slice(nomByteSize)
+	const checksum = hash(id).slice(0, addrByteSize)
+	const addr = [...wordsFromBytes(checksum)].join(delimiter)
+	const bulk = base58.fromBytes(b)
 
-	const sigil = [...wordsFromBytes(sigilBytes)].join(delimiter)
-	const bulk = base58.fromBytes(new Uint8Array([...bulkBytes, ...checkBytes]))
-
-	return `@${[sigil, bulk].join(delimiter)}`
+	return addr + delimiter + bulk
 }
+
