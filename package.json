@@ -16,10 +16,10 @@
 	"scripts": {
 		"build": "rm -rf x && mkdir x && tsc && ln -s \"$(realpath s)\" x/s && npm run check -s",
 		"check": "tsc && scute -v",
-		"dev": "octo 'node --watch x/test.js' 'tsc -w' 'scute -vw' 'node --watch x/lib/ergo/examples.js' 'hottie x'",
+		"dev": "octo 'node --watch x/test.js' 'tsc -w' 'scute -vw' 'node --watch x/lib/examples.js' 'hottie x'",
 		"test": "node x/test.js",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
-		"address": "node x/lib/ergo/examples.js"
+		"examples": "node x/lib/examples.js"
 	},
 	"dependencies": {
 		"@e280/kv": "^0.1.2",

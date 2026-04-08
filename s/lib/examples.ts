@@ -1,0 +1,59 @@
+
+import {bytes, count, hex, time} from "@e280/stz"
+import {seed} from "./ergo/seed/index.js"
+import {address} from "./ergo/address/index.js"
+import {deriveId} from "./cryp/derive-id.js"
+import {generateSecret} from "./cryp/generate-secret.js"
+import { tok } from "./tok/index.js"
+import { signDelegate } from "./alco/sign-delegate.js"
+import { demo } from "./ergo/demo.js"
+import { microSign } from "./micro/micro.js"
+
+const secret = generateSecret()
+const id = deriveId(secret)
+
+console.log("==secret==")
+console.log(secret)
+console.log()
+
+console.log("==id==")
+console.log(id)
+console.log()
+
+console.log("==address==")
+console.log(address.from(id))
+console.log()
+
+
+console.log("==seed==")
+console.log(seed.from(secret))
+console.log()
+
+console.log("--------")
+console.log()
+
+for (const _ of count(10))
+	console.log(address.from(hex.random(32)))
+
+for (const _ of count(2)) {
+	console.log()
+	console.log(seed.from(hex.random(32)))
+}
+console.log()
+
+console.log("==jwt proof token==")
+const jwtProof = signDelegate(demo.secret, {expiresAt: time.future.hours(1), scope: "authlocal:delegate"}, {delegator: "https://authlocal.org", petitioner: "https://e280.org"}).proofToken
+console.log(jwtProof)
+console.log(jwtProof.length)
+console.log()
+
+console.log("==micro proof token==")
+const microProof = microSign(demo.secret, {
+	audience: "https://e280.org",
+	expiresAt: time.future.hours(1),
+	payload: bytes.random(64),
+})
+console.log(microProof)
+console.log(microProof.length)
+console.log()
+
