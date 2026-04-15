@@ -75,7 +75,7 @@ export const SelectorStep = shadow((options: {
 
 			<nav x-nav>
 				${(options.back ?? null) && html`
-					go
+					or go
 					<button
 						x-linky
 						x-vibe=lame
@@ -87,6 +87,7 @@ export const SelectorStep = shadow((options: {
 				or
 				<button
 					x-linky
+					x-vibe=lame
 					@click="${options.recovery}">
 						recover
 				</button>
