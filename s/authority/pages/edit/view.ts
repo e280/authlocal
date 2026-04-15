@@ -45,13 +45,13 @@ export const EditPage = shadow((options: {
 
 			<nav>
 				<button
-					data-vibe="naked lame"
+					x-vibe="naked lame"
 					@click="${options.back}">
 						back
 				</button>
 
 				<button
-					data-vibe="happy"
+					x-vibe="happy"
 					@click="${() => options.changeAlias($alias())}">
 						save
 				</button>

@@ -17,21 +17,21 @@ export const Tabnav = shadow((options: {
 	return html`
 		<nav>
 			<button
-				data-vibe="naked"
+				x-vibe="naked"
 				?data-active="${options.active === "edit"}"
 				@click="${options.edit}">
 					edit
 			</button>
 
 			<button
-				data-vibe="naked"
+				x-vibe="naked"
 				?data-active="${options.active === "seed"}"
 				@click="${options.seed}">
 					seed
 			</button>
 
 			<button
-				data-vibe="naked"
+				x-vibe="naked"
 				?data-active="${options.active === "delete"}"
 				@click="${options.delete}">
 					delete

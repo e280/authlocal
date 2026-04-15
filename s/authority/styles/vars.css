@@ -2,9 +2,8 @@
 @layer vars {
 	:root {
 		--bg: #080808;
-		--body: #111;
-		--bold: white;
-		--text: #eeea;
+		--text: #eee8;
+		--text-strong: white;
 		--text-shadow: 0.1em 0.1em 0.1em #0004;
 		--selection: white;
 		--selection-bg: color-mix(in oklch, transparent, var(--secret) 90%);
@@ -16,7 +15,7 @@
 
 		--line: #eee3;
 		--link: cyan;
-		--prime: lime;
+
 		--alpha: #00ff93;
 		--secret: #f90;
 

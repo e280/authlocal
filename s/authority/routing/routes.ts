@@ -17,10 +17,9 @@ export type Page = {
 	content: Content
 }
 
-export const routes = (bank: Bank, go: Go, $zone: Signal<string>, $subtitle: Signal<string>) => router({
+export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
 	"": () => {
 		$zone("list")
-		$subtitle("your identities")
 		return ListPage({
 			identities: bank.identities,
 			create: go.create,
@@ -31,12 +30,10 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>, $subtitle: Sig
 
 	"create": () => {
 		$zone("create")
-		$subtitle("create your identity")
 		return CreatePage({
-			setSubtitle: s => $subtitle(s),
 			done: async draft => {
 				const root = draft.$root()
-				const alias = draft.$alias() || address.from(deriveId(root))
+				const alias = draft.$alias() || address.addr(deriveId(root))
 				await bank.setIdentity({root, alias})
 				go.list()
 			},
@@ -49,7 +46,6 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>, $subtitle: Sig
 
 	"recovery": () => {
 		$zone("recovery")
-		$subtitle("recover from seed")
 		return RecoveryPage({
 			back: go.home,
 			done: async identity => {
@@ -61,7 +57,6 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>, $subtitle: Sig
 
 	"edit/{n}": params => {
 		$zone("edit")
-		$subtitle("edit your identity")
 		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
@@ -81,7 +76,6 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>, $subtitle: Sig
 
 	"seed/{n}": params => {
 		$zone("seed")
-		$subtitle("view seed")
 		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
@@ -98,7 +92,6 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>, $subtitle: Sig
 
 	"delete/{n}": params => {
 		$zone("delete")
-		$subtitle("delete your identity")
 		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value

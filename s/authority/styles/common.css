@@ -1,47 +1,84 @@
 
 @layer common {
 	h1 {
-		font-size: 2.5em;
+		font-size: 2em;
 		font-weight: bolder;
-		color: var(--bold);
+		color: var(--text-strong);
 	}
 
 	h2 {
-		font-size: 2em;
+		font-size: 1.5em;
 		font-weight: lighter;
 		color: var(--text);
 	}
 
-	.appnav {
+	hr {
+		opacity: 0.5;
+		border: none;
+		width: 100%;
+		height: 0.1em;
+		background: var(--text);
+	}
+
+	[x-plate] {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space);
+		padding: var(--space) 0;
+	}
+
+	[x-title] {
+		display: flex;
+		flex-direction: column;
+		gap: var(--pad);
+	}
+
+	[x-appnav] {
 		display: flex;
 		justify-content: end;
 		flex-wrap: wrap;
+	}
+
+	[x-nav] {
+		user-select: none;
+		cursor: default;
+		text-align: right;
+		margin-top: var(--space);
 	}
 
 	button {
 		font: inherit;
 		color: currentColor;
 		cursor: default;
-		padding: var(--pad);
-		border: 1px solid currentColor;
 		background: transparent;
 		user-select: none;
-		font-weight: bold;
-		/* text-decoration: underline; */
 
-		&[data-vibe~="naked"] {
+		padding: var(--pad);
+		border: 1px solid currentColor;
+
+		&[x-linky] {
+			display: inline;
+			border: none;
+			padding: 0;
+			margin: 0;
+			line-height: inherit;
+			text-decoration: underline;
+			color: var(--alpha);
+		}
+
+		&[x-vibe~="naked"] {
 			border: none;
 		}
 
-		&[data-vibe~="lame"] {
+		&[x-vibe~="lame"] {
 			color: var(--lame);
 		}
 
-		&[data-vibe~="happy"] {
+		&[x-vibe~="happy"] {
 			color: var(--happy);
 		}
 
-		&[data-vibe~="angry"] {
+		&[x-vibe~="angry"] {
 			color: var(--angry);
 		}
 

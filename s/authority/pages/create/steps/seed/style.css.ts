@@ -2,7 +2,7 @@
 import {css} from "lit"
 export default css`
 
-.plate {
+[x-plate] {
 	display: flex;
 	flex-direction: column;
 	gap: var(--space);
@@ -10,8 +10,9 @@ export default css`
 	.container {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
+		align-items: stretch;
 		gap: var(--space);
+		text-align: center;
 	}
 
 	.content {

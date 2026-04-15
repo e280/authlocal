@@ -5,7 +5,7 @@ export default css`
 :host {
 	display: block;
 	width: 100%;
-	max-width: 24em;
+	max-width: 42em;
 }
 
 .box {

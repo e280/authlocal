@@ -2,7 +2,7 @@
 import {css} from "lit"
 export default css`
 
-.plate {
+[x-plate] {
 	display: flex;
 	flex-direction: column;
 	gap: var(--space);
@@ -21,7 +21,8 @@ export default css`
 		display: flex;
 		align-items: stretch;
 		width: max-content;
-		margin: var(--space) auto;
+		margin: 0 auto;
+		text-align: center;
 
 		> * {
 			user-select: none;

@@ -2,8 +2,6 @@ import {css} from "lit"
 export default css`
 
 .concealer {
-	width: 20em;
-	max-width: 100%;
 	color: var(--secret);
 }
 
@@ -19,12 +17,18 @@ export default css`
 	box-shadow: 0 0 5em color-mix(in oklch, transparent, currentColor 50%);
 
 	header {
+		pointer-events: none;
+
 		position: relative;
 		z-index: 3;
 		display: flex;
 		justify-content: end;
 		align-items: center;
 		gap: var(--pad);
+
+		> * {
+			pointer-events: all;
+		}
 
 		button {
 			padding: 0;

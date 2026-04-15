@@ -59,6 +59,7 @@ export default css`
 [view="shiny-copy"] {
 	display: block;
 	width: 100%;
+	max-width: 16em;
 	--inactive-opacity: 0.8;
 
 	&::part(button) {

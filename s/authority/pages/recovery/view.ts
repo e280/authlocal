@@ -34,42 +34,49 @@ export const RecoveryPage = shadow((options: {
 	}
 
 	return html`
-		<h2>paste your recovery seed</h2>
-
-		<div class=inputs>
-			${TextInput({
-				maxLength: maxNameLength,
-				placeholder: "optional alias",
-				validator: allowEmptyString(validateName),
-				on: alias => $alias(alias.yay ? alias.value : ""),
-			})}
-
-			${TextInput({
-				textarea: true,
-				placeholder: "recovery seed",
-				validator: allowEmptyString(seed.parse),
-				on: root => $root(root.yay ? root.value : ""),
-			})}
+		<div x-title>
+			<h2>paste your recovery seed</h2>
+			<hr/>
 		</div>
 
-		${identity
-			? IdPoster({
-				alias: identity.alias,
-				id: deriveId(identity.root),
-			})
-			: null}
+		<div x-plate>
+			<div class=inputs>
+				${TextInput({
+					maxLength: maxNameLength,
+					placeholder: "optional alias",
+					validator: allowEmptyString(validateName),
+					on: alias => $alias(alias.yay ? alias.value : ""),
+				})}
 
-		<nav class=appnav>
-			<button data-vibe="naked lame" @click="${options.back}">
-				back
-			</button>
+				${TextInput({
+					textarea: true,
+					placeholder: "recovery seed",
+					validator: allowEmptyString(seed.parse),
+					on: root => $root(root.yay ? root.value : ""),
+				})}
+			</div>
 
-			<button
-				data-vibe="happy"
-				?disabled="${!$root()}"
-				@click="${done}">
-					recover
-			</button>
-		</nav>
+			${identity
+				? IdPoster({
+					alias: identity.alias,
+					id: deriveId(identity.root),
+				})
+				: null}
+
+			<nav x-nav>
+				go
+				<button x-linky x-vibe=lame @click="${options.back}">
+					back
+				</button>,
+
+				or
+				<button
+					x-linky
+					?disabled="${!$root()}"
+					@click="${done}">
+						claim the identity
+				</button>
+			</nav>
+		</div>
 	`
 })

@@ -26,7 +26,7 @@ export const ListPage = shadow((options: {
 				${IdCard.with({
 					props: [{alias, id, copyable: true}],
 					children: html`
-						<button data-vibe=naked @click="${clickEdit}">edit</button>
+						<button x-vibe=naked @click="${clickEdit}">edit</button>
 					`,
 				})}
 			</li>
@@ -34,25 +34,36 @@ export const ListPage = shadow((options: {
 	}
 
 	return html`
-		<div class=plate>
-			<h2>identities on your device</h2>
+		<div x-title>
+			<h2>
+				${options.identities.length === 1
+					? "this identity is on your device"
+					: "these identities are on your device"}
+			</h2>
+			<hr/>
+		</div>
 
+		<div x-plate>
 			<ol>
 				${options.identities.map(renderIdentity)}
 			</ol>
 
-			<nav class=appnav>
+			<nav x-nav>
 				<button
-					data-vibe="naked lame"
+					x-linky
+					x-vibe=lame
 					@click="${options.recovery}">
-						recovery
+						recover
+				</button>
+				from a seed,
+
+				or
+				<button
+					x-linky
+					@click="${options.create}">
+						create a new identity
 				</button>
 
-				<button
-					data-vibe="happy"
-					@click="${options.create}">
-						new
-				</button>
 			</nav>
 		</div>
 	`

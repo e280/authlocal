@@ -7,7 +7,6 @@ import {initDraft} from "./utils/init-draft.js"
 import {SelectorStep} from "./steps/selector/view.js"
 
 export const CreatePage = shadow((options: {
-		setSubtitle: (s: string) => void
 		done: (draft: CreateDraft) => void
 		recovery: () => void
 		back?: () => void
@@ -22,7 +21,6 @@ export const CreatePage = shadow((options: {
 	function renderStep() {
 		switch ($step()) {
 			case "selector":
-				options.setSubtitle("choose your new identity.")
 				return SelectorStep({
 					draft,
 					next: () => $step("seed"),
@@ -31,7 +29,6 @@ export const CreatePage = shadow((options: {
 				})
 
 			case "seed":
-				options.setSubtitle("save your recovery seed.")
 				return SeedStep({
 					draft,
 					next: () => options.done(draft),

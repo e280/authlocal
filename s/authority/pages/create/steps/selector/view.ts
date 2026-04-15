@@ -44,9 +44,12 @@ export const SelectorStep = shadow((options: {
 	}
 
 	return html`
-		<div class=plate>
+		<div x-title>
 			<h2>choose your identity</h2>
+			<hr/>
+		</div>
 
+		<div x-plate>
 			<div class=slice>
 				${TextInput({
 					maxLength: maxNameLength,
@@ -65,25 +68,29 @@ export const SelectorStep = shadow((options: {
 			</div>
 
 			<nav class="slice buttons">
-				<button data-vibe=lame @click="${shimmyLeft}">&lt;</button>
-				<button data-vibe=happy @click="${clickChoose}">choose</button>
-				<button data-vibe=lame @click="${shimmyRight}">&gt;</button>
+				<button x-vibe=lame @click="${shimmyLeft}">&lt;</button>
+				<button x-vibe=happy @click="${clickChoose}">choose</button>
+				<button x-vibe=lame @click="${shimmyRight}">&gt;</button>
 			</nav>
 
-			<nav class=appnav>
+			<nav x-nav>
 				${(options.back ?? null) && html`
+					go
 					<button
-						data-vibe="naked lame"
+						x-linky
+						x-vibe=lame
 						@click="${options.back}">
 							back
-					</button>
+					</button>,
 				`}
 
+				or
 				<button
-					data-vibe="naked lame"
+					x-linky
 					@click="${options.recovery}">
-						recovery
+						recover
 				</button>
+				from a seed
 			</nav>
 		</div>
 	`

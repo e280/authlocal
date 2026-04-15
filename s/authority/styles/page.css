@@ -7,17 +7,16 @@
 	}
 
 	html {
-		background: var(--bg);
 		color: var(--text);
+		background: var(--bg);
 		text-shadow: var(--text-shadow);
 	}
 
 	body {
-		width: 42em;
+		width: 32em;
 		max-width: 100%;
 		margin: auto;
 		padding: var(--pad);
-		background: var(--body);
 		border-radius: 0 0 var(--round) var(--round);
 	}
 
@@ -30,14 +29,10 @@
 	}
 
 	footer {
-		opacity: 0.5;
-		margin-top: var(--space);
-		padding-top: var(--pad);
-		border-top: 1px solid var(--line);
-	}
-
-	.version {
-		opacity: 0.5;
+		margin-bottom: 4em;
+		hr { margin-bottom: var(--pad); }
+		p { opacity: 0.5; }
+		.version { opacity: 0.25; }
 	}
 }
 

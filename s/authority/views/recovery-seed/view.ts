@@ -30,7 +30,7 @@ export const RecoverySeed = shadow((options: {
 		<div class=concealer>
 			<div class=codebox ?data-concealed="${$concealed()}">
 				<header>
-					<button data-vibe=naked @click="${toggleConceal}">
+					<button x-vibe=naked @click="${toggleConceal}">
 						${$concealed() ? "reveal" : "conceal"}
 					</button>
 					${ShinyCopy(options.seedText)}

@@ -58,15 +58,15 @@ export const DeletePage = shadow((options: {
 			</section>
 
 
-			<nav>
+			<nav x-nav>
 				<button
-					data-vibe="naked lame"
+					x-vibe="naked lame"
 					@click="${options.back}">
 						back
 				</button>
 
 				<button
-					data-vibe="angry"
+					x-vibe="angry"
 					?disabled="${!primed}"
 					@click="${options.delete}">
 						delete forever

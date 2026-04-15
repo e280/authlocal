@@ -9,8 +9,7 @@ export function makeHashRouter(bank: Bank) {
 	const $hash = hashSignal()
 	const go = makeGo(bank)
 	const $zone = signal("")
-	const $subtitle = signal("")
-	const render = routes(bank, go, $zone, $subtitle)
+	const render = routes(bank, go, $zone)
 	const $page = derived(() => render($hash()))
 
 	function startAtHome() {
@@ -19,6 +18,6 @@ export function makeHashRouter(bank: Bank) {
 			go.home()
 	}
 
-	return {go, $page, $zone, $subtitle, startAtHome}
+	return {go, $page, $zone, startAtHome}
 }
 

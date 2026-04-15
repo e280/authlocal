@@ -25,7 +25,7 @@ export const SeedPage = shadow((options: {
 	const seedText = seed.from(options.identity.root)
 
 	return html`
-		<div class=plate>
+		<div x-plate>
 			${IdCard({id, alias: options.identity.alias, copyable: true})}
 
 			${Tabnav({
@@ -44,7 +44,7 @@ export const SeedPage = shadow((options: {
 
 			<nav>
 				<button
-					data-vibe="naked lame"
+					x-vibe="naked lame"
 					@click="${options.back}">
 						back
 				</button>

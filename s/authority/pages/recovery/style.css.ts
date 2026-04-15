@@ -13,8 +13,6 @@ export default css`
 	display: flex;
 	flex-direction: column;
 	gap: var(--pad);
-	width: 100%;
-	max-width: 24em;
 
 	::part(textarea) {
 		min-height: 8em;

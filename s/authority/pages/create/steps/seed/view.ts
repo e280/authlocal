@@ -26,9 +26,12 @@ export const SeedStep = shadow((options: {
 	const onCheck = (e: Event) => $checked((e.currentTarget as HTMLInputElement).checked)
 
 	return html`
-		<div class=plate>
+		<div x-title>
 			<h2>save your recovery seed</h2>
+			<hr/>
+		</div>
 
+		<div x-plate>
 			<div class=container>
 				<p>if you lose it, "${$addr()}" is gone <em>forever</em></p>
 
@@ -40,18 +43,21 @@ export const SeedStep = shadow((options: {
 				</label>
 			</div>
 
-			<nav class=appnav>
+			<nav x-nav>
+				go
 				<button
-					data-vibe="naked lame"
+					x-linky
+					x-vibe=lame
 					@click="${options.back}">
 						back
-				</button>
+				</button>,
 
+				or
 				<button
-					data-vibe="happy"
+					x-linky
 					@click="${options.next}"
 					?disabled="${!$checked()}">
-						done
+						save your new identity
 				</button>
 			</nav>
 		</div>

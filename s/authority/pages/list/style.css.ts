@@ -2,12 +2,6 @@
 import {css} from "lit"
 export default css`
 
-.plate {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space);
-}
-
 ol {
 	list-style: none;
 	display: flex;
@@ -17,7 +11,6 @@ ol {
 	width: 100%;
 	max-width: 32em;
 	margin: 0 auto;
-	padding: 0 var(--pad);
 
 	[view="id-card"] {
 		&::part(slot) {
