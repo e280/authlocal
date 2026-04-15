@@ -1,6 +1,7 @@
 
 import {html} from "lit"
 import {shadow, useCss, useDerived, useName, useSignal} from "@e280/sly"
+
 import styleCss from "./style.css.js"
 import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
@@ -21,7 +22,7 @@ export const RecoveryPage = shadow((options: {
 	const $identity = useDerived<Identity | null>(() => {
 		const root = $root()
 		if (root === "") return null
-		const alias = $alias() || address.addr(deriveId(root))
+		const alias = $alias() || address.short(deriveId(root))
 		return {root, alias}
 	})
 
@@ -29,7 +30,7 @@ export const RecoveryPage = shadow((options: {
 
 	function done() {
 		const root = $root()
-		const alias = $alias() || address.addr(deriveId(root))
+		const alias = $alias() || address.short(deriveId(root))
 		options.done({root, alias})
 	}
 

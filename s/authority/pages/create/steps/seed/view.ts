@@ -18,7 +18,7 @@ export const SeedStep = shadow((options: {
 
 	const root = options.draft.$root()
 	const $id = useDerived(() => deriveId(options.draft.$root()))
-	const $addr = useDerived(() => address.addr($id()))
+	const $short = useDerived(() => address.short($id()))
 
 	const seedText = seed.from(root)
 	const $checked = useSignal(false)
@@ -33,7 +33,7 @@ export const SeedStep = shadow((options: {
 
 		<div x-plate>
 			<div class=container>
-				<p>if you lose it, "${$addr()}" is gone <em>forever</em></p>
+				<p>if you lose it, "${$short()}" is gone <em>forever</em></p>
 
 				${RecoverySeed({seedText})}
 

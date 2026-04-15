@@ -21,7 +21,7 @@ export const SeedPage = shadow((options: {
 	useCss(theme(), styleCss)
 
 	const id = deriveId(options.identity.root)
-	const ad = address.addr(id)
+	const short = address.short(id)
 	const seedText = seed.from(options.identity.root)
 
 	return html`
@@ -38,7 +38,7 @@ export const SeedPage = shadow((options: {
 			${RecoverySeed({seedText})}
 
 			<div class=content>
-				<p>this seed fully restores "${ad}".</p>
+				<p>this seed fully restores "${short}".</p>
 				<p>keep it secret. keep it safe.</p>
 			</div>
 

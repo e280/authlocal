@@ -17,7 +17,7 @@ export const IdPoster = shadow((options: {
 	useName("id-card")
 	useCss(cssReset, styleCss)
 
-	const alias = options.alias || address.addr(options.id)
+	const alias = options.alias || address.short(options.id)
 	const color = `--color: ${idColor(options.id)};`
 	const m = address.from(options.id)
 	const [first, second, third] = m.split("_")

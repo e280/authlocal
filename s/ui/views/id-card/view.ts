@@ -31,7 +31,7 @@ export const IdCard = shadow((card: {
 		<div part=card style="${color}">
 			<div part=plate>
 				<div part=icon>${sigilSvg(card.id)}</div>
-				<div part=name>${card.alias || address.addr(card.id)}</div>
+				<div part=name>${card.alias || address.short(card.id)}</div>
 				<slot part=slot></slot>
 			</div>
 

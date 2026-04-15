@@ -1,6 +1,7 @@
 
-import {Content, router} from "@e280/sly"
 import {Signal} from "@e280/strata"
+import {Content, router} from "@e280/sly"
+
 import {Go} from "./go.js"
 import {Bank} from "../sys/bank.js"
 import {ListPage} from "../pages/list/view.js"
@@ -33,7 +34,7 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
 		return CreatePage({
 			done: async draft => {
 				const root = draft.$root()
-				const alias = draft.$alias() || address.addr(deriveId(root))
+				const alias = draft.$alias() || address.short(deriveId(root))
 				await bank.setIdentity({root, alias})
 				go.list()
 			},

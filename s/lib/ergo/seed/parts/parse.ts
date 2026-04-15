@@ -16,16 +16,16 @@ export function parse(seed: string): Maybe<string> {
 		return maybe.nay("invalid number of words")
 
 	const [a, b, ...secretWords] = words
-	const reportedAddr = `${a.replace(/^@/, "")}_${b}`
+	const reportedShort = `${a.replace(/^@/, "")}_${b}`
 
 	try {
 		const secretBytes = new Uint8Array(wordsToBytes(secretWords))
 		const secret = hex(secretBytes)
 		const id = deriveId(secret)
-		const actualAddress = address.addr(id)
+		const actualShort = address.short(id)
 
-		if (actualAddress.replace(/^@/, "") !== reportedAddr)
-			return maybe.nay(`corruption detected, expected addr "${reportedAddr}" but got "${actualAddress}"`)
+		if (actualShort.replace(/^@/, "") !== reportedShort)
+			return maybe.nay(`corruption detected, expected "${reportedShort}" but got "${actualShort}"`)
 
 		return maybe.yay(secret)
 	}

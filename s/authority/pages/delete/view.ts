@@ -21,9 +21,9 @@ export const DeletePage = shadow((options: {
 	useCss(theme(), styleCss)
 
 	const id = deriveId(options.identity.root)
-	const ad = address.addr(id)
+	const short = address.short(id)
 	const $confirmation = useSignal("")
-	const primed = $confirmation() === ad
+	const primed = $confirmation() === short
 
 	const onInput = (event: Event) => {
 		$confirmation((event.currentTarget as HTMLInputElement).value)
@@ -45,11 +45,11 @@ export const DeletePage = shadow((options: {
 				<p><strong>this is permanent.</strong> deleting this identity removes it from this device.</p>
 
 				<div class=confirm>
-					<label for=confirm-delete>type <code>${ad}</code> exactly to confirm deletion</label>
+					<label for=confirm-delete>type <code>${short}</code> exactly to confirm deletion</label>
 					<input
 						id=confirm-delete
 						type=text
-						placeholder="${ad}"
+						placeholder="${short}"
 						autocomplete=off
 						spellcheck=false
 						@input="${onInput}"

@@ -2,6 +2,7 @@
 import {html} from "lit"
 import {maybe} from "@e280/stz"
 import {shadow, useCss, useName, useSignal} from "@e280/sly"
+
 import styleCss from "./style.css.js"
 import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
@@ -40,7 +41,7 @@ export const EditPage = shadow((options: {
 				initialValue: options.identity.alias,
 				maxLength: maxNameLength,
 				validator: allowEmptyString(validateName),
-				on: alias => $alias(maybe.get(alias) ?? address.addr(id)),
+				on: alias => $alias(maybe.get(alias) ?? address.short(id)),
 			})}
 
 			<nav>
