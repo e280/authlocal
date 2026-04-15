@@ -59,7 +59,7 @@ export const RecoveryPage = shadow((options: {
 			})
 			: null}
 
-		<nav>
+		<nav class=appnav>
 			<button data-vibe="naked lame" @click="${options.back}">
 				back
 			</button>

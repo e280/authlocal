@@ -45,16 +45,18 @@ export const SelectorStep = shadow((options: {
 
 	return html`
 		<div class=plate>
-			<h2>choose your new identity</h2>
+			<h2>choose your identity</h2>
 
-			${TextInput({
-				maxLength: maxNameLength,
-				placeholder: "optional alias",
-				validator: alias => (alias === "")
-					? yay(alias)
-					: validateName(alias),
-				on: maybe => $alias(maybe.yay ? maybe.value : ""),
-			})}
+			<div class=slice>
+				${TextInput({
+					maxLength: maxNameLength,
+					placeholder: "optional alias",
+					validator: alias => (alias === "")
+						? yay(alias)
+						: validateName(alias),
+					on: maybe => $alias(maybe.yay ? maybe.value : ""),
+				})}
+			</div>
 
 			<div class=cards>
 				${renderIdentity(true, $index() - 1)}
@@ -62,28 +64,26 @@ export const SelectorStep = shadow((options: {
 				${renderIdentity(true, $index() + 1)}
 			</div>
 
-			<nav>
-				<div>
-					<button data-vibe=lame @click="${shimmyLeft}">&lt;</button>
-					<button data-vibe=happy @click="${clickChoose}">choose</button>
-					<button data-vibe=lame @click="${shimmyRight}">&gt;</button>
-				</div>
+			<nav class="slice buttons">
+				<button data-vibe=lame @click="${shimmyLeft}">&lt;</button>
+				<button data-vibe=happy @click="${clickChoose}">choose</button>
+				<button data-vibe=lame @click="${shimmyRight}">&gt;</button>
+			</nav>
 
-				<div>
-					${(options.back ?? null) && html`
-						<button
-							data-vibe="naked lame"
-							@click="${options.back}">
-								back
-						</button>
-					`}
-
+			<nav class=appnav>
+				${(options.back ?? null) && html`
 					<button
 						data-vibe="naked lame"
-						@click="${options.recovery}">
-							recovery
+						@click="${options.back}">
+							back
 					</button>
-				</div>
+				`}
+
+				<button
+					data-vibe="naked lame"
+					@click="${options.recovery}">
+						recovery
+				</button>
 			</nav>
 		</div>
 	`

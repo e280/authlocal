@@ -16,6 +16,7 @@ export default template(import.meta.url, async orb => html`
 			<style data-theme>${orb.inject("authority/styles/layers.css")}</style>
 			<style data-theme>${orb.inject("authority/styles/vars.css")}</style>
 			<style data-theme>${orb.inject("authority/styles/base.css")}</style>
+			<style data-theme>${orb.inject("authority/styles/common.css")}</style>
 			<style>${orb.inject("authority/styles/page.css")}</style>
 
 			${socialCard({
@@ -29,11 +30,9 @@ export default template(import.meta.url, async orb => html`
 		<body>
 			<header>
 				<h1>authlocal</h1>
-				<hr/>
 			</header>
-			<main></main>
+			<app-main></app-main>
 			<footer>
-				<hr/>
 				<p>own your identity. open-source. user-sovereign.</p>
 				<p>learn more on <a href="https://github.com/e280/authlocal#readme">github.</a></p>
 				<p class=version>v${orb.packageVersion()}</p>

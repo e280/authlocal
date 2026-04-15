@@ -7,45 +7,33 @@
 	}
 
 	html {
-		--tint: #1112;
-		background: linear-gradient(to bottom, var(--tint), var(--tint)), var(--bg) url("/assets/1dea2105.avif") center center / cover;
+		background: var(--bg);
 		color: var(--text);
 		text-shadow: var(--text-shadow);
 	}
 
 	body {
-		display: flex;
-		flex-direction: column;
-		padding: var(--pad) 0;
-		gap: var(--space);
-
-		text-align: center;
-		border-radius: var(--round);
+		width: 42em;
+		max-width: 100%;
+		margin: auto;
+		padding: var(--pad);
+		background: var(--body);
+		border-radius: 0 0 var(--round) var(--round);
 	}
 
-	hr {
-		margin: 0 auto;
-		width: 100%;
-		max-width: 24em;
-		background: var(--text);
-		border: none;
-		height: 0.1em;
-		border-radius: 1em;
-		opacity: 0.4;
-	}
+	app-main {
+		display: block;
 
-	h1 {
-		font-weight: normal;
-	}
-
-	header, footer {
-		opacity: 0.4;
+		[view~="page"] {
+			display: block;
+		}
 	}
 
 	footer {
-		display: flex;
-		flex-direction: column;
-		gap: calc(var(--pad) * 0.25);
+		opacity: 0.5;
+		margin-top: var(--space);
+		padding-top: var(--pad);
+		border-top: 1px solid var(--line);
 	}
 
 	.version {

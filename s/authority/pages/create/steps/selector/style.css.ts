@@ -5,10 +5,12 @@ export default css`
 .plate {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	gap: var(--space);
 
-	overflow: hidden;
+	.slice {
+		display: flex;
+		justify-content: center;
+	}
 
 	[view="text-input"]::part(input) {
 		text-align: center;
@@ -56,10 +58,10 @@ export default css`
 		}
 	}
 
-	nav {
+	.buttons {
 		display: flex;
-		flex-direction: column;
-		gap: var(--space);
+		flex-direction: row;
+		gap: var(--pad);
 	}
 }
 

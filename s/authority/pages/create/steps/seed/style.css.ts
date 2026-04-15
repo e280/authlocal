@@ -5,8 +5,14 @@ export default css`
 .plate {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	gap: var(--space);
+
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space);
+	}
 
 	.content {
 		display: flex;

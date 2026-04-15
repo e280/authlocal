@@ -40,57 +40,5 @@
 			color: color-mix(in srgb, white, var(--link) 50%);
 		}
 	}
-
-	nav {
-		cursor: default;
-	}
-
-	button {
-		font: inherit;
-		color: currentColor;
-		cursor: default;
-		padding: var(--pad);
-		border: 1px solid currentColor;
-		background: transparent;
-		user-select: none;
-
-		&[data-vibe~="naked"] {
-			border: none;
-		}
-
-		&[data-vibe~="lame"] {
-			color: var(--lame);
-		}
-
-		&[data-vibe~="happy"] {
-			color: var(--happy);
-		}
-
-		&[data-vibe~="angry"] {
-			color: var(--angry);
-		}
-
-		&[disabled] {
-			opacity: 0.2;
-			text-decoration: line-through;
-		}
-
-		&:not([disabled]) {
-			opacity: 0.8;
-			cursor: pointer;
-
-			&:is(:hover, :focus-visible) {
-				opacity: 1;
-			}
-
-			&:active {
-				opacity: 0.8;
-			}
-		}
-	}
-
-	label > span {
-		user-select: none;
-	}
 }
 

@@ -1,5 +1,5 @@
 
-import {router} from "@e280/sly"
+import {Content, router} from "@e280/sly"
 import {Signal} from "@e280/strata"
 import {Go} from "./go.js"
 import {Bank} from "../sys/bank.js"
@@ -11,9 +11,16 @@ import {CreatePage} from "../pages/create/view.js"
 import {address, deriveId} from "../../lib/index.js"
 import {RecoveryPage} from "../pages/recovery/view.js"
 
-export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
+export type Page = {
+	zone: string
+	subtitle: string
+	content: Content
+}
+
+export const routes = (bank: Bank, go: Go, $zone: Signal<string>, $subtitle: Signal<string>) => router({
 	"": () => {
 		$zone("list")
+		$subtitle("your identities")
 		return ListPage({
 			identities: bank.identities,
 			create: go.create,
@@ -24,7 +31,9 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
 
 	"create": () => {
 		$zone("create")
+		$subtitle("create your identity")
 		return CreatePage({
+			setSubtitle: s => $subtitle(s),
 			done: async draft => {
 				const root = draft.$root()
 				const alias = draft.$alias() || address.from(deriveId(root))
@@ -40,6 +49,7 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
 
 	"recovery": () => {
 		$zone("recovery")
+		$subtitle("recover from seed")
 		return RecoveryPage({
 			back: go.home,
 			done: async identity => {
@@ -51,6 +61,7 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
 
 	"edit/{n}": params => {
 		$zone("edit")
+		$subtitle("edit your identity")
 		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
@@ -70,6 +81,7 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
 
 	"seed/{n}": params => {
 		$zone("seed")
+		$subtitle("view seed")
 		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value
@@ -86,6 +98,7 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
 
 	"delete/{n}": params => {
 		$zone("delete")
+		$subtitle("delete your identity")
 		const idMaybe = address.parse(params.n)
 		if (!idMaybe.yay) return undefined
 		const id = idMaybe.value

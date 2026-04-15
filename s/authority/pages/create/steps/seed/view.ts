@@ -27,19 +27,20 @@ export const SeedStep = shadow((options: {
 
 	return html`
 		<div class=plate>
-			<div class=content>
-				<h2>save your recovery seed</h2>
+			<h2>save your recovery seed</h2>
+
+			<div class=container>
 				<p>if you lose it, "${$addr()}" is gone <em>forever</em></p>
+
+				${RecoverySeed({seedText})}
+
+				<label class=checkbox>
+					<input type=checkbox @change="${onCheck}"/>
+					<span>i saved this somewhere safe</span>
+				</label>
 			</div>
 
-			${RecoverySeed({seedText})}
-
-			<label class=checkbox>
-				<input type=checkbox @change="${onCheck}"/>
-				<span>i saved this somewhere safe</span>
-			</label>
-
-			<nav>
+			<nav class=appnav>
 				<button
 					data-vibe="naked lame"
 					@click="${options.back}">

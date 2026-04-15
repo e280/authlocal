@@ -2,7 +2,7 @@
 import {css} from "lit"
 export default css`
 
-:host {
+.plate {
 	display: flex;
 	flex-direction: column;
 	gap: var(--space);

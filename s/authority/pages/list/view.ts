@@ -34,24 +34,26 @@ export const ListPage = shadow((options: {
 	}
 
 	return html`
-		<h2>your identities</h2>
+		<div class=plate>
+			<h2>identities on your device</h2>
 
-		<ol>
-			${options.identities.map(renderIdentity)}
-		</ol>
+			<ol>
+				${options.identities.map(renderIdentity)}
+			</ol>
 
-		<nav>
-			<button
-				data-vibe="naked lame"
-				@click="${options.recovery}">
-					recovery
-			</button>
+			<nav class=appnav>
+				<button
+					data-vibe="naked lame"
+					@click="${options.recovery}">
+						recovery
+				</button>
 
-			<button
-				data-vibe="happy"
-				@click="${options.create}">
-					new
-			</button>
-		</nav>
+				<button
+					data-vibe="happy"
+					@click="${options.create}">
+						new
+				</button>
+			</nav>
+		</div>
 	`
 })
