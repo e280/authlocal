@@ -1,12 +1,12 @@
 
 @layer page {
 	html, body {
-		font-size: 18px;
-		font-family: sans-serif;
 		min-height: 100%;
 	}
 
 	html {
+		font-size: 18px;
+		font-family: "Lora", serif;
 		color: var(--text);
 		background: var(--bg);
 		text-shadow: var(--text-shadow);

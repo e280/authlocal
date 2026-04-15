@@ -1,0 +1,17 @@
+
+@font-face {
+	font-family: "Lora";
+	src: url("https://stuff.sfo3.cdn.digitaloceanspaces.com/authlocal/fonts/lora/Lora-VariableFont_wght.ttf") format("truetype");
+	font-weight: 100 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Lora";
+	src: url("https://stuff.sfo3.cdn.digitaloceanspaces.com/authlocal/fonts/lora/Lora-Italic-VariableFont_wght.ttf") format("truetype");
+	font-weight: 100 700;
+	font-style: italic;
+	font-display: swap;
+}
+

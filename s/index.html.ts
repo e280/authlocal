@@ -13,6 +13,7 @@ export default template(import.meta.url, async orb => html`
 			<title>authlocal</title>
 			<link rel="icon" href="/assets/favicon.png"/>
 			<script type="module" src="${orb.hashurl("authority/main.bundle.min.js")}"></script>
+			<style data-theme>${orb.inject("authority/styles/fonts.css")}</style>
 			<style data-theme>${orb.inject("authority/styles/layers.css")}</style>
 			<style data-theme>${orb.inject("authority/styles/vars.css")}</style>
 			<style data-theme>${orb.inject("authority/styles/base.css")}</style>
