@@ -14,7 +14,7 @@ export const IdPoster = shadow((options: {
 		copyable?: boolean
 	}) => {
 
-	useName("id-card")
+	useName("id-poster")
 	useCss(cssReset, styleCss)
 
 	const alias = options.alias || address.short(options.id)

@@ -14,7 +14,7 @@ export const RecoveryPage = shadow((options: {
 		done: (identity: Identity) => void
 	}) => {
 
-	useName("import page")
+	useName("recovery page")
 	useCss(theme(), styleCss)
 
 	const $alias = useSignal("")

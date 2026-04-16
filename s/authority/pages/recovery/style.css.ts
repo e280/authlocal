@@ -9,6 +9,11 @@ export default css`
 	gap: var(--space);
 }
 
+[view="id-poster"] {
+	margin: auto;
+	text-align: center;
+}
+
 .inputs {
 	display: flex;
 	flex-direction: column;

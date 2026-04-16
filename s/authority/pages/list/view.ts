@@ -1,37 +1,56 @@
 
 import {html} from "lit"
-import {shadow, useCss, useName} from "@e280/sly"
+import {shadow, useCss, useName, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
+import {Ident} from "./ident/view.js"
 import {Identity} from "../../types.js"
+import {Editing} from "./editing/view.js"
 import {theme} from "../../utils/theme.js"
 import {deriveId, Id} from "../../../lib/index.js"
-import {IdCard} from "../../../ui/views/id-card/view.js"
+import dotsIcon from "../../../ui/icons/tabler/dots.icon.js"
 
 export const ListPage = shadow((options: {
 		identities: Identity[]
-		create: () => void
-		recovery: () => void
-		edit: (id: Id) => void
+		goCreate: () => void
+		goRecovery: () => void
+		updateIdentity: (identity: Identity) => void
+		deleteIdentity: (identity: Identity) => void
 	}) => {
 
 	useName("list page")
 	useCss(theme(), styleCss)
+	const $editing = useSignal<Id | null>(null)
 
 	function renderIdentity(identity: Identity) {
-		const {alias} = identity
 		const id = deriveId(identity.root)
-		const clickEdit = () => options.edit(id)
-		return html`
-			<li>
-				${IdCard.with({
-					props: [{alias, id, copyable: true}],
-					children: html`
-						<button x-vibe=naked @click="${clickEdit}">edit</button>
-					`,
-				})}
-			</li>
-		`
+
+		const toggleEditing = () => $editing(
+			$editing() === id
+				? null
+				: id
+		)
+
+		return Ident.with({
+			props: [{identity}],
+			children: html`
+				<button
+					slot=buttons
+					x-vibe=naked
+					@click="${toggleEditing}">
+						${dotsIcon}
+				</button>
+
+				${$editing() === id
+					? Editing({
+						identity,
+						close: () => $editing(null),
+						updateIdentity: options.updateIdentity,
+						deleteIdentity: options.deleteIdentity,
+					})
+					: null}
+			`,
+		})
 	}
 
 	return html`
@@ -53,7 +72,7 @@ export const ListPage = shadow((options: {
 				<button
 					x-linky
 					x-vibe=lame
-					@click="${options.recovery}">
+					@click="${options.goRecovery}">
 						recover
 				</button>
 				from a seed,
@@ -61,11 +80,11 @@ export const ListPage = shadow((options: {
 				or
 				<button
 					x-linky
-					@click="${options.create}">
+					@click="${options.goCreate}">
 						create a new identity
 				</button>
-
 			</nav>
 		</div>
 	`
 })
+
