@@ -1,7 +1,7 @@
 
 import {html} from "lit"
 import {ShinyCopy} from "@e280/shiny"
-import {cssReset, dom, shadow, useCss, useHost, useName, useShadow} from "@e280/sly"
+import {cssReset, dom, shadow, useCss, useName, useShadow} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {Identity} from "../../../types.js"
@@ -19,14 +19,11 @@ export const Ident = shadow((options: {
 
 	const {alias} = options.identity
 	const id = deriveId(options.identity.root)
-	const host = useHost()
 	const addr = address.from(id)
 	const short = address.short(id)
-	const color = idColor(id)
+	const color = `--color: ${idColor(id)};`
 	const [first, second, third] = addr.split("_")
 	const shadow = useShadow()
-
-	host.style.setProperty("--color", color)
 
 	function onClick(event: PointerEvent) {
 		if (!options.onClick) return
@@ -37,7 +34,7 @@ export const Ident = shadow((options: {
 	}
 
 	return html`
-		<div part=card style="--color: ${color};">
+		<div part=card style="${color}">
 			<div part=plate @click="${onClick}">
 				<div part=icon>${sigilSvg(id)}</div>
 				<div part=name>
@@ -58,6 +55,6 @@ export const Ident = shadow((options: {
 			</div>
 		</div>
 
-		<slot></slot>
+		<slot style="${color}"></slot>
 	`
 })

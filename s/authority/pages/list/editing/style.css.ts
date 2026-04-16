@@ -11,14 +11,12 @@ export default css`
 	display: flex;
 	flex-direction: column;
 	gap: var(--pad);
-	margin-top: calc(var(--pad) * 0.75);
 	padding: calc(var(--pad) * 1.1);
-	border-radius: var(--round);
 
 	color: color-mix(in oklch, white, var(--color) 35%);
-	background: color-mix(in oklch, #111a, var(--color) 18%);
-	border: 0.1em solid color-mix(in oklch, transparent, var(--color) 45%);
-	box-shadow: 0 0 2.5em color-mix(in oklch, transparent, var(--color) 18%);
+	background: color-mix(in oklch, #111a, var(--color) 5%);
+	border: 0.1em solid color-mix(in oklch, transparent, var(--color) 20%);
+	border-top: none;
 }
 
 header {

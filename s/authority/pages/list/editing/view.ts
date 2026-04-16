@@ -3,9 +3,9 @@ import {html} from "lit"
 import {maybe} from "@e280/stz"
 import {shadow, useCss, useName, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
-import {RecoverySeed} from "../../../views/recovery-seed/view.js"
 import {Identity} from "../../../types.js"
 import {theme} from "../../../utils/theme.js"
+import {RecoverySeed} from "../../../views/recovery-seed/view.js"
 import {address, allowEmptyString, deriveId, maxNameLength, seed, validateName} from "../../../../lib/index.js"
 
 type EditingTab = "edit" | "seed" | "delete"
@@ -96,7 +96,6 @@ export const Editing = shadow((options: {
 				? html`
 					<section class=section>
 						<label class=field>
-							<span>alias</span>
 							<input
 								class=input
 								type=text
@@ -108,7 +107,6 @@ export const Editing = shadow((options: {
 						</label>
 
 						<p class=problems>${aliasProblems?.map(problem => `• ${problem}`).join(" ") ?? ""}</p>
-						<p class=hint>leave it blank to fall back to <code>${short}</code>.</p>
 
 						<nav class=actions>
 							<button
@@ -125,8 +123,9 @@ export const Editing = shadow((options: {
 			${$tab() === "seed"
 				? html`
 					<section class="section seed">
+						<p class=hint>this seed fully restores <code>${short}</code>.</p>
+						<p class=hint>keep it safe. keep it secret.</p>
 						${RecoverySeed({seedText})}
-						<p class=hint>this seed fully restores <code>${short}</code>. keep it secret.</p>
 					</section>
 				`
 				: null}
@@ -134,7 +133,8 @@ export const Editing = shadow((options: {
 			${$tab() === "delete"
 				? html`
 					<section class="section warning">
-						<p><strong>this is permanent.</strong> deleting this identity removes it from this device.</p>
+						<p><strong>this is permanent.</strong></p>
+						<p>deleting this identity removes it from this device.</p>
 
 						<label class=field>
 							<span>type <code>${short}</code> exactly to confirm</span>
