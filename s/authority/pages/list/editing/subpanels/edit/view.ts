@@ -27,7 +27,6 @@ export const EditSubpanel = shadow((options: {
 			...options.identity,
 			alias: aliasMaybe.value,
 		})
-		options.close()
 	}
 
 	return html`
