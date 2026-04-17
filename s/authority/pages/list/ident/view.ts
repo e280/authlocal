@@ -22,7 +22,7 @@ export const Ident = shadow((options: {
 	const addr = address.from(id)
 	const short = address.short(id)
 	const color = `--color: ${idColor(id)};`
-	const [first, second, third] = addr.split("_")
+	const [first, second] = addr.split("_")
 	const shadow = useShadow()
 
 	function onClick(event: PointerEvent) {
@@ -45,7 +45,7 @@ export const Ident = shadow((options: {
 							attrs: {title: addr},
 							children: html`
 								<span part=address title="${addr}">
-									<span part=short>${first}_${second}</span><span class=bulk>_${third}</span>
+									${first}_${second}...
 								</span>
 							`,
 						})}
