@@ -1,13 +1,12 @@
 
 import {bytes, count, hex, time} from "@e280/stz"
+import {demo} from "./ergo/demo.js"
 import {seed} from "./ergo/seed/index.js"
-import {address} from "./ergo/address/index.js"
+import {microSign} from "./micro/micro.js"
 import {deriveId} from "./cryp/derive-id.js"
+import {address} from "./ergo/address/index.js"
+import {signDelegate} from "./alco/sign-delegate.js"
 import {generateSecret} from "./cryp/generate-secret.js"
-import { tok } from "./tok/index.js"
-import { signDelegate } from "./alco/sign-delegate.js"
-import { demo } from "./ergo/demo.js"
-import { microSign } from "./micro/micro.js"
 
 const secret = generateSecret()
 const id = deriveId(secret)
