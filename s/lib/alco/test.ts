@@ -5,7 +5,6 @@ import {suite, test, expect} from "@e280/science"
 import {scopes} from "./scopes.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {signDelegate} from "./sign-delegate.js"
-import {deriveViceroy} from "./derive-viceroy.js"
 import {verifyDelegate} from "./verify-delegate.js"
 import {Delegate, Venue, Petition} from "./types.js"
 import {generateSecret} from "../cryp/generate-secret.js"
@@ -29,14 +28,12 @@ export default suite({
 	"login flow": test(async() => {
 		// authlocal locally keeps the user's root secret
 		const root = generateSecret()
+		const id = deriveId(root)
 
-		// authlocal derives a viceroy secret for each origin requesting access
-		const viceroy = deriveViceroy(root, "https://e280.org")
+		// authlocal signs a delegate
+		const delegate = signDelegate(root, petition(), venue())
 
-		// authlocal signs a delegate with the viceroy
-		const delegate = signDelegate(viceroy, petition(), venue())
-
-		expect(delegate.signedBy).is(deriveId(viceroy))
+		expect(delegate.signedBy).is(id)
 		expect(() => verifyDelegate(delegate, allowed())).not.throws()
 	}),
 

@@ -9,19 +9,18 @@ import {deriveSecret} from "../cryp/derive-secret.js"
 import {Delegate, Venue, Petition, Proof} from "./types.js"
 
 export function signDelegate(
-		viceroy: Secret,
+		sourceSecret: Secret,
 		petition: Petition,
 		venue: Venue,
 	): Delegate {
 
 	const {scope, expiresAt} = petition
-
-	const signedBy = deriveId(viceroy)
-	const secret = deriveSecret(viceroy, hash(scope))
+	const signedBy = deriveId(sourceSecret)
+	const secret = deriveSecret(sourceSecret, hash(scope))
 	const delegateId = deriveId(secret)
 
 	const proof: Proof = {delegateId, signedBy}
-	const proofToken = signToken<Payload<{proof: Proof}>>(viceroy, {
+	const proofToken = signToken<Payload<{proof: Proof}>>(sourceSecret, {
 		proof,
 		exp: tokenTime.at(expiresAt),
 		aud: venue.petitioner,
