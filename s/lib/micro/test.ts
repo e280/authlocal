@@ -1,9 +1,11 @@
 
 import {txt} from "@e280/stz"
 import {expect, suite, test} from "@e280/science"
+import {microSign} from "./fns/sign.js"
+import {microDecode} from "./fns/decode.js"
+import {microVerify} from "./fns/verify.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {generateSecret} from "../cryp/generate-secret.js"
-import {microDecode, microSign, microVerify} from "./micro.js"
 
 export const exampleAudience = "https://e280.org"
 
