@@ -1,6 +1,6 @@
 
 import {hashSignal} from "@e280/sly"
-import {derived, signal} from "@e280/strata"
+import {derived} from "@e280/strata"
 import {makeGo} from "./go.js"
 import {routes} from "./routes.js"
 import {Bank} from "../sys/bank.js"
@@ -8,16 +8,18 @@ import {Bank} from "../sys/bank.js"
 export function makeHashRouter(bank: Bank) {
 	const $hash = hashSignal()
 	const go = makeGo(bank)
-	const $zone = signal("")
-	const render = routes(bank, go, $zone)
-	const $page = derived(() => render($hash()))
+	const render = routes(bank, go)
+
+	const $page = derived(() => {
+		return render($hash())
+	})
 
 	function startAtHome() {
 		const noIdentities = bank.identities.length === 0
-		if ($zone() === "list" && noIdentities)
+		if ($hash() === "" && noIdentities)
 			go.home()
 	}
 
-	return {go, $page, $zone, startAtHome}
+	return {go, $page, startAtHome}
 }
 

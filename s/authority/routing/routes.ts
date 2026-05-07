@@ -1,5 +1,4 @@
 
-import {Signal} from "@e280/strata"
 import {Content, router} from "@e280/sly"
 
 import {Go} from "./go.js"
@@ -15,9 +14,8 @@ export type Page = {
 	content: Content
 }
 
-export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
+export const routes = (bank: Bank, go: Go) => router({
 	"": () => {
-		$zone("list")
 		return ListPage({
 			identities: bank.identities,
 			goCreate: go.create,
@@ -28,7 +26,6 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
 	},
 
 	"create": () => {
-		$zone("create")
 		return CreatePage({
 			done: async draft => {
 				const root = draft.$root()
@@ -44,7 +41,6 @@ export const routes = (bank: Bank, go: Go, $zone: Signal<string>) => router({
 	},
 
 	"recovery": () => {
-		$zone("recovery")
 		return RecoveryPage({
 			back: go.home,
 			done: async identity => {
