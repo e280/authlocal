@@ -1,5 +1,5 @@
 
-import {GMap} from "@e280/stz"
+import {need} from "@e280/stz"
 import {RMap} from "@e280/strata"
 import {collect, Kv, StorageDriver} from "@e280/kv"
 
@@ -37,12 +37,12 @@ export class Bank {
 	}
 
 	requireIdentity(id: Id) {
-		return this.#identities.require(id)
+		return need(this.#identities, id)
 	}
 
 	async load() {
 		const identities = await collect(this.#tables.identities.entries())
-		const identityTimings = new GMap(await collect(this.#tables.identityTimings.entries()))
+		const identityTimings = new Map(await collect(this.#tables.identityTimings.entries()))
 		identities.sort(([aId], [bId]) => {
 			const a = identityTimings.get(aId)?.timeLastTouched ?? 0
 			const b = identityTimings.get(bId)?.timeLastTouched ?? 0

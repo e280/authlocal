@@ -1,4 +1,5 @@
 
+import {need} from "@e280/stz"
 import {prefixes} from "./prefixes.js"
 import {suffixes} from "./suffixes.js"
 
@@ -16,15 +17,15 @@ export function *wordsToBytes(motes: Iterable<string>) {
 }
 
 export function wordFromPair(a: number, b: number) {
-	return prefixes.require(a) + suffixes.require(b)
+	return need(prefixes, a) + need(suffixes, b)
 }
 
 export function wordToPair(mote: string) {
 	const prefix = mote.slice(0, 3)
 	const suffix = mote.slice(3, 6)
 	return [
-		prefixes.index.require(prefix),
-		suffixes.index.require(suffix),
+		need(prefixes.index, prefix),
+		need(suffixes.index, suffix),
 	] as [number, number]
 }
 

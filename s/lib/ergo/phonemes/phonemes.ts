@@ -1,13 +1,11 @@
 
-import {GMap} from "@e280/stz"
-
-export class Phonemes extends GMap<number, string> {
-	index: GMap<string, number>
+export class Phonemes extends Map<number, string> {
+	index: Map<string, number>
 
 	constructor(array: string[]) {
 		super(array.entries())
 
-		this.index = new GMap(
+		this.index = new Map(
 			[...array.entries()]
 				.map(([index, phoneme]) => [phoneme, index])
 		)
