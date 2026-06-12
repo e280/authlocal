@@ -23,7 +23,7 @@
 		"examples": "node x/lib/examples.js"
 	},
 	"dependencies": {
-		"@e280/kv": "^0.1.3",
+		"@e280/kv": "^0.1.4",
 		"@e280/renraku": "^0.5.7",
 		"@e280/shiny": "^0.1.0-22",
 		"@e280/sly": "^0.4.0-next.3",
@@ -42,6 +42,10 @@
 		"http-server": "^14.1.1",
 		"npm-run-all": "^4.1.5",
 		"typescript": "^6.0.3"
+	},
+	"allowScripts": {
+		"esbuild@0.28.1": true,
+		"classic-level@3.0.0": true
 	},
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
 	"homepage": "https://github.com/e280/authlocal#readme",
@@ -64,8 +68,5 @@
 		"protocol",
 		"free",
 		"open-source"
-	],
-	"allowScripts": {
-		"esbuild@0.28.1": true
-	}
+	]
 }
