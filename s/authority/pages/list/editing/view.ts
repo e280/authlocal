@@ -60,15 +60,6 @@ export const Editing = shadow((options: {
 					${tabButton("seed")}
 					${tabButton("delete")}
 				</nav>
-
-				<button
-					class=close
-					x-vibe=naked
-					aria-label="close editing panel"
-					title="close"
-					@click="${options.close}">
-						${xIcon}
-				</button>
 			</header>
 
 			${tabs[$tab()]()}

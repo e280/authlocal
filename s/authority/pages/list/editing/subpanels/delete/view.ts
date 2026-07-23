@@ -43,7 +43,7 @@ export const DeleteSubpanel = shadow((options: {
 				<input
 					class=input
 					type=text
-					placeholder="${short}"
+					placeholder="type to confirm"
 					autocomplete=off
 					spellcheck=false
 					.value="${$confirmation()}"
