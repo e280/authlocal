@@ -45,7 +45,7 @@ export default css`
 		display: flex;
 		font-size: 1em;
 		width: 100%;
-		min-height: 6em;
+		min-height: 9em;
 		border: none;
 		font-family: monospace;
 		color: color-mix(in oklch, currentColor, white);

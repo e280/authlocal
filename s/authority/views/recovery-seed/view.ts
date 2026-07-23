@@ -36,8 +36,9 @@ export const RecoverySeed = shadow((options: {
 					${ShinyCopy(options.seedText)}
 				</header>
 				<textarea readonly .value="${displayText}" @click="${onClick}"></textarea>
-				<div class=blanket>CONCEALED</div>
+				<div class=blanket></div>
 			</div>
 		</div>
 	`
 })
+
