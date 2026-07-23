@@ -12,7 +12,7 @@ export function from(secret: Secret) {
 	const words = [...wordsFromBytes(secretBytes)]
 
 	const lines = [
-		[address.short(id).replace("_", " ")],
+		[address.moniker(id).replace("_", " ")],
 		words.slice(0, 4),
 		words.slice(4, 8),
 		words.slice(8, 12),

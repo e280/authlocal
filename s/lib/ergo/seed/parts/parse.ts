@@ -22,7 +22,7 @@ export function parse(seed: string): Maybe<string> {
 		const secretBytes = new Uint8Array(wordsToBytes(secretWords))
 		const secret = hex(secretBytes)
 		const id = deriveId(secret)
-		const actualShort = address.short(id)
+		const actualShort = address.moniker(id)
 
 		if (actualShort.replace(/^@/, "") !== reportedShort)
 			return maybe.nay(`corruption detected, expected "${reportedShort}" but got "${actualShort}"`)

@@ -16,7 +16,7 @@ export const DeleteSubpanel = shadow((options: {
 	useCss(theme(), styleCss)
 
 	const id = deriveId(options.identity.root)
-	const short = address.short(id)
+	const short = address.moniker(id)
 	const $confirmation = useSignal("")
 	const canDelete = $confirmation() === short
 

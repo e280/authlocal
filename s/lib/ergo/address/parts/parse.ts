@@ -1,6 +1,6 @@
 
 import {base58, hex, Maybe, maybe} from "@e280/stz"
-import {short} from "./short.js"
+import {moniker} from "./moniker.js"
 import {delimiter, addrByteSize} from "./options.js"
 
 /** convert an address string back into a hex id */
@@ -19,7 +19,7 @@ export function parse(address: string): Maybe<string> {
 	if (addrReported.length !== ((addrByteSize * 3) + delimiter.length)) return maybe.nay("addr is wrong size")
 
 	const id = hex(base58.toBytes(bulk))
-	const shortActual = short(id)
+	const shortActual = moniker(id)
 
 	if (addrReported !== shortActual)
 		return maybe.nay(`corruption detected, failed checksum`)

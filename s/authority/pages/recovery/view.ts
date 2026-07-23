@@ -22,7 +22,7 @@ export const RecoveryPage = shadow((options: {
 	const $identity = useDerived<Identity | null>(() => {
 		const root = $root()
 		if (root === "") return null
-		const alias = $alias() || address.short(deriveId(root))
+		const alias = $alias() || address.moniker(deriveId(root))
 		return {root, alias}
 	})
 
@@ -30,7 +30,7 @@ export const RecoveryPage = shadow((options: {
 
 	function done() {
 		const root = $root()
-		const alias = $alias() || address.short(deriveId(root))
+		const alias = $alias() || address.moniker(deriveId(root))
 		options.done({root, alias})
 	}
 

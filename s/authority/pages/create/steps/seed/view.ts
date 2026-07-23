@@ -18,7 +18,7 @@ export const SeedStep = shadow((options: {
 
 	const root = options.draft.$root()
 	const $id = useDerived(() => deriveId(options.draft.$root()))
-	const $short = useDerived(() => address.short($id()))
+	const $short = useDerived(() => address.moniker($id()))
 
 	const seedText = seed.from(root)
 	const $checked = useSignal(false)

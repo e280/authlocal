@@ -29,7 +29,7 @@ export const routes = (bank: Bank, go: Go) => router({
 		return CreatePage({
 			done: async draft => {
 				const root = draft.$root()
-				const alias = draft.$alias() || address.short(deriveId(root))
+				const alias = draft.$alias() || address.moniker(deriveId(root))
 				await bank.setIdentity({root, alias})
 				go.list()
 			},
