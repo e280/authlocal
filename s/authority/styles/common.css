@@ -101,8 +101,14 @@
 		}
 	}
 
-	label > span {
-		user-select: none;
+	label {
+		display: flex;
+		flex-direction: column;
+		gap: var(--pad);
+
+		> span {
+			user-select: none;
+		}
 	}
 }
 

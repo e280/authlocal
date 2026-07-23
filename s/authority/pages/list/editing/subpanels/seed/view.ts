@@ -15,14 +15,15 @@ export const SeedSubpanel = shadow((options: {
 	useCss(theme(), styleCss)
 
 	const id = deriveId(options.identity.root)
-	const short = address.moniker(id)
+	const moniker = address.moniker(id)
 	const seedText = seed.from(options.identity.root)
 
 	return html`
 		<section class=section>
-			<p class=hint>this seed fully restores <code>${short}</code>.</p>
-			<p class=hint>keep it safe. keep it secret.</p>
+			<p>this seed fully restores <code>${moniker}</code>.</p>
+			<p><strong>keep it safe. keep it secret.</strong></p>
 			${RecoverySeed({seedText})}
 		</section>
 	`
 })
+

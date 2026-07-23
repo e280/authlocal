@@ -25,17 +25,6 @@ export default css`
 	color: color-mix(in oklch, currentColor, white 18%);
 }
 
-.field {
-	display: flex;
-	flex-direction: column;
-	gap: 0.35em;
-}
-
-.field > span {
-	font-size: 0.85em;
-	opacity: 0.8;
-}
-
 .input {
 	width: 100%;
 	font: inherit;

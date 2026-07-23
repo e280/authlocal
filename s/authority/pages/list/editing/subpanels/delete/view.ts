@@ -16,9 +16,9 @@ export const DeleteSubpanel = shadow((options: {
 	useCss(theme(), styleCss)
 
 	const id = deriveId(options.identity.root)
-	const short = address.moniker(id)
+	const moniker = address.moniker(id)
 	const $confirmation = useSignal("")
-	const canDelete = $confirmation() === short
+	const canDelete = $confirmation() === moniker
 
 	const onConfirmationInput = (event: Event) => {
 		$confirmation((event.currentTarget as HTMLInputElement).value)
@@ -38,8 +38,8 @@ export const DeleteSubpanel = shadow((options: {
 				<span>deleting this identity removes it from this device.</span>
 			</p>
 
-			<label class=field>
-				<span>type <code>${short}</code> exactly to confirm:</span>
+			<label theme-field>
+				<span>type <code>${moniker}</code> exactly to confirm:</span>
 				<input
 					class=input
 					type=text

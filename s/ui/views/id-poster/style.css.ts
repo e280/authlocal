@@ -22,7 +22,7 @@ export default css`
 		drop-shadow(0 0 2em var(--color));
 
 	.icon {
-		font-size: 3em;
+		font-size: 5em;
 		align-self: center;
 	}
 

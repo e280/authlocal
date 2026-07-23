@@ -31,14 +31,18 @@ export const EditSubpanel = shadow((options: {
 
 	return html`
 		<section class=section>
-			${TextInput({
-				debounceMs: 0,
-				initialValue: options.identity.alias,
-				maxLength: maxNameLength,
-				validator: validateAlias,
-				on: aliasMaybe => $aliasMaybe(aliasMaybe),
-				placeholder: "optional alias",
-			})}
+
+			<label theme-field>
+				<span>change your publicly-visible username:</span>
+				${TextInput({
+					debounceMs: 0,
+					initialValue: options.identity.alias,
+					maxLength: maxNameLength,
+					validator: validateAlias,
+					on: aliasMaybe => $aliasMaybe(aliasMaybe),
+					placeholder: "optional alias",
+				})}
+			</label>
 
 			<nav class=actions>
 				<button
