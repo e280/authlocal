@@ -1,6 +1,6 @@
 
 import {bytes} from "@e280/stz"
-import {xchacha20poly1305} from "@noble/ciphers/chacha.js"
+import {xchacha20poly1305} from "@awasm/noble"
 import {keyBytes} from "./key-bytes.js"
 import {Secret} from "./types.js"
 import {nonceByteCount} from "./parts/nonce-byte-count.js"

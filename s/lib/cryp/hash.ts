@@ -1,6 +1,6 @@
 
 import {txt} from "@e280/stz"
-import {blake3} from "@noble/hashes/blake3.js"
+import {blake3} from "@awasm/noble"
 
 const delimiter = Uint8Array.of(0x00)
 

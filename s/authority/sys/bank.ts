@@ -1,7 +1,7 @@
 
-import {need} from "@e280/stz"
 import {RMap} from "@e280/strata"
-import {collect, Kv, StorageDriver} from "@e280/kv"
+import {collect, need} from "@e280/stz"
+import {Kv, IdbMagazine, idbOpen} from "@e280/kv"
 
 import {Id} from "../../lib/index.js"
 import {deriveId} from "../../lib/cryp/derive-id.js"
@@ -9,19 +9,24 @@ import {Identity, IdentityDelegation, IdentityTiming} from "../types.js"
 
 export class Bank {
 	static async init() {
-		const driver = new StorageDriver(localStorage)
-		const kv = new Kv(driver)
-		const bank = new Bank(kv.scope("authlocal"))
+		const channel = new BroadcastChannel("authlocal_bank_change")
+		const idb = await idbOpen("authlocal")
+		const magazine = new IdbMagazine(idb)
+		const kv = new Kv(magazine)
+		const bank = new Bank(kv, () => channel.postMessage(Date.now()))
 		await bank.load()
-		StorageDriver.onStorageEvent(() => bank.load())
+		channel.onmessage = () => bank.load()
 		return bank
 	}
 
 	#tables
+	#onChange
 	#identities = new RMap<Id, Identity>()
 
-	constructor(kv: Kv) {
+	constructor(kv: Kv, onChange: () => void) {
+		this.#onChange = onChange
 		this.#tables = {
+			kv,
 			identities: kv.scope<Identity>("identities"),
 			identityTimings: kv.scope<IdentityTiming>("identityTimings"),
 			identityDelegations: kv.scope<IdentityDelegation>("identityDelegations"),
@@ -55,15 +60,22 @@ export class Bank {
 
 	async setIdentity(identity: Identity) {
 		const id = deriveId(identity.root)
-		await this.#tables.identities.set(id, identity)
-		await this.#touchIdentity(id)
+		const newTiming = await this.#touchIdentity(id)
+		await this.#tables.kv.commit([
+			this.#tables.identities.op.set(id, identity),
+			this.#tables.identityTimings.op.set(id, newTiming)
+		])
+		this.#onChange()
 		await this.load()
 	}
 
 	async deleteIdentity(id: Id) {
-		await this.#tables.identities.del(id)
-		await this.#tables.identityTimings.del(id)
-		await this.#tables.identityDelegations.del(id)
+		await this.#tables.kv.commit([
+			this.#tables.identities.op.delete(id),
+			this.#tables.identityTimings.op.delete(id),
+			this.#tables.identityDelegations.op.delete(id),
+		])
+		this.#onChange()
 		await this.load()
 	}
 
@@ -72,6 +84,7 @@ export class Bank {
 		const timing = await this.#tables.identityTimings.get(id)
 			?? {id, timeFirstTouched: now, timeLastTouched: now}
 		timing.timeLastTouched = now
-		await this.#tables.identityTimings.set(id, timing)
+		return timing
 	}
 }
+
