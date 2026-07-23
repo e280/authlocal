@@ -39,7 +39,7 @@ export const DeleteSubpanel = shadow((options: {
 			</p>
 
 			<label class=field>
-				<span>type <code>${short}</code> exactly to confirm</span>
+				<span>type <code>${short}</code> exactly to confirm:</span>
 				<input
 					class=input
 					type=text

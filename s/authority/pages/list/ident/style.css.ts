@@ -28,14 +28,8 @@ export default css`
 		padding: var(--pad);
 
 		[part="icon"] {
-			flex: 0 0 auto;
 			user-select: none;
-			svg {
-				display: block;
-				width: var(--icon-size);
-				height: var(--icon-size);
-				color: var(--color);
-			}
+			font-size: var(--icon-size);
 		}
 
 		[part="name"] {

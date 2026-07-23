@@ -6,9 +6,9 @@ export default css`
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
+	font-family: monospace;
 
-	max-width: 14em;
-	padding: var(--pad);
+	padding: calc(var(--space) * 2);
 	gap: var(--pad);
 	border-radius: var(--round);
 
@@ -22,38 +22,16 @@ export default css`
 		drop-shadow(0 0 2em var(--color));
 
 	.icon {
-		width: 50%;
+		font-size: 3em;
 		align-self: center;
 	}
 
-	.content {
-		display: flex;
-		flex-direction: column;
-		gap: var(--pad);
-
-		.name {
-			font-size: 1.2em;
-			font-weight: bold;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-
-		.nomen {
-			opacity: 0.7;
-			font-size: 0.8em;
-			font-family: monospace;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-
-		[view="shiny-copy"] {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			--inactive-opacity: 0.9;
-		}
+	.alias {
+		font-size: 1.2em;
+		font-weight: bold;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 }
 

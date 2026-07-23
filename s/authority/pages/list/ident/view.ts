@@ -5,9 +5,7 @@ import {cssReset, dom, shadow, useCss, useName, useShadow} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {Identity} from "../../../types.js"
-import {idColor} from "../../../../ui/utils/id-color.js"
 import {address, deriveId} from "../../../../lib/index.js"
-import {sigilSvg} from "../../../../ui/utils/sigil-svg.js"
 
 export const Ident = shadow((options: {
 		identity: Identity
@@ -21,7 +19,7 @@ export const Ident = shadow((options: {
 	const id = deriveId(options.identity.root)
 	const addr = address.from(id)
 	const short = address.moniker(id)
-	const color = `--color: ${idColor(id)};`
+	const color = `--color: ${address.color(id)};`
 	const [first, second] = addr.split("_")
 	const shadow = useShadow()
 
@@ -36,7 +34,7 @@ export const Ident = shadow((options: {
 	return html`
 		<div part=card style="${color}">
 			<div part=plate @click="${onClick}">
-				<div part=icon>${sigilSvg(id)}</div>
+				<div part=icon>${address.emoji(id)}</div>
 				<div part=name>
 					<div part=alias>${alias || short}</div>
 					<div part=address data-no-click>
@@ -58,3 +56,4 @@ export const Ident = shadow((options: {
 		<slot style="${color}"></slot>
 	`
 })
+

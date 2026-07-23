@@ -1,14 +1,11 @@
 
 import {html} from "lit"
-import {yay} from "@e280/stz"
 import {shadow, useCss} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {CreateDraft} from "../../types.js"
 import {theme} from "../../../../utils/theme.js"
-import {TextInput} from "../../../../views/text-input/view.js"
 import {IdPoster} from "../../../../../ui/views/id-poster/view.js"
-import {maxNameLength, validateName} from "../../../../../lib/index.js"
 import {deriveIdentityFromIndex} from "../../utils/derive-identity-from-index.js"
 
 export const SelectorStep = shadow((options: {
@@ -50,28 +47,19 @@ export const SelectorStep = shadow((options: {
 		</div>
 
 		<div x-plate>
-			<div class=slice>
-				${TextInput({
-					maxLength: maxNameLength,
-					placeholder: "optional alias",
-					validator: alias => (alias === "")
-						? yay(alias)
-						: validateName(alias),
-					on: maybe => $alias(maybe.yay ? maybe.value : ""),
-				})}
-			</div>
+			<div class=selbox>
+				<div class=cards>
+					${renderIdentity(true, $index() - 1)}
+					${renderIdentity(false, $index())}
+					${renderIdentity(true, $index() + 1)}
+				</div>
 
-			<div class=cards>
-				${renderIdentity(true, $index() - 1)}
-				${renderIdentity(false, $index())}
-				${renderIdentity(true, $index() + 1)}
+				<nav class="slice buttons">
+					<button x-vibe=lame @click="${shimmyLeft}">&lt;</button>
+					<button x-vibe=happy @click="${clickChoose}">choose</button>
+					<button x-vibe=lame @click="${shimmyRight}">&gt;</button>
+				</nav>
 			</div>
-
-			<nav class="slice buttons">
-				<button x-vibe=lame @click="${shimmyLeft}">&lt;</button>
-				<button x-vibe=happy @click="${clickChoose}">choose</button>
-				<button x-vibe=lame @click="${shimmyRight}">&gt;</button>
-			</nav>
 
 			<nav x-nav>
 				${(options.back ?? null) && html`
@@ -96,3 +84,4 @@ export const SelectorStep = shadow((options: {
 		</div>
 	`
 })
+

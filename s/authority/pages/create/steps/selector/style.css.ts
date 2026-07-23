@@ -16,6 +16,13 @@ export default css`
 		text-align: center;
 	}
 
+	.selbox {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space);
+		margin: 2em auto;
+	}
+
 	.cards {
 		position: relative;
 		display: flex;
