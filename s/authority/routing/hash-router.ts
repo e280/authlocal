@@ -1,12 +1,12 @@
 
-import {hashSignal} from "@e280/sly"
+import {watchHash} from "@e280/sly"
 import {derived} from "@e280/strata"
 import {makeGo} from "./go.js"
 import {routes} from "./routes.js"
 import {Bank} from "../sys/bank.js"
 
 export function makeHashRouter(bank: Bank) {
-	const $hash = hashSignal()
+	const $hash = watchHash()
 	const go = makeGo(bank)
 	const render = routes(bank, go)
 
