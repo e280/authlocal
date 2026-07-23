@@ -32,7 +32,7 @@ export const EditSubpanel = shadow((options: {
 	return html`
 		<section class=section>
 
-			<label theme-field>
+			<label x-field>
 				<span>change your publicly-visible username:</span>
 				${TextInput({
 					debounceMs: 0,

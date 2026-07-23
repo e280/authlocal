@@ -38,7 +38,7 @@ export const DeleteSubpanel = shadow((options: {
 				<span>deleting this identity removes it from this device.</span>
 			</p>
 
-			<label theme-field>
+			<label x-field>
 				<span>type <code>${moniker}</code> exactly to confirm:</span>
 				<input
 					class=input
