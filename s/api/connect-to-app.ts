@@ -8,6 +8,7 @@ export async function connectToApp(opener: Window, setupApi: (appOrigin: string)
 	const {port, origin: appOrigin} = await sendPort({
 		to: opener,
 		topic: consts.postMessageTopic,
+		timeout: Infinity,
 	})
 
 	return new Portal<AppApi>({

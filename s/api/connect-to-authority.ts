@@ -10,6 +10,7 @@ export async function connectToAuthority(popup: Window, fns: AppApi) {
 		from: popup,
 		topic: consts.postMessageTopic,
 		fromOrigin: "http://localhost:8080",
+		timeout: Infinity,
 	})
 
 	return new Portal<AuthorityApi>({
