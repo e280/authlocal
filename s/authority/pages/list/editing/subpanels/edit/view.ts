@@ -5,7 +5,7 @@ import styleCss from "./style.css.js"
 import {Identity} from "../../../../../types.js"
 import {theme} from "../../../../../utils/theme.js"
 import {TextInput} from "../../../../../views/text-input/view.js"
-import {allowEmptyString, maxNameLength, validateName} from "../../../../../../lib/index.js"
+import {allowEmptyString, maxNameLength, validateAlias} from "../../../../../../lib/index.js"
 
 export const EditSubpanel = shadow((options: {
 		identity: Identity
@@ -16,8 +16,8 @@ export const EditSubpanel = shadow((options: {
 	useName("edit subpanel")
 	useCss(theme(), styleCss)
 
-	const validateAlias = allowEmptyString(validateName)
-	const $aliasMaybe = useSignal(validateAlias(options.identity.alias))
+	const validateAliasSpecial = allowEmptyString(validateAlias)
+	const $aliasMaybe = useSignal(validateAliasSpecial(options.identity.alias))
 	const aliasMaybe = $aliasMaybe()
 	const canSaveAlias = aliasMaybe.yay && aliasMaybe.value !== options.identity.alias
 
@@ -38,7 +38,7 @@ export const EditSubpanel = shadow((options: {
 					debounceMs: 0,
 					initialValue: options.identity.alias,
 					maxLength: maxNameLength,
-					validator: validateAlias,
+					validator: validateAliasSpecial,
 					on: aliasMaybe => $aliasMaybe(aliasMaybe),
 					placeholder: "optional alias",
 				})}

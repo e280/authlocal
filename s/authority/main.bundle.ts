@@ -12,7 +12,7 @@ import {signDelegate} from "../lib/alco/sign-delegate.js"
 const authorityOrigin = window.location.origin
 const bank = await Bank.init()
 const context = new Context(bank)
-const router = makeHashRouter(bank)
+const router = makeHashRouter(context)
 
 router.startAtHome()
 
@@ -26,7 +26,6 @@ dom.register({
 if (window.opener) {
 	const app = await connectToApp(window.opener, appOrigin => ({
 		async requestDelegates(petitions) {
-			console.log("petitions", petitions)
 			context.$expedition({appOrigin, petitions})
 		},
 	}))
@@ -34,7 +33,7 @@ if (window.opener) {
 	context.chooseIdentity.subscribe(async identity => {
 		const {appOrigin, petitions} = got(context.$expedition())
 		const delegates = petitions.map(petition =>
-			signDelegate(identity.root, petition, {appOrigin, authorityOrigin})
+			signDelegate(identity.root, identity.alias, petition, {appOrigin, authorityOrigin})
 		)
 		await app.deliverDelegates(delegates)
 	})

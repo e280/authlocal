@@ -33,6 +33,27 @@
 		gap: var(--pad);
 	}
 
+	[x-banner] {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--pad) / 2);
+		margin: var(--space) 0;
+
+		h2 {
+			color: white;
+			font-weight: bold;
+		}
+
+		code {
+			font-family: monospace;
+			color: oklch(from var(--login) l c h / 80%);
+			background: oklch(from var(--login) l c h / 10%);
+			border: 1px solid oklch(from var(--login) l c h / 25%);
+			padding: calc(var(--pad) / 4) calc(var(--pad) / 2);
+			border-radius: var(--round);
+		}
+	}
+
 	[x-appnav] {
 		display: flex;
 		justify-content: end;
@@ -80,6 +101,15 @@
 
 		&[x-vibe~="angry"] {
 			color: var(--angry);
+		}
+
+		&[x-vibe~="login"] {
+			color: white;
+			background: oklch(from var(--login) l c h / 25%);
+			border: 1px solid var(--login);
+			border-radius: var(--round);
+			text-shadow: 0 0 0.2em #0008;
+			font-weight: bold;
 		}
 
 		&[disabled] {

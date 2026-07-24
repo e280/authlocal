@@ -7,7 +7,7 @@ import {Identity} from "../../types.js"
 import {theme} from "../../utils/theme.js"
 import {TextInput} from "../../views/text-input/view.js"
 import {IdPoster} from "../../../ui/views/id-poster/view.js"
-import {address, allowEmptyString, deriveId, maxNameLength, seed, validateName} from "../../../lib/index.js"
+import {address, allowEmptyString, deriveId, maxNameLength, seed, validateAlias} from "../../../lib/index.js"
 
 export const RecoveryPage = shadow((options: {
 		back: () => void
@@ -45,7 +45,7 @@ export const RecoveryPage = shadow((options: {
 				${TextInput({
 					maxLength: maxNameLength,
 					placeholder: "optional alias",
-					validator: allowEmptyString(validateName),
+					validator: allowEmptyString(validateAlias),
 					on: alias => $alias(alias.yay ? alias.value : ""),
 				})}
 

@@ -1,10 +1,10 @@
 
 import {hashNav} from "@e280/sly"
-import {Bank} from "../sys/bank.js"
+import {Context} from "../context.js"
 
 export type Go = ReturnType<typeof makeGo>
 
-export const makeGo = (bank: Bank) => hashNav({
+export const makeGo = ({bank}: Context) => hashNav({
 	list: () => ``,
 	create: () => `create`,
 	recovery: () => `recovery`,

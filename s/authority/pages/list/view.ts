@@ -1,5 +1,6 @@
 
 import {html} from "lit"
+import {when} from "lit/directives/when.js"
 import {shadow, useCss, useName, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
@@ -11,6 +12,10 @@ import {deriveId, Id} from "../../../lib/index.js"
 import dotsIcon from "../../../ui/icons/tabler/dots.icon.js"
 
 export const ListPage = shadow((options: {
+		loginRequest?: {
+			appOrigin: string
+			login: (identity: Identity) => void
+		}
 		identities: Identity[]
 		goCreate: () => void
 		goRecovery: () => void
@@ -41,6 +46,15 @@ export const ListPage = shadow((options: {
 						${dotsIcon}
 				</button>
 
+				${when(options.loginRequest, ({login}) => html`
+					<button
+						slot=buttons
+						x-vibe=login
+						@click="${() => login(identity)}">
+							login
+					</button>
+				`)}
+
 				${$editing() === id
 					? Editing({
 						identity,
@@ -55,13 +69,24 @@ export const ListPage = shadow((options: {
 
 	return html`
 		<div x-title>
-			<h2>
-				${options.identities.length === 1
-					? "this identity is on your device"
-					: "these identities are on your device"}
-			</h2>
+			${options.loginRequest ? html`
+				<h2>a website is requesting your login</h2>
+			` : html`
+				<h2>
+					${options.identities.length === 1
+						? "this identity is on your device"
+						: "these identities are on your device"}
+				</h2>
+			`}
 			<hr/>
 		</div>
+
+		${when(options.loginRequest, ({appOrigin}) => html`
+			<div x-banner>
+				<p>the request is from <code>${appOrigin}</code>.</p>
+				<p>you can deny this request by closing this window.</p>
+			</div>
+		`)}
 
 		<div x-plate>
 			<ol>

@@ -30,7 +30,7 @@ export default suite({
 		const id = deriveId(root)
 
 		// authlocal signs a delegate
-		const delegate = signDelegate(root, petition(), venue())
+		const delegate = signDelegate(root, "chase", petition(), venue())
 
 		expect(delegate.signedBy).is(id)
 		expect(() => verifyDelegate(delegate, allowed())).not.throws()
@@ -40,7 +40,7 @@ export default suite({
 		"reject expired delegates": test(async() => {
 			const secret = generateSecret()
 			const expiresAt = 12_000
-			const delegate = signDelegate(secret, {...petition(), expiresAt}, venue())
+			const delegate = signDelegate(secret, "chase", {...petition(), expiresAt}, venue())
 			expect(() => verifyDelegate(delegate, {atTime: 11_000, ...allowed()})).not.throws()
 			expect(() => verifyDelegate(delegate, {atTime: 13_000, ...allowed()})).throws()
 			expect(() => verifyDelegate(delegate, {atTime: 12_000, ...allowed()})).throws()
@@ -52,6 +52,7 @@ export default suite({
 			const delegate: Delegate = {
 				...signDelegate(
 					badSecret, // actually signed by bad guy
+					"chase",
 					petition(),
 					venue(),
 				),
@@ -63,6 +64,7 @@ export default suite({
 		"audience required": test(async() => {
 			const delegate = signDelegate(
 				generateSecret(),
+				"chase",
 				petition(),
 				{...venue(), appOrigin: undefined as any},
 			)
@@ -72,6 +74,7 @@ export default suite({
 		"issuer required": test(async() => {
 			const delegate = signDelegate(
 				generateSecret(),
+				"chase",
 				petition(),
 				{...venue(), authorityOrigin: undefined as any},
 			)
@@ -81,6 +84,7 @@ export default suite({
 		"reject bad audience": test(async() => {
 			const delegate = signDelegate(
 				generateSecret(),
+				"chase",
 				petition(),
 				{...venue(), appOrigin: "https://bad.e280.org"},
 			)
@@ -90,6 +94,7 @@ export default suite({
 		"reject bad issuer": test(async() => {
 			const delegate = signDelegate(
 				generateSecret(),
+				"chase",
 				petition(),
 				{...venue(), authorityOrigin: "https://bad.e280.org"},
 			)

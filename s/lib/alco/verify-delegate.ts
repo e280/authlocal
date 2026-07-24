@@ -1,6 +1,8 @@
 
+import {maybe} from "@e280/stz"
 import {Payload} from "../tok/types.js"
 import {Delegate, Proof} from "./types.js"
+import {validateAlias} from "./validation.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {verifyToken} from "../tok/verify-token.js"
 
@@ -23,6 +25,8 @@ export function verifyDelegate(delegate: Delegate, options: {
 
 	if (delegateId !== proof.delegateId)
 		throw new Error("verification failed (delegateId)")
+
+	maybe.require(validateAlias(delegate.alias))
 
 	return delegate
 }

@@ -10,6 +10,7 @@ import {Delegate, Venue, Petition, Proof} from "./types.js"
 
 export function signDelegate(
 		sourceSecret: Secret,
+		alias: string,
 		petition: Petition,
 		venue: Venue,
 	): Delegate {
@@ -27,6 +28,6 @@ export function signDelegate(
 		iss: venue.authorityOrigin,
 	})
 
-	return {signedBy, secret, proofToken}
+	return {signedBy, alias, secret, proofToken}
 }
 

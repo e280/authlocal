@@ -43,6 +43,7 @@ console.log()
 console.log("==jwt proof token==")
 const jwtProof = signDelegate(
 	demo.secret,
+	"chase",
 	{
 		expiresAt: time.future.hours(1),
 		scope: "authlocal:delegate",

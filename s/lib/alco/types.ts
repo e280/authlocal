@@ -21,6 +21,7 @@ export type Venue = {
 export type Delegate = {
 	signedBy: Id
 	secret: Secret
+	alias: string
 	proofToken: string
 }
 

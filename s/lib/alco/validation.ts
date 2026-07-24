@@ -3,7 +3,7 @@ import {validator, deny, Validator, maybe} from "@e280/stz"
 
 export const maxNameLength = 32
 
-export const validateName = validator<string>(
+export const validateAlias = validator<string>(
 	deny("bad leading or trailing whitespace", s => s !== s.trim()),
 	deny("too small", s => s.length < 1),
 	deny("too big", s => s.length > maxNameLength),
