@@ -1,7 +1,7 @@
 
-import {demo} from "../demo.js"
-import {seed} from "./index.js"
 import {suite, test, expect} from "@e280/science"
+import {demo} from "../demo.js"
+import {seed} from "../../index.js"
 
 export default suite({
 	"secret->seed->secret": test(async() => {

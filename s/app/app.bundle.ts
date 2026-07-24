@@ -1,13 +1,12 @@
 
 import {dom} from "@e280/sly"
-import {assert, time} from "@e280/stz"
+import {time} from "@e280/stz"
+import {address} from "../lib/index.js"
 import {Delegate} from "../lib/alco/types.js"
-import {deriveId} from "../lib/cryp/derive-id.js"
-import {address} from "../lib/ergo/index.barrel.js"
 import {openPopup} from "../api/utils/open-popup.js"
 import {verifyDelegate} from "../lib/alco/verify-delegate.js"
 import {connectToAuthority} from "../api/connect-to-authority.js"
-import { generateSecret } from "../lib/cryp/generate-secret.js"
+import {generateSecret} from "../lib/cryp/generate-secret.js"
 
 console.log("authlocal demo app")
 

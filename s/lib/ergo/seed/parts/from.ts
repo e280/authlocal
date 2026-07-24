@@ -1,6 +1,6 @@
 
 import {hex} from "@e280/stz"
-import {address} from "../../address/index.js"
+import {address} from "../../../index.js"
 import {Secret} from "../../../cryp/types.js"
 import {deriveId} from "../../../cryp/derive-id.js"
 import {wordsFromBytes} from "../../phonemes/words.js"

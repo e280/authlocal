@@ -1,7 +1,7 @@
 
-import {demo} from "../demo.js"
-import {address} from "./index.js"
 import {suite, test, expect} from "@e280/science"
+import {demo} from "../demo.js"
+import {address} from "../../index.js"
 
 export default suite({
 	"address matches demo": test(async() => {

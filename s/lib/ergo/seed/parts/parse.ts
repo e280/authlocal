@@ -1,6 +1,6 @@
 
 import {hex, maybe, Maybe} from "@e280/stz"
-import {address} from "../../address/index.js"
+import {address} from "../../../index.js"
 import {deriveId} from "../../../cryp/derive-id.js"
 import {wordsToBytes} from "../../phonemes/words.js"
 
