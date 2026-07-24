@@ -23,8 +23,8 @@ export function signDelegate(
 	const proofToken = signToken<Payload<{proof: Proof}>>(sourceSecret, {
 		proof,
 		exp: tokenTime.at(expiresAt),
-		aud: venue.petitioner,
-		iss: venue.delegator,
+		aud: venue.appOrigin,
+		iss: venue.authorityOrigin,
 	})
 
 	return {signedBy, secret, proofToken}

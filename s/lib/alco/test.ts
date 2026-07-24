@@ -2,7 +2,6 @@
 import {time} from "@e280/stz"
 import {suite, test, expect} from "@e280/science"
 
-import {scopes} from "./scopes.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {signDelegate} from "./sign-delegate.js"
 import {verifyDelegate} from "./verify-delegate.js"
@@ -10,18 +9,18 @@ import {Delegate, Venue, Petition} from "./types.js"
 import {generateSecret} from "../cryp/generate-secret.js"
 
 const petition = (): Petition => ({
-	scope: scopes.login,
+	scope: "login",
 	expiresAt: time.future.hours(1),
 })
 
 const venue = (): Venue => ({
-	delegator: "https://authlocal.org",
-	petitioner: "https://e280.org",
+	appOrigin: "https://e280.org",
+	authorityOrigin: "https://authlocal.org",
 })
 
 const allowed = () => ({
-	allowedDelegators: [venue().delegator],
-	allowedPetitioners: [venue().petitioner],
+	allowedDelegators: [venue().authorityOrigin],
+	allowedPetitioners: [venue().appOrigin],
 })
 
 export default suite({
@@ -65,7 +64,7 @@ export default suite({
 			const delegate = signDelegate(
 				generateSecret(),
 				petition(),
-				{...venue(), petitioner: undefined as any},
+				{...venue(), appOrigin: undefined as any},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
@@ -74,7 +73,7 @@ export default suite({
 			const delegate = signDelegate(
 				generateSecret(),
 				petition(),
-				{...venue(), delegator: undefined as any},
+				{...venue(), authorityOrigin: undefined as any},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
@@ -83,7 +82,7 @@ export default suite({
 			const delegate = signDelegate(
 				generateSecret(),
 				petition(),
-				{...venue(), petitioner: "https://bad.e280.org"},
+				{...venue(), appOrigin: "https://bad.e280.org"},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
@@ -92,7 +91,7 @@ export default suite({
 			const delegate = signDelegate(
 				generateSecret(),
 				petition(),
-				{...venue(), delegator: "https://bad.e280.org"},
+				{...venue(), authorityOrigin: "https://bad.e280.org"},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),

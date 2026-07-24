@@ -1,6 +1,4 @@
 
-export * from "./derive-viceroy.js"
-export * from "./scopes.js"
 export * from "./sign-delegate.js"
 export * from "./validation.js"
 export * from "./types.js"

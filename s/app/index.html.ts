@@ -23,13 +23,13 @@ export default template(import.meta.url, async orb => html`
 			${socialCard({
 				themeColor: "#77ff81",
 				siteName: "authlocal.org",
-				title: "authlocal – user-sovereign login system",
-				description: "own your identity.. no emails/passwords/databases.. open-source.. privacy-focused..",
+				title: "authlocal demo",
+				description: "demonstration of basic authlocal integration",
 				image: `https://authlocal.org/assets/favicon.png`,
 			})}
 		</head>
 		<body>
-			<h1>authlocal demo app</h1>
+			<h1>authlocal demo</h1>
 			<button>login</button>
 		</body>
 	</html>
