@@ -6,14 +6,12 @@ import {Delegate} from "../lib/core/alco/types.js"
 import {openPopup} from "../lib/protocol/utils/open-popup.js"
 import {generateSecret} from "../lib/core/cryp/generate-secret.js"
 import {verifyDelegate} from "../lib/core/alco/verify-delegate.js"
-import {connectToAuthority} from "../lib/protocol/connect-to-authority.js"
-
-console.log("authlocal demo app")
+import {connectToDelegator} from "../lib/protocol/parts/connect-to-delegator.js"
 
 dom("button").onclick = async() => {
 	const popup = openPopup("auth", "../")
 
-	const authority = await connectToAuthority(popup, {
+	const authority = await connectToDelegator(popup, {
 		async deliverDelegates(delegates) {
 			const [loginDelegate, encryptionDelegate] = await Promise.all(
 				delegates.map((delegate: Delegate) =>

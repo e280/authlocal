@@ -6,7 +6,7 @@ import {dom, lightElement} from "@e280/sly"
 import {Bank} from "./parts/bank.js"
 import {Context} from "./context.js"
 import {makeHashRouter} from "./routing/hash-router.js"
-import {connectToApp} from "../lib/protocol/connect-to-app.js"
+import {connectToPetitioner} from "../lib/protocol/parts/connect-to-petitioner.js"
 import {signDelegate} from "../lib/core/alco/sign-delegate.js"
 
 const authorityOrigin = window.location.origin
@@ -24,7 +24,7 @@ dom.register({
 })
 
 if (window.opener) {
-	const app = await connectToApp(window.opener, appOrigin => ({
+	const app = await connectToPetitioner(window.opener, appOrigin => ({
 		async requestDelegates(petitions) {
 			context.$expedition({appOrigin, petitions})
 		},

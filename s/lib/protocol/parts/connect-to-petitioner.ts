@@ -1,17 +1,17 @@
 
 import {Portal} from "@e280/renraku"
 import {sendPort, webAutoTransfer} from "@e280/renraku/web"
-import {consts} from "../../consts.js"
-import {AppApi, AuthorityApi} from "./types.js"
+import {consts} from "../../../consts.js"
+import {PetitionerApi, DelegatorApi} from "../types.js"
 
-export async function connectToApp(opener: Window, setupApi: (appOrigin: string) => AuthorityApi) {
+export async function connectToPetitioner(opener: Window, setupApi: (petitionerOrigin: string) => DelegatorApi) {
 	const {port, origin: appOrigin} = await sendPort({
 		to: opener,
 		topic: consts.postMessageTopic,
 		timeout: Infinity,
 	})
 
-	return new Portal<AppApi>({
+	return new Portal<PetitionerApi>({
 		port,
 		fns: setupApi(appOrigin),
 		autoTransfer: webAutoTransfer,

@@ -1,11 +1,16 @@
 
 import {Delegate, Petition} from "../core/alco/types.js"
 
-export type AuthorityApi = {
+export type StandardDelegates = {
+	login: Delegate
+	encryption: Delegate
+}
+
+export type DelegatorApi = {
 	requestDelegates(petitions: Petition[]): Promise<void>
 }
 
-export type AppApi = {
+export type PetitionerApi = {
 	deliverDelegates(delegates: Delegate[]): Promise<void>
 }
 
