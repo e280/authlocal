@@ -1,13 +1,13 @@
 
 import {html, template} from "@e280/scute"
-import {pageHead} from "../authority/ssg/page-head.js"
+import {pageHead} from "../delegator/ssg/page-head.js"
 
 export default template(import.meta.url, async orb => html`
 	<!doctype html>
 	<html>
 		<head>
 			${pageHead(orb, "authlocal demo")}
-			<script type="module" src="${orb.hashurl("app.bundle.min.js")}"></script>
+			<script type="module" src="${orb.hashurl("demo.bundle.min.js")}"></script>
 		</head>
 		<body>
 			<h1>authlocal demo</h1>

@@ -14,13 +14,13 @@ const petition = (): Petition => ({
 })
 
 const venue = (): Venue => ({
-	appOrigin: "https://e280.org",
-	authorityOrigin: "https://authlocal.org",
+	petitionerOrigin: "https://e280.org",
+	delegatorOrigin: "https://authlocal.org",
 })
 
 const allowed = () => ({
-	allowedDelegators: [venue().authorityOrigin],
-	allowedPetitioners: [venue().appOrigin],
+	allowedDelegators: [venue().delegatorOrigin],
+	allowedPetitioners: [venue().petitionerOrigin],
 })
 
 export default suite({
@@ -66,7 +66,7 @@ export default suite({
 				generateSecret(),
 				"chase",
 				petition(),
-				{...venue(), appOrigin: undefined as any},
+				{...venue(), petitionerOrigin: undefined as any},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
@@ -76,7 +76,7 @@ export default suite({
 				generateSecret(),
 				"chase",
 				petition(),
-				{...venue(), authorityOrigin: undefined as any},
+				{...venue(), delegatorOrigin: undefined as any},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
@@ -86,7 +86,7 @@ export default suite({
 				generateSecret(),
 				"chase",
 				petition(),
-				{...venue(), appOrigin: "https://bad.e280.org"},
+				{...venue(), petitionerOrigin: "https://bad.e280.org"},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
@@ -96,7 +96,7 @@ export default suite({
 				generateSecret(),
 				"chase",
 				petition(),
-				{...venue(), authorityOrigin: "https://bad.e280.org"},
+				{...venue(), delegatorOrigin: "https://bad.e280.org"},
 			)
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),

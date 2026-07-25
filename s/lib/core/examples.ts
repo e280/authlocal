@@ -48,8 +48,8 @@ const jwtProof = signDelegate(
 		scope: "authlocal:delegate",
 	},
 	{
-		authorityOrigin: "https://authlocal.org",
-		appOrigin: "https://e280.org",
+		delegatorOrigin: "https://authlocal.org",
+		petitionerOrigin: "https://e280.org",
 	}
 ).proofToken
 console.log(jwtProof)

@@ -1,7 +1,7 @@
 
 import {shadow, useCss, useName, useOnce, useSignal} from "@e280/sly"
 import {CreateDraft} from "./types.js"
-import {theme} from "../../../dom/theme.js"
+import {theme} from "../../theme.js"
 import {SeedStep} from "./steps/seed/view.js"
 import {initDraft} from "./utils/init-draft.js"
 import {SelectorStep} from "./steps/selector/view.js"

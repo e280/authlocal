@@ -11,7 +11,7 @@ import {connectToDelegator} from "../lib/protocol/parts/connect-to-delegator.js"
 dom("button").onclick = async() => {
 	const popup = openPopup("auth", "../")
 
-	const authority = await connectToDelegator(popup, {
+	const delegator = await connectToDelegator(popup, {
 		async deliverDelegates(delegates) {
 			const [loginDelegate, encryptionDelegate] = await Promise.all(
 				delegates.map((delegate: Delegate) =>
@@ -27,7 +27,7 @@ dom("button").onclick = async() => {
 		},
 	})
 
-	await authority.requestDelegates([
+	await delegator.requestDelegates([
 		{scope: "login:" + generateSecret(), expiresAt: time.future.days(30)},
 		{scope: "encryption", expiresAt: time.future.days(30)},
 	])

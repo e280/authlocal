@@ -9,7 +9,7 @@ export class Context {
 	chooseIdentity = pub<[Identity]>()
 
 	$expedition = signal<null | {
-		appOrigin: string
+		petitionerOrigin: string
 		petitions: Petition[]
 	}>(null)
 

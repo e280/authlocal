@@ -9,7 +9,7 @@ import {makeHashRouter} from "./routing/hash-router.js"
 import {connectToPetitioner} from "../lib/protocol/parts/connect-to-petitioner.js"
 import {signDelegate} from "../lib/core/alco/sign-delegate.js"
 
-const authorityOrigin = window.location.origin
+const delegatorOrigin = window.location.origin
 const bank = await Bank.init()
 const context = new Context(bank)
 const router = makeHashRouter(context)
@@ -24,18 +24,18 @@ dom.register({
 })
 
 if (window.opener) {
-	const app = await connectToPetitioner(window.opener, appOrigin => ({
+	const petitioner = await connectToPetitioner(window.opener, appOrigin => ({
 		async requestDelegates(petitions) {
-			context.$expedition({appOrigin, petitions})
+			context.$expedition({petitionerOrigin: appOrigin, petitions})
 		},
 	}))
 
 	context.chooseIdentity.subscribe(async identity => {
-		const {appOrigin, petitions} = got(context.$expedition())
+		const {petitionerOrigin: appOrigin, petitions} = got(context.$expedition())
 		const delegates = petitions.map(petition =>
-			signDelegate(identity.root, identity.alias, petition, {appOrigin, authorityOrigin})
+			signDelegate(identity.root, identity.alias, petition, {petitionerOrigin: appOrigin, delegatorOrigin: delegatorOrigin})
 		)
-		await app.deliverDelegates(delegates)
+		await petitioner.deliverDelegates(delegates)
 	})
 }
 

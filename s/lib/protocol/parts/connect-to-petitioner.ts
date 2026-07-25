@@ -5,7 +5,7 @@ import {consts} from "../../../consts.js"
 import {PetitionerApi, DelegatorApi} from "../types.js"
 
 export async function connectToPetitioner(opener: Window, setupApi: (petitionerOrigin: string) => DelegatorApi) {
-	const {port, origin: appOrigin} = await sendPort({
+	const {port, origin: petitionerOrigin} = await sendPort({
 		to: opener,
 		topic: consts.postMessageTopic,
 		timeout: Infinity,
@@ -13,7 +13,7 @@ export async function connectToPetitioner(opener: Window, setupApi: (petitionerO
 
 	return new Portal<PetitionerApi>({
 		port,
-		fns: setupApi(appOrigin),
+		fns: setupApi(petitionerOrigin),
 		autoTransfer: webAutoTransfer,
 	}).remote
 }

@@ -13,15 +13,15 @@ export function pageHead(orb: Orb, title: string) {
 		<style>@layer base{html{background:#000}}</style>
 
 		<style data-theme>
-			${orb.inject("$/s/authority/css/fonts.css")}
-			${orb.inject("$/s/authority/css/layers.css")}
-			${orb.inject("$/s/authority/css/vars.css")}
-			${orb.inject("$/s/authority/css/base.css")}
-			${orb.inject("$/s/authority/css/common.css")}
+			${orb.inject("$/s/delegator/css/fonts.css")}
+			${orb.inject("$/s/delegator/css/layers.css")}
+			${orb.inject("$/s/delegator/css/vars.css")}
+			${orb.inject("$/s/delegator/css/base.css")}
+			${orb.inject("$/s/delegator/css/common.css")}
 		</style>
 
 		<style>
-			${orb.inject("$/s/authority/css/page.css")}
+			${orb.inject("$/s/delegator/css/page.css")}
 		</style>
 
 		${socialCard({

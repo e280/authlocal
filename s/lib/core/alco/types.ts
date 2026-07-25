@@ -11,10 +11,10 @@ export type Petition = {
 export type Venue = {
 
 	/** origin of the app that sends petitions (eg, "https://e280.org") */
-	appOrigin: string
+	petitionerOrigin: string
 
-	/** origin of the authority that signs delegates (eg, "https://authlocal.org") */
-	authorityOrigin: string
+	/** origin of the delegator that signs delegates (eg, "https://authlocal.org") */
+	delegatorOrigin: string
 }
 
 /** a delegate keypair is a scoped keypair derived from a viceroy */
