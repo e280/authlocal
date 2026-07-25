@@ -1,31 +1,5 @@
 
-export * from "./alco/sign-delegate.js"
-export * from "./alco/validation.js"
-export * from "./alco/types.js"
-export * from "./alco/verify-delegate.js"
-
-export *  from "./cryp/decrypt.js"
-export *  from "./cryp/derive-id.js"
-export *  from "./cryp/derive-secret.js"
-export *  from "./cryp/derive-shared-secret.js"
-export *  from "./cryp/encrypt.js"
-export *  from "./cryp/generate-keypair.js"
-export *  from "./cryp/generate-secret.js"
-export *  from "./cryp/hash.js"
-export *  from "./cryp/key-bytes.js"
-export *  from "./cryp/sign-bytes.js"
-export *  from "./cryp/verify-bytes.js"
-export *  from "./cryp/types.js"
-
-export * as seed from "./ergo/seed/index.js"
-export * as address from "./ergo/address/index.js"
-
-export * as tok from "./tok/index.js"
-
-export * from "./micro/fns/decode.js"
-export * from "./micro/fns/sign.js"
-export * from "./micro/fns/verify.js"
-export * from "./micro/types/data.js"
-
-export * from "./utils/err.js"
+export * from "./core/index.js"
+export * from "./protocol/index.js"
+export * from "./ui/index.js"
 

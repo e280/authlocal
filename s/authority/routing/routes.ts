@@ -3,10 +3,10 @@ import {Content, router} from "@e280/sly"
 
 import {Go} from "./go.js"
 import {Context} from "../context.js"
-import {ListPage} from "../pages/list/view.js"
-import {CreatePage} from "../pages/create/view.js"
-import {address, deriveId} from "../../lib/index.js"
-import {RecoveryPage} from "../pages/recovery/view.js"
+import {ListPage} from "../dom/pages/list/view.js"
+import {CreatePage} from "../dom/pages/create/view.js"
+import {address, deriveId} from "../../lib/core/index.js"
+import {RecoveryPage} from "../dom/pages/recovery/view.js"
 
 export type Page = {
 	zone: string

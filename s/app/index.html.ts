@@ -1,32 +1,13 @@
 
-import {html, socialCard, template} from "@e280/scute"
+import {html, template} from "@e280/scute"
+import {pageHead} from "../authority/ssg/page-head.js"
 
 export default template(import.meta.url, async orb => html`
 	<!doctype html>
 	<html>
 		<head>
-			<meta charset="utf-8"/>
-			<meta name="viewport" content="width=device-width,initial-scale=1"/>
-			<meta name="darkreader-lock"/>
-			<style>@layer base{html{background:#000}}</style>
-
-			<title>authlocal demo</title>
-			<link rel="icon" href="/assets/favicon.png"/>
+			${pageHead(orb, "authlocal demo")}
 			<script type="module" src="${orb.hashurl("app.bundle.min.js")}"></script>
-			<style data-theme>${orb.inject("../authority/styles/fonts.css")}</style>
-			<style data-theme>${orb.inject("../authority/styles/layers.css")}</style>
-			<style data-theme>${orb.inject("../authority/styles/vars.css")}</style>
-			<style data-theme>${orb.inject("../authority/styles/base.css")}</style>
-			<style data-theme>${orb.inject("../authority/styles/common.css")}</style>
-			<style>${orb.inject("../authority/styles/page.css")}</style>
-
-			${socialCard({
-				themeColor: "#77ff81",
-				siteName: "authlocal.org",
-				title: "authlocal demo",
-				description: "demonstration of basic authlocal integration",
-				image: `https://authlocal.org/assets/favicon.png`,
-			})}
 		</head>
 		<body>
 			<h1>authlocal demo</h1>

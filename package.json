@@ -3,15 +3,17 @@
 	"version": "0.3.0-0",
 	"description": "user-sovereign login system for everybody",
 	"license": "MIT",
-	"main": "./x/index.js",
+	"main": "./x/lib/index.js",
 	"type": "module",
 	"files": [
 		"x",
 		"s"
 	],
 	"exports": {
-		".": "./x/index.js",
-		"./lib": "./x/lib/index.js"
+		".": "./x/lib/index.js",
+		"./core": "./x/lib/core/index.js",
+		"./protocol": "./x/lib/protocol/index.js",
+		"./ui": "./x/lib/ui/index.js"
 	},
 	"scripts": {
 		"link": "npm link ../strata ../sly ../shiny",
@@ -21,6 +23,10 @@
 		"test": "node x/test.js",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
 		"examples": "node x/lib/examples.js"
+	},
+	"allowScripts": {
+		"esbuild@0.28.1": true,
+		"classic-level@3.0.0": true
 	},
 	"dependencies": {
 		"@awasm/noble": "^0.1.4",
@@ -41,10 +47,6 @@
 		"http-server": "^14.1.1",
 		"npm-run-all": "^4.1.5",
 		"typescript": "^7.0.2"
-	},
-	"allowScripts": {
-		"esbuild@0.28.1": true,
-		"classic-level@3.0.0": true
 	},
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
 	"homepage": "https://github.com/e280/authlocal#readme",

@@ -1,12 +1,12 @@
 
 import {Science} from "@e280/science"
 
-import alco from "./lib/alco/test.js"
-import address from "./lib/ergo/address/test.js"
-import cryp from "./lib/cryp/test.js"
-import seed from "./lib/ergo/seed/test.js"
-import phonemes from "./lib/ergo/phonemes/test.js"
-import micro from "./lib/micro/test.js"
+import alco from "./lib/core/alco/test.js"
+import address from "./lib/core/ergo/address/test.js"
+import cryp from "./lib/core/cryp/test.js"
+import seed from "./lib/core/ergo/seed/test.js"
+import phonemes from "./lib/core/ergo/phonemes/test.js"
+import micro from "./lib/core/micro/test.js"
 
 await Science.run({
 	alco,

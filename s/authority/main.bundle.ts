@@ -3,11 +3,11 @@ import {html} from "lit"
 import {got} from "@e280/stz"
 import {dom, lightElement} from "@e280/sly"
 
-import {Bank} from "./sys/bank.js"
+import {Bank} from "./parts/bank.js"
 import {Context} from "./context.js"
-import {connectToApp} from "../api/connect-to-app.js"
 import {makeHashRouter} from "./routing/hash-router.js"
-import {signDelegate} from "../lib/alco/sign-delegate.js"
+import {connectToApp} from "../lib/protocol/connect-to-app.js"
+import {signDelegate} from "../lib/core/alco/sign-delegate.js"
 
 const authorityOrigin = window.location.origin
 const bank = await Bank.init()
