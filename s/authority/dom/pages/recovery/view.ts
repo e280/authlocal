@@ -6,7 +6,7 @@ import {theme} from "../../theme.js"
 import styleCss from "./style.css.js"
 import {Identity} from "../../../types.js"
 import {TextInput} from "../../views/text-input/view.js"
-import {IdPoster} from "../../../../lib/ui/views/id-poster/view.js"
+import {Poster} from "../../../../lib/ui/views/poster/view.js"
 import {address, allowEmptyString, deriveId, maxNameLength, seed, validateAlias} from "../../../../lib/core/index.js"
 
 export const RecoveryPage = shadow((options: {
@@ -58,10 +58,7 @@ export const RecoveryPage = shadow((options: {
 			</div>
 
 			${identity
-				? IdPoster({
-					alias: identity.alias,
-					id: deriveId(identity.root),
-				})
+				? Poster(deriveId(identity.root), identity.alias)
 				: null}
 
 			<nav x-nav>

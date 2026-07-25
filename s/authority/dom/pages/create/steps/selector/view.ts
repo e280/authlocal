@@ -5,7 +5,7 @@ import {shadow, useCss} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {theme} from "../../../../theme.js"
 import {CreateDraft} from "../../types.js"
-import {IdPoster} from "../../../../../../lib/ui/views/id-poster/view.js"
+import {Poster} from "../../../../../../lib/ui/views/poster/view.js"
 import {deriveIdentityFromIndex} from "../../utils/derive-identity-from-index.js"
 
 export const SelectorStep = shadow((options: {
@@ -34,10 +34,10 @@ export const SelectorStep = shadow((options: {
 		return clickable
 			? html`
 				<button @click="${onClick}">
-					${IdPoster({id, alias})}
+					${Poster(id, alias)}
 				</button>
 			`
-			: IdPoster({id, alias})
+			: Poster(id, alias)
 	}
 
 	return html`
