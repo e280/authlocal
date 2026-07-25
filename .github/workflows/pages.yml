@@ -37,7 +37,6 @@ jobs:
         npm prune --omit=dev
         mv node_modules x/node_modules
         mv s x/s
-        mv assets x/assets
 
     - uses: actions/upload-pages-artifact@v4
       with:
