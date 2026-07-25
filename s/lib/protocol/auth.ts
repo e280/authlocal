@@ -1,12 +1,12 @@
 
-import {Kv, StorageMagazine} from "@e280/kv"
 import {signal} from "@e280/strata"
-import {Cubby, defer, time} from "@e280/stz"
+import {Cubby, time} from "@e280/stz"
+import {Kv, StorageMagazine} from "@e280/kv"
 import {StandardDelegates} from "./types.js"
 import {AuthSession} from "./auth-session.js"
-import {openPopup} from "./utils/open-popup.js"
+import {openPopup} from "./parts/open-popup.js"
+import {generateSecret, verifyDelegate} from "../core/index.js"
 import {connectToDelegator} from "./parts/connect-to-delegator.js"
-import {Delegate, generateSecret, verifyDelegate} from "../core/index.js"
 
 export class Auth {
 	#cubby
@@ -16,7 +16,9 @@ export class Auth {
 
 	constructor({
 			delegatorUrl = "https://authlocal.org/",
-			cubby = new Kv(new StorageMagazine()).scope("authlocal").cell<StandardDelegates>("delegates"),
+			cubby = new Kv(new StorageMagazine())
+				.scope("authlocal")
+				.cell<StandardDelegates>("delegates"),
 		}: {
 			delegatorUrl?: string
 			cubby?: Cubby<StandardDelegates>
@@ -50,33 +52,32 @@ export class Auth {
 		return null
 	}
 
+	async logout() {
+		this.#session(null)
+		await this.#cubby.set(undefined)
+	}
+
 	async loginViaPopup({encryptionSalt = ""}: {encryptionSalt?: string} = {}) {
-		const session = defer<AuthSession>()
 		const popup = openPopup("auth", this.#delegatorUrl)
+		const portal = await connectToDelegator(popup)
 
-		const delegator = await connectToDelegator(popup, {
-			deliverDelegates: async delegates => {
-				const [login, encryption] = delegates.map((delegate: Delegate) =>
-					verifyDelegate(delegate, {
-						allowedPetitioners: [window.location.origin],
-						allowedDelegators: [this.#delegatorOrigin],
-					})
-				)
-				session.resolve(new AuthSession({login, encryption}))
-				popup.close()
-			},
-		})
-
-		await delegator.requestDelegates([
+		const freshDelegates = await portal.remote.requestDelegates([
 			{scope: "login:" + generateSecret(), expiresAt: time.future.days(30)},
 			{scope: "encryption:" + encryptionSalt, expiresAt: time.future.days(30)},
 		])
 
-		return session.promise.then(async session => {
-			await this.#cubby.set(session.delegates)
-			this.#session(session)
-			return session
-		})
+		portal.close()
+		popup.close()
+
+		const [login, encryption] = freshDelegates.map(d => verifyDelegate(d, {
+			allowedDelegators: [this.#delegatorOrigin],
+			allowedPetitioners: [window.location.origin],
+		}))
+
+		const session = new AuthSession({login, encryption})
+		await this.#cubby.set(session.delegates)
+		this.#session(session)
+		return session
 	}
 }
 

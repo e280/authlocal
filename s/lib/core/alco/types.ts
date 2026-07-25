@@ -7,16 +7,6 @@ export type Petition = {
 	expiresAt: number
 }
 
-/** describes to whom a delegate is for, and from whence it came */
-export type Venue = {
-
-	/** origin of the app that sends petitions (eg, "https://e280.org") */
-	petitionerOrigin: string
-
-	/** origin of the delegator that signs delegates (eg, "https://authlocal.org") */
-	delegatorOrigin: string
-}
-
 /** a delegate keypair is a scoped keypair derived from a viceroy */
 export type Delegate = {
 	signedBy: Id

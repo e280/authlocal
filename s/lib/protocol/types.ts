@@ -7,10 +7,6 @@ export type StandardDelegates = {
 }
 
 export type DelegatorApi = {
-	requestDelegates(petitions: Petition[]): Promise<void>
-}
-
-export type PetitionerApi = {
-	deliverDelegates(delegates: Delegate[]): Promise<void>
+	requestDelegates(petitions: Petition[]): Promise<Delegate[]>
 }
 

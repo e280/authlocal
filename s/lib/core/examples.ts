@@ -40,18 +40,16 @@ for (const _ of count(2)) {
 console.log()
 
 console.log("==jwt proof token==")
-const jwtProof = signDelegate(
-	demo.secret,
-	"chase",
-	{
+const jwtProof = signDelegate({
+	secret: demo.secret,
+	alias: "chase",
+	petitionerOrigin: "https://e280.org",
+	delegatorOrigin: "https://authlocal.org",
+	petition: {
 		expiresAt: time.future.hours(1),
 		scope: "authlocal:delegate",
 	},
-	{
-		delegatorOrigin: "https://authlocal.org",
-		petitionerOrigin: "https://e280.org",
-	}
-).proofToken
+}).proofToken
 console.log(jwtProof)
 console.log(jwtProof.length)
 console.log()

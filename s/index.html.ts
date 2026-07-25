@@ -7,7 +7,7 @@ export default template(import.meta.url, async orb => html`
 	<html>
 		<head>
 			${pageHead(orb, "authlocal")}
-			<script type="module" src="${orb.hashurl("delegator/main.bundle.min.js")}"></script>
+			<script type="module" src="${orb.hashurl("delegator/delegator.bundle.min.js")}"></script>
 		</head>
 		<body>
 			<header>

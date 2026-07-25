@@ -5,22 +5,27 @@ import {suite, test, expect} from "@e280/science"
 import {deriveId} from "../cryp/derive-id.js"
 import {signDelegate} from "./sign-delegate.js"
 import {verifyDelegate} from "./verify-delegate.js"
-import {Delegate, Venue, Petition} from "./types.js"
+import {Delegate} from "./types.js"
 import {generateSecret} from "../cryp/generate-secret.js"
 
-const petition = (): Petition => ({
+const petitionerOrigin = "https://e280.org"
+const delegatorOrigin = "https://authlocal.org"
+
+const petition = () => ({
 	scope: "login",
 	expiresAt: time.future.hours(1),
 })
 
-const venue = (): Venue => ({
-	petitionerOrigin: "https://e280.org",
-	delegatorOrigin: "https://authlocal.org",
+const basics = () => ({
+	alias: "chase",
+	delegatorOrigin,
+	petitionerOrigin,
+	petition: petition(),
 })
 
 const allowed = () => ({
-	allowedDelegators: [venue().delegatorOrigin],
-	allowedPetitioners: [venue().petitionerOrigin],
+	allowedDelegators: [delegatorOrigin],
+	allowedPetitioners: [petitionerOrigin],
 })
 
 export default suite({
@@ -30,7 +35,7 @@ export default suite({
 		const id = deriveId(root)
 
 		// authlocal signs a delegate
-		const delegate = signDelegate(root, "chase", petition(), venue())
+		const delegate = signDelegate({...basics(), secret: root})
 
 		expect(delegate.signedBy).is(id)
 		expect(() => verifyDelegate(delegate, allowed())).not.throws()
@@ -40,7 +45,7 @@ export default suite({
 		"reject expired delegates": test(async() => {
 			const secret = generateSecret()
 			const expiresAt = 12_000
-			const delegate = signDelegate(secret, "chase", {...petition(), expiresAt}, venue())
+			const delegate = signDelegate({...basics(), secret, petition: {...petition(), expiresAt}})
 			expect(() => verifyDelegate(delegate, {atTime: 11_000, ...allowed()})).not.throws()
 			expect(() => verifyDelegate(delegate, {atTime: 13_000, ...allowed()})).throws()
 			expect(() => verifyDelegate(delegate, {atTime: 12_000, ...allowed()})).throws()
@@ -50,54 +55,48 @@ export default suite({
 			const goodId = deriveId(generateSecret())
 			const badSecret = generateSecret()
 			const delegate: Delegate = {
-				...signDelegate(
-					badSecret, // actually signed by bad guy
-					"chase",
-					petition(),
-					venue(),
-				),
+				...signDelegate({
+					...basics(),
+					secret: badSecret, // actually signed by bad guy
+				}),
 				signedBy: goodId, // pretending to be signed by good guy
 			}
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
 
 		"audience required": test(async() => {
-			const delegate = signDelegate(
-				generateSecret(),
-				"chase",
-				petition(),
-				{...venue(), petitionerOrigin: undefined as any},
-			)
+			const delegate = signDelegate({
+				...basics(),
+				secret: generateSecret(),
+				petitionerOrigin: undefined as any,
+			})
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
 
 		"issuer required": test(async() => {
-			const delegate = signDelegate(
-				generateSecret(),
-				"chase",
-				petition(),
-				{...venue(), delegatorOrigin: undefined as any},
-			)
+			const delegate = signDelegate({
+				...basics(),
+				secret: generateSecret(),
+				delegatorOrigin: undefined as any,
+			})
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
 
 		"reject bad audience": test(async() => {
-			const delegate = signDelegate(
-				generateSecret(),
-				"chase",
-				petition(),
-				{...venue(), petitionerOrigin: "https://bad.e280.org"},
-			)
+			const delegate = signDelegate({
+				...basics(),
+				secret: generateSecret(),
+				petitionerOrigin: "https://bad.e280.org"
+			})
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
 
 		"reject bad issuer": test(async() => {
-			const delegate = signDelegate(
-				generateSecret(),
-				"chase",
-				petition(),
-				{...venue(), delegatorOrigin: "https://bad.e280.org"},
-			)
+			const delegate = signDelegate({
+				...basics(),
+				secret: generateSecret(),
+				delegatorOrigin: "https://bad.e280.org",
+			})
 			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
 	},

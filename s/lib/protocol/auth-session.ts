@@ -1,12 +1,12 @@
 
 import {StandardDelegates} from "./types.js"
-import {address, deriveId, tokenTime} from "../core/index.js"
+import {address, tokenTime} from "../core/index.js"
 
 export class AuthSession {
 	constructor(public delegates: StandardDelegates) {}
 
 	get id() {
-		return deriveId(this.delegates.login.secret)
+		return this.delegates.login.signedBy
 	}
 
 	get alias() {

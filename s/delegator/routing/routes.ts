@@ -21,11 +21,11 @@ export const routes = (context: Context, go: Go) => router({
 			loginRequest: (
 				(expedition) ? {
 					petitionerOrigin: expedition.petitionerOrigin,
-					login: identity => context.chooseIdentity.publish(identity),
+					login: expedition.chooseIdentity,
 				} :
 				(window.location.search.startsWith("?login")) ? {
 					petitionerOrigin: "https://example.e280.org",
-					login: identity => console.log("LOGIN WITH", identity.alias),
+					login: identity => console.log("login chosen", identity.alias),
 				} :
 				undefined
 			),
