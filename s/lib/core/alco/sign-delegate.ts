@@ -1,18 +1,23 @@
 
+import {time} from "@e280/stz"
 import {hash} from "../cryp/hash.js"
-import {Secret} from "../cryp/types.js"
+import {Root} from "../cryp/types.js"
 import {Payload} from "../tok/types.js"
+import {consts} from "../../../consts.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {signToken} from "../tok/sign-token.js"
 import {tokenTime} from "../tok/token-time.js"
 import {Delegate, Petition, Proof} from "./types.js"
 import {deriveSecret} from "../cryp/derive-secret.js"
 
-export function signDelegate({secret, alias, petition, petitionerOrigin, delegatorOrigin}: {
-		secret: Secret,
+export function signDelegate({root, alias, petition, petitionerOrigin, delegatorOrigin, atTime}: {
+		/** user identity root secret */
+		root: Root,
 
+		/** user identity alias to be included in the delegate */
 		alias: string,
 
+		/** petition describing the desired delegate */
 		petition: Petition,
 
 		/** origin of the app that sends petitions (eg, "https://e280.org") */
@@ -20,21 +25,30 @@ export function signDelegate({secret, alias, petition, petitionerOrigin, delegat
 
 		/** origin of the delegator that signs delegates (eg, "https://authlocal.org") */
 		delegatorOrigin: string
+
+		/** js time when we are signing this delegate */
+		atTime: number
 	}): Delegate {
 
-	const signedBy = deriveId(secret)
+	const signedBy = deriveId(root)
+	const {purpose, scope} = petition
 
-	const delegateSecret = deriveSecret(secret, hash(petition.scope))
-	const delegateId = deriveId(delegateSecret)
+	const expiresAt = Math.min(
+		petition.expiresAt,
+		atTime + time.days(consts.maxProofExpiryDays),
+	)
 
-	const proof: Proof = {delegateId, signedBy}
-	const proofToken = signToken<Payload<{proof: Proof}>>(secret, {
+	const secret = deriveSecret(root, hash(purpose, scope))
+	const delegateId = deriveId(secret)
+
+	const proof: Proof = {delegateId, signedBy, purpose, scope}
+	const proofToken = signToken<Payload<{proof: Proof}>>(root, {
 		proof,
-		exp: tokenTime.at(petition.expiresAt),
+		exp: tokenTime.at(expiresAt),
 		aud: petitionerOrigin,
 		iss: delegatorOrigin,
 	})
 
-	return {signedBy, alias, secret: delegateSecret, proofToken}
+	return {signedBy, alias, purpose, scope, secret, proofToken}
 }
 

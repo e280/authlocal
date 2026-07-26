@@ -1,10 +1,11 @@
 
+import {gotValue, time} from "@e280/stz"
 import {signal} from "@e280/strata"
-import {Cubby, time} from "@e280/stz"
 import {Kv, StorageMagazine} from "@e280/kv"
-import {StandardDelegates} from "./types.js"
+
 import {Session} from "./session.js"
 import {openPopup} from "./parts/open-popup.js"
+import {AuthOptions, StandardDelegates} from "./types.js"
 import {generateSecret, verifyDelegate} from "../core/index.js"
 import {connectToDelegator} from "./parts/connect-to-delegator.js"
 
@@ -19,10 +20,7 @@ export class Auth {
 			cubby = new Kv(new StorageMagazine())
 				.scope("authlocal")
 				.cell<StandardDelegates>("delegates"),
-		}: {
-			delegatorUrl?: string
-			cubby?: Cubby<StandardDelegates>
-		} = {}) {
+		}: Partial<AuthOptions> = {}) {
 		this.#cubby = cubby
 		this.#delegatorUrl = delegatorUrl
 		this.#delegatorOrigin = new URL(delegatorUrl, window.location.href).origin
@@ -62,17 +60,17 @@ export class Auth {
 		const portal = await connectToDelegator(popup)
 
 		const freshDelegates = await portal.remote.requestDelegates([
-			{scope: "login:" + generateSecret(), expiresAt: time.future.days(30)},
-			{scope: "encryption:" + encryptionScope, expiresAt: time.future.days(30)},
+			{purpose: "login", scope: generateSecret(), expiresAt: time.future.days(30)},
+			{purpose: "", scope: "v1:" + encryptionScope, expiresAt: time.future.days(30)},
 		])
 
 		portal.close()
 		popup.close()
 
-		const [login, encryption] = freshDelegates.map(d => verifyDelegate(d, {
+		const [login, encryption] = freshDelegates.map(d => gotValue(verifyDelegate(d, {
 			allowedDelegators: [this.#delegatorOrigin],
 			allowedPetitioners: [window.location.origin],
-		}))
+		})))
 
 		const session = new Session({login, encryption})
 		await this.#cubby.set(session.delegates)

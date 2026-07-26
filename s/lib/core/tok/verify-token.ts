@@ -1,15 +1,16 @@
 
+import {Maybe, nay, yay} from "@e280/stz"
 import {Id} from "../cryp/types.js"
 import {tokenTime} from "./token-time.js"
 import {decodeToken} from "./decode-token.js"
 import {verifyBytes} from "../cryp/verify-bytes.js"
-import {Payload, TokenVerifications, TokenVerifyErr} from "./types.js"
+import {Payload, TokenVerifications} from "./types.js"
 
 export function verifyToken<P extends Payload>(
 		id: Id,
 		token: string,
 		options: TokenVerifications = {},
-	): P {
+	): Maybe<P> {
 
 	const [headerText, payloadText] = token.split(".")
 	const {payload, signature} = decodeToken<P>(token)
@@ -17,7 +18,7 @@ export function verifyToken<P extends Payload>(
 	const signingBytes = new TextEncoder().encode(signingText)
 
 	if (!verifyBytes(id, signingBytes, signature))
-		throw new TokenVerifyErr("token signature invalid")
+		return nay(`bad signature`)
 
 	if (options.atTime !== null) {
 		const atTime = options.atTime ?? Date.now()
@@ -25,36 +26,36 @@ export function verifyToken<P extends Payload>(
 		if (payload.exp) {
 			const expiresAt = tokenTime.toMs(payload.exp)
 			if (atTime >= expiresAt)
-				throw new TokenVerifyErr("token expired")
+				return nay(`expired`)
 		}
 
 		if (payload.nbf) {
 			const notBefore = tokenTime.toMs(payload.nbf)
 			if (atTime < notBefore)
-				throw new TokenVerifyErr("token not ready")
+				return nay(`too soon for nbf`)
 		}
 	}
 
 	if (options.allowedIssuers) {
 		if (!payload.iss)
-			throw new TokenVerifyErr(`required iss (issuer) is missing`)
+			return nay(`missing iss`)
 		if (!options.allowedIssuers.includes(payload.iss))
-			throw new TokenVerifyErr(`invalid iss (issuer) "${payload.iss}"`)
+			return nay(`bad iss "${payload.iss}"`)
 	}
 
 	if (options.allowedAudiences) {
 		if (!payload.aud)
-			throw new TokenVerifyErr(`required aud (audience) is missing`)
+			return nay(`missing aud`)
 		if (!options.allowedAudiences.includes(payload.aud))
-			throw new TokenVerifyErr(`invalid aud (audience) "${payload.aud}"`)
+			return nay(`bad aud "${payload.aud}"`)
 	}
 
 	if (payload.aud && !options.allowedAudiences)
-		throw new TokenVerifyErr(`allowedAudiences verification option was not provided, but is required because the token included "aud"`)
+		return nay(`aud requires allowedAudiences but it was not provided`)
 
 	if (payload.iss && !options.allowedIssuers)
-		throw new TokenVerifyErr(`allowedIssuers verification option was not provided, but is required because the token included "iss"`)
+		return nay(`iss requires allowedAudiences but it was not provided`)
 
-	return payload
+	return yay(payload)
 }
 

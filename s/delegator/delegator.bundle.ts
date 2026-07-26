@@ -39,11 +39,12 @@ if (window.opener) {
 
 			return petitions.map(petition =>
 				signDelegate({
-					secret: identity.root,
+					root: identity.root,
 					alias: identity.alias,
 					petition,
 					delegatorOrigin,
 					petitionerOrigin,
+					atTime: Date.now(),
 				})
 			)
 		},

@@ -41,13 +41,15 @@ console.log()
 
 console.log("==jwt proof token==")
 const jwtProof = signDelegate({
-	secret: demo.secret,
+	atTime: Date.now(),
+	root: demo.root,
 	alias: "chase",
 	petitionerOrigin: "https://e280.org",
 	delegatorOrigin: "https://authlocal.org",
 	petition: {
+		purpose: "test",
+		scope: generateSecret(),
 		expiresAt: time.future.hours(1),
-		scope: "authlocal:delegate",
 	},
 }).proofToken
 console.log(jwtProof)
@@ -55,7 +57,7 @@ console.log(jwtProof.length)
 console.log()
 
 console.log("==micro proof token==")
-const microProof = microSign(demo.secret, {
+const microProof = microSign(demo.root, {
 	audience: "https://e280.org",
 	expiresAt: time.future.hours(1),
 	payload: bytes.random(64),

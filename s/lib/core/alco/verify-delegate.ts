@@ -1,5 +1,5 @@
 
-import {maybe} from "@e280/stz"
+import {gotValue, isNay, Maybe, nay, yay} from "@e280/stz"
 import {Payload} from "../tok/types.js"
 import {Delegate, Proof} from "./types.js"
 import {validateAlias} from "./validation.js"
@@ -10,24 +10,45 @@ export function verifyDelegate(delegate: Delegate, options: {
 		atTime?: number
 		allowedDelegators?: string[]
 		allowedPetitioners?: string[]
-	} = {}) {
+		allowedScopes?: string[]
+		allowedPurposes?: string[]
+	} = {}): Maybe<Delegate> {
 
-	const {signedBy, secret, proofToken} = delegate
-	const delegateId = deriveId(secret)
-	const {proof} = verifyToken<Payload<{proof: Proof}>>(signedBy, proofToken, {
+	const delegateId = deriveId(delegate.secret)
+	const token = verifyToken<Payload<{proof: Proof}>>(delegate.signedBy, delegate.proofToken, {
 		atTime: options.atTime,
 		allowedIssuers: options.allowedDelegators,
 		allowedAudiences: options.allowedPetitioners,
 	})
 
-	if (signedBy !== proof.signedBy)
-		throw new Error("verification failed (signedBy)")
+	if (isNay(token))
+		return token
+
+	const {proof} = gotValue(token)
+
+	if (delegate.signedBy !== proof.signedBy)
+		return nay("delegate/proof mismatch (signedBy)")
 
 	if (delegateId !== proof.delegateId)
-		throw new Error("verification failed (delegateId)")
+		return nay("delegate/proof mismatch (delegateId)")
 
-	maybe.require(validateAlias(delegate.alias))
+	if (delegate.purpose !== proof.purpose)
+		return nay("delegate/proof mismatch (purpose)")
 
-	return delegate
+	if (delegate.scope !== proof.scope)
+		return nay("delegate/proof mismatch (scope)")
+
+	if (options.allowedPurposes && !options.allowedPurposes.includes(proof.purpose))
+		return nay(`purpose not allowed "${proof.purpose}"`)
+
+	if (options.allowedScopes && !options.allowedScopes.includes(proof.scope))
+		return nay(`scope not allowed "${proof.scope}"`)
+
+	const alias = validateAlias(delegate.alias)
+
+	if (isNay(alias))
+		return alias
+
+	return yay(delegate)
 }
 

@@ -1,18 +1,19 @@
 
-import {time} from "@e280/stz"
-import {suite, test, expect} from "@e280/science"
+import {isNay, isYay, time} from "@e280/stz"
+import {suite, test, expect, assert} from "@e280/science"
 
+import {Delegate} from "./types.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {signDelegate} from "./sign-delegate.js"
 import {verifyDelegate} from "./verify-delegate.js"
-import {Delegate} from "./types.js"
 import {generateSecret} from "../cryp/generate-secret.js"
 
 const petitionerOrigin = "https://e280.org"
 const delegatorOrigin = "https://authlocal.org"
 
 const petition = () => ({
-	scope: "login",
+	purpose: "login",
+	scope: generateSecret(),
 	expiresAt: time.future.hours(1),
 })
 
@@ -21,83 +22,85 @@ const basics = () => ({
 	delegatorOrigin,
 	petitionerOrigin,
 	petition: petition(),
+	atTime: 0,
 })
 
 const allowed = () => ({
+	atTime: 0,
 	allowedDelegators: [delegatorOrigin],
 	allowedPetitioners: [petitionerOrigin],
 })
 
 export default suite({
 	"login flow": test(async() => {
-		// authlocal locally keeps the user's root secret
+		// authlocal keeps the user's root secret
 		const root = generateSecret()
 		const id = deriveId(root)
 
 		// authlocal signs a delegate
-		const delegate = signDelegate({...basics(), secret: root})
+		const delegate = signDelegate({...basics(), root})
 
 		expect(delegate.signedBy).is(id)
-		expect(() => verifyDelegate(delegate, allowed())).not.throws()
+		assert(isYay(verifyDelegate(delegate, allowed())))
 	}),
 
 	"verify delegate": {
 		"reject expired delegates": test(async() => {
-			const secret = generateSecret()
+			const root = generateSecret()
 			const expiresAt = 12_000
-			const delegate = signDelegate({...basics(), secret, petition: {...petition(), expiresAt}})
-			expect(() => verifyDelegate(delegate, {atTime: 11_000, ...allowed()})).not.throws()
-			expect(() => verifyDelegate(delegate, {atTime: 13_000, ...allowed()})).throws()
-			expect(() => verifyDelegate(delegate, {atTime: 12_000, ...allowed()})).throws()
+			const delegate = signDelegate({...basics(), root, petition: {...petition(), expiresAt}})
+			assert(isYay(verifyDelegate(delegate, {...allowed(), atTime: 11_000})))
+			assert(isNay(verifyDelegate(delegate, {...allowed(), atTime: 13_000})))
+			assert(isNay(verifyDelegate(delegate, {...allowed(), atTime: 12_000})))
 		}),
 
 		"impersonator rejected": test(async() => {
 			const goodId = deriveId(generateSecret())
-			const badSecret = generateSecret()
+			const badRoot = generateSecret()
 			const delegate: Delegate = {
 				...signDelegate({
 					...basics(),
-					secret: badSecret, // actually signed by bad guy
+					root: badRoot, // actually signed by bad guy
 				}),
 				signedBy: goodId, // pretending to be signed by good guy
 			}
-			expect(() => verifyDelegate(delegate, allowed())).throws()
+			assert(isNay(verifyDelegate(delegate, allowed())))
 		}),
 
 		"audience required": test(async() => {
 			const delegate = signDelegate({
 				...basics(),
-				secret: generateSecret(),
+				root: generateSecret(),
 				petitionerOrigin: undefined as any,
 			})
-			expect(() => verifyDelegate(delegate, allowed())).throws()
+			assert(isNay(verifyDelegate(delegate, allowed())))
 		}),
 
 		"issuer required": test(async() => {
 			const delegate = signDelegate({
 				...basics(),
-				secret: generateSecret(),
+				root: generateSecret(),
 				delegatorOrigin: undefined as any,
 			})
-			expect(() => verifyDelegate(delegate, allowed())).throws()
+			assert(isNay(verifyDelegate(delegate, allowed())))
 		}),
 
 		"reject bad audience": test(async() => {
 			const delegate = signDelegate({
 				...basics(),
-				secret: generateSecret(),
+				root: generateSecret(),
 				petitionerOrigin: "https://bad.e280.org"
 			})
-			expect(() => verifyDelegate(delegate, allowed())).throws()
+			assert(isNay(verifyDelegate(delegate, allowed())))
 		}),
 
 		"reject bad issuer": test(async() => {
 			const delegate = signDelegate({
 				...basics(),
-				secret: generateSecret(),
+				root: generateSecret(),
 				delegatorOrigin: "https://bad.e280.org",
 			})
-			expect(() => verifyDelegate(delegate, allowed())).throws()
+			assert(isNay(verifyDelegate(delegate, allowed())))
 		}),
 	},
 })
