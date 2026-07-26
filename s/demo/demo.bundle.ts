@@ -11,7 +11,7 @@ dom(".login").onclick = () => auth.loginViaPopup()
 dom(".logout").onclick = () => auth.logout()
 
 effect(() => {
-	const {session} = auth
+	const {user: session} = auth
 	console.log(session)
 	dom(".session").textContent = session
 		? `${session.emoji} ${session.moniker}`

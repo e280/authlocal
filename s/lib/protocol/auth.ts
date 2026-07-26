@@ -1,27 +1,27 @@
 
 import {signal} from "@e280/strata"
-import {Session} from "./session.js"
-import {AuthOptions, StandardPetitionOptions} from "./types.js"
+import {User} from "./user.js"
 import {openPopup} from "./parts/open-popup.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
-import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
 import {askForDelegates} from "./parts/ask-for-delegates.js"
-import { standardPetitions } from "./parts/standard-petitions.js"
+import {sessionPetitions} from "./parts/session-petitions.js"
+import {AuthOptions, SessionOptions} from "./types.js"
+import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
 
 /** auth facility for logging in and out. */
 export class Auth {
 	#options
-	#$session = signal<Session | null>(null)
+	#$user = signal<User | null>(null)
 
 	constructor(options: Partial<AuthOptions> = {}) {
 		this.#options = defaultifyAuthOptions(options)
 	}
 
 	/** validate and return the current session, otherwise return null. */
-	get session() {
-		const session = this.#$session()
-		return (session && isSessionValid(session))
-			? session
+	get user() {
+		const user = this.#$user()
+		return (user && isSessionValid(user))
+			? user
 			: null
 	}
 
@@ -29,24 +29,24 @@ export class Auth {
 	async remember() {
 		const delegates = await this.#options.cubby.get()
 		if (!delegates) return null
-		this.#$session(new Session(delegates))
-		return this.session
+		this.#$user(new User(delegates))
+		return this.user
 	}
 
 	/** log out immediately. */
 	async logout() {
-		this.#$session(null)
+		this.#$user(null)
 		await this.#options.cubby.set(undefined)
 	}
 
 	/** ask for a new login from the delegator */
-	async loginViaPopup(options: Partial<StandardPetitionOptions> = {}) {
+	async loginViaPopup(options: Partial<SessionOptions> = {}) {
 		const popup = openPopup("auth", this.#options.delegatorUrl)
-		const delegates = await askForDelegates(popup, standardPetitions(options))
-		const session = new Session(delegates)
-		await this.#options.cubby.set(session.delegates)
-		this.#$session(session)
-		return this.session
+		const [login, encryption] = await askForDelegates(popup, sessionPetitions(options))
+		const user = new User({login, encryption})
+		await this.#options.cubby.set(user.session)
+		this.#$user(user)
+		return this.user
 	}
 }
 

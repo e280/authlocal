@@ -35,15 +35,15 @@ each identity you create has a permanent seed key. don't lose it. don't share it
     ```ts
     const auth = new Auth()
     ```
-1. **log session changes.** *(see [session.ts](./s/lib/protocol/session.ts))*
+1. **log auth.user changes.** *(see [user.ts](./s/lib/protocol/user.ts))*
     ```ts
     effect(() => console.log(
-      auth.session
-        ? `logged in: ${auth.session.emoji} ${auth.session.address}`
+      auth.user
+        ? `logged in: ${auth.user.emoji} ${auth.user.address}`
         : `logged out`
     ))
     ```
-1. **start by remembering a previous session.**
+1. **start by remembering a previous user session.**
     ```ts
     await auth.remember()
     ```
@@ -59,19 +59,19 @@ each identity you create has a permanent seed key. don't lose it. don't share it
 ### 🍋‍🟩 perform end-to-end encryption for the user
 1. **encrypt data.**
     ```ts
-    const ciphertext = auth.session.encrypt(
+    const ciphertext = auth.user.encrypt(
       new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF])
     )
     ```
 1. **decrypt data.**
     ```ts
-    const data = auth.session.decrypt(ciphertext)
+    const data = auth.user.decrypt(ciphertext)
     ```
 
 ### 🍋‍🟩 sign and verify testimonies on behalf of the user
 1. **sign a testimony token.**
     ```ts
-    const token = auth.session.signTestimony({
+    const token = auth.user.signTestimony({
       data: {exampleCommandToWriteData: 123},
       audience: "https://server.e280.org", // your example server
       expiresAt: Date.now() + 600_000, // 10 minutes

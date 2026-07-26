@@ -2,19 +2,19 @@
 import {Cubby} from "@e280/stz"
 import {Delegate, Petition} from "../core/alco/types.js"
 
-export type StandardDelegates = {
+export type Session = {
 	login: Delegate
 	encryption: Delegate
 }
 
-export type StandardPetitionOptions = {
+export type SessionOptions = {
 	expiresAt: number
 	encryptionScope: string
 }
 
 export type AuthOptions = {
 	delegatorUrl: string
-	cubby: Cubby<StandardDelegates>
+	cubby: Cubby<Session>
 }
 
 export type DelegatorApi = {
