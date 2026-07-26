@@ -1,14 +1,14 @@
 
 ![](https://i.imgur.com/Of61sXO.png)
 
-# 🔐 [authlocal](https://authlocal.org/) is a free login system.
-any website can ask for you to sign-in via authlocal. manage your identities any time at https://authlocal.org/  
+# 🔐 [authlocal](https://authlocal.org/) is a free user-sovereign login system.
+any website can ask you to sign-in via authlocal. manage your identities any time at https://authlocal.org/  
 
 &nbsp; 🔑 **cryptographic.** passwordless, usernameless, emailless.  
-&nbsp; 🏡 **local-only.** keys stay on your device (no cloud databases).  
+&nbsp; 🏡 **local-only.** keys are on your device (no cloud databases).  
 &nbsp; 🗽 **user-sovereign.** copy and store your keys however you wish.  
-&nbsp; 🥷 **privacy-focused.** pseudonymous. no personal information.  
-&nbsp; 💖 **free and open-source.** zero-cost at global scale, and can be self-hosted.  
+&nbsp; 🥷 **privacy-focused.** pseudonymous, no personal information.  
+&nbsp; 💖 **free and open-source.** zero-cost at global scale, can be self-hosted.  
 
 **own your identity.**  
 each identity you create has a permanent seed key. don't lose it. don't share it. it's yours, forever.
@@ -22,10 +22,6 @@ each identity you create has a permanent seed key. don't lose it. don't share it
 
 ## 🔐 installation for web developers
 > *visit https://authlocal.org/demo/ to see what the authlocal popup looks like.*
-
-your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root secret key. a delegate is new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. being a keypair in its own right, a delegate can then sign new "testimony" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
-
-in a standard login flow, your site asks for two delegates: one for "login" that expires in 30 days, and a permanent one for "encryption". the "login" delegate can be used to sign new testimonies for anything *(eg, "i am user 'abc123' and i want to write data to the server")* which your server can verify is coming from somebody who held that user root.
 
 1. **install and import `@e280/authlocal`.** *(and `@e280/strata` for this demo)*
     ```bash
@@ -59,4 +55,60 @@ in a standard login flow, your site asks for two delegates: one for "login" that
     ```ts
     await auth.logout()
     ```
+
+### 🍋‍🟩 perform end-to-end encryption for the user
+1. **encrypt data.**
+    ```ts
+    const ciphertext = auth.session.encrypt(
+      new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF])
+    )
+    ```
+1. **decrypt data.**
+    ```ts
+    const data = auth.session.decrypt(ciphertext)
+    ```
+
+### 🍋‍🟩 sign and verify testimonies on behalf of the user
+1. **sign a testimony token.**
+    ```ts
+    const token = auth.session.signTestimony({
+      data: {exampleCommandToWriteData: 123},
+      audience: "https://server.e280.org", // your example server
+      expiresAt: Date.now() + 600_000, // 10 minutes
+    })
+    ```
+1. **verify a testimony token serverside or elsewhere.** *(note the import path)*
+    ```ts
+    import {verifyTestimony, address} from "@e280/authlocal/core"
+
+    // data is verifiably signed by a delegate which is signed by the identity root key
+    const testimony = verifyTestimony(token, {
+      allowedIssuers: ["https://app.e280.org"], // your example frontend
+      allowedAudiences: ["https://server.e280.org"], // your example server
+    })
+
+    if (testimony.yay) { // check if verification succeeded
+      const {data, identityId} = testimony.value
+
+      console.log(data.exampleCommandToWriteData)
+        // 123
+
+      console.log(identityId)
+        // "cd967edd1a3a82e142faa5003eda67d167a2b5f76d0e97e8158defe59e2a2c89"
+
+      console.log(address.from(testimony.value.identityId))
+        // "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx"
+    }
+    else console.error("testimony verification failed")
+    ```
+
+### 🍋‍🟩 what's really going on under the hood
+- your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root key. a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. being a keypair in its own right, a delegate can then sign new "testimony" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
+- in a standard login flow, your site asks for two delegates: one "login" delegate that expires in 30 days, and one permanent "encryption" delegate. the "login" delegate can be used to sign new testimonies for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify is coming from a valid delegate.
+
+
+
+<br/><br/>
+
+*https://e280.org/*
 
