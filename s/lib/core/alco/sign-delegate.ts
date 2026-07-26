@@ -10,7 +10,9 @@ import {tokenTime} from "../tok/token-time.js"
 import {Delegate, Petition, Proof} from "./types.js"
 import {deriveSecret} from "../cryp/derive-secret.js"
 
-export function signDelegate({root, alias, petition, petitionerOrigin, delegatorOrigin, atTime}: {
+export function signDelegate({
+		root, alias, petition, petitionerOrigin, delegatorOrigin, atTime,
+	}: {
 		/** user identity root secret */
 		root: Root,
 
