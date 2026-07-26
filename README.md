@@ -27,7 +27,7 @@ your site opens a popup to authlocal and asks for "delegates", which are signed 
 
 in a standard login flow, your site asks for two delegates: one for "login" that expires in 30 days, and a permanent one for "encryption". the "login" delegate can be used to sign new testimonies for anything *(eg, "i am user 'abc123' and i want to write data to the server")* which your server can verify is coming from somebody who held that user root.
 
-1. **install and import `@e280/authlocal` (and `@e280/strata` for this demo).**
+1. **install and import `@e280/authlocal`.** *(and `@e280/strata` for this demo)*
     ```bash
     npm install @e280/authlocal @e280/strata
     ```
@@ -35,7 +35,7 @@ in a standard login flow, your site asks for two delegates: one for "login" that
     import {Auth} from "@e280/authlocal"
     import {effect} from "@e280/strata"
     ```
-1. **create the auth facility** *(see [auth.ts](./s/lib/protocol/auth.ts))*
+1. **create the auth facility.** *(see [auth.ts](./s/lib/protocol/auth.ts))*
     ```ts
     const auth = new Auth()
     ```
@@ -51,7 +51,7 @@ in a standard login flow, your site asks for two delegates: one for "login" that
     ```ts
     await auth.remember()
     ```
-1. **perform a login flow with authlocal *(must be in [user action](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/User_actions) like a button click).***
+1. **perform a login flow with authlocal.** *(must be in [user action](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/User_actions) like a button click)*
     ```ts
     await auth.loginViaPopup()
     ```
