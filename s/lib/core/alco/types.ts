@@ -18,7 +18,7 @@ export type Petition = {
 export type Delegate = {
 
 	/** user identity public id */
-	signedBy: Id
+	identityId: Id
 
 	/** describes what this delegate is supposed to do, eg "login" or "encryption" */
 	purpose: string
@@ -37,8 +37,16 @@ export type Delegate = {
 }
 
 /** proof that a delegate was signed by an identity root */
-export type Proof = {signedBy: Id, delegateId: Id, purpose: string, scope: string}
+export type Proof = {
+	identityId: Id
+	delegateId: Id
+	purpose: string
+	scope: string
+}
 
 /** arbitrary attestation signed by a delegate */
-export type Testimony<X extends object> = X & {signedBy: Id}
+export type Testimony<X> = {
+	proofToken: string
+	data: X
+}
 

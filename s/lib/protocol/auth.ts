@@ -1,81 +1,53 @@
 
-import {gotValue, time} from "@e280/stz"
 import {signal} from "@e280/strata"
-import {Kv, StorageMagazine} from "@e280/kv"
-
 import {Session} from "./session.js"
+import {AuthOptions} from "./types.js"
 import {openPopup} from "./parts/open-popup.js"
-import {AuthOptions, StandardDelegates} from "./types.js"
-import {generateSecret, verifyDelegate} from "../core/index.js"
-import {connectToDelegator} from "./parts/connect-to-delegator.js"
+import {getOrigin} from "./parts/get-origin.js"
+import {isSessionValid} from "./parts/is-session-valid.js"
+import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
+import {askForStandardDelegates} from "./parts/ask-for-standard-delegates.js"
 
+/** auth facility for logging in and out. */
 export class Auth {
-	#cubby
-	#delegatorUrl
-	#delegatorOrigin
-	#session = signal<Session | null>(null)
+	#options
+	#$session = signal<Session | null>(null)
 
-	constructor({
-			delegatorUrl = "https://authlocal.org/",
-			cubby = new Kv(new StorageMagazine())
-				.scope("authlocal")
-				.cell<StandardDelegates>("delegates"),
-		}: Partial<AuthOptions> = {}) {
-		this.#cubby = cubby
-		this.#delegatorUrl = delegatorUrl
-		this.#delegatorOrigin = new URL(delegatorUrl, window.location.href).origin
+	constructor(options: Partial<AuthOptions> = {}) {
+		this.#options = defaultifyAuthOptions(options)
 	}
 
+	/** validate and return the current session, otherwise return null. */
 	get session() {
-		const session = this.#session()
-		if (session) {
-			try {
-				verifyDelegate(session.delegates.login, {
-					allowedDelegators: [this.#delegatorOrigin],
-					allowedPetitioners: [window.location.origin],
-				})
-				return session
-			}
-			catch {}
-		}
-		return null
+		const session = this.#$session()
+		const delegatorOrigin = getOrigin(this.#options.delegatorUrl)
+		return (session && isSessionValid(session, delegatorOrigin))
+			? session
+			: null
 	}
 
+	/** remember a previous login from persistent storage. */
 	async remember() {
-		const delegates = await this.#cubby.get()
-		if (delegates) {
-			this.#session(new Session(delegates))
-			return this.session
-		}
-		return null
+		const delegates = await this.#options.cubby.get()
+		if (!delegates) return null
+		this.#$session(new Session(delegates))
+		return this.session
 	}
 
+	/** log out immediately. */
 	async logout() {
-		this.#session(null)
-		await this.#cubby.set(undefined)
+		this.#$session(null)
+		await this.#options.cubby.set(undefined)
 	}
 
+	/** ask for a new login from the delegator */
 	async loginViaPopup({encryptionScope = ""}: {encryptionScope?: string} = {}) {
-		const popup = openPopup("auth", this.#delegatorUrl)
-		const portal = await connectToDelegator(popup)
-
-		const freshDelegates = await portal.remote.requestDelegates([
-			{purpose: "login", scope: generateSecret(), expiresAt: time.future.days(30)},
-			{purpose: "", scope: "v1:" + encryptionScope, expiresAt: time.future.days(30)},
-		])
-
-		portal.close()
-		popup.close()
-
-		const [login, encryption] = freshDelegates.map(d => gotValue(verifyDelegate(d, {
-			allowedDelegators: [this.#delegatorOrigin],
-			allowedPetitioners: [window.location.origin],
-		})))
-
-		const session = new Session({login, encryption})
-		await this.#cubby.set(session.delegates)
-		this.#session(session)
-		return session
+		const popup = openPopup("auth", this.#options.delegatorUrl)
+		const delegates = await askForStandardDelegates(popup, encryptionScope)
+		const session = new Session(delegates)
+		await this.#options.cubby.set(session.delegates)
+		this.#$session(session)
+		return this.session
 	}
 }
 

@@ -15,7 +15,7 @@ export function verifyDelegate(delegate: Delegate, options: {
 	} = {}): Maybe<Delegate> {
 
 	const delegateId = deriveId(delegate.secret)
-	const token = verifyToken<Payload<{proof: Proof}>>(delegate.signedBy, delegate.proofToken, {
+	const token = verifyToken<Payload<{proof: Proof}>>(delegate.identityId, delegate.proofToken, {
 		atTime: options.atTime,
 		allowedIssuers: options.allowedDelegators,
 		allowedAudiences: options.allowedPetitioners,
@@ -26,8 +26,8 @@ export function verifyDelegate(delegate: Delegate, options: {
 
 	const {proof} = gotValue(token)
 
-	if (delegate.signedBy !== proof.signedBy)
-		return nay("delegate/proof mismatch (signedBy)")
+	if (delegate.identityId !== proof.identityId)
+		return nay("delegate/proof mismatch (identityId)")
 
 	if (delegateId !== proof.delegateId)
 		return nay("delegate/proof mismatch (delegateId)")

@@ -40,7 +40,7 @@ export default suite({
 		// authlocal signs a delegate
 		const delegate = signDelegate({...basics(), root})
 
-		expect(delegate.signedBy).is(id)
+		expect(delegate.identityId).is(id)
 		assert(isYay(verifyDelegate(delegate, allowed())))
 	}),
 
@@ -62,7 +62,7 @@ export default suite({
 					...basics(),
 					root: badRoot, // actually signed by bad guy
 				}),
-				signedBy: goodId, // pretending to be signed by good guy
+				identityId: goodId, // pretending to be signed by good guy
 			}
 			assert(isNay(verifyDelegate(delegate, allowed())))
 		}),

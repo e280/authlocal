@@ -54,7 +54,7 @@ export function verifyToken<P extends Payload>(
 		return nay(`aud requires allowedAudiences but it was not provided`)
 
 	if (payload.iss && !options.allowedIssuers)
-		return nay(`iss requires allowedAudiences but it was not provided`)
+		return nay(`iss requires allowedIssuers but it was not provided`)
 
 	return yay(payload)
 }

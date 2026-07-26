@@ -1,5 +1,5 @@
 
-import {time} from "@e280/stz"
+import {hex, time} from "@e280/stz"
 import {hash} from "../cryp/hash.js"
 import {Root} from "../cryp/types.js"
 import {Payload} from "../tok/types.js"
@@ -30,7 +30,7 @@ export function signDelegate({root, alias, petition, petitionerOrigin, delegator
 		atTime: number
 	}): Delegate {
 
-	const signedBy = deriveId(root)
+	const identityId = deriveId(root)
 	const {purpose, scope} = petition
 
 	const expiresAt = Math.min(
@@ -41,14 +41,15 @@ export function signDelegate({root, alias, petition, petitionerOrigin, delegator
 	const secret = deriveSecret(root, hash(purpose, scope))
 	const delegateId = deriveId(secret)
 
-	const proof: Proof = {delegateId, signedBy, purpose, scope}
+	const proof: Proof = {delegateId, identityId, purpose, scope}
 	const proofToken = signToken<Payload<{proof: Proof}>>(root, {
-		proof,
+		jti: hex.random(16),
 		exp: tokenTime.at(expiresAt),
 		aud: petitionerOrigin,
 		iss: delegatorOrigin,
+		proof,
 	})
 
-	return {signedBy, alias, purpose, scope, secret, proofToken}
+	return {identityId, alias, purpose, scope, secret, proofToken}
 }
 
