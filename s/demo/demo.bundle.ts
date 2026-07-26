@@ -12,6 +12,7 @@ dom(".logout").onclick = () => auth.logout()
 
 effect(() => {
 	const {session} = auth
+	console.log(session)
 	dom(".session").textContent = session
 		? `${session.emoji} ${session.moniker}`
 		: `--`

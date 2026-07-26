@@ -3,7 +3,7 @@ import {signal} from "@e280/strata"
 import {Cubby, time} from "@e280/stz"
 import {Kv, StorageMagazine} from "@e280/kv"
 import {StandardDelegates} from "./types.js"
-import {AuthSession} from "./auth-session.js"
+import {Session} from "./session.js"
 import {openPopup} from "./parts/open-popup.js"
 import {generateSecret, verifyDelegate} from "../core/index.js"
 import {connectToDelegator} from "./parts/connect-to-delegator.js"
@@ -12,7 +12,7 @@ export class Auth {
 	#cubby
 	#delegatorUrl
 	#delegatorOrigin
-	#session = signal<AuthSession | null>(null)
+	#session = signal<Session | null>(null)
 
 	constructor({
 			delegatorUrl = "https://authlocal.org/",
@@ -46,7 +46,7 @@ export class Auth {
 	async remember() {
 		const delegates = await this.#cubby.get()
 		if (delegates) {
-			this.#session(new AuthSession(delegates))
+			this.#session(new Session(delegates))
 			return this.session
 		}
 		return null
@@ -57,13 +57,13 @@ export class Auth {
 		await this.#cubby.set(undefined)
 	}
 
-	async loginViaPopup({encryptionSalt = ""}: {encryptionSalt?: string} = {}) {
+	async loginViaPopup({encryptionScope = ""}: {encryptionScope?: string} = {}) {
 		const popup = openPopup("auth", this.#delegatorUrl)
 		const portal = await connectToDelegator(popup)
 
 		const freshDelegates = await portal.remote.requestDelegates([
 			{scope: "login:" + generateSecret(), expiresAt: time.future.days(30)},
-			{scope: "encryption:" + encryptionSalt, expiresAt: time.future.days(30)},
+			{scope: "encryption:" + encryptionScope, expiresAt: time.future.days(30)},
 		])
 
 		portal.close()
@@ -74,7 +74,7 @@ export class Auth {
 			allowedPetitioners: [window.location.origin],
 		}))
 
-		const session = new AuthSession({login, encryption})
+		const session = new Session({login, encryption})
 		await this.#cubby.set(session.delegates)
 		this.#session(session)
 		return session

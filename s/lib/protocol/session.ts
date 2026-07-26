@@ -1,8 +1,8 @@
 
 import {StandardDelegates} from "./types.js"
-import {address, tokenTime} from "../core/index.js"
+import {address, tokenTime, verifyDelegate} from "../core/index.js"
 
-export class AuthSession {
+export class Session {
 	constructor(public delegates: StandardDelegates) {}
 
 	get id() {
@@ -29,12 +29,16 @@ export class AuthSession {
 		return address.color(this.id)
 	}
 
-	get permaSecret() {
+	get encryptionSecret() {
 		return this.delegates.encryption.secret
 	}
 
 	get expiresAt() {
 		return tokenTime.readExpiresAt(this.delegates.login.proofToken)
+	}
+
+	verify() {
+		verifyDelegate(this.delegates.login)
 	}
 }
 
