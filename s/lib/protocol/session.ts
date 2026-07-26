@@ -8,7 +8,7 @@ export class Session {
 
 	/** user's public id, in hex (eg, "cd967edd1a3a82e142faa5003eda67d167a2b5f76d0e97e8158defe59e2a2c89") */
 	get id() {
-		return this.delegates.login.identityId
+		return this.delegates.login.id
 	}
 
 	/** user's public nickname (eg, "Chase") */

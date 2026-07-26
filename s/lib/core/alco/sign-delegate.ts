@@ -31,7 +31,7 @@ export function signDelegate(root: Root, {
 
 	}): Delegate {
 
-	const identityId = deriveId(root)
+	const id = deriveId(root)
 	const {purpose, scope} = petition
 
 	const expiresAt = Math.min(
@@ -42,7 +42,7 @@ export function signDelegate(root: Root, {
 	const secret = deriveSecret(root, hash(purpose, scope))
 	const delegateId = deriveId(secret)
 
-	const proof: Proof = {delegateId, identityId}
+	const proof: Proof = {delegateId, id}
 	const proofToken = signToken<Payload<{proof: Proof}>>(root, {
 		jti: hex.random(16),
 		exp: tokenTime.at(expiresAt),
@@ -51,6 +51,6 @@ export function signDelegate(root: Root, {
 		proof,
 	})
 
-	return {secret, identityId, alias, purpose, scope, proofToken}
+	return {secret, id, alias, purpose, scope, proofToken}
 }
 

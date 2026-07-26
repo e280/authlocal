@@ -23,12 +23,12 @@ export function verifyTestimony<X>(token: string, {
 	atTime ??= Date.now()
 	const {testimony, iss: testimonyIssuer} = decodeToken<Payload<{testimony: TestimonySource<X>}>>(token).payload
 	const {proofToken, data} = testimony
-	const {aud: proofAudience, proof: {identityId, delegateId}} = decodeToken<Payload<{proof: Proof}>>(proofToken).payload
+	const {aud: proofAudience, proof: {id, delegateId}} = decodeToken<Payload<{proof: Proof}>>(proofToken).payload
 
 	if (testimonyIssuer !== proofAudience)
 		return nay(`testimony issuer and proof audience disagree, "${testimonyIssuer}", "${proofAudience}"`)
 
-	const maybeProof = verifyToken(identityId, proofToken, {atTime, allowedAudiences: allowedIssuers})
+	const maybeProof = verifyToken(id, proofToken, {atTime, allowedAudiences: allowedIssuers})
 	if (!maybeProof.yay)
 		return maybeProof
 
@@ -36,6 +36,6 @@ export function verifyTestimony<X>(token: string, {
 	if (!maybeTestimony.yay)
 		return maybeTestimony
 
-	return yay({identityId, data})
+	return yay({id, data})
 }
 

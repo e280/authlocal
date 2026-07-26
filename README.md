@@ -88,15 +88,15 @@ each identity you create has a permanent seed key. don't lose it. don't share it
     })
 
     if (testimony.yay) { // check if verification succeeded
-      const {data, identityId} = testimony.value
+      const {data, id} = testimony.value
 
       console.log(data.exampleCommandToWriteData)
         // 123
 
-      console.log(identityId)
+      console.log(id)
         // "cd967edd1a3a82e142faa5003eda67d167a2b5f76d0e97e8158defe59e2a2c89"
 
-      console.log(address.from(testimony.value.identityId))
+      console.log(address.from(testimony.value.id))
         // "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx"
     }
     else console.error("testimony verification failed")

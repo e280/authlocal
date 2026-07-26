@@ -21,7 +21,7 @@ export type Delegate = {
 	secret: Secret
 
 	/** user identity public id */
-	identityId: Id
+	id: Id
 
 	/** user's nickname */
 	alias: string
@@ -38,7 +38,7 @@ export type Delegate = {
 
 /** proof that a delegate was signed by an identity root */
 export type Proof = {
-	identityId: Id
+	id: Id
 	delegateId: Id
 }
 
@@ -50,7 +50,7 @@ export type TestimonySource<X> = {
 
 /** arbitrary attestation, signed by a delegate, and verified all the way back to the root identity */
 export type Testimony<X> = {
-	identityId: Id
+	id: Id
 	data: X
 }
 
