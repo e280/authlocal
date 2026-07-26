@@ -35,13 +35,14 @@ each identity you create has a permanent seed key. don't lose it. don't share it
     ```ts
     const auth = new Auth()
     ```
-1. **log auth.user changes.** *(see [user.ts](./s/lib/protocol/user.ts))*
+1. **react to user session changes.** *(see [user.ts](./s/lib/protocol/user.ts))*
     ```ts
     effect(() => console.log(
       auth.user
         ? `logged in: ${auth.user.emoji} ${auth.user.address}`
         : `logged out`
     ))
+    // "logged in: 🦎 volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx"
     ```
 1. **start by remembering a previous user session.**
     ```ts
@@ -81,7 +82,7 @@ each identity you create has a permanent seed key. don't lose it. don't share it
     ```ts
     import {verifyTestimony, address} from "@e280/authlocal/core"
 
-    // data is verifiably signed by a delegate which is signed by the identity root key
+    // data is verifiably signed by a valid delegate
     const testimony = verifyTestimony(token, {
       allowedIssuers: ["https://app.e280.org"], // your example frontend
       allowedAudiences: ["https://server.e280.org"], // your example server
