@@ -12,7 +12,7 @@ export function standardPetitions({
 
 	return [
 		{purpose: "login", expiresAt, scope: generateSecret()},
-		{purpose: "encryption", expiresAt, scope: "v1:" + encryptionScope},
+		{purpose: "encryption", expiresAt, scope: encryptionScope},
 	]
 }
 

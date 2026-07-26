@@ -57,9 +57,9 @@ export class Session {
 	}
 
 	/** sign a testimony token on behalf of the user */
-	sign<X>(data: X, options: {audience: string, issuer?: string, atTime?: number, expiresAt?: number}) {
+	signTestimony<X>(options: {data: X, audience: string, issuer?: string, atTime?: number, expiresAt?: number}) {
 		return signTestimony({
-			data,
+			data: options.data,
 			secret: this.delegates.login.secret,
 			proofToken: this.delegates.login.proofToken,
 			audience: options.audience,
