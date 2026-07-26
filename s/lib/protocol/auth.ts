@@ -3,7 +3,6 @@ import {signal} from "@e280/strata"
 import {Session} from "./session.js"
 import {AuthOptions} from "./types.js"
 import {openPopup} from "./parts/open-popup.js"
-import {getOrigin} from "./parts/get-origin.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
 import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
 import {askForStandardDelegates} from "./parts/ask-for-standard-delegates.js"
@@ -20,8 +19,7 @@ export class Auth {
 	/** validate and return the current session, otherwise return null. */
 	get session() {
 		const session = this.#$session()
-		const delegatorOrigin = getOrigin(this.#options.delegatorUrl)
-		return (session && isSessionValid(session, delegatorOrigin))
+		return (session && isSessionValid(session))
 			? session
 			: null
 	}
