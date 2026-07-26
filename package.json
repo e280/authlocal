@@ -19,14 +19,13 @@
 		"link": "npm link ../strata ../sly ../shiny",
 		"build": "rm -rf x && mkdir x && npm run check -s",
 		"check": "tsc && scute -v",
-		"dev": "octo 'node --watch x/test.js' 'tsc -w' 'scute -vw' 'node --watch x/lib/examples.js' 'hottie x'",
+		"dev": "octo 'node --watch x/test.js' 'tsc -w' 'scute -vw' 'node --watch x/lib/core/examples.js' 'hottie x'",
 		"test": "node x/test.js",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
 		"examples": "node x/lib/examples.js"
 	},
 	"allowScripts": {
-		"esbuild@0.28.1": true,
-		"classic-level@3.0.0": true
+		"esbuild@0.28.1": true
 	},
 	"dependencies": {
 		"@awasm/noble": "^0.1.4",

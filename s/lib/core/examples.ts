@@ -58,9 +58,10 @@ console.log()
 
 console.log("==micro proof token==")
 const microProof = microSign(demo.root, {
+	payload: bytes.random(64),
+	issuer: "https://authlocal.org",
 	audience: "https://e280.org",
 	expiresAt: time.future.hours(1),
-	payload: bytes.random(64),
 })
 console.log(microProof)
 console.log(microProof.length)

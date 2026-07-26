@@ -20,17 +20,10 @@ export *  from "./cryp/types.js"
 export * as seed from "./ergo/seed/index.js"
 export * as address from "./ergo/address/index.js"
 
-export * from "./micro/fns/decode.js"
-export * from "./micro/fns/sign.js"
-export * from "./micro/fns/verify.js"
-export * from "./micro/types/data.js"
-
 export * from "./tok/decode-token.js"
 export * from "./tok/token-header.js"
 export * from "./tok/sign-token.js"
 export * from "./tok/token-time.js"
 export * from "./tok/types.js"
 export * from "./tok/verify-token.js"
-
-export * from "./utils/err.js"
 

@@ -10,13 +10,15 @@ import {tokenTime} from "../tok/token-time.js"
 import {generateSecret} from "../cryp/generate-secret.js"
 
 export const exampleAudience = "https://e280.org"
+export const exampleIssuer = "https://authlocal.org"
 
 function exampleSign(expiresAt = Date.now()) {
 	const secret = generateSecret()
 	const id = deriveId(secret)
 	const payload = txt.toBytes(generateSecret())
+	const issuer = exampleIssuer
 	const audience = exampleAudience
-	const token = microSign(secret, {payload, expiresAt, audience})
+	const token = microSign(secret, {payload, expiresAt, issuer, audience})
 	return {secret, id, payload, token}
 }
 

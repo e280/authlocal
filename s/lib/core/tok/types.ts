@@ -1,6 +1,4 @@
 
-import {Err} from "../utils/err.js"
-
 export type TokenHeader = {
 	typ: "JWT"
 	alg: "EdDSA"
@@ -29,8 +27,6 @@ export type TokenVerifications = {
 	allowedIssuers?: string[]
 	allowedAudiences?: string[]
 }
-
-export class TokenVerifyErr extends Err {}
 
 export type TokenParams = {
 	expiresAt?: number
