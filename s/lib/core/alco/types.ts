@@ -43,8 +43,14 @@ export type Proof = {
 }
 
 /** arbitrary attestation signed by a delegate */
-export type Testimony<X> = {
+export type TestimonySource<X> = {
 	proofToken: string
+	data: X
+}
+
+/** arbitrary attestation, signed by a delegate, and verified all the way back to the root identity */
+export type Testimony<X> = {
+	identityId: Id
 	data: X
 }
 

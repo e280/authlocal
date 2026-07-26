@@ -46,12 +46,12 @@ export class Session {
 		return tokenTime.readExpiresAt(this.delegates.login.proofToken)
 	}
 
-	/** perform encryption of data for this user */
+	/** encrypt data with the encyption delegate */
 	encrypt(buffer: Uint8Array, aad?: Uint8Array) {
 		return encrypt(this.delegates.encryption.secret, buffer, aad)
 	}
 
-	/** perform decryption of data for this user */
+	/** decrypt data with the encyption delegate */
 	decrypt(ciphertext: Uint8Array, aad?: Uint8Array) {
 		return decrypt(this.delegates.encryption.secret, ciphertext, aad)
 	}

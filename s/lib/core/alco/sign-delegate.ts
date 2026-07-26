@@ -13,6 +13,7 @@ import {deriveSecret} from "../cryp/derive-secret.js"
 export function signDelegate(root: Root, {
 		alias, petition, petitionerOrigin, delegatorOrigin, atTime,
 	}: {
+
 		/** user identity alias to be included in the delegate */
 		alias: string,
 
@@ -27,6 +28,7 @@ export function signDelegate(root: Root, {
 
 		/** js time when we are signing this delegate */
 		atTime: number
+
 	}): Delegate {
 
 	const identityId = deriveId(root)

@@ -1,5 +1,5 @@
 
-import {isNay, isYay, time} from "@e280/stz"
+import {gotValue, isNay, isYay, time} from "@e280/stz"
 import {suite, test, expect, assert} from "@e280/science"
 
 import {Delegate} from "./types.js"
@@ -120,7 +120,7 @@ export default suite({
 				allowedIssuers: [petitionerOrigin]
 			})
 			assert(testimony.yay)
-			assert(testimony.value.data === 123)
+			assert(gotValue(testimony).data === 123)
 		}),
 	},
 })
