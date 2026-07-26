@@ -17,20 +17,20 @@ export type Petition = {
 /** a delegate keypair is a scoped keypair derived from an identity root */
 export type Delegate = {
 
+	/** delegate secret */
+	secret: Secret
+
 	/** user identity public id */
 	identityId: Id
+
+	/** user's nickname */
+	alias: string
 
 	/** describes what this delegate is supposed to do, eg "login" or "encryption" */
 	purpose: string
 
 	/** distinguishes delegates of the same purpose, eg "v1" or a random nonce */
 	scope: string
-
-	/** user's nickname */
-	alias: string
-
-	/** delegate secret */
-	secret: Secret
 
 	/** proof that this delegate is legit, signed by the user's root */
 	proofToken: string
@@ -40,8 +40,6 @@ export type Delegate = {
 export type Proof = {
 	identityId: Id
 	delegateId: Id
-	purpose: string
-	scope: string
 }
 
 /** arbitrary attestation signed by a delegate */

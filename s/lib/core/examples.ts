@@ -1,5 +1,5 @@
 
-import {bytes, count, hex, time} from "@e280/stz"
+import {bytes, count, hex, time, txt} from "@e280/stz"
 import {demo} from "./ergo/demo.js"
 import {address, seed} from "./index.js"
 import {deriveId} from "./cryp/derive-id.js"
@@ -40,9 +40,8 @@ for (const _ of count(2)) {
 console.log()
 
 console.log("==jwt proof token==")
-const jwtProof = signDelegate({
+const jwtProof = signDelegate(demo.root, {
 	atTime: Date.now(),
-	root: demo.root,
 	alias: "chase",
 	petitionerOrigin: "https://e280.org",
 	delegatorOrigin: "https://authlocal.org",
@@ -58,7 +57,14 @@ console.log()
 
 console.log("==micro proof token==")
 const microProof = microSign(demo.root, {
-	payload: bytes.random(64),
+	payload: txt.toBytes(JSON.stringify({
+		petition: {
+			alias: "chase",
+			purpose: "test",
+			scope: generateSecret(),
+			expiresAt: time.future.hours(1),
+		},
+	})),
 	issuer: "https://authlocal.org",
 	audience: "https://e280.org",
 	expiresAt: time.future.hours(1),

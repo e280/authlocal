@@ -10,8 +10,6 @@ export function verifyDelegate(delegate: Delegate, options: {
 		atTime?: number
 		allowedDelegators?: string[]
 		allowedPetitioners?: string[]
-		allowedScopes?: string[]
-		allowedPurposes?: string[]
 	} = {}): Maybe<Delegate> {
 
 	const delegateId = deriveId(delegate.secret)
@@ -31,18 +29,6 @@ export function verifyDelegate(delegate: Delegate, options: {
 
 	if (delegateId !== proof.delegateId)
 		return nay("delegate/proof mismatch (delegateId)")
-
-	if (delegate.purpose !== proof.purpose)
-		return nay("delegate/proof mismatch (purpose)")
-
-	if (delegate.scope !== proof.scope)
-		return nay("delegate/proof mismatch (scope)")
-
-	if (options.allowedPurposes && !options.allowedPurposes.includes(proof.purpose))
-		return nay(`purpose not allowed "${proof.purpose}"`)
-
-	if (options.allowedScopes && !options.allowedScopes.includes(proof.scope))
-		return nay(`scope not allowed "${proof.scope}"`)
 
 	const alias = validateAlias(delegate.alias)
 

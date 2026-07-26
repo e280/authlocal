@@ -10,12 +10,9 @@ import {tokenTime} from "../tok/token-time.js"
 import {Delegate, Petition, Proof} from "./types.js"
 import {deriveSecret} from "../cryp/derive-secret.js"
 
-export function signDelegate({
-		root, alias, petition, petitionerOrigin, delegatorOrigin, atTime,
+export function signDelegate(root: Root, {
+		alias, petition, petitionerOrigin, delegatorOrigin, atTime,
 	}: {
-		/** user identity root secret */
-		root: Root,
-
 		/** user identity alias to be included in the delegate */
 		alias: string,
 
@@ -43,7 +40,7 @@ export function signDelegate({
 	const secret = deriveSecret(root, hash(purpose, scope))
 	const delegateId = deriveId(secret)
 
-	const proof: Proof = {delegateId, identityId, purpose, scope}
+	const proof: Proof = {delegateId, identityId}
 	const proofToken = signToken<Payload<{proof: Proof}>>(root, {
 		jti: hex.random(16),
 		exp: tokenTime.at(expiresAt),
@@ -52,6 +49,6 @@ export function signDelegate({
 		proof,
 	})
 
-	return {identityId, alias, purpose, scope, secret, proofToken}
+	return {secret, identityId, alias, purpose, scope, proofToken}
 }
 
