@@ -20,13 +20,13 @@ each identity you create has a permanent seed key. don't lose it. don't share it
 
 <br/><br/>
 
-## 🔐 web developer installation instructions
+## 🔐 installation for web developers
 > *visit https://authlocal.org/demo/ to see what the authlocal popup looks like.*
 
-### basically, what's going on?
-your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root secret key. a delegate is new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. being a keypair in its own right, a delegate can then sign new "testimony" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root. in a standard login flow, your site asks for two delegates: one for "login" that expires in 30 days, and a permanent one for "encryption". the "login" delegate can be used to sign new testimonies for anything *(eg, "i am user 'abc123' and i want to write data to the server")* which your server can verify is coming from somebody who held that user root.
+your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root secret key. a delegate is new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. being a keypair in its own right, a delegate can then sign new "testimony" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
 
-### code by example.
+in a standard login flow, your site asks for two delegates: one for "login" that expires in 30 days, and a permanent one for "encryption". the "login" delegate can be used to sign new testimonies for anything *(eg, "i am user 'abc123' and i want to write data to the server")* which your server can verify is coming from somebody who held that user root.
+
 1. **install and import `@e280/authlocal` (and `@e280/strata` for this demo).**
     ```bash
     npm install @e280/authlocal @e280/strata
@@ -35,12 +35,11 @@ your site opens a popup to authlocal and asks for "delegates", which are signed 
     import {Auth} from "@e280/authlocal"
     import {effect} from "@e280/strata"
     ```
-1. **create the auth facility**
+1. **create the auth facility** *(see [auth.ts](./s/lib/protocol/auth.ts))*
     ```ts
     const auth = new Auth()
     ```
-    - [auth.ts](./s/lib/protocol/auth.ts) for details
-1. **console log the session whenever it changes.**
+1. **log session changes.** *(see [session.ts](./s/lib/protocol/session.ts))*
     ```ts
     effect(() => console.log(
       auth.session
@@ -48,7 +47,6 @@ your site opens a popup to authlocal and asks for "delegates", which are signed 
         : `logged out`
     ))
     ```
-    - [session.ts](./s/lib/protocol/session.ts) for details
 1. **start by remembering a previous session.**
     ```ts
     await auth.remember()
