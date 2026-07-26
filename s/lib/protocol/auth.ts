@@ -1,11 +1,12 @@
 
 import {signal} from "@e280/strata"
 import {Session} from "./session.js"
-import {AuthOptions} from "./types.js"
+import {AuthOptions, StandardPetitionOptions} from "./types.js"
 import {openPopup} from "./parts/open-popup.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
 import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
-import {askForStandardDelegates} from "./parts/ask-for-standard-delegates.js"
+import {askForDelegates} from "./parts/ask-for-delegates.js"
+import { standardPetitions } from "./parts/standard-petitions.js"
 
 /** auth facility for logging in and out. */
 export class Auth {
@@ -39,9 +40,9 @@ export class Auth {
 	}
 
 	/** ask for a new login from the delegator */
-	async loginViaPopup({encryptionScope = ""}: {encryptionScope?: string} = {}) {
+	async loginViaPopup(options: Partial<StandardPetitionOptions> = {}) {
 		const popup = openPopup("auth", this.#options.delegatorUrl)
-		const delegates = await askForStandardDelegates(popup, encryptionScope)
+		const delegates = await askForDelegates(popup, standardPetitions(options))
 		const session = new Session(delegates)
 		await this.#options.cubby.set(session.delegates)
 		this.#$session(session)

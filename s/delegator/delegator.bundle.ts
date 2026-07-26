@@ -26,27 +26,28 @@ dom.register({
 
 if (window.opener) {
 	await connectToPetitioner(window.opener, petitionerOrigin => ({
-		async requestDelegates(petitions) {
-			const chooseIdentity = defer<Identity>()
+		v1: {
+			async requestDelegates(petitions) {
+				const chooseIdentity = defer<Identity>()
 
-			context.$expedition({
-				petitionerOrigin,
-				petitions,
-				chooseIdentity: chooseIdentity.resolve,
-			})
-
-			const identity = await chooseIdentity.promise
-
-			return petitions.map(petition =>
-				signDelegate({
-					root: identity.root,
-					alias: identity.alias,
-					petition,
-					delegatorOrigin,
+				context.$expedition({
 					petitionerOrigin,
-					atTime: Date.now(),
+					petitions,
+					chooseIdentity: chooseIdentity.resolve,
 				})
-			)
+
+				const identity = await chooseIdentity.promise
+
+				return petitions.map(petition =>
+					signDelegate(identity.root, {
+						alias: identity.alias,
+						petition,
+						delegatorOrigin,
+						petitionerOrigin,
+						atTime: Date.now(),
+					})
+				)
+			},
 		},
 	}))
 }

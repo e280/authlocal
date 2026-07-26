@@ -5,5 +5,7 @@ export const consts = deep.freeze({
 	postMessageTopic: "authlocal",
 	delegatorUrl: "https://authlocal.org/",
 	maxProofExpiryDays: 30,
+	standardExpiryDays: 30,
+	standardEncryptionScope: "",
 })
 

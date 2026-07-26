@@ -7,12 +7,19 @@ export type StandardDelegates = {
 	encryption: Delegate
 }
 
+export type StandardPetitionOptions = {
+	expiresAt: number
+	encryptionScope: string
+}
+
 export type AuthOptions = {
 	delegatorUrl: string
 	cubby: Cubby<StandardDelegates>
 }
 
 export type DelegatorApi = {
-	requestDelegates(petitions: Petition[]): Promise<Delegate[]>
+	v1: {
+		requestDelegates(petitions: Petition[]): Promise<Delegate[]>
+	}
 }
 

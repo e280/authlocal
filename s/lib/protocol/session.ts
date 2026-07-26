@@ -1,8 +1,7 @@
 
 import {StandardDelegates} from "./types.js"
+import {signTestimony} from "../core/alco/sign-testimony.js"
 import {address, decrypt, encrypt, tokenTime} from "../core/index.js"
-import { signTestimony } from "../core/alco/sign-testimony.js"
-import { verifyTestimony } from "../core/alco/verify-testimony.js"
 
 export class Session {
 	constructor(public delegates: StandardDelegates) {}
@@ -57,15 +56,16 @@ export class Session {
 		return decrypt(this.delegates.encryption.secret, ciphertext, aad)
 	}
 
-	sign<X>(data: X, options: {issuer?: string, audience: string, atTime?: number, expiresAt?: number}) {
+	/** sign a testimony token on behalf of the user */
+	sign<X>(data: X, options: {audience: string, issuer?: string, atTime?: number, expiresAt?: number}) {
 		return signTestimony({
 			data,
 			secret: this.delegates.login.secret,
 			proofToken: this.delegates.login.proofToken,
-			atTime: options.atTime ?? Date.now(),
 			audience: options.audience,
 			issuer: options.issuer ?? window.location.origin,
 			expiresAt: options.expiresAt,
+			atTime: options.atTime ?? Date.now(),
 		})
 	}
 }
