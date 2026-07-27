@@ -8,7 +8,7 @@ export function isSessionValid(
 		appOrigin = window.location.origin,
 	) {
 
-	return verifyDelegate(session.login, {
+	return verifyDelegate(session.auth, {
 		allowedApps: [appOrigin],
 		allowedPurposes: Object.values(consts.purposes),
 	}).yay

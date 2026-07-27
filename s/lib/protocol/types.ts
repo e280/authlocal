@@ -3,13 +3,13 @@ import {Cubby} from "@e280/stz"
 import {Delegate, Petition} from "../core/alco/types.js"
 
 export type Session = {
-	login: Delegate
-	encryption: Delegate
+	auth: Delegate
+	crypt: Delegate
 }
 
 export type SessionOptions = {
 	expiresAt: number
-	encryptionScope: string
+	cryptScope: string
 }
 
 export type AuthOptions = {

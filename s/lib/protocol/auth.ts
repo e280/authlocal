@@ -11,9 +11,9 @@ import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
 
 /** auth facility for logging in and out. */
 export class Auth {
+	dispose
 	#options
 	#$user = signal<User | null>(null)
-	dispose
 
 	constructor(options: Partial<AuthOptions> = {}) {
 		this.#options = defaultifyAuthOptions(options)
@@ -50,8 +50,8 @@ export class Auth {
 	/** ask for a new login from the delegator */
 	async loginViaPopup(options: Partial<SessionOptions> = {}) {
 		const popup = openPopup("auth", this.#options.delegatorUrl)
-		const [login, encryption] = await askForDelegates(popup, sessionPetitions(options))
-		const user = new User({login, encryption})
+		const [auth, crypt] = await askForDelegates(popup, sessionPetitions(options))
+		const user = new User({auth, crypt})
 		await this.#options.cubby.set(user.session)
 		this.#$user(user)
 		this.#options.broadcastChannel.postMessage(true)

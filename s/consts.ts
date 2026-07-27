@@ -6,7 +6,7 @@ export const consts = deep.freeze({
 	delegatorUrl: "https://authlocal.org/",
 	maxProofExpiryDays: 30,
 	standardExpiryDays: 30,
-	standardEncryptionScope: "",
+	standardCryptScope: "",
 	purposes: {auth: "auth", crypt: "crypt"},
 })
 

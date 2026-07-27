@@ -7,12 +7,12 @@ import {generateSecret} from "../../core/cryp/generate-secret.js"
 
 export function sessionPetitions({
 		expiresAt = time.future.days(consts.standardExpiryDays),
-		encryptionScope = consts.standardEncryptionScope,
+		cryptScope = consts.standardCryptScope,
 	}: Partial<SessionOptions>): Petition[] {
 
 	return [
 		{purpose: consts.purposes.auth, expiresAt, scope: generateSecret()},
-		{purpose: consts.purposes.crypt, expiresAt, scope: encryptionScope},
+		{purpose: consts.purposes.crypt, expiresAt, scope: cryptScope},
 	]
 }
 
