@@ -2,15 +2,15 @@
 import {untab} from "@e280/stz"
 
 export const demo = {
-	root: "f4fd94be309ea2a5dcb71f204e89c45f05faa964758992afa85cd5e012822468",
-	id: "5888d547ef4a55b1263b6c986b3006f1dcc8a0c4acdb876340769c434036f6f8",
-	address: "gurkon_bodwyx_6xbtp7e6EWrUNGNavzF9MnuuerYcEDpEtmKoPVioXG8P",
+	root: "8f32eb8cb2631216d97baf43005c293d3a84adab78e40a48873b7c501ee2ec14",
+	id: "c7d3a7850a9d1b8766f01a8a5bc566170f76f797a2069b82af84fd96ca2aa60b",
+	address: "taltux_welwyr_ET3KZfhK8B2D5Ah7TxACEW71HFdDemq1UwAQydFMQL4S",
 	seed: untab(`
-		gurkon bodwyx
-		janvuz yidgyx normok delsek
-		yarbek kemlyx wordak nurgex
-		calryz gelhet kabdak wobyok
-		garfyr varnyd folyur lenray
+		taltux welwyr
+		vobnur danduk jelhex folkyn
+		wartyr bagvox nopfyr mentux
+		rorzop helwak labzek dalnyl
+		sabtek midbry kaltyd datkex
 	`).trim(),
 }
 

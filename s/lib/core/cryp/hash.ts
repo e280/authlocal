@@ -2,22 +2,19 @@
 import {txt} from "@e280/stz"
 import {blake3} from "@awasm/noble"
 
-const delimiter = Uint8Array.of(0x00)
-
 export function hash(...parts: (string | Uint8Array)[]) {
 	const hasher = blake3.create()
 
-	for (const [index, part] of parts.entries()) {
-		const isLast = index === (parts.length - 1)
+	for (const part of parts) {
+		const bytes = typeof part === "string"
+			? txt.toBytes(part)
+			: part
 
-		hasher.update(
-			(typeof part === "string")
-				? txt.toBytes(part)
-				: part
-		)
+		const length = new Uint8Array(4)
+		new DataView(length.buffer).setUint32(0, bytes.length)
 
-		if (!isLast)
-			hasher.update(delimiter)
+		hasher.update(length)
+		hasher.update(bytes)
 	}
 
 	return hasher.digest() as Uint8Array
