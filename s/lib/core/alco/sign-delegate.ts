@@ -39,7 +39,7 @@ export function signDelegate(root: Root, {
 		atTime + time.days(consts.maxProofExpiryDays),
 	)
 
-	const secret = deriveSecret(root, hash(purpose, scope))
+	const secret = deriveSecret(root, hash(petitionerOrigin, purpose, scope))
 	const delegateId = deriveId(secret)
 
 	const proof: Proof = {delegateId, id, alias, purpose, scope}
