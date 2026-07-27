@@ -1,7 +1,7 @@
 
 import {Session} from "../types.js"
+import {consts} from "../../../consts.js"
 import {verifyDelegate} from "../../core/alco/verify-delegate.js"
-import { consts } from "../../../consts.js"
 
 export function isSessionValid(
 		session: Session,

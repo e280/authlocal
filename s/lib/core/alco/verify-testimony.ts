@@ -1,19 +1,30 @@
 
 import {Maybe, nay, yay} from "@e280/stz"
 import {Payload} from "../tok/types.js"
+import {consts} from "../../../consts.js"
+import {verifyProof} from "./verify-proof.js"
 import {decodeToken} from "../tok/decode-token.js"
 import {verifyToken} from "../tok/verify-token.js"
 import {Proof, Testimony, TestimonySource} from "./types.js"
 
 export function verifyTestimony<X>(token: string, {
-		allowedIssuers, allowedAudiences, atTime,
+		allowedIssuers, allowedAudiences, allowedDelegators, allowedPurposes, allowedScopes, atTime,
 	}: {
 
-		/** allowed issuing parties, eg, the petitioner origins authorized to use the delegate */
+		/** petitioner origins authorized to use the delegate */
 		allowedIssuers: string[]
 
-		/** allowed audience party, eg, the intended recipients of this testimony */
+		/** intended recipients of this testimony */
 		allowedAudiences: string[]
+
+		/** delegators like "https://authlocal.org" */
+		allowedDelegators?: string[]
+
+		/** delegate purposes like "auth" */
+		allowedPurposes?: string[]
+
+		/** delegate scope */
+		allowedScopes?: string[]
 
 		/** js time of verification time (for comparison with expiry) */
 		atTime?: number
@@ -21,21 +32,38 @@ export function verifyTestimony<X>(token: string, {
 	}): Maybe<Testimony<X>> {
 
 	atTime ??= Date.now()
-	const {testimony, iss: testimonyIssuer} = decodeToken<Payload<{testimony: TestimonySource<X>}>>(token).payload
-	const {proofToken, data} = testimony
-	const {aud: proofAudience, proof: {id, delegateId}} = decodeToken<Payload<{proof: Proof}>>(proofToken).payload
+	allowedPurposes ??= [consts.purposes.auth]
+
+	type PPay = Payload<{proof: Proof}>
+	type TPay = Payload<{testimony: TestimonySource<X>}>
+
+	const {iss: testimonyIssuer, testimony: {proofToken}} = decodeToken<TPay>(token).payload
+	const {aud: proofAudience, proof: {delegateId}} = decodeToken<PPay>(proofToken).payload
 
 	if (testimonyIssuer !== proofAudience)
-		return nay(`testimony issuer and proof audience disagree, "${testimonyIssuer}", "${proofAudience}"`)
+		return nay(`testimony issuer disagrees with proof audience, "${testimonyIssuer}", "${proofAudience}"`)
 
-	const maybeProof = verifyToken(id, proofToken, {atTime, allowedAudiences: allowedIssuers})
+	const maybeProof = verifyProof(proofToken, {
+		atTime,
+		allowedPurposes,
+		allowedScopes,
+		allowedDelegators,
+		allowedPetitioners: allowedIssuers,
+	})
 	if (!maybeProof.yay)
 		return maybeProof
 
-	const maybeTestimony = verifyToken(delegateId, token, {atTime, allowedAudiences})
+	const maybeTestimony = verifyToken<TPay>(delegateId, token, {
+		atTime,
+		allowedAudiences,
+		allowedIssuers,
+	})
 	if (!maybeTestimony.yay)
 		return maybeTestimony
 
-	return yay({id, data})
+	return yay({
+		proof: maybeProof.value,
+		data: maybeTestimony.value.testimony.data,
+	})
 }
 

@@ -2,18 +2,20 @@
 import {Maybe, nay, yay} from "@e280/stz"
 import {Proof} from "./types.js"
 import {Payload} from "../tok/types.js"
+import {consts} from "../../../consts.js"
 import {validateAlias} from "./validation.js"
 import {verifyToken} from "../tok/verify-token.js"
 import {decodeToken} from "../tok/decode-token.js"
 
 export function verifyProof(proofToken: string, options: {
-		allowedPurposes: string[]
 		allowedPetitioners: string[]
+		allowedPurposes?: string[]
 		allowedScopes?: string[]
 		allowedDelegators?: string[]
 		atTime?: number
 	}): Maybe<Proof> {
 
+	const {allowedPurposes = Object.values(consts.purposes)} = options
 	const decoded = decodeToken<Payload<{proof: Proof}>>(proofToken)
 
 	const maybePayload = verifyToken<Payload<{proof: Proof}>>(
@@ -31,7 +33,7 @@ export function verifyProof(proofToken: string, options: {
 
 	const {proof} = maybePayload.value
 	
-	if (!options.allowedPurposes.includes(proof.purpose))
+	if (!allowedPurposes.includes(proof.purpose))
 		return nay(`purpose not allowed "${proof.purpose}"`)
 
 	if (options.allowedScopes && !options.allowedScopes.includes(proof.scope))

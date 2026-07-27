@@ -51,7 +51,7 @@ export type TestimonySource<X> = {
 
 /** arbitrary attestation, signed by a delegate, and verified all the way back to the root identity */
 export type Testimony<X> = {
-	id: Id
 	data: X
+	proof: Proof
 }
 
