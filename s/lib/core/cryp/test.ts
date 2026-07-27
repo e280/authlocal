@@ -1,4 +1,5 @@
 
+import {hex, txt} from "@e280/stz"
 import {suite, test, expect} from "@e280/science"
 import {hash} from "./hash.js"
 import {deriveSecret} from "./derive-secret.js"
@@ -10,6 +11,11 @@ export default suite({
 		"hash 'hello'": test(async() => {
 			const text = "hello"
 			expect(hash(text).length).is(32)
+		}),
+
+		"hash equivalency": test(async() => {
+			const text = "hello"
+			expect(hex(hash(text))).is(hex(hash(txt.toBytes(text))))
 		}),
 
 		"deriveSharedSecret": test(async() => {
