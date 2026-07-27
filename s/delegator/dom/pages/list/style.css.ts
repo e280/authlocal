@@ -6,13 +6,13 @@ ol {
 	list-style: none;
 	display: flex;
 	flex-direction: column;
-	gap: var(--space);
+	gap: calc(var(--pad) / 2);
 
 	width: 100%;
 	max-width: 32em;
 	margin: 0 auto;
 
-	[view="id-card"] {
+	[view="ident"] {
 		&::part(slot) {
 			display: flex;
 		}

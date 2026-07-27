@@ -1,19 +1,23 @@
 
 import {html} from "lit"
 import {ShinyCopy} from "@e280/shiny"
-import {cssReset, dom, shadow, useCss, useName, useShadow} from "@e280/sly"
+import {when} from "lit/directives/when.js"
+import {dom, shadow, useCss, useName, useShadow} from "@e280/sly"
 
 import styleCss from "./style.css.js"
+import {theme} from "../../../theme.js"
 import {Identity} from "../../../../types.js"
 import {address, deriveId} from "../../../../../lib/core/index.js"
+import dotsIcon from "../../../../../lib/ui/icons/tabler/dots.icon.js"
 
 export const Ident = shadow((options: {
 		identity: Identity
-		onClick?: () => void
+		onClickCard?: () => void
+		onClickDots?: () => void
 	}) => {
 	
-	useName("id-card")
-	useCss(cssReset, styleCss)
+	useName("ident")
+	useCss(theme(), styleCss)
 
 	const {alias} = options.identity
 	const id = deriveId(options.identity.root)
@@ -24,36 +28,48 @@ export const Ident = shadow((options: {
 	const shadow = useShadow()
 
 	function onClick(event: PointerEvent) {
-		if (!options.onClick) return
+		if (!options.onClickCard) return
 		const ignores = dom.all("[data-no-click]", shadow)
 		const bad = ignores.some(ignore => event.composedPath().includes(ignore))
 		if (bad) return
-		options.onClick()
+		options.onClickCard()
 	}
 
 	return html`
-		<div part=card style="${color}">
-			<div part=plate @click="${onClick}">
-				<div part=icon>${address.emoji(id)}</div>
-				<div part=name>
-					<div part=alias>${alias || short}</div>
-					<div part=address data-no-click>
-						${ShinyCopy.with({
-							props: [addr],
-							attrs: {title: addr},
-							children: html`
-								<span part=address title="${addr}">
-									${first}_${second}...
-								</span>
-							`,
-						})}
-					</div>
-				</div>
-				<slot name=buttons data-no-click></slot>
+		<div part=card style="${color}" @click="${onClick}" ?data-clickable="${!!options.onClickCard}">
+			<div part=icon>${address.emoji(id)}</div>
+
+			<div part=name>
+				<div part=alias>${alias || short}</div>
 			</div>
+
+			<slot name=buttons data-no-click></slot>
 		</div>
 
 		<slot style="${color}"></slot>
+
+		<footer>
+			<p part=address data-no-click>
+				${ShinyCopy.with({
+					props: [addr],
+					attrs: {title: addr},
+					children: html`
+						<span part=address title="${addr}">
+							${first}_${second}...
+						</span>
+					`,
+				})}
+			</p>
+
+			${when(options.onClickDots, click => html`
+				<button
+					class=dots-button
+					x-vibe=naked
+					@click="${click}">
+						${dotsIcon}
+				</button>
+			`)}
+		</footer>
 	`
 })
 

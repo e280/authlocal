@@ -8,8 +8,8 @@ import styleCss from "./style.css.js"
 import {Ident} from "./ident/view.js"
 import {Identity} from "../../../types.js"
 import {Editing} from "./editing/view.js"
-import {deriveId, Id} from "../../../../lib/core/index.js"
-import dotsIcon from "../../../../lib/ui/icons/tabler/dots.icon.js"
+import {Id} from "../../../../lib/core/cryp/types.js"
+import {deriveId} from "../../../../lib/core/cryp/derive-id.js"
 
 export const ListPage = shadow((options: {
 		loginRequest?: {
@@ -37,33 +37,22 @@ export const ListPage = shadow((options: {
 		)
 
 		return Ident.with({
-			props: [{identity}],
-			children: html`
-				<button
-					slot=buttons
-					x-vibe=naked
-					@click="${toggleEditing}">
-						${dotsIcon}
-				</button>
+			props: [{
+				identity,
+				onClickDots: toggleEditing,
+				onClickCard: options.loginRequest
+					? () => options.loginRequest?.login(identity)
+					: undefined,
+			}],
 
-				${when(options.loginRequest, ({login}) => html`
-					<button
-						slot=buttons
-						x-vibe=login
-						@click="${() => login(identity)}">
-							login
-					</button>
-				`)}
-
-				${$editing() === id
-					? Editing({
-						identity,
-						close: () => $editing(null),
-						updateIdentity: options.updateIdentity,
-						deleteIdentity: options.deleteIdentity,
-					})
-					: null}
-			`,
+			children: $editing() === id
+				? Editing({
+					identity,
+					close: () => $editing(null),
+					updateIdentity: options.updateIdentity,
+					deleteIdentity: options.deleteIdentity,
+				})
+				: null,
 		})
 	}
 
@@ -83,8 +72,8 @@ export const ListPage = shadow((options: {
 
 		${when(options.loginRequest, ({appOrigin: appOrigin}) => html`
 			<div x-banner>
-				<p>the request is from <code>${appOrigin}</code>.</p>
-				<p>you can deny this request by closing this window.</p>
+				<p>login request from: <code>${appOrigin}</code></p>
+				<p>click an identity to accept, close this popup to deny.</p>
 			</div>
 		`)}
 
