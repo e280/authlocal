@@ -8,9 +8,22 @@ export function isSessionValid(
 		appOrigin = window.location.origin,
 	) {
 
-	return verifyDelegate(session.auth, {
+	const maybeAuth = verifyDelegate(session.auth, {
 		allowedApps: [appOrigin],
-		allowedPurposes: Object.values(consts.purposes),
-	}).yay
+		allowedPurposes: [consts.purposes.auth],
+	})
+
+	if (!maybeAuth.yay)
+		return false
+
+	const maybeCrypt = verifyDelegate(session.crypt, {
+		allowedApps: [appOrigin],
+		allowedPurposes: [consts.purposes.crypt],
+	})
+
+	if (!maybeCrypt.yay)
+		return false
+
+	return maybeAuth.value.proof.id === maybeCrypt.value.proof.id
 }
 
