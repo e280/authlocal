@@ -2,7 +2,7 @@
 import {defer} from "@e280/stz"
 import {Identity} from "../types.js"
 import {Context} from "../context.js"
-import {DelegatorApi, deriveId, signDelegate} from "../../lib/index.js"
+import {decodeToken, DelegatorApi, deriveId, Payload, Proof, signDelegate} from "../../lib/index.js"
 
 export const delegateApi = (context: Context, delegatorOrigin: string) => (
 	(appOrigin: string) => (<DelegatorApi>{v1: {
@@ -33,7 +33,9 @@ export const delegateApi = (context: Context, delegatorOrigin: string) => (
 				alias: identity.alias,
 				app: appOrigin,
 				time: atTime,
-				delegates,
+				proofPayloads: delegates.map(
+					d => decodeToken<Payload<{proof: Proof}>>(d.proofToken).payload
+				),
 			})
 
 			return delegates

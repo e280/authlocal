@@ -1,6 +1,7 @@
 
 import {Id} from "../lib/core/cryp/types.js"
-import {Delegate} from "../lib/core/alco/types.js"
+import {Proof} from "../lib/core/alco/types.js"
+import {Payload} from "../lib/core/tok/types.js"
 
 export type Identity = {
 	root: string
@@ -18,6 +19,6 @@ export type DelegationRecord = {
 	alias: string
 	time: number
 	app: string
-	delegates: Delegate[]
+	proofPayloads: Payload<{proof: Proof}>[]
 }
 

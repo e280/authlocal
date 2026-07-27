@@ -3,10 +3,10 @@ import {RMap} from "@e280/strata"
 import {collect, hex, nap, need} from "@e280/stz"
 import {Kv, IdbMagazine, idbOpen} from "@e280/kv"
 
-import {Id} from "../../lib/core/index.js"
+import {consts} from "../../consts.js"
+import {Id} from "../../lib/core/cryp/types.js"
 import {deriveId} from "../../lib/core/cryp/derive-id.js"
 import {Identity, DelegationRecord, IdentityTiming} from "../types.js"
-import { consts } from "../../consts.js"
 
 export class Bank {
 	static async init() {
@@ -81,7 +81,6 @@ export class Bank {
 		await this.#tables.kv.commit([
 			this.#tables.identities.op.delete(id),
 			this.#tables.identityTimings.op.delete(id),
-			this.#tables.delegations.op.delete(id),
 		])
 		this.#onChange()
 		await this.load()
