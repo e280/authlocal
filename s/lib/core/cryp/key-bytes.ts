@@ -2,7 +2,7 @@
 import {hex} from "@e280/stz"
 import {Hex} from "./types.js"
 
-/** convert hex bytes to hash */
+/** convert hex key to bytes */
 export function keyBytes(key: Hex) {
 	const keyBytes = hex.toBytes(key)
 

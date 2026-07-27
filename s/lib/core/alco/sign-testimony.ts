@@ -3,7 +3,7 @@ import {hex} from "@e280/stz"
 import {Secret} from "../cryp/types.js"
 import {signToken} from "../tok/sign-token.js"
 import {tokenTime} from "../tok/token-time.js"
-import {normalizeExpiresAt} from "./normalize-expires-at.js"
+import {normalizeExpiresAt} from "../tok/normalize-expires-at.js"
 
 export function signTestimony<X>({
 		secret, audience, issuer, proofToken, expiresAt, atTime, data,
