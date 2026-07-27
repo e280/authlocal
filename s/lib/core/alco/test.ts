@@ -2,7 +2,7 @@
 import {gotValue, isNay, isYay, time} from "@e280/stz"
 import {suite, test, expect, assert} from "@e280/science"
 
-import {Delegate} from "./types.js"
+import {consts} from "../../../consts.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {signDelegate} from "./sign-delegate.js"
 import {signTestimony} from "./sign-testimony.js"
@@ -14,7 +14,7 @@ const petitionerOrigin = "https://e280.org"
 const delegatorOrigin = "https://authlocal.org"
 
 const petition = () => ({
-	purpose: "login",
+	purpose: consts.purposes.auth,
 	scope: generateSecret(),
 	expiresAt: time.future.hours(1),
 })
@@ -29,6 +29,7 @@ const basics = () => ({
 
 const allowed = () => ({
 	atTime: 0,
+	allowedPurposes: Object.values(consts.purposes),
 	allowedDelegators: [delegatorOrigin],
 	allowedPetitioners: [petitionerOrigin],
 })
@@ -42,8 +43,9 @@ export default suite({
 		// authlocal signs a delegate
 		const delegate = signDelegate(root, basics())
 
-		expect(delegate.id).is(id)
-		assert(isYay(verifyDelegate(delegate, allowed())))
+		assert(verifyDelegate(delegate, allowed()).yay)
+		expect(gotValue(verifyDelegate(delegate, allowed())).proof.id).is(id)
+		expect(gotValue(verifyDelegate(delegate, allowed())).proof.purpose).is(petition().purpose)
 	}),
 
 	"verify delegate": {
@@ -54,16 +56,6 @@ export default suite({
 			assert(isYay(verifyDelegate(delegate, {...allowed(), atTime: 11_000})))
 			assert(isNay(verifyDelegate(delegate, {...allowed(), atTime: 13_000})))
 			assert(isNay(verifyDelegate(delegate, {...allowed(), atTime: 12_000})))
-		}),
-
-		"impersonator rejected": test(async() => {
-			const goodId = deriveId(generateSecret())
-			const badRoot = generateSecret()
-			const delegate: Delegate = {
-				...signDelegate(badRoot, basics()),
-				id: goodId, // pretending to be signed by good guy
-			}
-			assert(isNay(verifyDelegate(delegate, allowed())))
 		}),
 
 		"audience required": test(async() => {

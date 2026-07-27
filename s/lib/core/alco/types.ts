@@ -4,7 +4,7 @@ import {Id, Secret} from "../cryp/types.js"
 /** a request for a delegate */
 export type Petition = {
 
-	/** describes what this delegate is supposed to do, eg "login" or "encryption" */
+	/** describes what this delegate is supposed to do, eg "auth" or "crypt" */
 	purpose: string
 
 	/** distinguishes delegates of the same purpose, eg "v1" or a random nonce */
@@ -20,26 +20,27 @@ export type Delegate = {
 	/** delegate secret */
 	secret: Secret
 
-	/** user identity public id (this is not the delegateId) */
-	id: Id
-
-	/** user's nickname */
-	alias: string
-
-	/** describes what this delegate is supposed to do, eg "login" or "encryption" */
-	purpose: string
-
-	/** distinguishes delegates of the same purpose, eg "v1" or a random nonce */
-	scope: string
-
 	/** proof that this delegate is legit, signed by the user's root */
 	proofToken: string
 }
 
 /** proof that a delegate was signed by an identity root */
 export type Proof = {
-	id: Id
+
+	/** delegate public key */
 	delegateId: Id
+
+	/** user identity public id (this is not the delegateId) */
+	id: Id
+
+	/** user's nickname */
+	alias: string
+
+	/** describes what this delegate is supposed to do, eg "auth" or "crypt" */
+	purpose: string
+
+	/** distinguishes delegates of the same purpose, eg "v1" or a random nonce */
+	scope: string
 }
 
 /** arbitrary attestation signed by a delegate */

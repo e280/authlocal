@@ -1,8 +1,12 @@
 
+export * from "./alco/decode-proof.js"
 export * from "./alco/sign-delegate.js"
-export * from "./alco/validation.js"
+export * from "./alco/sign-testimony.js"
 export * from "./alco/types.js"
+export * from "./alco/validation.js"
 export * from "./alco/verify-delegate.js"
+export * from "./alco/verify-proof.js"
+export * from "./alco/verify-testimony.js"
 
 export *  from "./cryp/decrypt.js"
 export *  from "./cryp/derive-id.js"

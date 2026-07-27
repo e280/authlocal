@@ -25,7 +25,7 @@ export class Auth {
 	/** validate and return the current session, otherwise return null. */
 	get user() {
 		const user = this.#$user()
-		return (user && isSessionValid(user))
+		return (user && isSessionValid(user.session))
 			? user
 			: null
 	}

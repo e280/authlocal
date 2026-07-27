@@ -1,19 +1,24 @@
 
 import {Session} from "./types.js"
+import {decodeProof} from "../core/alco/decode-proof.js"
 import {signTestimony} from "../core/alco/sign-testimony.js"
 import {address, decrypt, encrypt, tokenTime} from "../core/index.js"
 
 export class User {
-	constructor(public session: Session) {}
+	#proof
+
+	constructor(public readonly session: Session) {
+		this.#proof = decodeProof(session.login.proofToken)
+	}
 
 	/** user's public id, in hex (eg, "cd967edd1a3a82e142faa5003eda67d167a2b5f76d0e97e8158defe59e2a2c89") */
 	get id() {
-		return this.session.login.id
+		return this.#proof.id
 	}
 
 	/** user's public nickname (eg, "Chase") */
 	get alias() {
-		return this.session.login.alias
+		return this.#proof.alias
 	}
 
 	/** user's public id, in human-friendly address format (eg, "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx") */

@@ -1,17 +1,16 @@
 
-import {isYay} from "@e280/stz"
-import {User} from "../user.js"
+import {Session} from "../types.js"
 import {verifyDelegate} from "../../core/alco/verify-delegate.js"
+import { consts } from "../../../consts.js"
 
 export function isSessionValid(
-		session: User,
+		session: Session,
 		petitionerOrigin = window.location.origin,
 	) {
 
-	return isYay(
-		verifyDelegate(session.session.login, {
-			allowedPetitioners: [petitionerOrigin],
-		})
-	)
+	return verifyDelegate(session.login, {
+		allowedPetitioners: [petitionerOrigin],
+		allowedPurposes: Object.values(consts.purposes),
+	}).yay
 }
 

@@ -11,8 +11,8 @@ export function sessionPetitions({
 	}: Partial<SessionOptions>): Petition[] {
 
 	return [
-		{purpose: "login", expiresAt, scope: generateSecret()},
-		{purpose: "encryption", expiresAt, scope: encryptionScope},
+		{purpose: consts.purposes.auth, expiresAt, scope: generateSecret()},
+		{purpose: consts.purposes.crypt, expiresAt, scope: encryptionScope},
 	]
 }
 

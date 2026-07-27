@@ -105,7 +105,7 @@ each identity you create has a permanent seed key. don't lose it. don't share it
 
 ### 🍋‍🟩 what's really going on under the hood
 - your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root key. a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. being a keypair in its own right, a delegate can then sign new "testimony" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
-- in a standard login flow, your site asks for two delegates: one "login" delegate that expires in 30 days, and one permanent "encryption" delegate. the "login" delegate can be used to sign new testimonies for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify is coming from a valid delegate.
+- in a standard login flow, your site asks for two delegates: one "auth" delegate that expires in 30 days, and one permanent "crypt" delegate for end-to-end encryption. the "auth" delegate can be used to sign new testimonies for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify.
 
 
 

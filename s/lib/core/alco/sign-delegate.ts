@@ -42,15 +42,16 @@ export function signDelegate(root: Root, {
 	const secret = deriveSecret(root, hash(purpose, scope))
 	const delegateId = deriveId(secret)
 
-	const proof: Proof = {delegateId, id}
+	const proof: Proof = {delegateId, id, alias, purpose, scope}
 	const proofToken = signToken<Payload<{proof: Proof}>>(root, {
 		jti: hex.random(16),
+		iat: tokenTime.at(atTime),
 		exp: tokenTime.at(expiresAt),
 		aud: petitionerOrigin,
 		iss: delegatorOrigin,
 		proof,
 	})
 
-	return {secret, id, alias, purpose, scope, proofToken}
+	return {secret, proofToken}
 }
 

@@ -7,5 +7,6 @@ export const consts = deep.freeze({
 	maxProofExpiryDays: 30,
 	standardExpiryDays: 30,
 	standardEncryptionScope: "",
+	purposes: {auth: "auth", crypt: "crypt"},
 })
 
