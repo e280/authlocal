@@ -1,5 +1,5 @@
 
-import {gotValue, isNay, isYay, time} from "@e280/stz"
+import {gotValue, isNay, isYay, time, txt} from "@e280/stz"
 import {suite, test, expect, assert} from "@e280/science"
 
 import {consts} from "../../../consts.js"
@@ -9,6 +9,8 @@ import {signTestimony} from "./sign-testimony.js"
 import {verifyDelegate} from "./verify-delegate.js"
 import {verifyTestimony} from "./verify-testimony.js"
 import {generateSecret} from "../cryp/generate-secret.js"
+import { encrypt } from "../cryp/encrypt.js"
+import { decrypt } from "../cryp/decrypt.js"
 
 const appOrigin = "https://e280.org"
 const delegatorOrigin = "https://authlocal.org"
@@ -47,6 +49,87 @@ export default suite({
 		expect(gotValue(verifyDelegate(delegate, allowed())).proof.id).is(id)
 		expect(gotValue(verifyDelegate(delegate, allowed())).proof.purpose).is(petition().purpose)
 	}),
+
+	"e2ee": {
+		"data roundtrip": test(async() => {
+			const root = generateSecret()
+			const {secret} = signDelegate(root, {...basics(), petition: {
+				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			const original = "hello world"
+			const ciphertext = encrypt(secret, txt.toBytes(original))
+			const cleartext = txt.fromBytes(decrypt(secret, ciphertext))
+			expect(cleartext).is(original)
+		}),
+
+		"wrong key cannot decrypt": test(async() => {
+			const root = generateSecret()
+			const {secret} = signDelegate(root, {...basics(), petition: {
+				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			const {secret: badSecret} = signDelegate(root, {...basics(), petition: {
+				purpose: "crypt", scope: "v2", expiresAt: time.future.hours(1),
+			}})
+			const original = "hello world"
+			const ciphertext = encrypt(secret, txt.toBytes(original))
+			expect(() => decrypt(badSecret, ciphertext)).throws()
+		}),
+
+		"reproducible secret keys": test(async() => {
+			const root = generateSecret()
+			const delegate1 = signDelegate(root, {...basics(), petition: {
+				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			const delegate2 = signDelegate(root, {...basics(), petition: {
+				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			expect(delegate1.secret).is(delegate2.secret)
+		}),
+
+		"different purposes, different keys": test(async() => {
+			const root = generateSecret()
+			const delegate1 = signDelegate(root, {...basics(), petition: {
+				purpose: "auth", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			const delegate2 = signDelegate(root, {...basics(), petition: {
+				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			expect(delegate1.secret).not.is(delegate2.secret)
+		}),
+
+		"different scopes, different keys": test(async() => {
+			const root = generateSecret()
+			const delegate1 = signDelegate(root, {...basics(), petition: {
+				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			const delegate2 = signDelegate(root, {...basics(), petition: {
+				purpose: "crypt", scope: "v2", expiresAt: time.future.hours(1),
+			}})
+			expect(delegate1.secret).not.is(delegate2.secret)
+		}),
+
+		"different app origins, different keys": test(async() => {
+			const root = generateSecret()
+			const delegate1 = signDelegate(root, {...basics(), appOrigin: "https://alpha.e280.org", petition: {
+				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			const delegate2 = signDelegate(root, {...basics(), appOrigin: "https://bravo.e280.org", petition: {
+				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			expect(delegate1.secret).not.is(delegate2.secret)
+		}),
+
+		"different delegator origins, same keys": test(async() => {
+			const root = generateSecret()
+			const delegate1 = signDelegate(root, {...basics(), delegatorOrigin: "https://alpha.e280.org", petition: {
+				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			const delegate2 = signDelegate(root, {...basics(), delegatorOrigin: "https://bravo.e280.org", petition: {
+				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
+			}})
+			expect(delegate1.secret).is(delegate2.secret)
+		}),
+	},
 
 	"verify delegate": {
 		"reject expired delegates": test(async() => {
