@@ -1,6 +1,6 @@
 {
 	"name": "@e280/authlocal",
-	"version": "0.3.0-2",
+	"version": "0.3.0-3",
 	"description": "user-sovereign login system for everybody",
 	"license": "MIT",
 	"main": "./x/lib/index.js",
