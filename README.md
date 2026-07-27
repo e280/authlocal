@@ -24,7 +24,7 @@ each identity you create has a permanent seed key. don't lose it. don't share it
 > *visit https://authlocal.org/demo/ to see what the authlocal popup looks like.*
 
 ### 🍋‍🟩 basic logins
-1. **install and import `@e280/authlocal`.** *(and `@e280/strata` for this demo)*
+1. **install and import `@e280/authlocal`.** *(and [`@e280/strata`](https://github.com/e280/strata) for this demo)*
     ```bash
     npm install @e280/authlocal @e280/strata
     ```
