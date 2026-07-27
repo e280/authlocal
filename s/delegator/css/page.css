@@ -32,7 +32,7 @@
 		margin-bottom: 4em;
 		hr { margin-bottom: var(--pad); }
 		p { opacity: 0.5; }
-		.version { opacity: 0.25; }
+		.version { opacity: 0.4; }
 	}
 }
 
