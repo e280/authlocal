@@ -7,7 +7,7 @@ import {DelegatorApi} from "../types.js"
 export async function connectToPetitioner(opener: Window, setupApi: (petitionerOrigin: string) => DelegatorApi) {
 	const {port, origin: petitionerOrigin} = await sendPort({
 		to: opener,
-		topic: consts.postMessageTopic,
+		topic: consts.namespace,
 	})
 
 	return new Portal({

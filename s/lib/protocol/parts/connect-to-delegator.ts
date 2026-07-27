@@ -8,7 +8,7 @@ import {DelegatorApi} from "../types.js"
 export async function connectToDelegator(popup: Window) {
 	const {port} = await recvPort({
 		from: popup,
-		topic: consts.postMessageTopic,
+		topic: consts.namespace,
 		fromOrigin: "http://localhost:8080",
 	})
 

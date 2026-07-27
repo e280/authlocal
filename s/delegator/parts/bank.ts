@@ -6,11 +6,12 @@ import {Kv, IdbMagazine, idbOpen} from "@e280/kv"
 import {Id} from "../../lib/core/index.js"
 import {deriveId} from "../../lib/core/cryp/derive-id.js"
 import {Identity, DelegationRecord, IdentityTiming} from "../types.js"
+import { consts } from "../../consts.js"
 
 export class Bank {
 	static async init() {
-		const channel = new BroadcastChannel("authlocal_bank_change")
-		const idb = await idbOpen("authlocal")
+		const channel = new BroadcastChannel(`${consts.namespace}.bank`)
+		const idb = await idbOpen(consts.namespace)
 		const magazine = new IdbMagazine(idb)
 		const kv = new Kv(magazine)
 		const bank = new Bank(kv, () => channel.postMessage(Date.now()))

@@ -1,14 +1,15 @@
 
 import {Kv, StorageMagazine} from "@e280/kv"
+import {consts} from "../../../consts.js"
 import {AuthOptions, Session} from "../types.js"
 
 export function defaultifyAuthOptions(options: Partial<AuthOptions> = {}): AuthOptions {
 	return {
-		broadcastChannel: new BroadcastChannel("authlocal_auth"),
+		broadcastChannel: new BroadcastChannel(`${consts.namespace}.auth`),
 		delegatorUrl: options.delegatorUrl ?? "https://authlocal.org/",
 		cubby: options.cubby ?? (
 			new Kv(new StorageMagazine())
-				.scope("authlocal")
+				.scope(consts.namespace)
 				.cell<Session>("session")
 		),
 	}
