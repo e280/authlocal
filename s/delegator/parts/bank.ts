@@ -1,6 +1,6 @@
 
 import {RMap} from "@e280/strata"
-import {collect, hex, need} from "@e280/stz"
+import {collect, hex, nap, need} from "@e280/stz"
 import {Kv, IdbMagazine, idbOpen} from "@e280/kv"
 
 import {Id} from "../../lib/core/index.js"
@@ -15,7 +15,7 @@ export class Bank {
 		const kv = new Kv(magazine)
 		const bank = new Bank(kv, () => channel.postMessage(Date.now()))
 		await bank.load()
-		channel.onmessage = () => bank.load()
+		channel.onmessage = () => nap().then(() => bank.load())
 		return bank
 	}
 
