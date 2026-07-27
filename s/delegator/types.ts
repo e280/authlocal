@@ -1,19 +1,23 @@
 
+import {Id} from "../lib/core/cryp/types.js"
+import {Delegate} from "../lib/core/alco/types.js"
+
 export type Identity = {
-	alias: string
 	root: string
+	alias: string
 }
 
 export type IdentityTiming = {
-	id: string
+	id: Id
 	timeLastTouched: number
 	timeFirstTouched: number
 }
 
-export type IdentityDelegation = {
-	id: string
-	origin: string
+export type DelegationRecord = {
+	id: Id
+	alias: string
 	time: number
-	expiresAt: number
+	petitioner: string
+	delegates: Delegate[]
 }
 

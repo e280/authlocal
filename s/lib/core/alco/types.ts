@@ -20,7 +20,7 @@ export type Delegate = {
 	/** delegate secret */
 	secret: Secret
 
-	/** user identity public id */
+	/** user identity public id (this is not the delegateId) */
 	id: Id
 
 	/** user's nickname */

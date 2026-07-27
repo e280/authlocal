@@ -6,6 +6,7 @@ import {dom, lightElement} from "@e280/sly"
 import {Identity} from "./types.js"
 import {Bank} from "./parts/bank.js"
 import {Context} from "./context.js"
+import {deriveId} from "../lib/core/cryp/derive-id.js"
 import {makeHashRouter} from "./routing/hash-router.js"
 import {signDelegate} from "../lib/core/alco/sign-delegate.js"
 import {connectToPetitioner} from "../lib/protocol/parts/connect-to-petitioner.js"
@@ -37,16 +38,27 @@ if (window.opener) {
 				})
 
 				const identity = await chooseIdentity.promise
+				const atTime = Date.now()
 
-				return petitions.map(petition =>
+				const delegates = petitions.map(petition =>
 					signDelegate(identity.root, {
 						alias: identity.alias,
 						petition,
 						delegatorOrigin,
 						petitionerOrigin,
-						atTime: Date.now(),
+						atTime,
 					})
 				)
+
+				await bank.recordDelegationEvent({
+					id: deriveId(identity.root),
+					alias: identity.alias,
+					petitioner: petitionerOrigin,
+					time: atTime,
+					delegates,
+				})
+
+				return delegates
 			},
 		},
 	}))

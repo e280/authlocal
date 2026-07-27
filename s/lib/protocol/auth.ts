@@ -2,10 +2,10 @@
 import {signal} from "@e280/strata"
 import {User} from "./user.js"
 import {openPopup} from "./parts/open-popup.js"
+import {AuthOptions, SessionOptions} from "./types.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
 import {askForDelegates} from "./parts/ask-for-delegates.js"
 import {sessionPetitions} from "./parts/session-petitions.js"
-import {AuthOptions, SessionOptions} from "./types.js"
 import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
 
 /** auth facility for logging in and out. */

@@ -1,11 +1,11 @@
 
 import {RMap} from "@e280/strata"
-import {collect, need} from "@e280/stz"
+import {collect, hex, need} from "@e280/stz"
 import {Kv, IdbMagazine, idbOpen} from "@e280/kv"
 
 import {Id} from "../../lib/core/index.js"
 import {deriveId} from "../../lib/core/cryp/derive-id.js"
-import {Identity, IdentityDelegation, IdentityTiming} from "../types.js"
+import {Identity, DelegationRecord, IdentityTiming} from "../types.js"
 
 export class Bank {
 	static async init() {
@@ -29,7 +29,7 @@ export class Bank {
 			kv,
 			identities: kv.scope<Identity>("identities"),
 			identityTimings: kv.scope<IdentityTiming>("identityTimings"),
-			identityDelegations: kv.scope<IdentityDelegation>("identityDelegations"),
+			delegations: kv.scope<DelegationRecord>("delegations"),
 		}
 	}
 
@@ -69,11 +69,18 @@ export class Bank {
 		await this.load()
 	}
 
+	async recordDelegationEvent(delegation: DelegationRecord) {
+		const timestamp = delegation.time.toString().padStart(14, "0")
+		const key = `${timestamp}-${hex.random(8)}`
+		await this.#tables.delegations.set(key, delegation)
+		this.#onChange()
+	}
+
 	async deleteIdentity(id: Id) {
 		await this.#tables.kv.commit([
 			this.#tables.identities.op.delete(id),
 			this.#tables.identityTimings.op.delete(id),
-			this.#tables.identityDelegations.op.delete(id),
+			this.#tables.delegations.op.delete(id),
 		])
 		this.#onChange()
 		await this.load()
