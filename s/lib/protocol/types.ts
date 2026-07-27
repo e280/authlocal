@@ -15,6 +15,7 @@ export type SessionOptions = {
 export type AuthOptions = {
 	delegatorUrl: string
 	cubby: Cubby<Session>
+	broadcastChannel: BroadcastChannel
 }
 
 export type DelegatorApi = {

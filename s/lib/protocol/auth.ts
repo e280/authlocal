@@ -1,4 +1,5 @@
 
+import {ev, nap} from "@e280/stz"
 import {signal} from "@e280/strata"
 import {User} from "./user.js"
 import {openPopup} from "./parts/open-popup.js"
@@ -12,9 +13,13 @@ import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
 export class Auth {
 	#options
 	#$user = signal<User | null>(null)
+	dispose
 
 	constructor(options: Partial<AuthOptions> = {}) {
 		this.#options = defaultifyAuthOptions(options)
+		this.dispose = ev(this.#options.broadcastChannel, {
+			message: () => nap().then(() => this.remember())
+		})
 	}
 
 	/** validate and return the current session, otherwise return null. */
@@ -27,16 +32,19 @@ export class Auth {
 
 	/** remember a previous login from persistent storage. */
 	async remember() {
-		const delegates = await this.#options.cubby.get()
-		if (!delegates) return null
-		this.#$user(new User(delegates))
+		const session = await this.#options.cubby.get()
+		const user = session
+			? new User(session)
+			: null
+		this.#$user(user)
 		return this.user
 	}
 
 	/** log out immediately. */
 	async logout() {
-		this.#$user(null)
 		await this.#options.cubby.set(undefined)
+		this.#$user(null)
+		this.#options.broadcastChannel.postMessage(true)
 	}
 
 	/** ask for a new login from the delegator */
@@ -46,6 +54,7 @@ export class Auth {
 		const user = new User({login, encryption})
 		await this.#options.cubby.set(user.session)
 		this.#$user(user)
+		this.#options.broadcastChannel.postMessage(true)
 		return this.user
 	}
 }
