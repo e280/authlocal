@@ -9,6 +9,7 @@ import {signToken} from "../tok/sign-token.js"
 import {tokenTime} from "../tok/token-time.js"
 import {Delegate, Petition, Proof} from "./types.js"
 import {deriveSecret} from "../cryp/derive-secret.js"
+import {normalizeExpiresAt} from "./normalize-expires-at.js"
 
 export function signDelegate(root: Root, {
 		alias, petition, appOrigin, delegatorOrigin, atTime,
@@ -35,7 +36,7 @@ export function signDelegate(root: Root, {
 	const {purpose, scope} = petition
 
 	const expiresAt = Math.min(
-		petition.expiresAt,
+		normalizeExpiresAt(petition.expiresAt, atTime),
 		atTime + time.days(consts.maxProofExpiryDays),
 	)
 
