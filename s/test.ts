@@ -6,7 +6,6 @@ import address from "./lib/core/ergo/address/test.js"
 import cryp from "./lib/core/cryp/test.js"
 import seed from "./lib/core/ergo/seed/test.js"
 import phonemes from "./lib/core/ergo/phonemes/test.js"
-import micro from "./lib/core/micro/test.js"
 
 await Science.run({
 	alco,
@@ -14,6 +13,5 @@ await Science.run({
 	cryp,
 	seed,
 	phonemes,
-	micro,
 })
 
