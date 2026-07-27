@@ -1,7 +1,7 @@
 
 ![](https://i.imgur.com/Of61sXO.png)
 
-# 🔐 [authlocal](https://authlocal.org/) is a free user-sovereign login system.
+# 🔐 [authlocal](https://authlocal.org/) is the user-sovereign login system.
 any website can ask you to sign-in via authlocal. manage your identities any time at https://authlocal.org/  
 
 &nbsp; 🔑 **cryptographic.** passwordless, usernameless, emailless.  
