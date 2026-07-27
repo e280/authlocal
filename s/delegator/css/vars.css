@@ -1,7 +1,7 @@
 
 @layer vars {
 	:root {
-		--bg: #080808;
+		--bg: #111;
 		--text: #eee8;
 		--text-strong: white;
 		--text-shadow: 0.1em 0.1em 0.1em #0004;
