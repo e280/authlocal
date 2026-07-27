@@ -6,7 +6,7 @@ import {verifyProof} from "./verify-proof.js"
 
 export function verifyDelegate(delegate: Delegate, options: {
 		allowedPurposes: string[]
-		allowedPetitioners: string[]
+		allowedApps: string[]
 		allowedScopes?: string[]
 		allowedDelegators?: string[]
 		atTime?: number

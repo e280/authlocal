@@ -17,7 +17,7 @@ export type DelegationRecord = {
 	id: Id
 	alias: string
 	time: number
-	petitioner: string
+	app: string
 	delegates: Delegate[]
 }
 

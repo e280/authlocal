@@ -13,7 +13,7 @@ import dotsIcon from "../../../../lib/ui/icons/tabler/dots.icon.js"
 
 export const ListPage = shadow((options: {
 		loginRequest?: {
-			petitionerOrigin: string
+			appOrigin: string
 			login: (identity: Identity) => void
 		}
 		identities: Identity[]
@@ -81,7 +81,7 @@ export const ListPage = shadow((options: {
 			<hr/>
 		</div>
 
-		${when(options.loginRequest, ({petitionerOrigin: appOrigin}) => html`
+		${when(options.loginRequest, ({appOrigin: appOrigin}) => html`
 			<div x-banner>
 				<p>the request is from <code>${appOrigin}</code>.</p>
 				<p>you can deny this request by closing this window.</p>

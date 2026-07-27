@@ -5,11 +5,11 @@ import {verifyDelegate} from "../../core/alco/verify-delegate.js"
 
 export function isSessionValid(
 		session: Session,
-		petitionerOrigin = window.location.origin,
+		appOrigin = window.location.origin,
 	) {
 
 	return verifyDelegate(session.login, {
-		allowedPetitioners: [petitionerOrigin],
+		allowedApps: [appOrigin],
 		allowedPurposes: Object.values(consts.purposes),
 	}).yay
 }

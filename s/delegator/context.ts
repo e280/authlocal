@@ -6,7 +6,7 @@ import {Petition} from "../lib/core/alco/types.js"
 
 export class Context {
 	$expedition = signal<null | {
-		petitionerOrigin: string
+		appOrigin: string
 		petitions: Petition[]
 		chooseIdentity: (identity: Identity) => void
 	}>(null)

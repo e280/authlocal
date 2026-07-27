@@ -8,7 +8,7 @@ import {verifyToken} from "../tok/verify-token.js"
 import {decodeToken} from "../tok/decode-token.js"
 
 export function verifyProof(proofToken: string, options: {
-		allowedPetitioners: string[]
+		allowedApps: string[]
 		allowedPurposes?: string[]
 		allowedScopes?: string[]
 		allowedDelegators?: string[]
@@ -24,7 +24,7 @@ export function verifyProof(proofToken: string, options: {
 		{
 			atTime: options.atTime,
 			allowedIssuers: options.allowedDelegators,
-			allowedAudiences: options.allowedPetitioners,
+			allowedAudiences: options.allowedApps,
 		},
 	)
 

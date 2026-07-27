@@ -1,11 +1,11 @@
 
 import {Portal} from "@e280/renraku"
 import {sendPort, webAutoTransfer} from "@e280/renraku/web"
-import {consts} from "../../../consts.js"
 import {DelegatorApi} from "../types.js"
+import {consts} from "../../../consts.js"
 
-export async function connectToPetitioner(opener: Window, setupApi: (petitionerOrigin: string) => DelegatorApi) {
-	const {port, origin: petitionerOrigin} = await sendPort({
+export async function connectToApp(opener: Window, setupApi: (appOrigin: string) => DelegatorApi) {
+	const {port, origin: appOrigin} = await sendPort({
 		to: opener,
 		topic: consts.namespace,
 	})
@@ -14,7 +14,7 @@ export async function connectToPetitioner(opener: Window, setupApi: (petitionerO
 		port,
 		timeout: Infinity,
 		autoTransfer: webAutoTransfer,
-		fns: setupApi(petitionerOrigin),
+		fns: setupApi(appOrigin),
 	})
 }
 

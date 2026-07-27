@@ -11,7 +11,7 @@ import {Delegate, Petition, Proof} from "./types.js"
 import {deriveSecret} from "../cryp/derive-secret.js"
 
 export function signDelegate(root: Root, {
-		alias, petition, petitionerOrigin, delegatorOrigin, atTime,
+		alias, petition, appOrigin, delegatorOrigin, atTime,
 	}: {
 
 		/** user identity alias to be included in the delegate */
@@ -21,7 +21,7 @@ export function signDelegate(root: Root, {
 		petition: Petition,
 
 		/** origin of the app that sends petitions (eg, "https://e280.org") */
-		petitionerOrigin: string
+		appOrigin: string
 
 		/** origin of the delegator that signs delegates (eg, "https://authlocal.org") */
 		delegatorOrigin: string
@@ -39,7 +39,7 @@ export function signDelegate(root: Root, {
 		atTime + time.days(consts.maxProofExpiryDays),
 	)
 
-	const secret = deriveSecret(root, hash(petitionerOrigin, purpose, scope))
+	const secret = deriveSecret(root, hash(appOrigin, purpose, scope))
 	const delegateId = deriveId(secret)
 
 	const proof: Proof = {delegateId, id, alias, purpose, scope}
@@ -47,7 +47,7 @@ export function signDelegate(root: Root, {
 		jti: hex.random(16),
 		iat: tokenTime.at(atTime),
 		exp: tokenTime.at(expiresAt),
-		aud: petitionerOrigin,
+		aud: appOrigin,
 		iss: delegatorOrigin,
 		proof,
 	})

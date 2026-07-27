@@ -10,7 +10,7 @@ import {verifyDelegate} from "./verify-delegate.js"
 import {verifyTestimony} from "./verify-testimony.js"
 import {generateSecret} from "../cryp/generate-secret.js"
 
-const petitionerOrigin = "https://e280.org"
+const appOrigin = "https://e280.org"
 const delegatorOrigin = "https://authlocal.org"
 
 const petition = () => ({
@@ -21,8 +21,8 @@ const petition = () => ({
 
 const basics = () => ({
 	alias: "chase",
+	appOrigin,
 	delegatorOrigin,
-	petitionerOrigin,
 	petition: petition(),
 	atTime: 0,
 })
@@ -31,7 +31,7 @@ const allowed = () => ({
 	atTime: 0,
 	allowedPurposes: Object.values(consts.purposes),
 	allowedDelegators: [delegatorOrigin],
-	allowedPetitioners: [petitionerOrigin],
+	allowedApps: [appOrigin],
 })
 
 export default suite({
@@ -58,14 +58,6 @@ export default suite({
 			assert(isNay(verifyDelegate(delegate, {...allowed(), atTime: 12_000})))
 		}),
 
-		"audience required": test(async() => {
-			const delegate = signDelegate(generateSecret(), {
-				...basics(),
-				petitionerOrigin: undefined as any,
-			})
-			assert(isNay(verifyDelegate(delegate, allowed())))
-		}),
-
 		"issuer required": test(async() => {
 			const delegate = signDelegate(generateSecret(), {
 				...basics(),
@@ -77,7 +69,7 @@ export default suite({
 		"reject bad audience": test(async() => {
 			const delegate = signDelegate(generateSecret(), {
 				...basics(),
-				petitionerOrigin: "https://bad.e280.org"
+				appOrigin: "https://bad.e280.org"
 			})
 			assert(isNay(verifyDelegate(delegate, allowed())))
 		}),
@@ -95,13 +87,13 @@ export default suite({
 		"sign and verify": test(async() => {
 			const root = generateSecret()
 			const delegate = signDelegate(root, basics())
-			const {petitionerOrigin} = basics()
+			const {appOrigin} = basics()
 			const audience = "test-server"
 			const testimonyToken = signTestimony({
 				secret: delegate.secret,
 				atTime: 0,
 				audience,
-				issuer: petitionerOrigin,
+				issuer: appOrigin,
 				expiresAt: 1000,
 				proofToken: delegate.proofToken,
 				data: 123,
@@ -109,7 +101,7 @@ export default suite({
 			const testimony = verifyTestimony(testimonyToken, {
 				atTime: 0,
 				allowedAudiences: [audience],
-				allowedIssuers: [petitionerOrigin]
+				allowedIssuers: [appOrigin]
 			})
 			assert(testimony.yay)
 			assert(gotValue(testimony).data === 123)

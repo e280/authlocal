@@ -1,15 +1,12 @@
 
 import {html} from "lit"
-import {defer} from "@e280/stz"
 import {dom, lightElement} from "@e280/sly"
 
-import {Identity} from "./types.js"
 import {Bank} from "./parts/bank.js"
 import {Context} from "./context.js"
-import {deriveId} from "../lib/core/cryp/derive-id.js"
+import {delegateApi} from "./parts/delegator-api.js"
 import {makeHashRouter} from "./routing/hash-router.js"
-import {signDelegate} from "../lib/core/alco/sign-delegate.js"
-import {connectToPetitioner} from "../lib/protocol/parts/connect-to-petitioner.js"
+import {connectToApp} from "../lib/protocol/parts/connect-to-app.js"
 
 const delegatorOrigin = window.location.origin
 const bank = await Bank.init()
@@ -25,42 +22,6 @@ dom.register({
 	`),
 })
 
-if (window.opener) {
-	await connectToPetitioner(window.opener, petitionerOrigin => ({
-		v1: {
-			async requestDelegates(petitions) {
-				const chooseIdentity = defer<Identity>()
-
-				context.$expedition({
-					petitionerOrigin,
-					petitions,
-					chooseIdentity: chooseIdentity.resolve,
-				})
-
-				const identity = await chooseIdentity.promise
-				const atTime = Date.now()
-
-				const delegates = petitions.map(petition =>
-					signDelegate(identity.root, {
-						alias: identity.alias,
-						petition,
-						delegatorOrigin,
-						petitionerOrigin,
-						atTime,
-					})
-				)
-
-				await bank.recordDelegationEvent({
-					id: deriveId(identity.root),
-					alias: identity.alias,
-					petitioner: petitionerOrigin,
-					time: atTime,
-					delegates,
-				})
-
-				return delegates
-			},
-		},
-	}))
-}
+if (window.opener)
+	await connectToApp(window.opener, delegateApi(context, delegatorOrigin))
 

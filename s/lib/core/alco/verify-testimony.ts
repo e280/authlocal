@@ -11,7 +11,7 @@ export function verifyTestimony<X>(token: string, {
 		allowedIssuers, allowedAudiences, allowedDelegators, allowedPurposes, allowedScopes, atTime,
 	}: {
 
-		/** petitioner origins authorized to use the delegate */
+		/** app origins authorized to use the delegate */
 		allowedIssuers: string[]
 
 		/** intended recipients of this testimony */
@@ -48,7 +48,7 @@ export function verifyTestimony<X>(token: string, {
 		allowedPurposes,
 		allowedScopes,
 		allowedDelegators,
-		allowedPetitioners: allowedIssuers,
+		allowedApps: allowedIssuers,
 	})
 	if (!maybeProof.yay)
 		return maybeProof
