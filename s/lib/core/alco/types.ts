@@ -20,6 +20,9 @@ export type Delegate = {
 	/** delegate secret */
 	secret: Secret
 
+	/** user's nickname */
+	alias: string
+
 	/** proof that this delegate is legit, signed by the user's root */
 	proofToken: string
 }
@@ -32,9 +35,6 @@ export type Proof = {
 
 	/** user identity public id (this is not the delegateId) */
 	id: Id
-
-	/** user's nickname */
-	alias: string
 
 	/** describes what this delegate is supposed to do, eg "auth" or "crypt" */
 	purpose: string

@@ -18,7 +18,7 @@ export class User {
 
 	/** user's public nickname (eg, "Chase") */
 	get alias() {
-		return this.#proof.alias
+		return this.session.auth.alias
 	}
 
 	/** user's public id, in human-friendly address format (eg, "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx") */

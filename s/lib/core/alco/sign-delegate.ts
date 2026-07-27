@@ -43,7 +43,7 @@ export function signDelegate(root: Root, {
 	const secret = deriveSecret(root, hash(appOrigin, purpose, scope))
 	const delegateId = deriveId(secret)
 
-	const proof: Proof = {delegateId, id, alias, purpose, scope}
+	const proof: Proof = {delegateId, id, purpose, scope}
 	const proofToken = signToken<Payload<{proof: Proof}>>(root, {
 		jti: hex.random(16),
 		iat: tokenTime.at(atTime),
@@ -53,6 +53,6 @@ export function signDelegate(root: Root, {
 		proof,
 	})
 
-	return {secret, proofToken}
+	return {secret, alias, proofToken}
 }
 
