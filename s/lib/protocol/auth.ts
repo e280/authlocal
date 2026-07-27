@@ -50,7 +50,8 @@ export class Auth {
 	/** ask for a new login from the delegator */
 	async loginViaPopup(options: Partial<SessionOptions> = {}) {
 		const popup = openPopup("auth", this.#options.delegatorUrl)
-		const [auth, crypt] = await askForDelegates(popup, sessionPetitions(options))
+		const delegatorOrigin = new URL(this.#options.delegatorUrl, window.location.href).origin
+		const [auth, crypt] = await askForDelegates(popup, delegatorOrigin, sessionPetitions(options))
 		const user = new User({auth, crypt})
 		await this.#options.cubby.set(user.session)
 		this.#$user(user)
