@@ -27,8 +27,8 @@ export function pageHead(orb: Orb, title: string) {
 		${socialCard({
 			themeColor: "#77ff81",
 			siteName: "authlocal.org",
-			title: "authlocal – user-sovereign login system",
-			description: "own your identity.. no emails/passwords/databases.. open-source.. privacy-focused..",
+			title: "authlocal is the user-sovereign login system.",
+			description: "own your identity. cryptographic. passwordless. emailless. open-source.",
 		})}
 	`
 }

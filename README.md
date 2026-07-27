@@ -4,7 +4,7 @@
 # 🔐 [authlocal](https://authlocal.org/) is the user-sovereign login system.
 any website can ask you to sign-in via authlocal. manage your identities any time at https://authlocal.org/  
 
-&nbsp; 🔑 **cryptographic.** passwordless, usernameless, emailless.  
+&nbsp; 🔑 **cryptographic.** passwordless, emailless.  
 &nbsp; 🏡 **local-only.** keys are on your device (no cloud databases).  
 &nbsp; 🗽 **user-sovereign.** copy and store your keys however you wish.  
 &nbsp; 🥷 **privacy-focused.** pseudonymous, no personal information required.  
