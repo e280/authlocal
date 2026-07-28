@@ -2,16 +2,16 @@
 ![](https://i.imgur.com/Of61sXO.png)
 
 # 🔐 [authlocal](https://authlocal.org/) is the user-sovereign login system.
-any website can ask you to sign-in via authlocal. manage your identities any time at https://authlocal.org/  
+any website can ask you to sign-in via authlocal. manage identities on your device any time at https://authlocal.org/  
 
-&nbsp; 🔑 **cryptographic.** passwordless, emailless.  
-&nbsp; 🏡 **local-only.** keys are on your device (no cloud databases).  
+&nbsp; 🔑 **cryptographic.** passwordless, emailless, provable.  
 &nbsp; 🗽 **user-sovereign.** copy and store your keys however you wish.  
+&nbsp; 🏡 **local-only.** app is 100% clientside. keys are on your device.  
 &nbsp; 🥷 **pseudonymous.** seamlessly carry your identity across services.  
-&nbsp; 💖 **free and open-source.** zero-cost at global scale, can be self-hosted.  
+&nbsp; 💖 **free and open-source.** a protocol, not a product. zero-cost at global scale.  
 
 **own your identity.**  
-each identity you create has a permanent seed key. don't lose it. don't share it. it's yours, forever.
+your identity begins with a permanent seed key. don't lose it. don't share it. it's yours, forever.
 
 > *"keep it secret. keep it safe."*  
 > &nbsp; &nbsp; *— gandalf, fellowship of the ring*
@@ -40,11 +40,18 @@ each identity you create has a permanent seed key. don't lose it. don't share it
     ```ts
     effect(() => console.log(
       auth.user
-        ? `logged in: ${auth.user.emoji} ${auth.user.address}`
+        ? `logged in: ${auth.user.id}`
         : `logged out`
     ))
-    // "logged in: 🦎 volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx"
     ```
+    - **user.id:** `"efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"`  
+        proper id you should identify users by. it's actually the ed25519 public key, as 64 hex characters.  
+    - **user.alias:** `"Gandalf the Gray"`  
+        customizable nickname.  
+    - **user.cryptSecret:** `"8109ea0663cdf5da134f2a79f218ac2bcdd69750f2db5ceb02b85d066b28917d"`  
+        stable end-to-end encryption key.  
+    - **user.expiresAt:** `1785232580494`  
+        js milliseconds time at which this session expires.  
 1. **start by remembering a previous user session.**
     ```ts
     await auth.remember()
@@ -53,9 +60,44 @@ each identity you create has a permanent seed key. don't lose it. don't share it
     ```ts
     await auth.loginViaPopup()
     ```
-1. **instantly logout.**
+1. **logout immediately.**
     ```ts
     await auth.logout()
+    ```
+
+### 🍋‍🟩 `address` facility for friendly names
+1. **import address facility.**
+    ```ts
+    import {address} from "@e280/authlocal"
+    ```
+    ```ts
+    const id = "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
+      // for these examples
+    ```
+1. **address.from,** encode a user id into friendly address format.
+    ```ts
+    address.from(id)
+      // "calwak_curlex_H9Nts5YRurzidb8mQHkHH323mMT8d3oReimRzxeLgwRw"
+    ```
+1. **address.id,** decode an address back into a user id.
+    ```ts
+    address.id("calwak_curlex_H9Nts5YRurzidb8mQHkHH323mMT8d3oReimRzxeLgwRw")
+      // "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
+    ```
+1. **address.emoji,** derive a friendly emoji from the user id.
+    ```ts
+    address.emoji(id)
+      // "🐦"
+    ```
+1. **address.color,** derive a friendly color from the user id.
+    ```ts
+    address.color(id)
+      // "oklch(0.8 0.03 136.94)"
+    ```
+1. **address.moniker,** just the first part of the address.
+    ```ts
+    address.moniker(id)
+      // "calwak_curlex"
     ```
 
 ### 🍋‍🟩 perform end-to-end encryption for the user
