@@ -68,6 +68,7 @@ export class Bank {
 		])
 		this.#onChange()
 		await this.load()
+		navigator.storage.persist()
 	}
 
 	async recordDelegationEvent(delegation: DelegationRecord) {
