@@ -7,7 +7,7 @@ any website can ask you to sign-in via authlocal. manage your identities any tim
 &nbsp; 🔑 **cryptographic.** passwordless, emailless.  
 &nbsp; 🏡 **local-only.** keys are on your device (no cloud databases).  
 &nbsp; 🗽 **user-sovereign.** copy and store your keys however you wish.  
-&nbsp; 🥷 **privacy-focused.** pseudonymous, no personal information required.  
+&nbsp; 🥷 **pseudonymous.** seamlessly carry your identity across services.  
 &nbsp; 💖 **free and open-source.** zero-cost at global scale, can be self-hosted.  
 
 **own your identity.**  
