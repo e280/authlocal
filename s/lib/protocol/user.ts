@@ -2,7 +2,7 @@
 import {Session} from "./types.js"
 import {decodeProof} from "../core/alco/decode-proof.js"
 import {signTestimony} from "../core/alco/sign-testimony.js"
-import {address, decrypt, encrypt, tokenTime} from "../core/index.js"
+import {decrypt, encrypt, tokenTime} from "../core/index.js"
 
 export class User {
 	#proof
@@ -16,29 +16,9 @@ export class User {
 		return this.#proof.id
 	}
 
-	/** user's public nickname (eg, "Chase") */
+	/** user's public nickname (eg, "Gandalf the Gray") */
 	get alias() {
 		return this.session.auth.alias
-	}
-
-	/** user's public id, in human-friendly address format (eg, "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx") */
-	get address() {
-		return address.from(this.id)
-	}
-
-	/** shorthand part from the address (eg, "volrad_welsyx") */
-	get moniker() {
-		return address.moniker(this.id)
-	}
-
-	/** emoji, derived from user id (eg, "🦎") */
-	get emoji() {
-		return address.emoji(this.id)
-	}
-
-	/** css color, derived from user id (eg, "oklch(0.8 0.076 79.05)") */
-	get color() {
-		return address.color(this.id)
 	}
 
 	/** permanent private key for end-to-end encryption purposes (eg, "34631de533fd0b5dc627fda139d6190556b330a74b521d0d7c590990abd53aee") */

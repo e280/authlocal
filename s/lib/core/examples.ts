@@ -6,7 +6,8 @@ import {deriveId} from "./cryp/derive-id.js"
 import {signDelegate} from "./alco/sign-delegate.js"
 import {generateSecret} from "./cryp/generate-secret.js"
 
-const secret = generateSecret()
+// const secret = generateSecret()
+const secret = "da508927fa7a7c26b4abfcd7ecf63315ac21f3ded74539c496ede9b944fe7af3"
 const id = deriveId(secret)
 
 console.log("==secret==")
@@ -20,6 +21,17 @@ console.log()
 console.log("==address==")
 console.log(address.from(id))
 console.log()
+
+console.log("==emoji==")
+console.log(address.emoji(id))
+console.log()
+
+console.log("==color==")
+console.log(address.color(id))
+console.log()
+
+
+
 
 
 console.log("==seed==")
