@@ -2,12 +2,14 @@
 ![](https://i.imgur.com/Of61sXO.png)
 
 # 🔐 [authlocal](https://authlocal.org/) is the user-sovereign login system.
-any website can ask you to sign-in via authlocal. manage identities on your device any time at https://authlocal.org/  
+any website can ask you to sign-in via authlocal.  
+manage identities on your device any time at https://authlocal.org/  
 
 &nbsp; 🔑 **cryptographic.** passwordless, emailless, provable.  
 &nbsp; 🗽 **user-sovereign.** copy and store your keys however you wish.  
 &nbsp; 🏡 **local-only.** app is 100% clientside. keys are on your device.  
 &nbsp; 🥷 **pseudonymous.** seamlessly carry your identity across services.  
+&nbsp; ✍️ **artisanal.** thoughtfully designed and coded by hand.  
 &nbsp; 💖 **free and open-source.** a protocol, not a product. zero-cost at global scale.  
 
 **own your identity.**  
