@@ -99,13 +99,10 @@ when you sign into a website with authlocal, that website receives cryptographic
 
     console.log(proof.id) // user id
       // "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
-
-    console.log(address(proof.id))
-      // "calwak_curlex_H9Nts5YRurzidb8mQHkHH323mMT8d3oReimRzxeLgwRw"
     ```
 
 ### 🍋‍🟩 use `address` for friendly names
-- **`address(id)`** -- encode a user id into a friendly format.
+- **`address(id)`** -- encode a user id hex into a friendly format.
     ```ts
     import {address} from "@e280/authlocal"
 
