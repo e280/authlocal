@@ -1,8 +1,9 @@
 
 import {happy} from "@e280/stz"
 import {Payload} from "../../tok/types.js"
-import {TokenErr} from "../../errs/token-err.js"
+import {consts} from "../../../../consts.js"
 import {verifyProof} from "../proof/verify.js"
+import {TokenErr} from "../../errs/token-err.js"
 import {tokenTime} from "../../tok/token-time.js"
 import {decodeToken} from "../../tok/decode-token.js"
 import {verifyToken} from "../../tok/verify-token.js"
@@ -13,13 +14,13 @@ export function verifyTestimony<X>(token: string, options: TestimonyVerification
 	const {
 		allowedIssuers,
 
-		atTime = Date.now(),
 		maxAge,
-		maxProofAge,
 		allowedAudiences,
 		allowedDelegators,
-		allowedPurposes,
 		allowedScopes,
+		atTime = Date.now(),
+		maxProofAge = consts.standardLifespan,
+		allowedPurposes = [consts.purposes.auth],
 	} = options
 
 	type TPay = Payload<{testimony: TestimonySource<X>}>
