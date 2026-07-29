@@ -3,7 +3,8 @@ import {defer} from "@e280/stz"
 import {Identity} from "../types.js"
 import {Context} from "../context.js"
 import {Proof} from "../../lib/core/alco/proof/types.js"
-import {decodeToken, DelegatorApi, deriveId, Payload, signDelegate} from "../../lib/index.js"
+import {DelegatorApi} from "../../lib/protocol/parts/types.js"
+import {decodeToken, deriveId, Payload, signDelegate} from "../../lib/index.js"
 
 export const delegatorApi = (context: Context, delegatorOrigin: string) => (
 	(appOrigin: string) => (<DelegatorApi>{v1: {

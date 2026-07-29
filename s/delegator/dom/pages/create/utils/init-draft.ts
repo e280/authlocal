@@ -1,7 +1,7 @@
 
 import {signal} from "@e280/strata"
-import {generateSecret} from "../../../../../lib/core/index.js"
 import {deriveIdentityFromIndex} from "./derive-identity-from-index.js"
+import {generateSecret} from "../../../../../lib/core/cryp/generate-secret.js"
 
 export function initDraft() {
 	const startIndex = 1

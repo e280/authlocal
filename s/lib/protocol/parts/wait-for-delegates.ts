@@ -2,7 +2,7 @@
 import {defer} from "@e280/stz"
 import {Portal} from "@e280/renraku"
 import {recvPorts, webAutoTransfer} from "@e280/renraku/web"
-import {DelegatorApi} from "../types.js"
+import {DelegatorApi} from "./types.js"
 import {consts} from "../../../consts.js"
 import {Delegate, Petition} from "../../core/alco/delegate/types.js"
 

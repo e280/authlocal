@@ -1,6 +1,6 @@
 
 import {Cubby} from "@e280/stz"
-import {Delegate, Petition} from "../core/alco/delegate/types.js"
+import {Delegate} from "../core/alco/delegate/types.js"
 
 export type AuthOptions = {
 
@@ -22,11 +22,5 @@ export type Session = {
 export type SessionOptions = {
 	expiresAt: number
 	cryptScope: string
-}
-
-export type DelegatorApi = {
-	v1: {
-		requestDelegates(petitions: Petition[]): Promise<Delegate[]>
-	}
 }
 
