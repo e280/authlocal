@@ -1,7 +1,7 @@
 {
 	"name": "@e280/authlocal",
 	"version": "0.3.0-9",
-	"description": "user-sovereign login system for everybody",
+	"description": "user-sovereign auth",
 	"license": "MIT",
 	"main": "./x/lib/index.js",
 	"type": "module",

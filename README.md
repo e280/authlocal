@@ -1,10 +1,10 @@
 
 ![](https://i.imgur.com/Of61sXO.png)
 
-# 🔐 [authlocal](https://authlocal.org/) is auth without a service
+# 🔐 https://authlocal.org/
 
 **any website can ask you to sign-in via authlocal.**  
-manage identities on your device any time at https://authlocal.org/  
+manage identities on your device any time at [authlocal.org](https://authlocal.org/)  
 
 &nbsp; 🔑 **cryptographic.** passwordless, emailless, provable.  
 &nbsp; 🗽 **user-sovereign.** copy your keys as you wish.  
