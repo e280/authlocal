@@ -1,5 +1,5 @@
 
-import {hash} from "../../index.js"
+import {hash} from "../../cryp/hash.js"
 
 /** derive a color from a hex id */
 export function addressColor(id: string) {

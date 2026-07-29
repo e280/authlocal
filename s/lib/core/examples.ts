@@ -1,8 +1,9 @@
 
 import {count, hex, time} from "@e280/stz"
 import {demo} from "./ergo/demo.js"
-import {address, seed} from "./index.js"
+import {seed} from "./ergo/seed/seed.js"
 import {deriveId} from "./cryp/derive-id.js"
+import {address} from "./ergo/address/address.js"
 import {signDelegate} from "./alco/delegate/sign.js"
 import {addressEmoji} from "./ergo/address/emoji.js"
 import {addressColor} from "./ergo/address/color.js"
