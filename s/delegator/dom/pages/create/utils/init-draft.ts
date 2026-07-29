@@ -1,17 +1,19 @@
 
 import {signal} from "@e280/strata"
+import {CreateDraft} from "../types.js"
 import {deriveIdentityFromIndex} from "./derive-identity-from-index.js"
 import {generateSecret} from "../../../../../lib/core/cryp/generate-secret.js"
 
-export function initDraft() {
+export function initDraft(): CreateDraft {
 	const startIndex = 1
-	const secret = generateSecret()
-	const {root} = deriveIdentityFromIndex(secret, startIndex)
+	const baseSecret = generateSecret()
+	const {secret} = deriveIdentityFromIndex(baseSecret, startIndex)
 
 	return {
+		$baseSecret: signal(baseSecret),
 		$index: signal(startIndex),
 		$secret: signal(secret),
-		$root: signal(root),
 		$alias: signal<string>(""),
 	}
 }
+

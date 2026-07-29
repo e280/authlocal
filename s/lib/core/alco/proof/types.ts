@@ -1,7 +1,7 @@
 
 import {Id} from "../../cryp/types.js"
 
-/** proof that a delegate was signed by an identity root */
+/** proof that a delegate was signed by an identity secret */
 export type Proof = {
 
 	/** delegate public key */

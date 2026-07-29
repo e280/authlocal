@@ -34,16 +34,16 @@ export const routes = (context: Context, go: Go) => router({
 			goCreate: go.create,
 			goRecovery: go.recovery,
 			updateIdentity: identity => context.bank.setIdentity(identity),
-			deleteIdentity: identity => context.bank.deleteIdentity(deriveId(identity.root)),
+			deleteIdentity: identity => context.bank.deleteIdentity(deriveId(identity.secret)),
 		})
 	},
 
 	"create": () => {
 		return CreatePage({
 			done: async draft => {
-				const root = draft.$root()
-				const alias = draft.$alias() || addressMoniker(deriveId(root))
-				await context.bank.setIdentity({root, alias})
+				const secret = draft.$secret()
+				const alias = draft.$alias() || addressMoniker(deriveId(secret))
+				await context.bank.setIdentity({secret, alias})
 				go.list()
 			},
 			recovery: go.recovery,

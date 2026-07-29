@@ -23,20 +23,20 @@ export const RecoveryPage = shadow((options: {
 	useCss(theme(), styleCss)
 
 	const $alias = useSignal("")
-	const $root = useSignal("")
+	const $secret = useSignal("")
 	const $identity = useDerived<Identity | null>(() => {
-		const root = $root()
-		if (root === "") return null
-		const alias = $alias() || addressMoniker(deriveId(root))
-		return {root, alias}
+		const secret = $secret()
+		if (secret === "") return null
+		const alias = $alias() || addressMoniker(deriveId(secret))
+		return {secret, alias}
 	})
 
 	const identity = $identity()
 
 	function done() {
-		const root = $root()
-		const alias = $alias() || addressMoniker(deriveId(root))
-		options.done({root, alias})
+		const secret = $secret()
+		const alias = $alias() || addressMoniker(deriveId(secret))
+		options.done({secret, alias})
 	}
 
 	return html`
@@ -58,12 +58,12 @@ export const RecoveryPage = shadow((options: {
 					textarea: true,
 					placeholder: "recovery seed",
 					validator: allowEmptyString(seedParse),
-					on: root => $root(root.yay ? root.value : ""),
+					on: secret => $secret(secret.yay ? secret.value : ""),
 				})}
 			</div>
 
 			${identity
-				? Poster(deriveId(identity.root), identity.alias)
+				? Poster(deriveId(identity.secret), identity.alias)
 				: null}
 
 			<nav x-nav>
@@ -75,7 +75,7 @@ export const RecoveryPage = shadow((options: {
 				or
 				<button
 					x-linky
-					?disabled="${!$root()}"
+					?disabled="${!$secret()}"
 					@click="${done}">
 						claim the identity
 				</button>

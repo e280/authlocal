@@ -124,8 +124,8 @@ when you sign into a website with authlocal, that website receives a cryptograph
 ## 🔐 questions and answers
 
 ### 🫐 what's really going on under the hood?
-- your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root key.
-- a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. a delegate can sign new "claim" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
+- your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's secret key.
+- a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user secret. a delegate can sign new "claim" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user secret.
 - in a standard login flow, your site asks for two delegates: one ephemeral "auth" delegate that expires in 30 days, and one stable "crypt" delegate for end-to-end encryption. the "auth" delegate can be used to sign new claims for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify.
 
 ### 🫐 why not passkeys or pairwise?

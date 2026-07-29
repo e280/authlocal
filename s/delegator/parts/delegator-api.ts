@@ -24,7 +24,7 @@ export const delegatorApi = (context: Context, delegatorOrigin: string) => (
 			const atTime = Date.now()
 
 			const delegates = petitions.map(petition =>
-				signDelegate(identity.root, {
+				signDelegate(identity.secret, {
 					alias: identity.alias,
 					petition,
 					issuer: delegatorOrigin,
@@ -34,7 +34,7 @@ export const delegatorApi = (context: Context, delegatorOrigin: string) => (
 			)
 
 			await context.bank.recordDelegationEvent({
-				id: deriveId(identity.root),
+				id: deriveId(identity.secret),
 				alias: identity.alias,
 				app: appOrigin,
 				time: atTime,

@@ -16,9 +16,9 @@ export const SeedSubpanel = shadow((options: {
 	useName("seed subpanel")
 	useCss(theme(), styleCss)
 
-	const id = deriveId(options.identity.root)
+	const id = deriveId(options.identity.secret)
 	const moniker = addressMoniker(id)
-	const seedText = seed(options.identity.root)
+	const seedText = seed(options.identity.secret)
 
 	return html`
 		<section class=section>

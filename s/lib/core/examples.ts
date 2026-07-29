@@ -54,7 +54,7 @@ for (const _ of count(2)) {
 console.log()
 
 console.log("==jwt proof token==")
-const jwtProof = signDelegate(demo.root, {
+const jwtProof = signDelegate(demo.secret, {
 	atTime: Date.now(),
 	alias: "chase",
 	audience: "https://e280.org",

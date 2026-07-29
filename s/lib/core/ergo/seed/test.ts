@@ -6,19 +6,19 @@ import {seedSecret} from "./secret.js"
 
 export default suite({
 	"secret->seed->secret": test(async() => {
-		expect(seedSecret(seed(demo.root))).is(demo.root)
+		expect(seedSecret(seed(demo.secret))).is(demo.secret)
 	}),
 
 	"seed matches demo": test(async() => {
-		expect(seed(demo.root)).is(demo.seed)
+		expect(seed(demo.secret)).is(demo.seed)
 	}),
 
 	"tolerate whitespace": test(async() => {
-		expect(seedSecret(`\n\t ${demo.seed} \t\n`)).is(demo.root)
+		expect(seedSecret(`\n\t ${demo.seed} \t\n`)).is(demo.secret)
 	}),
 
 	"tolerate lettercase": test(async() => {
-		expect(seedSecret(demo.seed.toUpperCase())).is(demo.root)
+		expect(seedSecret(demo.seed.toUpperCase())).is(demo.secret)
 	}),
 
 	"throw on empty": test(async() => {

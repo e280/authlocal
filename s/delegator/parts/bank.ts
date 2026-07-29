@@ -60,7 +60,7 @@ export class Bank {
 	}
 
 	async setIdentity(identity: Identity) {
-		const id = deriveId(identity.root)
+		const id = deriveId(identity.secret)
 		const newTiming = await this.#touchIdentity(id)
 		await this.#tables.kv.commit([
 			this.#tables.identities.op.set(id, identity),

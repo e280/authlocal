@@ -4,7 +4,7 @@ import {Payload} from "../lib/core/tok/types.js"
 import {Proof} from "../lib/core/alco/proof/types.js"
 
 export type Identity = {
-	root: string
+	secret: string
 	alias: string
 }
 

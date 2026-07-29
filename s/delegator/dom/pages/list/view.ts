@@ -28,7 +28,7 @@ export const ListPage = shadow((options: {
 	const $editing = useSignal<Id | null>(null)
 
 	function renderIdentity(identity: Identity) {
-		const id = deriveId(identity.root)
+		const id = deriveId(identity.secret)
 
 		const toggleEditing = () => $editing(
 			$editing() === id

@@ -14,7 +14,7 @@ export type Petition = {
 	expiresAt?: number
 }
 
-/** a delegate keypair is a scoped keypair derived from an identity root */
+/** a delegate keypair is a scoped keypair derived from an identity secret */
 export type Delegate = {
 
 	/** delegate secret */
@@ -23,7 +23,7 @@ export type Delegate = {
 	/** user's nickname */
 	alias: string
 
-	/** proof that this delegate is legit, signed by the user's root */
+	/** proof that this delegate is legit, signed by the user's secret */
 	proofToken: string
 }
 

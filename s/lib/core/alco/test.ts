@@ -38,12 +38,12 @@ const allowed = () => ({
 
 export default suite({
 	"login flow": test(async() => {
-		// authlocal keeps the user's root secret
-		const root = generateSecret()
-		const id = deriveId(root)
+		// authlocal keeps the user's secret
+		const secret = generateSecret()
+		const id = deriveId(secret)
 
 		// authlocal signs a delegate
-		const delegate = signDelegate(root, basics())
+		const delegate = signDelegate(secret, basics())
 
 		expect(() => verifyDelegate(delegate, allowed())).not.throws()
 		expect(verifyDelegate(delegate, allowed()).proof.id).is(id)
@@ -52,13 +52,13 @@ export default suite({
 
 	"e2ee": {
 		"data roundtrip": test(async() => {
-			const root = generateSecret()
-			const {secret} = signDelegate(root, {...basics(), petition: {
+			const secret = generateSecret()
+			const delegate = signDelegate(secret, {...basics(), petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
 			const original = "hello world"
-			const ciphertext = encrypt(secret, txt.toBytes(original))
-			const cleartext = txt.fromBytes(decrypt(secret, ciphertext))
+			const ciphertext = encrypt(delegate.secret, txt.toBytes(original))
+			const cleartext = txt.fromBytes(decrypt(delegate.secret, ciphertext))
 			expect(cleartext).is(original)
 		}),
 
@@ -89,68 +89,68 @@ export default suite({
 		}),
 
 		"wrong key cannot decrypt": test(async() => {
-			const root = generateSecret()
-			const {secret} = signDelegate(root, {...basics(), petition: {
+			const secret = generateSecret()
+			const delegate = signDelegate(secret, {...basics(), petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
-			const {secret: badSecret} = signDelegate(root, {...basics(), petition: {
+			const badDelegate = signDelegate(secret, {...basics(), petition: {
 				purpose: "crypt", scope: "v2", expiresAt: time.future.hours(1),
 			}})
 			const original = "hello world"
-			const ciphertext = encrypt(secret, txt.toBytes(original))
-			expect(() => decrypt(badSecret, ciphertext)).throws()
+			const ciphertext = encrypt(delegate.secret, txt.toBytes(original))
+			expect(() => decrypt(badDelegate.secret, ciphertext)).throws()
 		}),
 
 		"reproducible secret keys": test(async() => {
-			const root = generateSecret()
-			const delegate1 = signDelegate(root, {...basics(), petition: {
+			const secret = generateSecret()
+			const delegate1 = signDelegate(secret, {...basics(), petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
-			const delegate2 = signDelegate(root, {...basics(), petition: {
+			const delegate2 = signDelegate(secret, {...basics(), petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
 			expect(delegate1.secret).is(delegate2.secret)
 		}),
 
 		"different purposes, different keys": test(async() => {
-			const root = generateSecret()
-			const delegate1 = signDelegate(root, {...basics(), petition: {
+			const secret = generateSecret()
+			const delegate1 = signDelegate(secret, {...basics(), petition: {
 				purpose: "auth", scope: "v1", expiresAt: time.future.hours(1),
 			}})
-			const delegate2 = signDelegate(root, {...basics(), petition: {
+			const delegate2 = signDelegate(secret, {...basics(), petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
 			expect(delegate1.secret).not.is(delegate2.secret)
 		}),
 
 		"different scopes, different keys": test(async() => {
-			const root = generateSecret()
-			const delegate1 = signDelegate(root, {...basics(), petition: {
+			const secret = generateSecret()
+			const delegate1 = signDelegate(secret, {...basics(), petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
-			const delegate2 = signDelegate(root, {...basics(), petition: {
+			const delegate2 = signDelegate(secret, {...basics(), petition: {
 				purpose: "crypt", scope: "v2", expiresAt: time.future.hours(1),
 			}})
 			expect(delegate1.secret).not.is(delegate2.secret)
 		}),
 
 		"different app origins, different keys": test(async() => {
-			const root = generateSecret()
-			const delegate1 = signDelegate(root, {...basics(), audience: "https://alpha.e280.org", petition: {
+			const secret = generateSecret()
+			const delegate1 = signDelegate(secret, {...basics(), audience: "https://alpha.e280.org", petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
-			const delegate2 = signDelegate(root, {...basics(), audience: "https://bravo.e280.org", petition: {
+			const delegate2 = signDelegate(secret, {...basics(), audience: "https://bravo.e280.org", petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
 			expect(delegate1.secret).not.is(delegate2.secret)
 		}),
 
 		"different delegator origins, same keys": test(async() => {
-			const root = generateSecret()
-			const delegate1 = signDelegate(root, {...basics(), issuer: "https://alpha.e280.org", petition: {
+			const secret = generateSecret()
+			const delegate1 = signDelegate(secret, {...basics(), issuer: "https://alpha.e280.org", petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
-			const delegate2 = signDelegate(root, {...basics(), issuer: "https://bravo.e280.org", petition: {
+			const delegate2 = signDelegate(secret, {...basics(), issuer: "https://bravo.e280.org", petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
 			expect(delegate1.secret).is(delegate2.secret)
@@ -159,9 +159,9 @@ export default suite({
 
 	"verify delegate": {
 		"reject expired delegates": test(async() => {
-			const root = generateSecret()
+			const secret = generateSecret()
 			const expiresAt = 12_000
-			const delegate = signDelegate(root, {...basics(), petition: {...petition(), expiresAt}})
+			const delegate = signDelegate(secret, {...basics(), petition: {...petition(), expiresAt}})
 			expect(() => verifyDelegate(delegate, {...allowed(), atTime: 11_000})).not.throws()
 			expect(() => verifyDelegate(delegate, {...allowed(), atTime: 13_000})).throws()
 			expect(() => verifyDelegate(delegate, {...allowed(), atTime: 12_000})).throws()
@@ -194,8 +194,8 @@ export default suite({
 
 	"claims": {
 		"sign and verify": test(async() => {
-			const root = generateSecret()
-			const delegate = signDelegate(root, basics())
+			const secret = generateSecret()
+			const delegate = signDelegate(secret, basics())
 			const audience = "test-server"
 			const claimToken = signClaim(delegate, 123, {
 				audience,

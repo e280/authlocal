@@ -24,7 +24,7 @@ export const Ident = shadow((options: {
 	useCss(theme(), styleCss)
 
 	const {alias} = options.identity
-	const id = deriveId(options.identity.root)
+	const id = deriveId(options.identity.secret)
 	const addr = address(id)
 	const short = addressMoniker(id)
 	const color = `--color: ${addressColor(id)};`

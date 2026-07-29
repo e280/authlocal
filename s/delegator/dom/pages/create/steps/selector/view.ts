@@ -17,18 +17,18 @@ export const SelectorStep = shadow((options: {
 
 	useCss(theme(), styleCss)
 
-	const {$root, $secret, $index, $alias} = options.draft
-	const selected = deriveIdentityFromIndex($secret(), $index())
+	const {$baseSecret, $secret, $index, $alias} = options.draft
+	const selected = deriveIdentityFromIndex($baseSecret(), $index())
 
 	const shimmyRight = () => $index($index() + 1)
 	const shimmyLeft = () => $index($index() - 1)
 	const clickChoose = () => {
-		$root(selected.root)
+		$secret(selected.secret)
 		options.next()
 	}
 
 	function renderIdentity(clickable: boolean, index: number) {
-		const {id} = deriveIdentityFromIndex($secret(), index)
+		const {id} = deriveIdentityFromIndex($baseSecret(), index)
 		const onClick = () => $index(index)
 		const alias = $alias() || undefined
 		return clickable
