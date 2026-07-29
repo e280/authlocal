@@ -16,6 +16,9 @@ manage identities on your device any time at https://authlocal.org/
 **own your identity.**  
 your identity begins with a permanent seed key. don't lose it. don't share it. it's yours, forever.
 
+**websites never see your seed key.**  
+when you sign into a website with authlocal, that website receives a cryptographic proof of the identity you selected.
+
 > *"keep it secret. keep it safe."*  
 > &nbsp; &nbsp; *— gandalf, fellowship of the ring*
 
@@ -42,8 +45,8 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
     > *`auth.user` is also compatible with [@e280/strata](https://github.com/e280/strata) effects.*
     ```ts
     auth.on(user => console.log(
-      auth.user
-        ? `logged in: ${auth.user.id}`
+      user
+        ? `logged in: ${user.id}`
         : `logged out`
     ))
     ```
@@ -63,20 +66,20 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
 ### 🍋‍🟩 perform end-to-end encryption for the user
 - **encrypt.**
     ```ts
-    const ciphertext = auth.user.encrypt(
+    const ciphertext = user.encrypt(
       new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF])
     )
     ```
 - **decrypt.**
     ```ts
-    const cleartext = auth.user.decrypt(ciphertext)
+    const cleartext = user.decrypt(ciphertext)
     ```
 
 ### 🍋‍🟩 sign and verify testimonies on behalf of the user
 - **sign a testimony token.**  
     > *you can pass [testimony/options.ts](./s/lib/core/alco/testimony/options.ts) as 2nd param.*
     ```ts
-    const token = auth.user.signTestimony({exampleCommandToWriteData: 123})
+    const token = user.signTestimony({exampleCommandToWriteData: 123})
     ```
 - **verify a testimony token serverside or elsewhere.** *(note the import path)*  
     > *you can pass [testimony/verifications.ts](./s/lib/core/alco/testimony/verifications.ts) as 2nd param.*
