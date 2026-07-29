@@ -1,17 +1,17 @@
 
 ![](https://i.imgur.com/Of61sXO.png)
 
-# 🔐 [authlocal](https://authlocal.org/) is the user-sovereign login system.
+# 🔐 [authlocal](https://authlocal.org/) is auth without a service
 
 **any website can ask you to sign-in via authlocal.**  
 manage identities on your device any time at https://authlocal.org/  
 
 &nbsp; 🔑 **cryptographic.** passwordless, emailless, provable.  
-&nbsp; 🗽 **user-sovereign.** copy and store your keys however you wish.  
-&nbsp; 🏡 **local-only.** runs clientside. keys live on your device.  
-&nbsp; 🥷 **pseudonymous.** seamlessly carry your identity across services.  
-&nbsp; ✍️ **artisanal.** thoughtfully designed and coded by hand.  
-&nbsp; 💖 **free and open-source.** protocol, not product. auth without a service.  
+&nbsp; 🗽 **user-sovereign.** copy your keys as you wish.  
+&nbsp; 🏡 **local-only.** keys live on your device.  
+&nbsp; 🥷 **pseudonymous.** stable identity across apps.  
+&nbsp; ✍️ **artisanal.** thoughtfully handcrafted by a human.  
+&nbsp; 💖 **free and open-source.** protocol, not product.  
 
 **own your identity.**  
 your identity begins with a permanent seed key. don't lose it. don't share it. it's yours, forever.
@@ -117,10 +117,19 @@ when you sign into a website with authlocal, that website receives a cryptograph
 - **`addressColor(id)`** -- derive a css color string from a user id.
 - **`addressMoniker(id)`** -- get the first part of the address.
 
-### 🍋‍🟩 what's really going on under the hood
+
+
+<br/><br/>
+
+## 🔐 questions and answers
+
+### 🫐 what's really going on under the hood?
 - your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root key.
 - a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. a delegate can sign new "claim" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
 - in a standard login flow, your site asks for two delegates: one ephemeral "auth" delegate that expires in 30 days, and one stable "crypt" delegate for end-to-end encryption. the "auth" delegate can be used to sign new claims for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify.
+
+### 🫐 why not passkeys or pairwise?
+- we believe users *want* a simple "just works" experience where they have a stable identity across apps. we want devs to weave an ecosystem of interoperable apps and services, eg, a messenger service that interoperates with a friends-list service, etc, without annoying account-linking flows. passkeys are inherently pairwise and hostile to this. we let users decide whether they want to share the same identities across the same apps, or not -- that's why they can create multiple identities.
 
 
 
