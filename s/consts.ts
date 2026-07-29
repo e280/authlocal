@@ -8,5 +8,6 @@ export const consts = deep.freeze({
 	standardCryptScope: "",
 	purposes: {auth: "auth", crypt: "crypt"},
 	maxAliasLength: 32,
+	enableDelegationLog: false,
 })
 

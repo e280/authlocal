@@ -72,10 +72,12 @@ export class Bank {
 	}
 
 	async recordDelegationEvent(delegation: DelegationRecord) {
-		const timestamp = delegation.time.toString().padStart(14, "0")
-		const key = `${timestamp}-${hex.random(8)}`
-		await this.#tables.delegations.set(key, delegation)
-		this.#onChange()
+		if (consts.enableDelegationLog) {
+			const timestamp = delegation.time.toString().padStart(14, "0")
+			const key = `${timestamp}-${hex.random(8)}`
+			await this.#tables.delegations.set(key, delegation)
+			this.#onChange()
+		}
 	}
 
 	async deleteIdentity(id: Id) {
