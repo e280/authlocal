@@ -5,8 +5,8 @@ import {decrypt} from "../core/cryp/decrypt.js"
 import {tokenTime} from "../core/tok/token-time.js"
 import {decodeProof} from "../core/alco/proof/decode.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
-import {signTestimony} from "../core/alco/testimony/sign.js"
-import {TestimonyOptions} from "../core/alco/testimony/options.js"
+import {signClaim} from "../core/alco/claim/sign.js"
+import {ClaimOptions} from "../core/alco/claim/options.js"
 
 export class User {
 	#proof
@@ -50,9 +50,9 @@ export class User {
 		return decrypt(this.session.crypt.secret, ciphertext, aad)
 	}
 
-	/** sign a testimony token on behalf of the user (with the auth delegate). */
-	signTestimony<X>(data: X, options: TestimonyOptions = {}) {
-		return signTestimony(this.session.auth, data, options)
+	/** sign a claim token on behalf of the user (with the auth delegate). */
+	signClaim<X>(data: X, options: ClaimOptions = {}) {
+		return signClaim(this.session.auth, data, options)
 	}
 }
 

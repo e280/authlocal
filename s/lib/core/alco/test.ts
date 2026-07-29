@@ -3,13 +3,13 @@ import {time, txt} from "@e280/stz"
 import {suite, test, expect} from "@e280/science"
 
 import {consts} from "../../../consts.js"
+import {signClaim} from "./claim/sign.js"
 import {encrypt} from "../cryp/encrypt.js"
 import {decrypt} from "../cryp/decrypt.js"
 import {deriveId} from "../cryp/derive-id.js"
+import {verifyClaim} from "./claim/verify.js"
 import {signDelegate} from "./delegate/sign.js"
-import {signTestimony} from "./testimony/sign.js"
 import {verifyDelegate} from "./delegate/verify.js"
-import {verifyTestimony} from "./testimony/verify.js"
 import {generateSecret} from "../cryp/generate-secret.js"
 
 const appOrigin = "https://e280.org"
@@ -192,22 +192,22 @@ export default suite({
 		}),
 	},
 
-	"testimonies": {
+	"claims": {
 		"sign and verify": test(async() => {
 			const root = generateSecret()
 			const delegate = signDelegate(root, basics())
 			const audience = "test-server"
-			const testimonyToken = signTestimony(delegate, 123, {
+			const claimToken = signClaim(delegate, 123, {
 				audience,
 				atTime: 0,
 				expiresAt: 1000,
 			})
-			const testimony = verifyTestimony<number>(testimonyToken, {
+			const claim = verifyClaim<number>(claimToken, {
 				atTime: 0,
 				allowedAudiences: [audience],
 				allowedIssuers: [appOrigin]
 			})
-			expect(testimony.data).is(123)
+			expect(claim.data).is(123)
 		}),
 	},
 })

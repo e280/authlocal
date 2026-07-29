@@ -76,31 +76,31 @@ when you sign into a website with authlocal, that website receives a cryptograph
     const cleartext = user.decrypt(ciphertext)
     ```
 
-### 🍋‍🟩 sign and verify testimonies on behalf of the user
-- **sign a testimony token.**  
-    > *you can pass [testimony/options.ts](./s/lib/core/alco/testimony/options.ts) as 2nd param.*
+### 🍋‍🟩 sign and verify claims on behalf of the user
+- **sign a claim token.**  
+    > *you can pass [claim/options.ts](./s/lib/core/alco/claim/options.ts) as 2nd param.*
     ```ts
-    const token = user.signTestimony({exampleCommandToWriteData: 123})
+    const token = user.signClaim({exampleCommandToWriteData: 123})
     ```
-- **verify a testimony token serverside or elsewhere.** *(note the import path)*  
-    > *you can pass [testimony/verifications.ts](./s/lib/core/alco/testimony/verifications.ts) as 2nd param.*
+- **verify a claim token serverside or elsewhere.** *(note the import path)*  
+    > *you can pass [claim/verifications.ts](./s/lib/core/alco/claim/verifications.ts) as 2nd param.*
     ```ts
-    import {verifyTestimony, address} from "@e280/authlocal/core"
+    import {verifyClaim, address} from "@e280/authlocal/core"
 
     // we verify that the data was signed by a valid delegate
-    const testimony = verifyTestimony(token, {
+    const claim = verifyClaim(token, {
 
       // your frontend app origin (required)
       allowedIssuers: ["https://app.e280.org"],
     })
 
-    console.log(testimony.data.exampleCommandToWriteData)
+    console.log(claim.data.exampleCommandToWriteData)
       // 123
 
-    console.log(testimony.proof.id)
+    console.log(claim.proof.id)
       // "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
 
-    console.log(address(testimony.proof.id))
+    console.log(address(claim.proof.id))
       // "calwak_curlex_H9Nts5YRurzidb8mQHkHH323mMT8d3oReimRzxeLgwRw"
     ```
 
@@ -119,8 +119,8 @@ when you sign into a website with authlocal, that website receives a cryptograph
 
 ### 🍋‍🟩 what's really going on under the hood
 - your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root key.
-- a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. being a keypair in its own right, a delegate can then sign new "testimony" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
-- in a standard login flow, your site asks for two delegates: one ephemeral "auth" delegate that expires in 30 days, and one stable "crypt" delegate for end-to-end encryption. the "auth" delegate can be used to sign new testimonies for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify.
+- a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. being a keypair in its own right, a delegate can then sign new "claim" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
+- in a standard login flow, your site asks for two delegates: one ephemeral "auth" delegate that expires in 30 days, and one stable "crypt" delegate for end-to-end encryption. the "auth" delegate can be used to sign new claims for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify.
 
 
 
