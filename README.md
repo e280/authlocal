@@ -38,7 +38,7 @@ when you sign into a website with authlocal, that website receives a cryptograph
     import {Auth} from "@e280/authlocal"
     ```
 1. **create the auth facility.** *(see [auth.ts](./s/lib/protocol/auth.ts))*
-    > *see [default-auth-options.ts](./s/lib/protocol/parts/default-auth-options.ts) to see what options you can pass.*
+    > *see options at [default-auth-options.ts](./s/lib/protocol/parts/default-auth-options.ts)*
     ```ts
     const auth = new Auth()
     ```
