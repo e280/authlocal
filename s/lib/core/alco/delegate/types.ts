@@ -10,7 +10,7 @@ export type Petition = {
 	/** distinguishes delegates of the same purpose, eg "v1" or a random nonce */
 	scope: string
 
-	/** request for when we'd like the delegate proof to expire, in js milliseconds (delegator will cap this) */
+	/** time the delegate proof will expire, in js milliseconds */
 	expiresAt?: number
 }
 
