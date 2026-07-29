@@ -72,7 +72,7 @@ export const ListPage = shadow((options: {
 
 		${when(options.loginRequest, ({appOrigin: appOrigin}) => html`
 			<div x-banner>
-				<p>login request from: <code>${appOrigin}</code></p>
+				<p><code>${appOrigin}</code></p>
 				<p>click an identity to accept, or close this popup to deny.</p>
 			</div>
 		`)}
