@@ -34,7 +34,7 @@ export function signDelegate(secret: Secret, {
 	const id = deriveId(secret)
 	const {purpose, scope, expiresAt} = petition
 
-	const delegateSecret = deriveSecret(secret, hash(audience, purpose, scope))
+	const delegateSecret = deriveSecret(secret, hash("authlocal/delegate/v1", audience, purpose, scope))
 	const delegateId = deriveId(delegateSecret)
 
 	const proof: Proof = {delegateId, id, purpose, scope}
