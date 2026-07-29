@@ -131,7 +131,7 @@ when you sign into a website with authlocal, that website receives cryptographic
 ### 🫐 why not passkeys or pairwise?
 - we believe users *want* a simple "just works" experience where they have a stable identity across apps.
 - we want devs to weave an ecosystem of interoperable apps and services, eg, a messenger service that interoperates with a friends-list service, etc, without annoying account-linking flows.
-- passkeys are inherently pairwise and hostile to these goals.
+- passkeys are inherently pairwise and hostile to these goals -- however in the future we may be able to add a passkey-flow feature which unlocks an authlocal identity.
 - we let users decide whether they want to share an identity across apps, or not -- that's why they can create multiple identities.
 
 
