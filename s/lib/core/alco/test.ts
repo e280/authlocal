@@ -170,18 +170,13 @@ export default suite({
 		"sign and verify": test(async() => {
 			const root = generateSecret()
 			const delegate = signDelegate(root, basics())
-			const {audience: issuer} = basics()
 			const audience = "test-server"
-			const testimonyToken = signTestimony({
-				secret: delegate.secret,
-				atTime: 0,
+			const testimonyToken = signTestimony(delegate.secret, delegate.proofToken, 123, {
 				audience,
-				issuer,
+				atTime: 0,
 				expiresAt: 1000,
-				proofToken: delegate.proofToken,
-				data: 123,
 			})
-			const testimony = verifyTestimony(testimonyToken, {
+			const testimony = verifyTestimony<number>(testimonyToken, {
 				atTime: 0,
 				allowedAudiences: [audience],
 				allowedIssuers: [appOrigin]

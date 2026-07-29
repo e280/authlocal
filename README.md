@@ -54,6 +54,8 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
         stable end-to-end encryption key.  
     - **user.expiresAt:** `1785232580494`  
         js milliseconds time at which this session expires.  
+    - **user.valid:** `true`  
+        getter to check if this user session is currently valid.  
 1. **start by remembering a previous user session.**
     ```ts
     await auth.remember()
@@ -66,6 +68,46 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
     ```ts
     await auth.logout()
     ```
+
+### 🍋‍🟩 perform end-to-end encryption for the user
+1. **encrypt.**
+    ```ts
+    const ciphertext = auth.user.encrypt(
+      new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF])
+    )
+    ```
+1. **decrypt.**
+    ```ts
+    const cleartext = auth.user.decrypt(ciphertext)
+    ```
+
+### 🍋‍🟩 sign and verify testimonies on behalf of the user
+1. **sign a testimony token.**
+    ```ts
+    const token = auth.user.signTestimony({exampleCommandToWriteData: 123})
+    ```
+    you can pass [testimony-options.ts](./s/lib/core/alco/testimony-options.ts) as 2nd param.
+1. **verify a testimony token serverside or elsewhere.** *(note the import path)*
+    ```ts
+    import {verifyTestimony, address} from "@e280/authlocal/core"
+
+    // we verify that the data was signed by a valid delegate
+    const testimony = verifyTestimony(token, {
+
+      // your frontend app origin (required)
+      allowedIssuers: ["https://app.e280.org"],
+    })
+
+    console.log(testimony.data.exampleCommandToWriteData)
+      // 123
+
+    console.log(testimony.proof.id)
+      // "cd967edd1a3a82e142faa5003eda67d167a2b5f76d0e97e8158defe59e2a2c89"
+
+    console.log(address.from(testimony.proof.id))
+      // "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx"
+    ```
+    you can pass [testimony-verifications.ts](./s/lib/core/alco/testimony-verifications.ts) as 2nd param.
 
 ### 🍋‍🟩 `address` facility for friendly names
 1. **import address facility.**
@@ -100,53 +142,6 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
     ```ts
     address.moniker(id)
       // "calwak_curlex"
-    ```
-
-### 🍋‍🟩 perform end-to-end encryption for the user
-1. **encrypt data.**
-    ```ts
-    const ciphertext = auth.user.encrypt(
-      new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF])
-    )
-    ```
-1. **decrypt data.**
-    ```ts
-    const data = auth.user.decrypt(ciphertext)
-    ```
-
-### 🍋‍🟩 sign and verify testimonies on behalf of the user
-1. **sign a testimony token.**
-    ```ts
-    const token = auth.user.signTestimony({
-      data: {exampleCommandToWriteData: 123},
-      audience: "https://server.e280.org", // your example server
-      expiresAt: Date.now() + 600_000, // 10 minutes
-    })
-    ```
-1. **verify a testimony token serverside or elsewhere.** *(note the import path)*
-    ```ts
-    import {verifyTestimony, address} from "@e280/authlocal/core"
-
-    // data is verifiably signed by a valid delegate
-    const testimony = verifyTestimony(token, {
-      allowedIssuers: ["https://app.e280.org"], // your example frontend
-      allowedAudiences: ["https://server.e280.org"], // your example server
-    })
-
-    if (testimony.yay) { // check if verification succeeded
-      const {data, proof} = testimony.value
-      const {id} = proof
-
-      console.log(data.exampleCommandToWriteData)
-        // 123
-
-      console.log(id)
-        // "cd967edd1a3a82e142faa5003eda67d167a2b5f76d0e97e8158defe59e2a2c89"
-
-      console.log(address.from(id))
-        // "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx"
-    }
-    else console.error("testimony verification failed")
     ```
 
 ### 🍋‍🟩 what's really going on under the hood

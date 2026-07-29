@@ -1,8 +1,12 @@
 
 import {Session} from "./types.js"
+import {encrypt} from "../core/cryp/encrypt.js"
+import {decrypt} from "../core/cryp/decrypt.js"
+import {tokenTime} from "../core/tok/token-time.js"
 import {decodeProof} from "../core/alco/decode-proof.js"
+import {isSessionValid} from "./parts/is-session-valid.js"
 import {signTestimony} from "../core/alco/sign-testimony.js"
-import {decrypt, encrypt, tokenTime} from "../core/index.js"
+import {TestimonyOptions} from "../core/alco/testimony-options.js"
 
 export class User {
 	#proof
@@ -31,6 +35,10 @@ export class User {
 		return tokenTime.readExpiresAt(this.session.auth.proofToken)
 	}
 
+	get valid() {
+		return isSessionValid(this.session)
+	}
+
 	/** encrypt data with the encyption delegate */
 	encrypt(buffer: Uint8Array, aad?: Uint8Array) {
 		return encrypt(this.session.crypt.secret, buffer, aad)
@@ -42,16 +50,8 @@ export class User {
 	}
 
 	/** sign a testimony token on behalf of the user */
-	signTestimony<X>(options: {data: X, audience: string, issuer?: string, atTime?: number, expiresAt?: number}) {
-		return signTestimony({
-			data: options.data,
-			secret: this.session.auth.secret,
-			proofToken: this.session.auth.proofToken,
-			audience: options.audience,
-			issuer: options.issuer ?? window.location.origin,
-			expiresAt: options.expiresAt,
-			atTime: options.atTime ?? Date.now(),
-		})
+	signTestimony<X>(data: X, options: TestimonyOptions = {}) {
+		return signTestimony(this.session.auth.secret, this.session.auth.proofToken, data, options)
 	}
 }
 

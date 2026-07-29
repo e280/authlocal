@@ -10,6 +10,7 @@ export function verifyDelegate(delegate: Delegate, options: {
 		allowedScopes?: string[]
 		allowedIssuers?: string[]
 		atTime?: number
+		maxAge?: number
 	}): {delegate: Delegate, proof: Proof} {
 
 	const proof = verifyProof(delegate.proofToken, options)

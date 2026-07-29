@@ -1,7 +1,7 @@
 
 import {happy, hex} from "@e280/stz"
 import {hash} from "../cryp/hash.js"
-import {Root} from "../cryp/types.js"
+import {Secret} from "../cryp/types.js"
 import {Payload} from "../tok/types.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {signToken} from "../tok/sign-token.js"
@@ -9,8 +9,8 @@ import {tokenTime} from "../tok/token-time.js"
 import {Delegate, Petition, Proof} from "./types.js"
 import {deriveSecret} from "../cryp/derive-secret.js"
 
-export function signDelegate(root: Root, {
-		alias, petition, audience, issuer, atTime,
+export function signDelegate(secret: Secret, {
+		alias, petition, audience, issuer, atTime = Date.now(),
 	}: {
 
 		/** user identity alias to be included in the delegate */
@@ -26,18 +26,18 @@ export function signDelegate(root: Root, {
 		issuer: string
 
 		/** js time when we are signing this delegate */
-		atTime: number
+		atTime?: number
 
 	}): Delegate {
 
-	const id = deriveId(root)
+	const id = deriveId(secret)
 	const {purpose, scope, expiresAt} = petition
 
-	const secret = deriveSecret(root, hash(audience, purpose, scope))
-	const delegateId = deriveId(secret)
+	const delegateSecret = deriveSecret(secret, hash(audience, purpose, scope))
+	const delegateId = deriveId(delegateSecret)
 
 	const proof: Proof = {delegateId, id, purpose, scope}
-	const proofToken = signToken<Payload<{proof: Proof}>>(root, {
+	const proofToken = signToken<Payload<{proof: Proof}>>(secret, {
 		proof,
 		jti: hex.random(16),
 		iat: tokenTime.at(atTime),
@@ -48,6 +48,6 @@ export function signDelegate(root: Root, {
 			: undefined,
 	})
 
-	return {secret, alias, proofToken}
+	return {secret: delegateSecret, alias, proofToken}
 }
 
