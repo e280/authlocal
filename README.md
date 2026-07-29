@@ -7,10 +7,10 @@ manage identities on your device any time at https://authlocal.org/
 
 &nbsp; 🔑 **cryptographic.** passwordless, emailless, provable.  
 &nbsp; 🗽 **user-sovereign.** copy and store your keys however you wish.  
-&nbsp; 🏡 **local-only.** app is 100% clientside. keys are on your device.  
+&nbsp; 🏡 **local-only.** runs clientside. keys live on your device.  
 &nbsp; 🥷 **pseudonymous.** seamlessly carry your identity across services.  
 &nbsp; ✍️ **artisanal.** thoughtfully designed and coded by hand.  
-&nbsp; 💖 **free and open-source.** a protocol, not a product. zero-cost at global scale.  
+&nbsp; 💖 **free and open-source.** a protocol, not a product. auth without a service.  
 
 **own your identity.**  
 your identity begins with a permanent seed key. don't lose it. don't share it. it's yours, forever.
@@ -46,16 +46,6 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
         : `logged out`
     ))
     ```
-    - **user.id:** `"efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"`  
-        proper id you should identify users by. it's actually the ed25519 public key, as 64 hex characters.  
-    - **user.alias:** `"Gandalf the Gray"`  
-        customizable nickname.  
-    - **user.cryptSecret:** `"8109ea0663cdf5da134f2a79f218ac2bcdd69750f2db5ceb02b85d066b28917d"`  
-        stable end-to-end encryption key.  
-    - **user.expiresAt:** `1785232580494`  
-        js milliseconds time at which this session expires.  
-    - **user.valid:** `true`  
-        getter to check if this user session is currently valid.  
 1. **start by remembering a previous user session.**
     ```ts
     await auth.remember()
@@ -109,44 +99,23 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
     ```
     you can pass [testimony/verifications.ts](./s/lib/core/alco/testimony/verifications.ts) as 2nd param.
 
-### 🍋‍🟩 `address` facility for friendly names
-1. **import address facility.**
+### 🍋‍🟩 use `address` for friendly names
+- **`address` encodes a user id into a friendly format.**
     ```ts
     import {address} from "@e280/authlocal"
-    ```
-    ```ts
-    const id = "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
-      // for these examples
-    ```
-1. **address.from,** encode a user id into friendly address format.
-    ```ts
-    address.from(id)
+
+    address("efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6")
       // "calwak_curlex_H9Nts5YRurzidb8mQHkHH323mMT8d3oReimRzxeLgwRw"
     ```
-1. **address.id,** decode an address back into a user id.
-    ```ts
-    address.id("calwak_curlex_H9Nts5YRurzidb8mQHkHH323mMT8d3oReimRzxeLgwRw")
-      // "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
-    ```
-1. **address.emoji,** derive a friendly emoji from the user id.
-    ```ts
-    address.emoji(id)
-      // "🐦"
-    ```
-1. **address.color,** derive a friendly color from the user id.
-    ```ts
-    address.color(id)
-      // "oklch(0.8 0.03 136.94)"
-    ```
-1. **address.moniker,** just the first part of the address.
-    ```ts
-    address.moniker(id)
-      // "calwak_curlex"
-    ```
+- **`addressId(addr)`** -- decode an address back into a user id.  
+- **`addressEmoji(id)`** -- derive a friendly emoji from a user id.  
+- **`addressColor(id)`** -- derive a css color string from a user id.  
+- **`addressMoniker(id)`** -- get the first part of the address.  
 
 ### 🍋‍🟩 what's really going on under the hood
-- your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root key. a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. being a keypair in its own right, a delegate can then sign new "testimony" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
-- in a standard login flow, your site asks for two delegates: one ephemeral "auth" delegate that expires in 30 days, and one permanent "crypt" delegate for end-to-end encryption. the "auth" delegate can be used to sign new testimonies for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify.
+- your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root key.
+- a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. being a keypair in its own right, a delegate can then sign new "testimony" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
+- in a standard login flow, your site asks for two delegates: one ephemeral "auth" delegate that expires in 30 days, and one stable "crypt" delegate for end-to-end encryption. the "auth" delegate can be used to sign new testimonies for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify.
 
 
 
