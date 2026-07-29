@@ -1,31 +1,32 @@
 
 import {suite, test, expect} from "@e280/science"
+import {seed} from "./seed.js"
 import {demo} from "../demo.js"
-import {seed} from "../../index.js"
+import {seedSecret} from "./secret.js"
 
 export default suite({
 	"secret->seed->secret": test(async() => {
-		expect(seed.secret(seed.from(demo.root))).is(demo.root)
+		expect(seedSecret(seed(demo.root))).is(demo.root)
 	}),
 
 	"seed matches demo": test(async() => {
-		expect(seed.from(demo.root)).is(demo.seed)
+		expect(seed(demo.root)).is(demo.seed)
 	}),
 
 	"tolerate whitespace": test(async() => {
-		expect(seed.secret(`\n\t ${demo.seed} \t\n`)).is(demo.root)
+		expect(seedSecret(`\n\t ${demo.seed} \t\n`)).is(demo.root)
 	}),
 
 	"tolerate lettercase": test(async() => {
-		expect(seed.secret(demo.seed.toUpperCase())).is(demo.root)
+		expect(seedSecret(demo.seed.toUpperCase())).is(demo.root)
 	}),
 
 	"throw on empty": test(async() => {
-		expect(() => seed.secret("")).throws()
+		expect(() => seedSecret("")).throws()
 	}),
 
 	"throw when leading addr is missing": test(async() => {
-		expect(() => seed.secret(`
+		expect(() => seedSecret(`
 			janvuz yidgyx normok delsek
 			yarbek kemlyx wordak nurgex
 			calryz gelhet kabdak wobyok
@@ -34,7 +35,7 @@ export default suite({
 	}),
 
 	"throw on corrupted addr": test(async() => {
-		expect(() => seed.secret(`
+		expect(() => seedSecret(`
 			NOPkon bodwyx
 			janvuz yidgyx normok delsek
 			yarbek kemlyx wordak nurgex
@@ -44,7 +45,7 @@ export default suite({
 	}),
 
 	"throw on corrupted secret": test(async() => {
-		expect(() => seed.secret(`
+		expect(() => seedSecret(`
 			gurkon bodwyx
 			NOPvuz yidgyx normok delsek
 			yarbek kemlyx wordak nurgex

@@ -9,7 +9,9 @@ import {consts} from "../../../../consts.js"
 import {TextInput} from "../../views/text-input/view.js"
 import {Poster} from "../../../../lib/ui/views/poster/view.js"
 import {deriveId} from "../../../../lib/core/cryp/derive-id.js"
-import {address, seed, validateAlias} from "../../../../lib/core/index.js"
+import {seedParse} from "../../../../lib/core/ergo/seed/parse.js"
+import {addressMoniker} from "../../../../lib/core/ergo/address/moniker.js"
+import {validateAlias} from "../../../../lib/core/alco/validation/validate-alias.js"
 import {allowEmptyString} from "../../../../lib/core/alco/validation/allow-empty-string.js"
 
 export const RecoveryPage = shadow((options: {
@@ -25,7 +27,7 @@ export const RecoveryPage = shadow((options: {
 	const $identity = useDerived<Identity | null>(() => {
 		const root = $root()
 		if (root === "") return null
-		const alias = $alias() || address.moniker(deriveId(root))
+		const alias = $alias() || addressMoniker(deriveId(root))
 		return {root, alias}
 	})
 
@@ -33,7 +35,7 @@ export const RecoveryPage = shadow((options: {
 
 	function done() {
 		const root = $root()
-		const alias = $alias() || address.moniker(deriveId(root))
+		const alias = $alias() || addressMoniker(deriveId(root))
 		options.done({root, alias})
 	}
 
@@ -55,7 +57,7 @@ export const RecoveryPage = shadow((options: {
 				${TextInput({
 					textarea: true,
 					placeholder: "recovery seed",
-					validator: allowEmptyString(seed.parse),
+					validator: allowEmptyString(seedParse),
 					on: root => $root(root.yay ? root.value : ""),
 				})}
 			</div>

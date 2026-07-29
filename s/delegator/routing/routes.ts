@@ -5,8 +5,9 @@ import {Go} from "./go.js"
 import {Context} from "../context.js"
 import {ListPage} from "../dom/pages/list/view.js"
 import {CreatePage} from "../dom/pages/create/view.js"
-import {address, deriveId} from "../../lib/core/index.js"
+import {deriveId} from "../../lib/core/cryp/derive-id.js"
 import {RecoveryPage} from "../dom/pages/recovery/view.js"
+import {addressMoniker} from "../../lib/core/ergo/address/moniker.js"
 
 export type Page = {
 	zone: string
@@ -41,7 +42,7 @@ export const routes = (context: Context, go: Go) => router({
 		return CreatePage({
 			done: async draft => {
 				const root = draft.$root()
-				const alias = draft.$alias() || address.moniker(deriveId(root))
+				const alias = draft.$alias() || addressMoniker(deriveId(root))
 				await context.bank.setIdentity({root, alias})
 				go.list()
 			},

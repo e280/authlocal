@@ -4,6 +4,8 @@ import {demo} from "./ergo/demo.js"
 import {address, seed} from "./index.js"
 import {deriveId} from "./cryp/derive-id.js"
 import {signDelegate} from "./alco/delegate/sign.js"
+import {addressEmoji} from "./ergo/address/emoji.js"
+import {addressColor} from "./ergo/address/color.js"
 import {generateSecret} from "./cryp/generate-secret.js"
 
 // const secret = generateSecret()
@@ -19,15 +21,15 @@ console.log(id)
 console.log()
 
 console.log("==address==")
-console.log(address.from(id))
+console.log(address(id))
 console.log()
 
 console.log("==emoji==")
-console.log(address.emoji(id))
+console.log(addressEmoji(id))
 console.log()
 
 console.log("==color==")
-console.log(address.color(id))
+console.log(addressColor(id))
 console.log()
 
 
@@ -35,18 +37,18 @@ console.log()
 
 
 console.log("==seed==")
-console.log(seed.from(secret))
+console.log(seed(secret))
 console.log()
 
 console.log("--------")
 console.log()
 
 for (const _ of count(10))
-	console.log(address.from(hex.random(32)))
+	console.log(address(hex.random(32)))
 
 for (const _ of count(2)) {
 	console.log()
-	console.log(seed.from(hex.random(32)))
+	console.log(seed(hex.random(32)))
 }
 console.log()
 

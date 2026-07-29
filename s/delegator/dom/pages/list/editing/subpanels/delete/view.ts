@@ -4,7 +4,8 @@ import {shadow, useCss, useName, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {theme} from "../../../../../theme.js"
 import {Identity} from "../../../../../../types.js"
-import {address, deriveId} from "../../../../../../../lib/core/index.js"
+import {deriveId} from "../../../../../../../lib/core/cryp/derive-id.js"
+import {addressMoniker} from "../../../../../../../lib/core/ergo/address/moniker.js"
 
 export const DeleteSubpanel = shadow((options: {
 		identity: Identity
@@ -16,7 +17,7 @@ export const DeleteSubpanel = shadow((options: {
 	useCss(theme(), styleCss)
 
 	const id = deriveId(options.identity.root)
-	const moniker = address.moniker(id)
+	const moniker = addressMoniker(id)
 	const $confirmation = useSignal("")
 	const canDelete = $confirmation() === moniker
 

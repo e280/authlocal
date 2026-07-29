@@ -1,11 +1,11 @@
 
 import {hex, maybe, Maybe} from "@e280/stz"
-import {address} from "../../../index.js"
-import {deriveId} from "../../../cryp/derive-id.js"
-import {wordsToBytes} from "../../phonemes/words.js"
+import {deriveId} from "../../cryp/derive-id.js"
+import {wordsToBytes} from "../phonemes/words.js"
+import {addressMoniker} from "../address/moniker.js"
 
 /** convert a seed-phrase recovery-code back into a 64-char hex string  */
-export function parse(seed: string): Maybe<string> {
+export function seedParse(seed: string): Maybe<string> {
 	const words = seed
 		.trim()
 		.split(/\s+/)
@@ -22,7 +22,7 @@ export function parse(seed: string): Maybe<string> {
 		const secretBytes = new Uint8Array(wordsToBytes(secretWords))
 		const secret = hex(secretBytes)
 		const id = deriveId(secret)
-		const actualShort = address.moniker(id)
+		const actualShort = addressMoniker(id)
 
 		if (actualShort.replace(/^@/, "") !== reportedShort)
 			return maybe.nay(`corruption detected, expected "${reportedShort}" but got "${actualShort}"`)

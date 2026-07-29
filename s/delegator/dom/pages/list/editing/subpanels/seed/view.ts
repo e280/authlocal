@@ -4,8 +4,10 @@ import {shadow, useCss, useName} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {theme} from "../../../../../theme.js"
 import {Identity} from "../../../../../../types.js"
+import {seed} from "../../../../../../../lib/core/ergo/seed/seed.js"
 import {RecoverySeed} from "../../../../../views/recovery-seed/view.js"
-import {address, deriveId, seed} from "../../../../../../../lib/core/index.js"
+import {deriveId} from "../../../../../../../lib/core/cryp/derive-id.js"
+import {addressMoniker} from "../../../../../../../lib/core/ergo/address/moniker.js"
 
 export const SeedSubpanel = shadow((options: {
 		identity: Identity
@@ -15,8 +17,8 @@ export const SeedSubpanel = shadow((options: {
 	useCss(theme(), styleCss)
 
 	const id = deriveId(options.identity.root)
-	const moniker = address.moniker(id)
-	const seedText = seed.from(options.identity.root)
+	const moniker = addressMoniker(id)
+	const seedText = seed(options.identity.root)
 
 	return html`
 		<section class=section>

@@ -26,8 +26,16 @@ export *  from "./cryp/sign-bytes.js"
 export *  from "./cryp/types.js"
 export *  from "./cryp/verify-bytes.js"
 
-export * as seed from "./ergo/seed/index.js"
-export * as address from "./ergo/address/index.js"
+export * from "./ergo/seed/parse.js"
+export * from "./ergo/seed/secret.js"
+export * from "./ergo/seed/seed.js"
+
+export * from "./ergo/address/address.js"
+export * from "./ergo/address/color.js"
+export * from "./ergo/address/emoji.js"
+export * from "./ergo/address/id.js"
+export * from "./ergo/address/moniker.js"
+export * from "./ergo/address/parse.js"
 
 export * from "./tok/decode-token.js"
 export * from "./tok/token-header.js"

@@ -94,23 +94,23 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
     console.log(testimony.proof.id)
       // "cd967edd1a3a82e142faa5003eda67d167a2b5f76d0e97e8158defe59e2a2c89"
 
-    console.log(address.from(testimony.proof.id))
+    console.log(address(testimony.proof.id))
       // "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx"
     ```
     you can pass [testimony/verifications.ts](./s/lib/core/alco/testimony/verifications.ts) as 2nd param.
 
 ### 🍋‍🟩 use `address` for friendly names
-- **`address` encodes a user id into a friendly format.**
+- **`address(id)`** -- encode a user id into a friendly format.
     ```ts
     import {address} from "@e280/authlocal"
 
     address("efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6")
       // "calwak_curlex_H9Nts5YRurzidb8mQHkHH323mMT8d3oReimRzxeLgwRw"
     ```
-- **`addressId(addr)`** -- decode an address back into a user id.  
-- **`addressEmoji(id)`** -- derive a friendly emoji from a user id.  
-- **`addressColor(id)`** -- derive a css color string from a user id.  
-- **`addressMoniker(id)`** -- get the first part of the address.  
+- **`addressId(addr)`** -- decode an address back into a user id.
+- **`addressEmoji(id)`** -- derive a friendly emoji from a user id.
+- **`addressColor(id)`** -- derive a css color string from a user id.
+- **`addressMoniker(id)`** -- get the first part of the address.
 
 ### 🍋‍🟩 what's really going on under the hood
 - your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root key.

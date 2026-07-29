@@ -7,8 +7,12 @@ import {dom, shadow, useCss, useName, useShadow} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {theme} from "../../../theme.js"
 import {Identity} from "../../../../types.js"
-import {address, deriveId} from "../../../../../lib/core/index.js"
+import {deriveId} from "../../../../../lib/core/cryp/derive-id.js"
 import dotsIcon from "../../../../../lib/ui/icons/tabler/dots.icon.js"
+import {address} from "../../../../../lib/core/ergo/address/address.js"
+import {addressColor} from "../../../../../lib/core/ergo/address/color.js"
+import {addressEmoji} from "../../../../../lib/core/ergo/address/emoji.js"
+import {addressMoniker} from "../../../../../lib/core/ergo/address/moniker.js"
 
 export const Ident = shadow((options: {
 		identity: Identity
@@ -21,9 +25,9 @@ export const Ident = shadow((options: {
 
 	const {alias} = options.identity
 	const id = deriveId(options.identity.root)
-	const addr = address.from(id)
-	const short = address.moniker(id)
-	const color = `--color: ${address.color(id)};`
+	const addr = address(id)
+	const short = addressMoniker(id)
+	const color = `--color: ${addressColor(id)};`
 	const [first, second] = addr.split("_")
 	const shadow = useShadow()
 
@@ -37,7 +41,7 @@ export const Ident = shadow((options: {
 
 	return html`
 		<div part=card style="${color}" @click="${onClick}" ?data-clickable="${!!options.onClickCard}">
-			<div part=icon>${address.emoji(id)}</div>
+			<div part=icon>${addressEmoji(id)}</div>
 
 			<div part=name>
 				<div part=alias>${alias || short}</div>

@@ -1,9 +1,9 @@
 
 import {gotValue} from "@e280/stz"
-import {parse} from "./parse.js"
+import {seedParse} from "./parse.js"
 
 /** convert a seed-phrase recovery-code back into a 64-char hex string  */
-export function secret(seed: string) {
-	return gotValue(parse(seed))
+export function seedSecret(seed: string) {
+	return gotValue(seedParse(seed))
 }
 
