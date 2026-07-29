@@ -1,6 +1,6 @@
 
 import {Cubby} from "@e280/stz"
-import {Delegate, Petition} from "../core/alco/types.js"
+import {Delegate, Petition} from "../core/alco/delegate/types.js"
 
 export type Session = {
 	auth: Delegate

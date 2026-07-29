@@ -6,7 +6,7 @@ import {recvPorts, webAutoTransfer} from "@e280/renraku/web"
 
 import {User} from "./user.js"
 import {consts} from "../../consts.js"
-import {Delegate} from "../core/alco/types.js"
+import {Delegate} from "../core/alco/delegate/types.js"
 import {openPopup} from "./parts/open-popup.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
 import {sessionPetitions} from "./parts/session-petitions.js"

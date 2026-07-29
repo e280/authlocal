@@ -5,9 +5,12 @@ import {shadow, useCss, useDerived, useName, useSignal} from "@e280/sly"
 import {theme} from "../../theme.js"
 import styleCss from "./style.css.js"
 import {Identity} from "../../../types.js"
+import {consts} from "../../../../consts.js"
 import {TextInput} from "../../views/text-input/view.js"
 import {Poster} from "../../../../lib/ui/views/poster/view.js"
-import {address, allowEmptyString, deriveId, maxNameLength, seed, validateAlias} from "../../../../lib/core/index.js"
+import {deriveId} from "../../../../lib/core/cryp/derive-id.js"
+import {address, seed, validateAlias} from "../../../../lib/core/index.js"
+import {allowEmptyString} from "../../../../lib/core/alco/validation/allow-empty-string.js"
 
 export const RecoveryPage = shadow((options: {
 		back: () => void
@@ -43,7 +46,7 @@ export const RecoveryPage = shadow((options: {
 		<div x-plate>
 			<div class=inputs>
 				${TextInput({
-					maxLength: maxNameLength,
+					maxLength: consts.maxAliasLength,
 					placeholder: "optional alias",
 					validator: allowEmptyString(validateAlias),
 					on: alias => $alias(alias.yay ? alias.value : ""),
@@ -78,3 +81,4 @@ export const RecoveryPage = shadow((options: {
 		</div>
 	`
 })
+

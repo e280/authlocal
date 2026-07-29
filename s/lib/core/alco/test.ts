@@ -6,10 +6,10 @@ import {consts} from "../../../consts.js"
 import {encrypt} from "../cryp/encrypt.js"
 import {decrypt} from "../cryp/decrypt.js"
 import {deriveId} from "../cryp/derive-id.js"
-import {signDelegate} from "./sign-delegate.js"
-import {signTestimony} from "./sign-testimony.js"
-import {verifyDelegate} from "./verify-delegate.js"
-import {verifyTestimony} from "./verify-testimony.js"
+import {signDelegate} from "./delegate/sign.js"
+import {signTestimony} from "./testimony/sign.js"
+import {verifyDelegate} from "./delegate/verify.js"
+import {verifyTestimony} from "./testimony/verify.js"
 import {generateSecret} from "../cryp/generate-secret.js"
 
 const appOrigin = "https://e280.org"
@@ -171,7 +171,7 @@ export default suite({
 			const root = generateSecret()
 			const delegate = signDelegate(root, basics())
 			const audience = "test-server"
-			const testimonyToken = signTestimony(delegate.secret, delegate.proofToken, 123, {
+			const testimonyToken = signTestimony(delegate, 123, {
 				audience,
 				atTime: 0,
 				expiresAt: 1000,

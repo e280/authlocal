@@ -1,7 +1,7 @@
 
 import {Id} from "../lib/core/cryp/types.js"
-import {Proof} from "../lib/core/alco/types.js"
 import {Payload} from "../lib/core/tok/types.js"
+import {Proof} from "../lib/core/alco/proof/types.js"
 
 export type Identity = {
 	root: string

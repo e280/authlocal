@@ -7,5 +7,6 @@ export const consts = deep.freeze({
 	standardLifespan: time.days(30),
 	standardCryptScope: "",
 	purposes: {auth: "auth", crypt: "crypt"},
+	maxAliasLength: 32,
 })
 

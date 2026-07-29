@@ -86,7 +86,7 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
     ```ts
     const token = auth.user.signTestimony({exampleCommandToWriteData: 123})
     ```
-    you can pass [testimony-options.ts](./s/lib/core/alco/testimony-options.ts) as 2nd param.
+    you can pass [testimony/options.ts](./s/lib/core/alco/testimony/options.ts) as 2nd param.
 1. **verify a testimony token serverside or elsewhere.** *(note the import path)*
     ```ts
     import {verifyTestimony, address} from "@e280/authlocal/core"
@@ -107,7 +107,7 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
     console.log(address.from(testimony.proof.id))
       // "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx"
     ```
-    you can pass [testimony-verifications.ts](./s/lib/core/alco/testimony-verifications.ts) as 2nd param.
+    you can pass [testimony/verifications.ts](./s/lib/core/alco/testimony/verifications.ts) as 2nd param.
 
 ### 🍋‍🟩 `address` facility for friendly names
 1. **import address facility.**

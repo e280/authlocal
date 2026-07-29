@@ -1,8 +1,9 @@
 
-import {Delegate, Proof} from "./types.js"
-import {deriveId} from "../cryp/derive-id.js"
-import {verifyProof} from "./verify-proof.js"
-import {TokenErr} from "../errs/token-err.js"
+import {Delegate} from "./types.js"
+import {Proof} from "../proof/types.js"
+import {verifyProof} from "../proof/verify.js"
+import {deriveId} from "../../cryp/derive-id.js"
+import {TokenErr} from "../../errs/token-err.js"
 
 export function verifyDelegate(delegate: Delegate, options: {
 		allowedPurposes: string[]

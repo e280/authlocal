@@ -8,9 +8,6 @@ export type Secret = Hex
 /** ed25519 public hex key */
 export type Id = Hex
 
-/** root secret hex key from which more secrets are derived */
-export type Root = Secret
-
 /** ed25519 keypair */
 export type Keypair = {
 	id: Id

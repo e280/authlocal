@@ -1,5 +1,5 @@
 
-import {Petition} from "../../core/alco/types.js"
+import {Petition} from "../../core/alco/delegate/types.js"
 import {connectToDelegator} from "./connect-to-delegator.js"
 
 export async function askForDelegates(

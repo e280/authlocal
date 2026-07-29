@@ -1,9 +1,9 @@
 
 import {Proof} from "./types.js"
-import {Payload} from "../tok/types.js"
-import {TokenErr} from "../errs/token-err.js"
-import {verifyToken} from "../tok/verify-token.js"
-import {decodeToken} from "../tok/decode-token.js"
+import {Payload} from "../../tok/types.js"
+import {TokenErr} from "../../errs/token-err.js"
+import {verifyToken} from "../../tok/verify-token.js"
+import {decodeToken} from "../../tok/decode-token.js"
 
 export function verifyProof(proofToken: string, options: {
 		allowedAudiences: string[]

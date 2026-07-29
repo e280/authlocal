@@ -3,7 +3,7 @@ import {count, hex, time} from "@e280/stz"
 import {demo} from "./ergo/demo.js"
 import {address, seed} from "./index.js"
 import {deriveId} from "./cryp/derive-id.js"
-import {signDelegate} from "./alco/sign-delegate.js"
+import {signDelegate} from "./alco/delegate/sign.js"
 import {generateSecret} from "./cryp/generate-secret.js"
 
 // const secret = generateSecret()

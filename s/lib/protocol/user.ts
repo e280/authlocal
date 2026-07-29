@@ -3,10 +3,10 @@ import {Session} from "./types.js"
 import {encrypt} from "../core/cryp/encrypt.js"
 import {decrypt} from "../core/cryp/decrypt.js"
 import {tokenTime} from "../core/tok/token-time.js"
-import {decodeProof} from "../core/alco/decode-proof.js"
+import {decodeProof} from "../core/alco/proof/decode.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
-import {signTestimony} from "../core/alco/sign-testimony.js"
-import {TestimonyOptions} from "../core/alco/testimony-options.js"
+import {TestimonyOptions} from "../core/alco/testimony/options.js"
+import {signTestimony} from "../core/alco/testimony/sign.js"
 
 export class User {
 	#proof
@@ -51,7 +51,7 @@ export class User {
 
 	/** sign a testimony token on behalf of the user */
 	signTestimony<X>(data: X, options: TestimonyOptions = {}) {
-		return signTestimony(this.session.auth.secret, this.session.auth.proofToken, data, options)
+		return signTestimony(this.session.auth, data, options)
 	}
 }
 

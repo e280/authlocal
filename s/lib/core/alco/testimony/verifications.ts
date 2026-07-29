@@ -1,4 +1,5 @@
 
+/** options for verifying a testimony token */
 export type TestimonyVerifications = {
 
 	/** app origins */

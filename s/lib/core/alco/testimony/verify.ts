@@ -1,13 +1,13 @@
 
 import {happy} from "@e280/stz"
-import {Payload} from "../tok/types.js"
-import {TokenErr} from "../errs/token-err.js"
-import {verifyProof} from "./verify-proof.js"
-import {tokenTime} from "../tok/token-time.js"
-import {decodeToken} from "../tok/decode-token.js"
-import {verifyToken} from "../tok/verify-token.js"
+import {Payload} from "../../tok/types.js"
+import {TokenErr} from "../../errs/token-err.js"
+import {verifyProof} from "../proof/verify.js"
+import {tokenTime} from "../../tok/token-time.js"
+import {decodeToken} from "../../tok/decode-token.js"
+import {verifyToken} from "../../tok/verify-token.js"
 import {Testimony, TestimonySource} from "./types.js"
-import {TestimonyVerifications} from "./testimony-verifications.js"
+import {TestimonyVerifications} from "./verifications.js"
 
 export function verifyTestimony<X>(token: string, options: TestimonyVerifications): Testimony<X> {
 	const {
