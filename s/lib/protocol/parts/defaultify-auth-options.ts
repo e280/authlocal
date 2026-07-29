@@ -7,7 +7,7 @@ export function defaultifyAuthOptions(options: Partial<AuthOptions> = {}): AuthO
 	return {
 		broadcastChannel: new BroadcastChannel(`${consts.namespace}.auth`),
 		delegatorUrl: options.delegatorUrl ?? "https://authlocal.org/",
-		cubby: options.cubby ?? (
+		sessionCubby: options.sessionCubby ?? (
 			new Kv(new StorageMagazine())
 				.scope(consts.namespace)
 				.cell<Session>("session")

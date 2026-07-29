@@ -1,16 +1,13 @@
 
-import {Portal} from "@e280/renraku"
 import {afterEffect, signal} from "@e280/strata"
-import {defer, disposer, ev, nap, sub} from "@e280/stz"
-import {recvPorts, webAutoTransfer} from "@e280/renraku/web"
+import {disposer, ev, nap, sub} from "@e280/stz"
 
 import {User} from "./user.js"
-import {consts} from "../../consts.js"
-import {Delegate} from "../core/alco/delegate/types.js"
 import {openPopup} from "./parts/open-popup.js"
+import {AuthOptions, SessionOptions} from "./types.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
 import {sessionPetitions} from "./parts/session-petitions.js"
-import {AuthOptions, DelegatorApi, SessionOptions} from "./types.js"
+import {waitForDelegates} from "./parts/wait-for-delegates.js"
 import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
 
 /** auth facility for logging in and out. */
@@ -47,7 +44,7 @@ export class Auth {
 
 	/** remember a previous login from persistent storage. */
 	async remember() {
-		const session = await this.#options.cubby.get()
+		const session = await this.#options.sessionCubby.get()
 		const user = session
 			? new User(session)
 			: null
@@ -57,7 +54,7 @@ export class Auth {
 
 	/** log out immediately. */
 	async logout() {
-		await this.#options.cubby.set(undefined)
+		await this.#options.sessionCubby.set(undefined)
 		this.#$user(null)
 		this.#options.broadcastChannel.postMessage(true)
 	}
@@ -67,33 +64,14 @@ export class Auth {
 		if (window.crossOriginIsolated)
 			throw new Error("popup flow prohibited by window.crossOriginIsolated")
 
-		const popup = openPopup("auth", this.#options.delegatorUrl)
-		const delegatorOrigin = new URL(this.#options.delegatorUrl, window.location.href).origin
 		const petitions = sessionPetitions(options)
-		const deferred = defer<Delegate[]>()
+		const delegatorOrigin = new URL(this.#options.delegatorUrl, window.location.href).origin
 
-		const stop = recvPorts({
-			from: popup,
-			fromOrigin: delegatorOrigin,
-			topic: consts.namespace,
-			onPort: port => {
-				const portal = new Portal<DelegatorApi>({
-					port,
-					timeout: Infinity,
-					autoTransfer: webAutoTransfer,
-				})
-				deferred.entangle(portal.remote.v1.requestDelegates(petitions))
-					.finally(() => {
-						portal.close()
-						popup.close()
-						stop()
-					})
-			},
-		})
+		const popup = openPopup("auth", this.#options.delegatorUrl)
+		const [auth, crypt] = await waitForDelegates(popup, delegatorOrigin, petitions)
 
-		const [auth, crypt] = await deferred.promise
 		const user = new User({auth, crypt})
-		await this.#options.cubby.set(user.session)
+		await this.#options.sessionCubby.set(user.session)
 		this.#$user(user)
 		this.#options.broadcastChannel.postMessage(true)
 		return this.user
