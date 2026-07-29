@@ -1,9 +1,8 @@
 
-import {hex} from "@e280/stz"
+import {happy, hex} from "@e280/stz"
 import {Secret} from "../cryp/types.js"
 import {signToken} from "../tok/sign-token.js"
 import {tokenTime} from "../tok/token-time.js"
-import {normalizeExpiresAt} from "../tok/normalize-expires-at.js"
 
 export function signTestimony<X>({
 		secret, audience, issuer, proofToken, expiresAt, atTime, data,
@@ -18,14 +17,14 @@ export function signTestimony<X>({
 	}): string {
 
 	return signToken(secret, {
+		testimony: {data, proofToken},
 		jti: hex.random(16),
 		iat: tokenTime.at(atTime),
 		aud: audience,
 		iss: issuer,
-		exp: expiresAt === undefined
-			? undefined
-			: tokenTime.at(normalizeExpiresAt(expiresAt, atTime)),
-		testimony: {data, proofToken},
+		exp: happy(expiresAt)
+			? tokenTime.at(expiresAt)
+			: undefined,
 	})
 }
 

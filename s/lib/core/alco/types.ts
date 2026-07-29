@@ -11,7 +11,7 @@ export type Petition = {
 	scope: string
 
 	/** request for when we'd like the delegate proof to expire, in js milliseconds (delegator will cap this) */
-	expiresAt: number
+	expiresAt?: number
 }
 
 /** a delegate keypair is a scoped keypair derived from an identity root */

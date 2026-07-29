@@ -25,7 +25,6 @@ export * as seed from "./ergo/seed/index.js"
 export * as address from "./ergo/address/index.js"
 
 export * from "./tok/decode-token.js"
-export * from "./tok/normalize-expires-at.js"
 export * from "./tok/token-header.js"
 export * from "./tok/sign-token.js"
 export * from "./tok/token-time.js"

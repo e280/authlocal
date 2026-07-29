@@ -7,7 +7,11 @@ export const tokenTime = {
 	toMs: (t: number) => t * 1000,
 
 	/** convert js milliseconds to jwt seconds */
-	at: (ms: number) => Math.floor(ms / 1000),
+	at: (ms: number) => {
+		const valid = typeof ms === "number" && Number.isFinite(ms)
+		if (!valid) throw new Error(`invalid token time input`)
+		return Math.floor(ms / 1000)
+	},
 
 	/** convert js milliseconds to jwt seconds, or undefined */
 	maybe: (ms?: number) => ms !== undefined
