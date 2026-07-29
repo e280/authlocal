@@ -17,7 +17,7 @@ manage identities on your device any time at https://authlocal.org/
 your identity begins with a permanent seed key. don't lose it. don't share it. it's yours, forever.
 
 **websites never see your seed key.**  
-when you sign into a website with authlocal, that website receives a cryptographic proof of the identity you selected.
+when you sign into a website with authlocal, that website receives cryptographic proof of the identity you selected.
 
 > *"keep it secret. keep it safe."*  
 > &nbsp; &nbsp; *— gandalf, fellowship of the ring*
@@ -129,7 +129,10 @@ when you sign into a website with authlocal, that website receives a cryptograph
 - in a standard login flow, your site asks for two delegates: one ephemeral "auth" delegate that expires in 30 days, and one stable "crypt" delegate for end-to-end encryption. the "auth" delegate can be used to sign new claims for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify.
 
 ### 🫐 why not passkeys or pairwise?
-- we believe users *want* a simple "just works" experience where they have a stable identity across apps. we want devs to weave an ecosystem of interoperable apps and services, eg, a messenger service that interoperates with a friends-list service, etc, without annoying account-linking flows. passkeys are inherently pairwise and hostile to this. we let users decide whether they want to share the same identities across the same apps, or not -- that's why they can create multiple identities.
+- we believe users *want* a simple "just works" experience where they have a stable identity across apps.
+- we want devs to weave an ecosystem of interoperable apps and services, eg, a messenger service that interoperates with a friends-list service, etc, without annoying account-linking flows.
+- passkeys are inherently pairwise and hostile to these goals.
+- we let users decide whether they want to share an identity across apps, or not -- that's why they can create multiple identities.
 
 
 
