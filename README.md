@@ -80,7 +80,7 @@ when you sign into a website with authlocal, that website receives a cryptograph
 - **sign a claim token.**  
     > *you can pass [claim/options.ts](./s/lib/core/alco/claim/options.ts) as 2nd param.*
     ```ts
-    const token = user.signClaim({exampleCommandToWriteData: 123})
+    const token = user.signClaim({myAction: "writePost", myPost: "hello"})
     ```
 - **verify a claim token serverside or elsewhere.** *(note the import path)*  
     > *you can pass [claim/verifications.ts](./s/lib/core/alco/claim/verifications.ts) as 2nd param.*
@@ -94,8 +94,8 @@ when you sign into a website with authlocal, that website receives a cryptograph
       allowedIssuers: ["https://app.e280.org"],
     })
 
-    console.log(claim.data.exampleCommandToWriteData)
-      // 123
+    console.log(claim.data)
+      // {myAction: "writePost", myPost: "hello"}
 
     console.log(claim.proof.id)
       // "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
@@ -119,7 +119,7 @@ when you sign into a website with authlocal, that website receives a cryptograph
 
 ### 🍋‍🟩 what's really going on under the hood
 - your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's root key.
-- a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. being a keypair in its own right, a delegate can then sign new "claim" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
+- a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user root. a delegate can sign new "claim" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user root.
 - in a standard login flow, your site asks for two delegates: one ephemeral "auth" delegate that expires in 30 days, and one stable "crypt" delegate for end-to-end encryption. the "auth" delegate can be used to sign new claims for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify.
 
 
