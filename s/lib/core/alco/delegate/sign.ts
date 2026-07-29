@@ -9,6 +9,7 @@ import {deriveId} from "../../cryp/derive-id.js"
 import {signToken} from "../../tok/sign-token.js"
 import {tokenTime} from "../../tok/token-time.js"
 import {deriveSecret} from "../../cryp/derive-secret.js"
+import { consts } from "../../../../consts.js"
 
 export function signDelegate(secret: Secret, {
 		alias, petition, audience, issuer, atTime = Date.now(),
@@ -34,7 +35,8 @@ export function signDelegate(secret: Secret, {
 	const id = deriveId(secret)
 	const {purpose, scope, expiresAt} = petition
 
-	const delegateSecret = deriveSecret(secret, hash("authlocal/delegate/v1", audience, purpose, scope))
+	const message = hash(consts.delegateProtocol, audience, purpose, scope)
+	const delegateSecret = deriveSecret(secret, message)
 	const delegateId = deriveId(delegateSecret)
 
 	const proof: Proof = {delegateId, id, purpose, scope}
