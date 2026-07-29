@@ -2,7 +2,8 @@
 ![](https://i.imgur.com/Of61sXO.png)
 
 # 🔐 [authlocal](https://authlocal.org/) is the user-sovereign login system.
-any website can ask you to sign-in via authlocal.  
+
+**any website can ask you to sign-in via authlocal.**  
 manage identities on your device any time at https://authlocal.org/  
 
 &nbsp; 🔑 **cryptographic.** passwordless, emailless, provable.  
@@ -10,7 +11,7 @@ manage identities on your device any time at https://authlocal.org/
 &nbsp; 🏡 **local-only.** runs clientside. keys live on your device.  
 &nbsp; 🥷 **pseudonymous.** seamlessly carry your identity across services.  
 &nbsp; ✍️ **artisanal.** thoughtfully designed and coded by hand.  
-&nbsp; 💖 **free and open-source.** a protocol, not a product. auth without a service.  
+&nbsp; 💖 **free and open-source.** protocol, not product. auth without a service.  
 
 **own your identity.**  
 your identity begins with a permanent seed key. don't lose it. don't share it. it's yours, forever.
@@ -28,19 +29,19 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
 ### 🍋‍🟩 basic logins
 1. **install and import `@e280/authlocal`.** *(and [`@e280/strata`](https://github.com/e280/strata) for this demo)*
     ```bash
-    npm install @e280/authlocal @e280/strata
+    npm install @e280/authlocal
     ```
     ```ts
     import {Auth} from "@e280/authlocal"
-    import {effect} from "@e280/strata"
     ```
 1. **create the auth facility.** *(see [auth.ts](./s/lib/protocol/auth.ts))*
     ```ts
     const auth = new Auth()
     ```
-1. **react to user session changes.** *(see [user.ts](./s/lib/protocol/user.ts))*
+1. **react to user session changes.** *(see [user.ts](./s/lib/protocol/user.ts))*  
+    > *`auth.user` is also compatible with [@e280/strata](https://github.com/e280/strata) effects.*
     ```ts
-    effect(() => console.log(
+    auth.on(user => console.log(
       auth.user
         ? `logged in: ${auth.user.id}`
         : `logged out`
@@ -60,24 +61,25 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
     ```
 
 ### 🍋‍🟩 perform end-to-end encryption for the user
-1. **encrypt.**
+- **encrypt.**
     ```ts
     const ciphertext = auth.user.encrypt(
       new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF])
     )
     ```
-1. **decrypt.**
+- **decrypt.**
     ```ts
     const cleartext = auth.user.decrypt(ciphertext)
     ```
 
 ### 🍋‍🟩 sign and verify testimonies on behalf of the user
-1. **sign a testimony token.**
+- **sign a testimony token.**  
+    > *you can pass [testimony/options.ts](./s/lib/core/alco/testimony/options.ts) as 2nd param.*
     ```ts
     const token = auth.user.signTestimony({exampleCommandToWriteData: 123})
     ```
-    you can pass [testimony/options.ts](./s/lib/core/alco/testimony/options.ts) as 2nd param.
-1. **verify a testimony token serverside or elsewhere.** *(note the import path)*
+- **verify a testimony token serverside or elsewhere.** *(note the import path)*  
+    > *you can pass [testimony/verifications.ts](./s/lib/core/alco/testimony/verifications.ts) as 2nd param.*
     ```ts
     import {verifyTestimony, address} from "@e280/authlocal/core"
 
@@ -97,7 +99,6 @@ your identity begins with a permanent seed key. don't lose it. don't share it. i
     console.log(address(testimony.proof.id))
       // "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx"
     ```
-    you can pass [testimony/verifications.ts](./s/lib/core/alco/testimony/verifications.ts) as 2nd param.
 
 ### 🍋‍🟩 use `address` for friendly names
 - **`address(id)`** -- encode a user id into a friendly format.
