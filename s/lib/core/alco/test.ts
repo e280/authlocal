@@ -62,6 +62,32 @@ export default suite({
 			expect(cleartext).is(original)
 		}),
 
+		"bad ciphertext version": test(async() => {
+			const secret = generateSecret()
+			const original = "hello world"
+			const ciphertext = encrypt(secret, txt.toBytes(original))
+			ciphertext.set(new Uint8Array([255]), 0)
+			expect(() => decrypt(secret, ciphertext)).throws()
+		}),
+
+		"aad": test(async() => {
+			const secret = generateSecret()
+			const original = "hello world"
+			const aad = new Uint8Array([0xB0, 0x0B, 0x13])
+			const ciphertext = encrypt(secret, txt.toBytes(original), aad)
+			const cleartext = txt(decrypt(secret, ciphertext, aad))
+			expect(cleartext).is(original)
+		}),
+
+		"bad aad": test(async() => {
+			const secret = generateSecret()
+			const original = "hello world"
+			const aad = new Uint8Array([0xB0, 0x0B, 0x13])
+			const bad = new Uint8Array([0xB0, 0x0B, 0x00])
+			const ciphertext = encrypt(secret, txt.toBytes(original), aad)
+			expect(() => decrypt(secret, ciphertext, bad)).throws()
+		}),
+
 		"wrong key cannot decrypt": test(async() => {
 			const root = generateSecret()
 			const {secret} = signDelegate(root, {...basics(), petition: {

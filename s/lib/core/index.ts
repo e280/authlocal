@@ -37,6 +37,10 @@ export * from "./ergo/address/id.js"
 export * from "./ergo/address/moniker.js"
 export * from "./ergo/address/parse.js"
 
+export * from "./errs/err.js"
+export * from "./errs/token-err.js"
+export * from "./errs/cryption-err.js"
+
 export * from "./tok/decode-token.js"
 export * from "./tok/token-header.js"
 export * from "./tok/sign-token.js"

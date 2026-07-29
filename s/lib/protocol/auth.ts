@@ -1,6 +1,6 @@
 
-import {afterEffect, signal} from "@e280/strata"
 import {Portal} from "@e280/renraku"
+import {afterEffect, signal} from "@e280/strata"
 import {defer, disposer, ev, nap, sub} from "@e280/stz"
 import {recvPorts, webAutoTransfer} from "@e280/renraku/web"
 
