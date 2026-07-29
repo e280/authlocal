@@ -38,6 +38,7 @@ when you sign into a website with authlocal, that website receives a cryptograph
     import {Auth} from "@e280/authlocal"
     ```
 1. **create the auth facility.** *(see [auth.ts](./s/lib/protocol/auth.ts))*
+    > *see [default-auth-options.ts](./s/lib/protocol/parts/default-auth-options.ts) to see what options you can pass.*
     ```ts
     const auth = new Auth()
     ```
@@ -97,10 +98,10 @@ when you sign into a website with authlocal, that website receives a cryptograph
       // 123
 
     console.log(testimony.proof.id)
-      // "cd967edd1a3a82e142faa5003eda67d167a2b5f76d0e97e8158defe59e2a2c89"
+      // "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
 
     console.log(address(testimony.proof.id))
-      // "volrad_welsyx_EqXgGh7SEyGzpbUiacCJ7BVpAP1kBePt6THiR8gSTtGx"
+      // "calwak_curlex_H9Nts5YRurzidb8mQHkHH323mMT8d3oReimRzxeLgwRw"
     ```
 
 ### 🍋‍🟩 use `address` for friendly names

@@ -8,7 +8,7 @@ import {AuthOptions, SessionOptions} from "./types.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
 import {sessionPetitions} from "./parts/session-petitions.js"
 import {waitForDelegates} from "./parts/wait-for-delegates.js"
-import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
+import {defaultAuthOptions} from "./parts/default-auth-options.js"
 
 /** auth facility for logging in and out. */
 export class Auth {
@@ -18,7 +18,7 @@ export class Auth {
 	#$user = signal<User | null>(null)
 
 	constructor(options: Partial<AuthOptions> = {}) {
-		this.#options = defaultifyAuthOptions(options)
+		this.#options = defaultAuthOptions(options)
 
 		this.dispose.schedule(
 			ev(this.#options.broadcastChannel, {
