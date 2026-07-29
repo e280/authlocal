@@ -33,7 +33,7 @@ export function verifyTestimony<X>(token: string, options: TestimonyVerification
 		: undefined
 
 	if (!happy(testimonyIssuedAt))
-		throw new TokenErr(`testimony iat required`)
+		throw new TokenErr(`iat required`)
 	
 	const proof = verifyProof(proofToken, {
 		maxAge: maxProofAge,
