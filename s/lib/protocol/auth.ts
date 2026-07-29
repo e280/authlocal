@@ -1,7 +1,7 @@
 
-import {signal} from "@e280/strata"
+import {afterEffect, signal} from "@e280/strata"
 import {Portal} from "@e280/renraku"
-import {defer, ev, nap} from "@e280/stz"
+import {defer, disposer, ev, nap, sub} from "@e280/stz"
 import {recvPorts, webAutoTransfer} from "@e280/renraku/web"
 
 import {User} from "./user.js"
@@ -15,15 +15,26 @@ import {defaultifyAuthOptions} from "./parts/defaultify-auth-options.js"
 
 /** auth facility for logging in and out. */
 export class Auth {
-	dispose
+	dispose = disposer()
+	on = sub<[User | null]>()
 	#options
 	#$user = signal<User | null>(null)
 
 	constructor(options: Partial<AuthOptions> = {}) {
 		this.#options = defaultifyAuthOptions(options)
-		this.dispose = ev(this.#options.broadcastChannel, {
-			message: () => nap().then(() => this.remember())
-		})
+
+		this.dispose.schedule(
+			ev(this.#options.broadcastChannel, {
+				message: () => nap().then(() => this.remember())
+			})
+		)
+
+		this.dispose.schedule(
+			afterEffect(
+				() => this.#$user(),
+				user => this.on.publish(user),
+			)
+		)
 	}
 
 	/** validate and return the current session, otherwise return null. */
