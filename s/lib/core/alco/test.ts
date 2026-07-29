@@ -1,16 +1,16 @@
 
-import {gotValue, isNay, isYay, time, txt} from "@e280/stz"
-import {suite, test, expect, assert} from "@e280/science"
+import {time, txt} from "@e280/stz"
+import {suite, test, expect} from "@e280/science"
 
 import {consts} from "../../../consts.js"
+import {encrypt} from "../cryp/encrypt.js"
+import {decrypt} from "../cryp/decrypt.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {signDelegate} from "./sign-delegate.js"
 import {signTestimony} from "./sign-testimony.js"
 import {verifyDelegate} from "./verify-delegate.js"
 import {verifyTestimony} from "./verify-testimony.js"
 import {generateSecret} from "../cryp/generate-secret.js"
-import { encrypt } from "../cryp/encrypt.js"
-import { decrypt } from "../cryp/decrypt.js"
 
 const appOrigin = "https://e280.org"
 const delegatorOrigin = "https://authlocal.org"
@@ -23,8 +23,8 @@ const petition = () => ({
 
 const basics = () => ({
 	alias: "chase",
-	appOrigin,
-	delegatorOrigin,
+	audience: appOrigin,
+	issuer: delegatorOrigin,
 	petition: petition(),
 	atTime: 0,
 })
@@ -32,8 +32,8 @@ const basics = () => ({
 const allowed = () => ({
 	atTime: 0,
 	allowedPurposes: Object.values(consts.purposes),
-	allowedDelegators: [delegatorOrigin],
-	allowedApps: [appOrigin],
+	allowedIssuers: [delegatorOrigin],
+	allowedAudiences: [appOrigin],
 })
 
 export default suite({
@@ -45,9 +45,9 @@ export default suite({
 		// authlocal signs a delegate
 		const delegate = signDelegate(root, basics())
 
-		assert(verifyDelegate(delegate, allowed()).yay)
-		expect(gotValue(verifyDelegate(delegate, allowed())).proof.id).is(id)
-		expect(gotValue(verifyDelegate(delegate, allowed())).proof.purpose).is(petition().purpose)
+		expect(() => verifyDelegate(delegate, allowed())).not.throws()
+		expect(verifyDelegate(delegate, allowed()).proof.id).is(id)
+		expect(verifyDelegate(delegate, allowed()).proof.purpose).is(petition().purpose)
 	}),
 
 	"e2ee": {
@@ -110,10 +110,10 @@ export default suite({
 
 		"different app origins, different keys": test(async() => {
 			const root = generateSecret()
-			const delegate1 = signDelegate(root, {...basics(), appOrigin: "https://alpha.e280.org", petition: {
+			const delegate1 = signDelegate(root, {...basics(), audience: "https://alpha.e280.org", petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
-			const delegate2 = signDelegate(root, {...basics(), appOrigin: "https://bravo.e280.org", petition: {
+			const delegate2 = signDelegate(root, {...basics(), audience: "https://bravo.e280.org", petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
 			expect(delegate1.secret).not.is(delegate2.secret)
@@ -121,10 +121,10 @@ export default suite({
 
 		"different delegator origins, same keys": test(async() => {
 			const root = generateSecret()
-			const delegate1 = signDelegate(root, {...basics(), delegatorOrigin: "https://alpha.e280.org", petition: {
+			const delegate1 = signDelegate(root, {...basics(), issuer: "https://alpha.e280.org", petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
-			const delegate2 = signDelegate(root, {...basics(), delegatorOrigin: "https://bravo.e280.org", petition: {
+			const delegate2 = signDelegate(root, {...basics(), issuer: "https://bravo.e280.org", petition: {
 				purpose: "crypt", scope: "v1", expiresAt: time.future.hours(1),
 			}})
 			expect(delegate1.secret).is(delegate2.secret)
@@ -136,33 +136,33 @@ export default suite({
 			const root = generateSecret()
 			const expiresAt = 12_000
 			const delegate = signDelegate(root, {...basics(), petition: {...petition(), expiresAt}})
-			assert(isYay(verifyDelegate(delegate, {...allowed(), atTime: 11_000})))
-			assert(isNay(verifyDelegate(delegate, {...allowed(), atTime: 13_000})))
-			assert(isNay(verifyDelegate(delegate, {...allowed(), atTime: 12_000})))
+			expect(() => verifyDelegate(delegate, {...allowed(), atTime: 11_000})).not.throws()
+			expect(() => verifyDelegate(delegate, {...allowed(), atTime: 13_000})).throws()
+			expect(() => verifyDelegate(delegate, {...allowed(), atTime: 12_000})).throws()
 		}),
 
 		"issuer required": test(async() => {
 			const delegate = signDelegate(generateSecret(), {
 				...basics(),
-				delegatorOrigin: undefined as any,
+				issuer: undefined as any,
 			})
-			assert(isNay(verifyDelegate(delegate, allowed())))
+			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
 
 		"reject bad audience": test(async() => {
 			const delegate = signDelegate(generateSecret(), {
 				...basics(),
-				appOrigin: "https://bad.e280.org"
+				audience: "https://bad.e280.org"
 			})
-			assert(isNay(verifyDelegate(delegate, allowed())))
+			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
 
 		"reject bad issuer": test(async() => {
 			const delegate = signDelegate(generateSecret(), {
 				...basics(),
-				delegatorOrigin: "https://bad.e280.org",
+				issuer: "https://bad.e280.org",
 			})
-			assert(isNay(verifyDelegate(delegate, allowed())))
+			expect(() => verifyDelegate(delegate, allowed())).throws()
 		}),
 	},
 
@@ -170,13 +170,13 @@ export default suite({
 		"sign and verify": test(async() => {
 			const root = generateSecret()
 			const delegate = signDelegate(root, basics())
-			const {appOrigin} = basics()
+			const {audience: issuer} = basics()
 			const audience = "test-server"
 			const testimonyToken = signTestimony({
 				secret: delegate.secret,
 				atTime: 0,
 				audience,
-				issuer: appOrigin,
+				issuer,
 				expiresAt: 1000,
 				proofToken: delegate.proofToken,
 				data: 123,
@@ -186,8 +186,7 @@ export default suite({
 				allowedAudiences: [audience],
 				allowedIssuers: [appOrigin]
 			})
-			assert(testimony.yay)
-			assert(gotValue(testimony).data === 123)
+			expect(testimony.data).is(123)
 		}),
 	},
 })

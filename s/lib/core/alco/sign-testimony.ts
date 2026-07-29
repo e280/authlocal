@@ -14,7 +14,7 @@ export function signTestimony<X>({
 		issuer: string
 		audience: string
 		expiresAt?: number
-	}): string {
+	}) {
 
 	return signToken(secret, {
 		testimony: {data, proofToken},

@@ -1,27 +1,22 @@
 
-import {Maybe, nay, yay} from "@e280/stz"
 import {Delegate, Proof} from "./types.js"
 import {deriveId} from "../cryp/derive-id.js"
 import {verifyProof} from "./verify-proof.js"
+import {TokenErr} from "../errs/token-err.js"
 
 export function verifyDelegate(delegate: Delegate, options: {
 		allowedPurposes: string[]
-		allowedApps: string[]
+		allowedAudiences: string[]
 		allowedScopes?: string[]
-		allowedDelegators?: string[]
+		allowedIssuers?: string[]
 		atTime?: number
-	}): Maybe<{delegate: Delegate, proof: Proof}> {
+	}): {delegate: Delegate, proof: Proof} {
 
-	const maybeProof = verifyProof(delegate.proofToken, options)
-
-	if (!maybeProof.yay)
-		return maybeProof
-
-	const proof = maybeProof.value
+	const proof = verifyProof(delegate.proofToken, options)
 
 	if (deriveId(delegate.secret) !== proof.delegateId)
-		return nay("delegateId mismatch")
+		throw new TokenErr("delegateId mismatch")
 
-	return yay({delegate, proof})
+	return {delegate, proof}
 }
 

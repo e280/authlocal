@@ -54,8 +54,8 @@ console.log("==jwt proof token==")
 const jwtProof = signDelegate(demo.root, {
 	atTime: Date.now(),
 	alias: "chase",
-	appOrigin: "https://e280.org",
-	delegatorOrigin: "https://authlocal.org",
+	audience: "https://e280.org",
+	issuer: "https://authlocal.org",
 	petition: {
 		purpose: "test",
 		scope: generateSecret(),

@@ -1,16 +1,25 @@
 
-import {Maybe, nay, yay} from "@e280/stz"
+import {happy} from "@e280/stz"
 import {Id} from "../cryp/types.js"
 import {tokenTime} from "./token-time.js"
+import {TokenErr} from "../errs/token-err.js"
 import {decodeToken} from "./decode-token.js"
 import {verifyBytes} from "../cryp/verify-bytes.js"
+import {assertFresh} from "./utils/assert-fresh.js"
 import {Payload, TokenVerifications} from "./types.js"
 
 export function verifyToken<P extends Payload>(
 		id: Id,
 		token: string,
 		options: TokenVerifications = {},
-	): Maybe<P> {
+	): P {
+
+	const {
+		atTime = Date.now(),
+		maxAge,
+		allowedIssuers,
+		allowedAudiences,
+	} = options
 
 	const [headerText, payloadText] = token.split(".")
 	const {payload, signature} = decodeToken<P>(token)
@@ -18,41 +27,39 @@ export function verifyToken<P extends Payload>(
 	const signingBytes = new TextEncoder().encode(signingText)
 
 	if (!verifyBytes(id, signingBytes, signature))
-		return nay(`bad signature`)
+		throw new TokenErr(`bad signature`)
 
-	if (options.atTime !== null) {
-		const atTime = options.atTime ?? Date.now()
-
-		if (payload.exp) {
-			const expiresAt = tokenTime.toMs(payload.exp)
-			if (atTime >= expiresAt)
-				return nay(`expired`)
-		}
-
-		if (payload.nbf) {
-			const notBefore = tokenTime.toMs(payload.nbf)
-			if (atTime < notBefore)
-				return nay(`too soon for nbf`)
-		}
+	if (happy(payload.exp)) {
+		const expiresAt = tokenTime.toMs(payload.exp)
+		if (atTime >= expiresAt)
+			throw new TokenErr(`expired`)
 	}
 
-	if (options.allowedIssuers) {
+	if (happy(payload.nbf)) {
+		const notBefore = tokenTime.toMs(payload.nbf)
+		if (atTime < notBefore)
+			throw new TokenErr(`too soon for nbf`)
+	}
+
+	if (allowedIssuers) {
 		if (!payload.iss)
-			return nay(`missing iss`)
-		if (!options.allowedIssuers.includes(payload.iss))
-			return nay(`bad iss "${payload.iss}"`)
+			throw new TokenErr(`missing iss`)
+		if (!allowedIssuers.includes(payload.iss))
+			throw new TokenErr(`bad iss "${payload.iss}"`)
 	}
 
-	if (options.allowedAudiences) {
+	if (allowedAudiences) {
 		if (!payload.aud)
-			return nay(`missing aud`)
-		if (!options.allowedAudiences.includes(payload.aud))
-			return nay(`bad aud "${payload.aud}"`)
+			throw new TokenErr(`missing aud`)
+		if (!allowedAudiences.includes(payload.aud))
+			throw new TokenErr(`bad aud "${payload.aud}"`)
 	}
 
-	if (payload.aud && !options.allowedAudiences)
-		return nay(`aud requires allowedAudiences but it was not provided`)
+	if (payload.aud && !allowedAudiences)
+		throw new TokenErr(`aud requires allowedAudiences but it was not provided`)
 
-	return yay(payload)
+	assertFresh(payload, atTime, maxAge)
+
+	return payload
 }
 

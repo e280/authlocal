@@ -4,7 +4,7 @@ import {Identity} from "../types.js"
 import {Context} from "../context.js"
 import {decodeToken, DelegatorApi, deriveId, Payload, Proof, signDelegate} from "../../lib/index.js"
 
-export const delegateApi = (context: Context, delegatorOrigin: string) => (
+export const delegatorApi = (context: Context, delegatorOrigin: string) => (
 	(appOrigin: string) => (<DelegatorApi>{v1: {
 		async requestDelegates(petitions) {
 			const chooseIdentity = defer<Identity>()
@@ -22,8 +22,8 @@ export const delegateApi = (context: Context, delegatorOrigin: string) => (
 				signDelegate(identity.root, {
 					alias: identity.alias,
 					petition,
-					delegatorOrigin,
-					appOrigin,
+					issuer: delegatorOrigin,
+					audience: appOrigin,
 					atTime,
 				})
 			)

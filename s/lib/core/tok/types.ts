@@ -23,7 +23,8 @@ export type WebToken<P extends Payload = any> = {
 }
 
 export type TokenVerifications = {
-	atTime?: number | null
+	maxAge?: number
+	atTime?: number
 	allowedIssuers?: string[]
 	allowedAudiences?: string[]
 }

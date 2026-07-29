@@ -4,7 +4,7 @@ import {dom, lightElement} from "@e280/sly"
 
 import {Bank} from "./parts/bank.js"
 import {Context} from "./context.js"
-import {delegateApi} from "./parts/delegator-api.js"
+import {delegatorApi} from "./parts/delegator-api.js"
 import {makeHashRouter} from "./routing/hash-router.js"
 import {connectToApp} from "../lib/protocol/parts/connect-to-app.js"
 
@@ -23,5 +23,5 @@ dom.register({
 })
 
 if (window.opener)
-	await connectToApp(window.opener, delegateApi(context, delegatorOrigin))
+	await connectToApp(window.opener, delegatorApi(context, delegatorOrigin))
 
