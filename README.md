@@ -29,7 +29,7 @@ when you sign into a website with authlocal, that website receives a cryptograph
 ## 🔐 installation for web developers
 > *visit https://authlocal.org/demo/ to see what the authlocal popup looks like.*
 
-### 🍋‍🟩 basic logins
+### 🍋‍🟩 basic logins for your website
 1. **install and import `@e280/authlocal`.**
     ```bash
     npm install @e280/authlocal
@@ -76,31 +76,31 @@ when you sign into a website with authlocal, that website receives a cryptograph
     const cleartext = user.decrypt(ciphertext)
     ```
 
-### 🍋‍🟩 sign and verify claims on behalf of the user
-- **sign a claim token.**  
-    > *you can pass [claim/options.ts](./s/lib/core/alco/claim/options.ts) as 2nd param.*
+### 🍋‍🟩 sign and verify claims for the user
+- **sign a claim token containing any data you like.**  
+    > *you can pass [options.ts](./s/lib/core/alco/claim/types/options.ts) as 2nd param.*
     ```ts
-    const token = user.signClaim({myAction: "writePost", myPost: "hello"})
+    const token = user.signClaim({myAction: "getMyInfo"})
     ```
 - **verify a claim token serverside or elsewhere.** *(note the import path)*  
-    > *you can pass [claim/verifications.ts](./s/lib/core/alco/claim/verifications.ts) as 2nd param.*
+    > *see more options in [claim/verifications.ts](./s/lib/core/alco/claim/types/verifications.ts).*
     ```ts
     import {verifyClaim, address} from "@e280/authlocal/core"
 
     // we verify that the data was signed by a valid delegate
-    const claim = verifyClaim(token, {
+    const {claim, proof} = verifyClaim(token, {
 
       // your frontend app origin (required)
       allowedIssuers: ["https://app.e280.org"],
     })
 
-    console.log(claim.data)
-      // {myAction: "writePost", myPost: "hello"}
+    console.log(claim)
+      // {myAction: "getMyInfo"}
 
-    console.log(claim.proof.id)
+    console.log(proof.id) // user id
       // "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
 
-    console.log(address(claim.proof.id))
+    console.log(address(proof.id))
       // "calwak_curlex_H9Nts5YRurzidb8mQHkHH323mMT8d3oReimRzxeLgwRw"
     ```
 

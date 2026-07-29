@@ -6,7 +6,7 @@ import {tokenTime} from "../core/tok/token-time.js"
 import {decodeProof} from "../core/alco/proof/decode.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
 import {signClaim} from "../core/alco/claim/sign.js"
-import {ClaimOptions} from "../core/alco/claim/options.js"
+import {ClaimOptions} from "../core/alco/claim/types/options.js"
 
 export class User {
 	#proof

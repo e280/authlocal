@@ -207,7 +207,7 @@ export default suite({
 				allowedAudiences: [audience],
 				allowedIssuers: [appOrigin]
 			})
-			expect(claim.data).is(123)
+			expect(claim.claim).is(123)
 		}),
 	},
 })

@@ -1,16 +1,16 @@
 
 import {happy} from "@e280/stz"
-import {Payload} from "../../tok/types.js"
 import {consts} from "../../../../consts.js"
-import {Claim, ClaimSource} from "./types.js"
 import {verifyProof} from "../proof/verify.js"
 import {TokenErr} from "../../errs/token-err.js"
 import {tokenTime} from "../../tok/token-time.js"
 import {decodeToken} from "../../tok/decode-token.js"
 import {verifyToken} from "../../tok/verify-token.js"
-import {ClaimVerifications} from "./verifications.js"
+import {VerifiedClaimPayload} from "./types/verified.js"
+import {ClaimVerifications} from "./types/verifications.js"
+import {UnverifiedClaimPayload} from "./types/unverified.js"
 
-export function verifyClaim<X>(token: string, options: ClaimVerifications): Claim<X> {
+export function verifyClaim<X>(token: string, options: ClaimVerifications): VerifiedClaimPayload<X> {
 	const {
 		allowedIssuers,
 
@@ -23,10 +23,7 @@ export function verifyClaim<X>(token: string, options: ClaimVerifications): Clai
 		allowedPurposes = [consts.purposes.auth],
 	} = options
 
-	type CPay = Payload<{claim: ClaimSource<X>}>
-
-	const claimDecoded = decodeToken<CPay>(token).payload
-	const {proofToken} = claimDecoded.claim
+	const claimDecoded = decodeToken<UnverifiedClaimPayload<X>>(token).payload
 
 	const claimIssuedAt = happy(claimDecoded.iat)
 		? tokenTime.toMs(claimDecoded.iat)
@@ -35,7 +32,7 @@ export function verifyClaim<X>(token: string, options: ClaimVerifications): Clai
 	if (!happy(claimIssuedAt))
 		throw new TokenErr(`iat required`)
 	
-	const proof = verifyProof(proofToken, {
+	const proof = verifyProof(claimDecoded.proofToken, {
 		maxAge: maxProofAge,
 		allowedPurposes,
 		allowedScopes,
@@ -48,12 +45,12 @@ export function verifyClaim<X>(token: string, options: ClaimVerifications): Clai
 		allowedAudiences: allowedIssuers,
 	})
 
-	const {claim} = verifyToken<CPay>(proof.delegateId, token, {
+	const payload = verifyToken<UnverifiedClaimPayload<X>>(proof.delegateId, token, {
 		atTime,
 		maxAge,
 		allowedAudiences,
 	})
 
-	return {proof, data: claim.data}
+	return {proof, claim: payload.claim}
 }
 
