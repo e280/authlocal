@@ -12,12 +12,12 @@ manage identities on your device any time at [authlocal.org](https://authlocal.o
 &nbsp; 🥷 **pseudonymous.** no need for personal information.  
 &nbsp; 💖 **free and open-source.** protocol, not product.  
 
+**own your identity.**  
+each identity is recoverable from a permanent seed code.  
+don't lose it. don't share it. it's yours, *forever.*  
+
 **websites never see your seed code.**  
 they only see crypto-proof of the identity you selected.  
-
-**own your identity.**  
-each identity is recoverable from a secret 18-word seed code.  
-don't lose it. don't share it. it's yours, *forever.*  
 
 > *"keep it secret. keep it safe."*  
 > &nbsp; &nbsp; *— gandalf, fellowship of the ring*
@@ -138,7 +138,7 @@ don't lose it. don't share it. it's yours, *forever.*
 ### 🫐 why not passkeys?
 - unlike passkeys, authlocal lets you see your seed. you can put it on paper.
 - passkeys have a pairwise design with separate credentials for each app. instead, authlocal lets users carry a stable identity across apps. it's a tradeoff.
-- as a potential future feature, authlocal might even use passkeys as one way to recover identities.
+- in the future, authlocal might use passkeys as another way to recover identities.
 
 
 
