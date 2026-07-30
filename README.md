@@ -3,21 +3,21 @@
 
 # 🔐 https://authlocal.org/
 
-**any website can ask you to sign-in via authlocal.**  
-manage identities on your device any time at [authlocal.org](https://authlocal.org/)  
+**any website can ask you to sign-in with authlocal.**  
+manage identities on your device any time at [authlocal.org](https://authlocal.org/).  
 
 &nbsp; 🔑 **cryptographic.** passwordless, emailless, provable.  
 &nbsp; 🗽 **user-sovereign.** copy your keys as you wish.  
-&nbsp; 🏡 **local-only.** keys live on your device.  
-&nbsp; 🥷 **pseudonymous.** stable identity across apps.  
-&nbsp; ✍️ **artisanal.** thoughtfully handcrafted by a human.  
+&nbsp; 🏡 **local-only.** fully clientside, keys live on your device.  
+&nbsp; 🥷 **pseudonymous.** no need for personal information.  
 &nbsp; 💖 **free and open-source.** protocol, not product.  
 
-**own your identity.**  
-your identity begins with a permanent seed key. don't lose it. don't share it. it's yours, forever.
+**websites never see your seed code.**  
+they only see crypto-proof of the identity you selected.  
 
-**websites never see your seed key.**  
-when you sign into a website with authlocal, that website receives cryptographic proof of the identity you selected.
+**own your identity.**  
+each identity is recoverable from a secret 18-word seed code.  
+don't lose it. don't share it. it's yours, *forever.*  
 
 > *"keep it secret. keep it safe."*  
 > &nbsp; &nbsp; *— gandalf, fellowship of the ring*
@@ -42,7 +42,7 @@ when you sign into a website with authlocal, that website receives cryptographic
     ```ts
     const auth = new Auth()
     ```
-1. **react to user session changes.** *(see [user.ts](./s/lib/protocol/user.ts))*  
+1. **react to user session changes.** *(see [user.ts](./s/lib/protocol/user.ts))*
     > *`auth.user` is also compatible with [@e280/strata](https://github.com/e280/strata) effects.*
     ```ts
     auth.on(user => console.log(
@@ -64,28 +64,29 @@ when you sign into a website with authlocal, that website receives cryptographic
     await auth.logout()
     ```
 
-### 🍋‍🟩 perform end-to-end encryption for the user
-- **encrypt.**
+### 🍋‍🟩 end-to-end encryption for the user
+- **[encrypt.ts](./s/lib/core/cryp/encrypt.ts)**
     ```ts
-    const ciphertext = user.encrypt(
-      new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF])
-    )
+    const original = new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF])
     ```
-- **decrypt.**
+    ```ts
+    const ciphertext = user.encrypt(original)
+    ```
+- **[decrypt.ts](./s/lib/core/cryp/decrypt.ts)**
     ```ts
     const cleartext = user.decrypt(ciphertext)
     ```
 
 ### 🍋‍🟩 sign and verify claims for the user
-- **sign a claim token containing any data you like.**  
+- **sign a claim token, containing any data you like.**
     > *you can pass [options.ts](./s/lib/core/alco/claim/types/options.ts) as 2nd param.*
     ```ts
     const token = user.signClaim({myAction: "getMyInfo"})
     ```
-- **verify a claim token serverside or elsewhere.** *(note the import path)*  
+- **verify a claim token, on your server or elsewhere.** *(note the import path)*
     > *see more options in [claim/verifications.ts](./s/lib/core/alco/claim/types/verifications.ts).*
     ```ts
-    import {verifyClaim, address} from "@e280/authlocal/core"
+    import {verifyClaim} from "@e280/authlocal/core"
 
     // we verify that the data was signed by a valid delegate
     const {claim, proof} = verifyClaim(token, {
@@ -101,11 +102,12 @@ when you sign into a website with authlocal, that website receives cryptographic
       // "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
     ```
 
-### 🍋‍🟩 use `address` for friendly names
+### 🍋‍🟩 `address` for friendly names
 - **`address(id)`** -- encode a user id hex into a friendly format.
     ```ts
     import {address} from "@e280/authlocal"
-
+    ```
+    ```ts
     address("efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6")
       // "calwak_curlex_H9Nts5YRurzidb8mQHkHH323mMT8d3oReimRzxeLgwRw"
     ```
@@ -120,16 +122,22 @@ when you sign into a website with authlocal, that website receives cryptographic
 
 ## 🔐 questions and answers
 
-### 🫐 what's really going on under the hood?
-- your site opens a popup to authlocal and asks for "delegates", which are signed by the user identity's secret key.
-- a delegate is a new keypair that comes with a "proof" token which proves that the delegate was signed by the user secret. a delegate can sign new "claim" tokens on behalf of the user, which have a verifiable chain-of-custody back to the user secret.
-- in a standard login flow, your site asks for two delegates: one ephemeral "auth" delegate that expires in 30 days, and one stable "crypt" delegate for end-to-end encryption. the "auth" delegate can be used to sign new claims for any data or request *(eg, "i am user abc123 and i want to write data to the server"),* which your server can verify.
+### 🫐 how local is authlocal?
+- https://authlocal.org/ is a fully-static clientside single-page application that operates without any remote services or databases.
+- despite being totally clientside, authlocal acts as a federated identity provider for third-party websites, communicating cross-origin via popup postmessage api.
 
-### 🫐 why not passkeys or pairwise?
-- we believe users *want* a simple "just works" experience where they have a stable identity across apps.
-- we want devs to weave an ecosystem of interoperable apps and services, eg, a messenger service that interoperates with a friends-list service, etc, without annoying account-linking flows.
-- passkeys are inherently pairwise and hostile to these goals -- however in the future we may be able to add a passkey-flow feature which unlocks an authlocal identity.
-- we let users decide whether they want to share an identity across apps, or not -- that's why they can create multiple identities.
+### 🫐 what's really going on, cryptographically?
+- authlocal depends on paul miller's [noble cryptography libraries](https://paulmillr.com/noble/).
+- every authlocal identity is an ed25519 keypair. we call the private key a `secret`, and the public key an `id`.
+- third-party websites open a popup to authlocal and ask for "delegates", which are ed25519 keypairs derived from the user's secret key (and also bound to the app origin and provided purpose and scope).
+- a delegate comes with a "proof" token signed by the user secret, which includes the user id and proves that the delegate is legitimate.
+- a delegate can sign new "claim" tokens on behalf of the user, which include the proof token, and thus have a verifiable chain-of-custody back to the user. claims can contain any arbitrary data *(such as a request like "read my private profile"),* which a third-party server can verify.
+- in the default standard login flow, websites ask for two delegates: one ephemeral "auth" delegate that expires in 30 days, and one stable "crypt" delegate with a secret for end-to-end encryption.
+
+### 🫐 why not passkeys?
+- unlike passkeys, authlocal lets you see your seed. you can put it on paper.
+- passkeys have a pairwise design with separate credentials for each app. instead, authlocal lets users carry a stable identity across apps. it's a tradeoff.
+- as a potential future feature, authlocal might even use passkeys as one way to recover identities.
 
 
 
