@@ -1,6 +1,6 @@
 
 import {Cubby} from "@e280/stz"
-import {Delegate} from "../core/alco/delegate/types.js"
+import {Session} from "./session.js"
 
 export type AuthOptions = {
 
@@ -12,15 +12,5 @@ export type AuthOptions = {
 
 	/** broadcast channel for cross-tab sync. */
 	broadcastChannel: BroadcastChannel
-}
-
-export type Session = {
-	auth: Delegate
-	crypt: Delegate
-}
-
-export type SessionOptions = {
-	expiresAt: number
-	cryptScope: string
 }
 

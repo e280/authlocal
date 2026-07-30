@@ -56,6 +56,7 @@ don't lose it. don't share it. it's yours, *forever.*
     await auth.remember()
     ```
 1. **perform a login flow with authlocal.** *(call from a button click)*
+    > *you can pass [session-options.ts](./s/lib/protocol/types/session-options.ts)*
     ```ts
     await auth.loginViaPopup()
     ```

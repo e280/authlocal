@@ -1,6 +1,6 @@
 
-import {Session} from "../types.js"
 import {consts} from "../../../consts.js"
+import {Session} from "../types/session.js"
 import {verifyDelegate} from "../../core/alco/delegate/verify.js"
 
 export function isSessionValid(

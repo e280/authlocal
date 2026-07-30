@@ -1,7 +1,8 @@
 
 import {Kv, StorageMagazine} from "@e280/kv"
 import {consts} from "../../../consts.js"
-import {AuthOptions, Session} from "../types.js"
+import {Session} from "../types/session.js"
+import {AuthOptions} from "../types/auth-options.js"
 
 export const defaultAuthOptions = (options: Partial<AuthOptions> = {}): AuthOptions => ({
 

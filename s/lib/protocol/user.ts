@@ -1,11 +1,11 @@
 
-import {Session} from "./types.js"
+import {Session} from "./types/session.js"
 import {encrypt} from "../core/cryp/encrypt.js"
 import {decrypt} from "../core/cryp/decrypt.js"
 import {tokenTime} from "../core/tok/token-time.js"
+import {signClaim} from "../core/alco/claim/sign.js"
 import {decodeProof} from "../core/alco/proof/decode.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
-import {signClaim} from "../core/alco/claim/sign.js"
 import {ClaimOptions} from "../core/alco/claim/types/options.js"
 
 export class User {
