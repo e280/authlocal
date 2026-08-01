@@ -24,7 +24,7 @@ export const Widget = shadow((auth: AuthLike, options?: Partial<SessionOptions>)
 			class=sign-in
 			@click="${() => auth.loginViaPopup(options)}">
 			${lockIcon}
-			<slot>Sign-in with <strong>Authlocal</strong></slot>
+			<slot></slot>
 		</button>
 	`
 

@@ -29,6 +29,7 @@ button {
 
 	font-size: 1em;
 	padding: var(--pad);
+	font-weight: bold;
 
 	cursor: pointer;
 	color: var(--fg);

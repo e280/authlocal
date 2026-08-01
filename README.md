@@ -74,7 +74,7 @@ they only see crypto-proof of the identity you selected.
     ```
     then you put this html on your page:
     ```html
-    <auth-widget></auth-widget>
+    <auth-widget>Sign in</auth-widget>
     ```
 
 ### 🍋‍🟩 end-to-end encryption for the user

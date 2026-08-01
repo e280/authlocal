@@ -1,4 +1,5 @@
 
+import {html} from "lit"
 import {got} from "@e280/stz"
 import {shadowElement, useAttrs} from "@e280/sly"
 
@@ -19,6 +20,9 @@ export class AuthCard extends shadowElement(() => {
 }) {}
 
 export function makeAuthWidget(auth: AuthLike, options?: Partial<SessionOptions>) {
-	return class AuthWidget extends shadowElement(() => Widget(auth, options)) {}
+	return class AuthWidget extends shadowElement(() => Widget.with({
+		props: [auth, options],
+		children: html`<slot></slot>`,
+	})) {}
 }
 
