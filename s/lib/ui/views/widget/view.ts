@@ -4,13 +4,13 @@ import {cssReset, shadow, useCss, useName} from "@e280/sly"
 
 import {Card} from "../card/view.js"
 import styleCss from "./style.css.js"
-import {Auth} from "../../../protocol/auth.js"
 import {User} from "../../../protocol/user.js"
 import lockIcon from "../../icons/tabler/lock.icon.js"
 import logoutIcon from "../../icons/tabler/logout.icon.js"
+import {AuthLike} from "../../../protocol/types/auth-like.js"
 import {SessionOptions} from "../../../protocol/types/session-options.js"
 
-export const Widget = shadow((auth: Auth, options?: Partial<SessionOptions>) => {
+export const Widget = shadow((auth: AuthLike, options?: Partial<SessionOptions>) => {
 	useName("widget")
 	useCss(cssReset, styleCss)
 	const {user} = auth

@@ -2,10 +2,10 @@
 import {got} from "@e280/stz"
 import {shadowElement, useAttrs} from "@e280/sly"
 
-import {Auth} from "../protocol/auth.js"
 import {Card} from "./views/card/view.js"
 import {Poster} from "./views/poster/view.js"
 import {Widget} from "./views/widget/view.js"
+import {AuthLike} from "../protocol/types/auth-like.js"
 import {SessionOptions} from "../protocol/types/session-options.js"
 
 export class AuthPoster extends shadowElement(() => {
@@ -18,7 +18,7 @@ export class AuthCard extends shadowElement(() => {
 	return Card({id: got(uid, ""), alias})
 }) {}
 
-export function makeAuthWidget(auth: Auth, options?: Partial<SessionOptions>) {
+export function makeAuthWidget(auth: AuthLike, options?: Partial<SessionOptions>) {
 	return class AuthWidget extends shadowElement(() => Widget(auth, options)) {}
 }
 

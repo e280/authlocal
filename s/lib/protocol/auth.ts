@@ -3,16 +3,17 @@ import {afterEffect, signal} from "@e280/strata"
 import {disposer, ev, nap, sub} from "@e280/stz"
 
 import {User} from "./user.js"
+import {AuthLike} from "./types/auth-like.js"
 import {openPopup} from "./parts/open-popup.js"
 import {AuthOptions} from "./types/auth-options.js"
 import {SessionOptions} from "./types/session-options.js"
 import {isSessionValid} from "./parts/is-session-valid.js"
 import {sessionPetitions} from "./parts/session-petitions.js"
-import {waitForDelegates} from "./parts/wait-for-delegates.js"
+import {askForDelegates} from "./parts/ask-for-delegates.js"
 import {defaultAuthOptions} from "./parts/default-auth-options.js"
 
 /** auth facility for logging in and out. */
-export class Auth {
+export class Auth implements AuthLike {
 	dispose = disposer()
 	on = sub<[User | null]>()
 	#options
@@ -69,7 +70,7 @@ export class Auth {
 		const delegatorOrigin = new URL(this.#options.delegatorUrl, window.location.href).origin
 
 		const popup = openPopup("auth", this.#options.delegatorUrl)
-		const [auth, crypt] = await waitForDelegates(popup, delegatorOrigin, petitions)
+		const [auth, crypt] = await askForDelegates(popup, delegatorOrigin, petitions)
 
 		const user = new User({auth, crypt})
 		await this.#options.sessionCubby.set(user.session)

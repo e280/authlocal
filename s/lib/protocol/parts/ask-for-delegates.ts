@@ -6,7 +6,7 @@ import {DelegatorApi} from "./types.js"
 import {consts} from "../../../consts.js"
 import {Delegate, Petition} from "../../core/alco/delegate/types.js"
 
-export async function waitForDelegates(
+export async function askForDelegates(
 		popup: Window,
 		delegatorOrigin: string,
 		petitions: Petition[],
