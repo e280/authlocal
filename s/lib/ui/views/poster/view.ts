@@ -6,15 +6,16 @@ import {addressColor} from "../../../core/ergo/address/color.js"
 import {addressEmoji} from "../../../core/ergo/address/emoji.js"
 import {addressMoniker} from "../../../core/ergo/address/moniker.js"
 
-export const Poster = shadow((id: string, alias?: string) => {
+export const Poster = shadow((user: {id: string, alias?: string}) => {
 	useName("id-poster")
 	useCss(cssReset, styleCss)
-	const color = `--color: ${addressColor(id)};`
+
+	const color = `--color: ${addressColor(user.id)};`
 
 	return html`
 		<div part=poster style="${color}">
-			<div class=icon>${addressEmoji(id)}</div>
-			<div class=alias>${alias || addressMoniker(id)}</div>
+			<div class=icon>${addressEmoji(user.id)}</div>
+			<div class=alias>${user.alias || addressMoniker(user.id)}</div>
 		</div>
 	`
 })

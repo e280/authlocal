@@ -8,12 +8,17 @@ export default template(import.meta.url, async orb => html`
 		<head>
 			${pageHead(orb, "authlocal demo")}
 			<script type="module" src="${orb.hashurl("demo.bundle.min.js")}"></script>
+			<style>
+				body {
+					display: flex;
+					flex-direction: column;
+					gap: 1em;
+				}
+			</style>
 		</head>
 		<body>
 			<h1>authlocal demo</h1>
-			<button class=login>login</button>
-			<button class=logout>logout</button>
-			<p class=session>--</p>
+			<div class=session></div>
 		</body>
 	</html>
 `)

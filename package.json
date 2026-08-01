@@ -13,7 +13,8 @@
 	"exports": {
 		".": "./x/lib/index.js",
 		"./core": "./x/lib/core/index.js",
-		"./protocol": "./x/lib/protocol/index.js"
+		"./protocol": "./x/lib/protocol/index.js",
+		"./ui": "./x/lib/ui/index.js"
 	},
 	"scripts": {
 		"link": "npm link ../strata ../sly ../shiny",

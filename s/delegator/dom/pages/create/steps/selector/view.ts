@@ -34,10 +34,10 @@ export const SelectorStep = shadow((options: {
 		return clickable
 			? html`
 				<button @click="${onClick}">
-					${Poster(id, alias)}
+					${Poster({id, alias})}
 				</button>
 			`
-			: Poster(id, alias)
+			: Poster({id, alias})
 	}
 
 	return html`

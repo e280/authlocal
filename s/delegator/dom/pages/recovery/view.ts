@@ -63,7 +63,7 @@ export const RecoveryPage = shadow((options: {
 			</div>
 
 			${identity
-				? Poster(deriveId(identity.secret), identity.alias)
+				? Poster({id: deriveId(identity.secret), alias: identity.alias})
 				: null}
 
 			<nav x-nav>

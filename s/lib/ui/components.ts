@@ -1,10 +1,24 @@
 
 import {got} from "@e280/stz"
 import {shadowElement, useAttrs} from "@e280/sly"
+
+import {Auth} from "../protocol/auth.js"
+import {Card} from "./views/card/view.js"
 import {Poster} from "./views/poster/view.js"
+import {Widget} from "./views/widget/view.js"
+import {SessionOptions} from "../protocol/types/session-options.js"
 
 export class AuthPoster extends shadowElement(() => {
-	const attrs = useAttrs({"hexid": String, "alias": String})
-	return Poster(got(attrs.hexid, ""), attrs.alias)
+	const {uid, alias} = useAttrs({uid: String, alias: String})
+	return Poster({id: got(uid, ""), alias})
 }) {}
+
+export class AuthCard extends shadowElement(() => {
+	const {uid, alias} = useAttrs({uid: String, alias: String})
+	return Card({id: got(uid, ""), alias})
+}) {}
+
+export function makeAuthWidget(auth: Auth, options?: Partial<SessionOptions>) {
+	return class AuthWidget extends shadowElement(() => Widget(auth, options)) {}
+}
 
