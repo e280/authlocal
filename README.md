@@ -27,7 +27,7 @@ they only see crypto-proof of the identity you selected.
 <br/><br/>
 
 ## 🔐 installation for web developers
-> *visit https://authlocal.org/demo/ to see what the authlocal popup looks like.*
+> *see the https://authlocal.org/demo/*
 
 ### 🍋‍🟩 basic logins for your website
 1. **install and import `@e280/authlocal`.**
@@ -37,13 +37,15 @@ they only see crypto-proof of the identity you selected.
     ```ts
     import {Auth} from "@e280/authlocal"
     ```
-1. **create the auth facility.** *(see [auth.ts](./s/lib/protocol/auth.ts))*
-    > *see options at [default-auth-options.ts](./s/lib/protocol/parts/default-auth-options.ts)*
+1. **create the auth facility.**
+    > *see [auth.ts](./s/lib/protocol/auth.ts).*  
+    > *see [default-auth-options.ts](./s/lib/protocol/parts/default-auth-options.ts).*  
     ```ts
     const auth = new Auth()
     ```
-1. **react to user session changes.** *(see [user.ts](./s/lib/protocol/user.ts))*
-    > *`auth.user` is also compatible with [@e280/strata](https://github.com/e280/strata) effects.*
+1. **react to user session changes.**
+    > *see [user.ts](./s/lib/protocol/user.ts).*  
+    > *`auth.user` is compatible with [@e280/strata](https://github.com/e280/strata).*  
     ```ts
     auth.on(user => console.log(
       user
@@ -55,8 +57,9 @@ they only see crypto-proof of the identity you selected.
     ```ts
     await auth.remember()
     ```
-1. **perform a login flow with authlocal.** *(call from a button click)*
-    > *you can pass [session-options.ts](./s/lib/protocol/types/session-options.ts)*
+1. **perform a login flow with authlocal.**
+    > *call this from a button click, or you'll get popup blocked.*  
+    > *see [session-options.ts](./s/lib/protocol/types/session-options.ts).*  
     ```ts
     await auth.loginViaPopup()
     ```
@@ -67,6 +70,8 @@ they only see crypto-proof of the identity you selected.
 
 ### 🍋‍🟩 web components
 - **the widget has a little login/logout ux, if you like.**
+    > *it's the widget you see at https://authlocal.org/demo/*  
+    > *[@e280/sly](https://github.com/e280/sly) view exported as `Widget`.*  
     ```ts
     import {makeAuthWidget} from "@e280/authlocal"
 
@@ -92,12 +97,12 @@ they only see crypto-proof of the identity you selected.
 
 ### 🍋‍🟩 sign and verify claims for the user
 - **sign a claim token, containing any data you like.**
-    > *you can pass [options.ts](./s/lib/core/alco/claim/types/options.ts) as 2nd param.*
+    > *see [options.ts](./s/lib/core/alco/claim/types/options.ts).*
     ```ts
     const token = user.signClaim({myAction: "getMyInfo"})
     ```
 - **verify a claim token, on your server or elsewhere.** *(note the import path)*
-    > *see more options in [claim/verifications.ts](./s/lib/core/alco/claim/types/verifications.ts).*
+    > *see [claim/verifications.ts](./s/lib/core/alco/claim/types/verifications.ts).*
     ```ts
     import {verifyClaim} from "@e280/authlocal/core"
 
