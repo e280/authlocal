@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {shadow, useCss, useName} from "@e280/sly"
+import {shadow, shadowElement, useCss, useName} from "@e280/sly"
 
 import {Card} from "../card/view.js"
 import styleCss from "./style.css.js"
@@ -12,7 +12,7 @@ import {AuthLike} from "../../../protocol/types/auth-like.js"
 import {addressColor} from "../../../core/ergo/address/color.js"
 import {SessionOptions} from "../../../protocol/types/session-options.js"
 
-export const Widget = shadow((auth: AuthLike, options?: Partial<SessionOptions>) => {
+const renderWidget = (auth: AuthLike, options?: Partial<SessionOptions>) => {
 	useName("widget")
 	useCss(uitheme, styleCss)
 
@@ -45,5 +45,8 @@ export const Widget = shadow((auth: AuthLike, options?: Partial<SessionOptions>)
 				: renderSignIn()}
 		</div>
 	`
-})
+}
+
+export const Widget = shadow(renderWidget)
+export const makeAuthWidget = (auth: AuthLike, options?: Partial<SessionOptions>) => shadowElement(() => renderWidget(auth, options))
 
