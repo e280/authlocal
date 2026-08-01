@@ -3,22 +3,22 @@ import {css} from "lit"
 export default css`
 
 [part="card"] {
+	--fg: var(--color);
+	--bg: #222;
+
 	display: flex;
 	align-items: center;
 	flex-direction: row;
 
-	width: max-content;
-	max-width: 16em;
 	gap: var(--pad);
 	padding: var(--pad);
 	border-radius: var(--round);
 
-	color: var(--color);
-	border: 0.2em solid var(--color);
+	color: var(--fg);
+	border: var(--lines) solid color-mix(in oklch, var(--bg), var(--fg) 50%);
 
-	background: color-mix(in oklch, transparent, var(--color) 12%);
+	background: color-mix(in oklch, transparent, var(--bg) 20%);
 	backdrop-filter: blur(0.4em);
-	box-shadow: 0 0 1.5em color-mix(in oklch, transparent, var(--color) 40%);
 
 	[part="icon"] {
 		transform: scale(150%);

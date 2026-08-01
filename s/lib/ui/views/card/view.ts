@@ -1,8 +1,9 @@
 
 import {html} from "lit"
 import {ShinyCopy} from "@e280/shiny"
-import {cssReset, shadow, useCss, useName} from "@e280/sly"
+import {shadow, useCss, useName} from "@e280/sly"
 import styleCss from "./style.css.js"
+import uitheme from "../../uitheme.js"
 import {address} from "../../../core/ergo/address/address.js"
 import {addressColor} from "../../../core/ergo/address/color.js"
 import {addressEmoji} from "../../../core/ergo/address/emoji.js"
@@ -10,7 +11,7 @@ import {addressMoniker} from "../../../core/ergo/address/moniker.js"
 
 export const Card = shadow((user: {id: string, alias?: string}) => {
 	useName("card")
-	useCss(cssReset, styleCss)
+	useCss(uitheme, styleCss)
 
 	const addr = address(user.id)
 	const color = `--color: ${addressColor(user.id)};`

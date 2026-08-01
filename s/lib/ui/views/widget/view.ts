@@ -1,25 +1,30 @@
 
 import {html} from "lit"
-import {cssReset, shadow, useCss, useName} from "@e280/sly"
+import {shadow, useCss, useName} from "@e280/sly"
 
 import {Card} from "../card/view.js"
 import styleCss from "./style.css.js"
+import uitheme from "../../uitheme.js"
 import {User} from "../../../protocol/user.js"
 import lockIcon from "../../icons/tabler/lock.icon.js"
 import logoutIcon from "../../icons/tabler/logout.icon.js"
 import {AuthLike} from "../../../protocol/types/auth-like.js"
+import {addressColor} from "../../../core/ergo/address/color.js"
 import {SessionOptions} from "../../../protocol/types/session-options.js"
 
 export const Widget = shadow((auth: AuthLike, options?: Partial<SessionOptions>) => {
 	useName("widget")
-	useCss(cssReset, styleCss)
+	useCss(uitheme, styleCss)
+
 	const {user} = auth
+	const color = user ? `--color: ${addressColor(user.id)};` : ``
 
 	const renderSignIn = () => html`
 		<button
 			class=sign-in
 			@click="${() => auth.loginViaPopup(options)}">
-			<strong>${lockIcon}</strong> Sign-in with <strong>Authlocal</strong>
+			${lockIcon}
+			<slot>Sign-in with <strong>Authlocal</strong></slot>
 		</button>
 	`
 
@@ -34,7 +39,7 @@ export const Widget = shadow((auth: AuthLike, options?: Partial<SessionOptions>)
 	`
 
 	return html`
-		<div part=box>
+		<div part=box style="${color}">
 			${user
 				? renderUser(user)
 				: renderSignIn()}
