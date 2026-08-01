@@ -1,6 +1,6 @@
 {
 	"name": "@e280/authlocal",
-	"version": "0.3.0-11",
+	"version": "0.3.0-12",
 	"description": "user-sovereign auth",
 	"license": "MIT",
 	"main": "./x/lib/index.js",
