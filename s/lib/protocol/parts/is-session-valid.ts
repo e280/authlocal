@@ -21,7 +21,8 @@ export function isSessionValid(
 
 		return auth.proof.id === crypt.proof.id
 	}
-	catch {
+	catch (error) {
+		console.error(error)
 		return false
 	}
 }
