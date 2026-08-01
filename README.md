@@ -65,6 +65,18 @@ they only see crypto-proof of the identity you selected.
     await auth.logout()
     ```
 
+### 🍋‍🟩 web components
+- **the widget has a little login/logout ux, if you like.**
+    ```ts
+    import {makeAuthWidget} from "@e280/authlocal"
+
+    customElements.define("auth-widget", makeAuthWidget(auth))
+    ```
+    then you put this html on your page:
+    ```html
+    <auth-widget></auth-widget>
+    ```
+
 ### 🍋‍🟩 end-to-end encryption for the user
 - **[encrypt.ts](./s/lib/core/cryp/encrypt.ts)**
     ```ts
@@ -116,6 +128,19 @@ they only see crypto-proof of the identity you selected.
 - **`addressEmoji(id)`** -- derive a friendly emoji from a user id.
 - **`addressColor(id)`** -- derive a css color string from a user id.
 - **`addressMoniker(id)`** -- get the first part of the address.
+
+### 🍋‍🟩 mocks for testing
+- **produce a mock auth facility that generates a random fake user.**
+    ```ts
+    import {MockAuth, mockUser, mockOrigin} from "@e280/authlocal"
+    ```
+    ```ts
+    const auth = new MockAuth()
+    await auth.loginViaPopup()
+    ```
+    - `MockAuth` doesn't touch localstorage etc.
+    - `mockUser` generates a fake user.
+    - `mockOrigin` is the string `"https://e280.org"`.
 
 
 
