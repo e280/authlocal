@@ -6,8 +6,9 @@ export default css`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	width: max-content;
 	gap: 0.25em;
+	width: max-content;
+	max-width: 100%;
 }
 
 [view="card"] {
@@ -18,9 +19,9 @@ export default css`
 button {
 	--fg: #aaa;
 	--bg: #222;
-	--color0: color-mix(in oklch, var(--bg), var(--fg) 70%);
-	--color1: color-mix(in oklch, var(--bg), var(--fg));
-	--color2: color-mix(in oklch, var(--bg), var(--fg) 20%);
+	--color0: color-mix(in oklch, transparent, var(--fg) 40%);
+	--color1: color-mix(in oklch, transparent, var(--fg) 40%);
+	--color2: color-mix(in oklch, transparent, var(--bg) 40%);
 
 	display: inline-flex;
 	justify-content: center;
@@ -71,10 +72,6 @@ button {
 
 		&::before {
 			content: "\\200b";
-		}
-
-		&:is(:hover, :focus-visible) {
-			--fg: #c88;
 		}
 	}
 }

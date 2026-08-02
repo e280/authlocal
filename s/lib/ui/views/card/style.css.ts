@@ -4,7 +4,6 @@ export default css`
 
 [part="card"] {
 	--fg: var(--color);
-	--bg: #222;
 
 	display: flex;
 	align-items: center;
@@ -15,9 +14,9 @@ export default css`
 	border-radius: var(--round);
 
 	color: var(--fg);
-	border: var(--lines) solid color-mix(in oklch, var(--bg), var(--fg) 50%);
+	border: var(--lines) solid color-mix(in oklch, transparent, var(--fg) 25%);
 
-	background: color-mix(in oklch, transparent, var(--bg) 20%);
+	background: color-mix(in oklch, transparent, var(--fg) 10%);
 	backdrop-filter: blur(0.4em);
 
 	[part="icon"] {
