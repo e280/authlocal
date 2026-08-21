@@ -26,24 +26,24 @@
 		"examples": "node x/lib/examples.js"
 	},
 	"allowScripts": {
-		"esbuild@0.28.1": true
+		"esbuild@0.28.2": true
 	},
 	"dependencies": {
 		"@awasm/noble": "^0.1.4",
-		"@e280/kv": "0.2.0-8",
-		"@e280/renraku": "0.6.0-5",
+		"@e280/kv": "0.2.0",
+		"@e280/renraku": "^0.6.0-6",
 		"@e280/shiny": "0.1.0-22",
-		"@e280/sly": "^0.4.4",
-		"@e280/strata": "^0.4.3",
-		"@e280/stz": "^0.3.9",
-		"@noble/curves": "^2.2.0",
+		"@e280/sly": "^0.4.6",
+		"@e280/strata": "^0.4.4",
+		"@e280/stz": "^0.3.10",
+		"@noble/curves": "^2.3.0",
 		"lit": "^3.3.3"
 	},
 	"devDependencies": {
-		"@e280/hottie": "^0.1.4",
-		"@e280/octo": "^0.1.4",
-		"@e280/science": "^0.1.11",
-		"@e280/scute": "^0.5.0",
+		"@e280/hottie": "^0.1.5",
+		"@e280/octo": "^0.1.5",
+		"@e280/science": "^0.1.12",
+		"@e280/scute": "^0.5.1",
 		"http-server": "^14.1.1",
 		"typescript": "^7.0.2"
 	},
