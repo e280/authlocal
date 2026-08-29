@@ -47,11 +47,10 @@ they only see crypto-proof of the identity you selected.
     > *see [user.ts](./s/lib/protocol/user.ts).*  
     > *`auth.user` is compatible with [@e280/strata](https://github.com/e280/strata).*  
     ```ts
-    auth.on(user => console.log(
-      user
-        ? `logged in: ${user.id}`
-        : `logged out`
-    ))
+    auth.on(user => {
+      if (user) console.log("logged in", user.id)
+      else console.log("logged out")
+    })
     ```
 1. **start by remembering a previous user session.**
     ```ts
