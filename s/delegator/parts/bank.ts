@@ -16,7 +16,7 @@ export class Bank {
 		const kv = new Kv(magazine)
 		const bank = new Bank(kv, () => channel.postMessage(Date.now()))
 		await bank.load()
-		channel.onmessage = () => nap().then(() => bank.load())
+		channel.onmessage = () => nap(consts.broadcastReloadDelay).then(() => bank.load())
 		return bank
 	}
 

@@ -3,6 +3,7 @@ import {afterEffect, signal} from "@e280/strata"
 import {disposer, ev, nap, sub} from "@e280/stz"
 
 import {User} from "./user.js"
+import {consts} from "../../consts.js"
 import {AuthLike} from "./types/auth-like.js"
 import {openPopup} from "./parts/open-popup.js"
 import {AuthOptions} from "./types/auth-options.js"
@@ -24,7 +25,7 @@ export class Auth implements AuthLike {
 
 		this.dispose.schedule(
 			ev(this.#options.broadcastChannel, {
-				message: () => nap().then(() => this.remember())
+				message: () => nap(consts.broadcastReloadDelay).then(() => this.remember())
 			})
 		)
 

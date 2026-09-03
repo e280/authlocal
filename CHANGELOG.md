@@ -10,6 +10,9 @@
 
 ## v0.3
 
+### v0.3.1
+- 🍏 fix firefox auth state sync across windows, by adding a 100ms `consts.broadcastReloadDelay`
+
 ### v0.3.0
 - 🟥 total rewrite. everything's changed.
 

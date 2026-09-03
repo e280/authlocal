@@ -10,5 +10,6 @@ export const consts = deep.freeze({
 	standardCryptScope: "",
 	maxAliasLength: 32,
 	enableDelegationLog: false,
+	broadcastReloadDelay: 100,
 })
 
