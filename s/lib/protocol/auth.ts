@@ -64,9 +64,6 @@ export class Auth implements AuthLike {
 
 	/** ask for a new login from the delegator */
 	async loginViaPopup(options: Partial<SessionOptions> = {}) {
-		if (window.crossOriginIsolated)
-			throw new Error("popup flow prohibited by window.crossOriginIsolated")
-
 		const petitions = sessionPetitions(options)
 		const delegatorOrigin = new URL(this.#options.delegatorUrl, window.location.href).origin
 
