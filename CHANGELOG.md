@@ -10,6 +10,12 @@
 
 ## v0.3
 
+### v0.3.3
+- 🍏 fix auth-widget emoji icon layout and scaling
+
+### v0.3.2
+- 🍏 allow login popup on pages that have `window.crossOriginIsolated` to support pages with document isolation policy
+
 ### v0.3.1
 - 🍏 fix firefox auth state sync across windows, by adding a 100ms `consts.broadcastReloadDelay`
 
