@@ -10,6 +10,9 @@
 
 ## v0.3
 
+### v0.3.4
+- 🍏 add stable scrollbar gutters on authlocal.org
+
 ### v0.3.3
 - 🍏 fix auth-widget emoji icon layout and scaling
 
