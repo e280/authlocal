@@ -10,6 +10,7 @@
 
 	:root {
 		color-scheme: dark;
+		scrollbar-gutter: stable;
 	}
 
 	::selection {
