@@ -20,7 +20,13 @@ export default css`
 	backdrop-filter: blur(0.4em);
 
 	[part="icon"] {
-		transform: scale(150%);
+		font-size: 2em;
+		width: 1.5em;
+		height: 1.5em;
+		display: grid;
+		place-items: center;
+		margin: -0.3em;
+		margin-left: 0;
 	}
 
 	[part="alias"] {
