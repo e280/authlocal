@@ -10,6 +10,10 @@
 
 ## v0.3
 
+### v0.3.5
+- 🍏 fix login popup kb accessibility
+- 🍏 tweak auth widget layout
+
 ### v0.3.4
 - 🍏 add stable scrollbar gutters on authlocal.org
 
