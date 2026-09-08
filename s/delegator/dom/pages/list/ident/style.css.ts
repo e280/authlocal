@@ -8,6 +8,9 @@ export default css`
 }
 
 [part="card"] {
+	display: block;
+	width: 100%;
+
 	--color: #abc;
 
 	overflow: hidden;

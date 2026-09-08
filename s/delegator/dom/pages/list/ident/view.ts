@@ -23,6 +23,7 @@ export const Ident = shadow((options: {
 	useName("ident")
 	useCss(theme(), styleCss)
 
+	const {onClickCard} = options
 	const {alias} = options.identity
 	const id = deriveId(options.identity.secret)
 	const addr = address(id)
@@ -31,24 +32,35 @@ export const Ident = shadow((options: {
 	const [first, second] = addr.split("_")
 	const shadow = useShadow()
 
-	function onClick(event: PointerEvent) {
-		if (!options.onClickCard) return
+	const onClick = onClickCard && ((event: PointerEvent) => {
 		const ignores = dom.all("[data-no-click]", shadow)
 		const bad = ignores.some(ignore => event.composedPath().includes(ignore))
 		if (bad) return
-		options.onClickCard()
-	}
+		onClickCard()
+	})
+
+	const cardContent = html`
+		<div part=icon>${addressEmoji(id)}</div>
+		<div part=name>
+			<div part=alias>${alias || short}</div>
+		</div>
+	`
 
 	return html`
-		<div part=card style="${color}" @click="${onClick}" ?data-clickable="${!!options.onClickCard}">
-			<div part=icon>${addressEmoji(id)}</div>
-
-			<div part=name>
-				<div part=alias>${alias || short}</div>
+		${onClick ? html`
+			<button
+				part=card
+				style="${color}"
+				@click="${onClick}"
+				?data-clickable="${!!onClick}"
+				tabindex="0">
+				${cardContent}
+			</button>
+		` : html`
+			<div part=card style="${color}">
+				${cardContent}
 			</div>
-
-			<slot name=buttons data-no-click></slot>
-		</div>
+		`}
 
 		<slot style="${color}"></slot>
 
