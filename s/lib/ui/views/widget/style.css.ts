@@ -5,7 +5,7 @@ export default css`
 [part="box"] {
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+	align-items: stretch;
 	gap: 0.25em;
 	width: max-content;
 	max-width: 100%;
