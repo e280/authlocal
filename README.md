@@ -3,7 +3,7 @@
 
 # 🔐 https://authlocal.org/
 
-**any website can ask you to sign-in with authlocal.**  
+**any website can ask you to sign-in via authlocal.**  
 manage identities on your device any time at [authlocal.org](https://authlocal.org/).  
 
 &nbsp; 🔑 **cryptographic.** passwordless, emailless, provable.  
@@ -16,8 +16,8 @@ manage identities on your device any time at [authlocal.org](https://authlocal.o
 each identity is recoverable from a permanent seed code.  
 don't lose it. don't share it. it's yours, *forever.*  
 
-**websites never see your seed code.**  
-they only see crypto-proof of the identity you selected.  
+**other websites never see your seed code.**  
+when you sign-in, they only see crypto-proof of your selected identity.  
 
 > *"keep it secret. keep it safe."*  
 > &nbsp; &nbsp; *— gandalf, fellowship of the ring*
