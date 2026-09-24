@@ -26,7 +26,7 @@ export const TextInput = shadow((options: {
 		options.debounceMs ?? 100,
 		(value: string) => {
 			const m = options.validator(value)
-			$problems(maybe.problems(m))
+			$problems(maybe.getProblems(m))
 			options.on(m)
 		},
 	))
