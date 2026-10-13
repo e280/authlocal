@@ -51,6 +51,10 @@ export function verifyClaim<X>(token: string, options: ClaimVerifications): Veri
 		allowedAudiences,
 	})
 
-	return {proof, claim: payload.claim}
+	return {
+		proof,
+		claim: payload.claim,
+		proofToken: payload.proofToken,
+	}
 }
 

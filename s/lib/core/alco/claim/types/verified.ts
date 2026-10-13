@@ -5,5 +5,6 @@ import {Proof} from "../../proof/types.js"
 export type VerifiedClaimPayload<X> = {
 	claim: X
 	proof: Proof
+	proofToken: string
 }
 
