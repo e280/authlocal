@@ -1,5 +1,5 @@
 
-import {happy, hex} from "@e280/stz"
+import {isHappy, hex} from "@e280/stz"
 import {Secret} from "../../cryp/types.js"
 import {ClaimOptions} from "./types/options.js"
 import {signToken} from "../../tok/sign-token.js"
@@ -20,7 +20,7 @@ export function signClaim<X>(
 		jti: hex.random(16),
 		iat: tokenTime.at(atTime),
 		aud: audience,
-		exp: happy(expiresAt)
+		exp: isHappy(expiresAt)
 			? tokenTime.at(expiresAt)
 			: undefined,
 	})

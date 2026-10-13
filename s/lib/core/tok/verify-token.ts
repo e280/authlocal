@@ -1,5 +1,5 @@
 
-import {happy} from "@e280/stz"
+import {isHappy} from "@e280/stz"
 import {Id} from "../cryp/types.js"
 import {tokenTime} from "./token-time.js"
 import {TokenErr} from "../errs/token-err.js"
@@ -29,13 +29,13 @@ export function verifyToken<P extends Payload>(
 	if (!verifyBytes(id, signingBytes, signature))
 		throw new TokenErr(`bad signature`)
 
-	if (happy(payload.exp)) {
+	if (isHappy(payload.exp)) {
 		const expiresAt = tokenTime.toMs(payload.exp)
 		if (atTime >= expiresAt)
 			throw new TokenErr(`expired`)
 	}
 
-	if (happy(payload.nbf)) {
+	if (isHappy(payload.nbf)) {
 		const notBefore = tokenTime.toMs(payload.nbf)
 		if (atTime < notBefore)
 			throw new TokenErr(`too soon for nbf`)

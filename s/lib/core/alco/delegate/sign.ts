@@ -1,15 +1,15 @@
 
-import {happy, hex} from "@e280/stz"
+import {isHappy, hex} from "@e280/stz"
 import {Proof} from "../proof/types.js"
 import {hash} from "../../cryp/hash.js"
 import {Secret} from "../../cryp/types.js"
 import {Payload} from "../../tok/types.js"
+import {consts} from "../../../../consts.js"
 import {Delegate, Petition} from "./types.js"
 import {deriveId} from "../../cryp/derive-id.js"
 import {signToken} from "../../tok/sign-token.js"
 import {tokenTime} from "../../tok/token-time.js"
 import {deriveSecret} from "../../cryp/derive-secret.js"
-import { consts } from "../../../../consts.js"
 
 export function signDelegate(secret: Secret, {
 		alias, petition, audience, issuer, atTime = Date.now(),
@@ -46,7 +46,7 @@ export function signDelegate(secret: Secret, {
 		iat: tokenTime.at(atTime),
 		iss: issuer,
 		aud: audience,
-		exp: happy(expiresAt)
+		exp: isHappy(expiresAt)
 			? tokenTime.at(expiresAt)
 			: undefined,
 	})

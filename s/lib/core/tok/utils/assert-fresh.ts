@@ -1,5 +1,5 @@
 
-import {happy} from "@e280/stz"
+import {isHappy} from "@e280/stz"
 import {Payload} from "../types.js"
 import {tokenTime} from "../token-time.js"
 import {TokenErr} from "../../errs/token-err.js"
@@ -8,7 +8,7 @@ export function assertFresh<P extends Payload>(payload: P, atTime: number, maxAg
 	if (maxAge === undefined)
 		return payload
 
-	if (!happy(payload.iat))
+	if (!isHappy(payload.iat))
 		throw new TokenErr(`iat required`)
 
 	const issuedAt = tokenTime.toMs(payload.iat)

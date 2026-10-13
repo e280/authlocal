@@ -1,5 +1,5 @@
 
-import {happy} from "@e280/stz"
+import {isHappy} from "@e280/stz"
 import {consts} from "../../../../consts.js"
 import {verifyProof} from "../proof/verify.js"
 import {TokenErr} from "../../errs/token-err.js"
@@ -25,11 +25,11 @@ export function verifyClaim<X>(token: string, options: ClaimVerifications): Veri
 
 	const claimDecoded = decodeToken<UnverifiedClaimPayload<X>>(token).payload
 
-	const claimIssuedAt = happy(claimDecoded.iat)
+	const claimIssuedAt = isHappy(claimDecoded.iat)
 		? tokenTime.toMs(claimDecoded.iat)
 		: undefined
 
-	if (!happy(claimIssuedAt))
+	if (!isHappy(claimIssuedAt))
 		throw new TokenErr(`iat required`)
 	
 	const proof = verifyProof(claimDecoded.proofToken, {

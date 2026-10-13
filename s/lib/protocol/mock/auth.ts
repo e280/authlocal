@@ -1,6 +1,6 @@
 
+import {subby} from "@e280/stz"
 import {signal} from "@e280/strata"
-import {disposer, sub} from "@e280/stz"
 
 import {User} from "../user.js"
 import {mockUser} from "./user.js"
@@ -11,11 +11,14 @@ import {isSessionValid} from "../parts/is-session-valid.js"
 import {generateSecret} from "../../core/cryp/generate-secret.js"
 
 export class MockAuth implements AuthLike {
-	dispose = disposer()
-	on = sub<[User | null]>()
+	#sub = subby<[User | null]>()
 	#$user = signal<User | null>(null)
 
 	constructor(private mockSecret = generateSecret()) {}
+
+	get on() {
+		return this.#sub.on
+	}
 
 	get user() {
 		const user = this.#$user()
@@ -35,5 +38,7 @@ export class MockAuth implements AuthLike {
 	async loginViaPopup(options: Partial<SessionOptions> = {}) {
 		return this.#$user(mockUser(this.mockSecret, options)) as User
 	}
+
+	dispose() {}
 }
 

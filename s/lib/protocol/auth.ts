@@ -1,6 +1,6 @@
 
-import {afterEffect, signal} from "@e280/strata"
-import {disposer, ev, nap, sub} from "@e280/stz"
+import {effect, signal} from "@e280/strata"
+import {disposer, ev, nap, subby} from "@e280/stz"
 
 import {User} from "./user.js"
 import {consts} from "../../consts.js"
@@ -15,26 +15,34 @@ import {defaultAuthOptions} from "./parts/default-auth-options.js"
 
 /** auth facility for logging in and out. */
 export class Auth implements AuthLike {
-	dispose = disposer()
-	on = sub<[User | null]>()
+	dispose
+
+	#sub = subby<[User | null]>()
 	#options
 	#$user = signal<User | null>(null)
 
 	constructor(options: Partial<AuthOptions> = {}) {
+		const {dispose, schedule} = disposer()
+		this.dispose = dispose
+
 		this.#options = defaultAuthOptions(options)
 
-		this.dispose.schedule(
+		schedule(
 			ev(this.#options.broadcastChannel, {
 				message: () => nap(consts.broadcastReloadDelay).then(() => this.remember())
 			})
 		)
 
-		this.dispose.schedule(
-			afterEffect(
+		schedule(
+			effect(
 				() => this.#$user(),
-				user => this.on.publish(user),
+				user => this.#sub.publish(user),
 			)
 		)
+	}
+
+	get on() {
+		return this.#sub.on
 	}
 
 	/** validate and return the current session, otherwise return null. */

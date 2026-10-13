@@ -1,5 +1,5 @@
 
-import {count, hex, time} from "@e280/stz"
+import {count, futureHours, hex} from "@e280/stz"
 import {demo} from "./ergo/demo.js"
 import {seed} from "./ergo/seed/seed.js"
 import {deriveId} from "./cryp/derive-id.js"
@@ -62,7 +62,7 @@ const jwtProof = signDelegate(demo.secret, {
 	petition: {
 		purpose: "test",
 		scope: generateSecret(),
-		expiresAt: time.future.hours(1),
+		expiresAt: futureHours(1),
 	},
 }).proofToken
 console.log(jwtProof)

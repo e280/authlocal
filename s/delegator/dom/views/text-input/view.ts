@@ -1,12 +1,12 @@
 
 import {html} from "lit"
 import {debounce, maybe, Maybe, Validator} from "@e280/stz"
-import {shadow, useCss, useName, useOnce, useSignal} from "@e280/sly"
+import {shadowView, useCss, useName, useOnce, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {theme} from "../../theme.js"
 
-export const TextInput = shadow((options: {
+export const TextInput = shadowView((options: {
 		validator: Validator<string>
 		on: (maybe: Maybe<string>) => void
 		textarea?: boolean
