@@ -10,6 +10,12 @@
 
 ## v0.3
 
+### v0.3.7
+- 🍏 update dependencies
+
+### v0.3.6
+- 🍏 update dependencies and readme
+
 ### v0.3.5
 - 🍏 fix login popup kb accessibility
 - 🍏 tweak auth widget layout
