@@ -12,6 +12,7 @@
 
 ### v0.3.8
 - 🍏 `verifyClaim` now provides `proofToken` (in addition to `proof`).
+- 🍏 update dependencies and stz usage.
 
 ### v0.3.7
 - 🍏 update dependencies
