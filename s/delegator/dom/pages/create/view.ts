@@ -1,12 +1,12 @@
 
-import {shadow, useCss, useName, useOnce, useSignal} from "@e280/sly"
+import {shadowView, useCss, useName, useOnce, useSignal} from "@e280/sly"
 import {theme} from "../../theme.js"
 import {CreateDraft} from "./types.js"
 import {SeedStep} from "./steps/seed/view.js"
 import {initDraft} from "./utils/init-draft.js"
 import {SelectorStep} from "./steps/selector/view.js"
 
-export const CreatePage = shadow((options: {
+export const CreatePage = shadowView((options: {
 		done: (draft: CreateDraft) => void
 		recovery: () => void
 		back?: () => void

@@ -1,6 +1,6 @@
 import {html} from "lit"
 import {ShinyCopy} from "@e280/shiny"
-import {shadow, useCss, useName, useSignal} from "@e280/sly"
+import {shadowView, useCss, useName, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {theme} from "../../theme.js"
@@ -13,7 +13,7 @@ demkex purzen sallak lidmac
 nidwyn yabmer vemfek wursyr
 `.trim()
 
-export const RecoverySeed = shadow((options: {
+export const RecoverySeed = shadowView((options: {
 		seedText: string
 	}) => {
 

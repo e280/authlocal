@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {shadow, useCss, useName, useSignal} from "@e280/sly"
+import {shadowView, useCss, useName, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {theme} from "../../../theme.js"
 import {Identity} from "../../../../types.js"
@@ -10,7 +10,7 @@ import {DeleteSubpanel} from "./subpanels/delete/view.js"
 
 type EditingTab = "edit" | "seed" | "delete"
 
-export const Editing = shadow((options: {
+export const Editing = shadowView((options: {
 		identity: Identity
 		close: () => void
 		updateIdentity: (identity: Identity) => void

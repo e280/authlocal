@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {shadow, useCss} from "@e280/sly"
+import {shadowView, useCss} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {theme} from "../../../../theme.js"
@@ -8,7 +8,7 @@ import {CreateDraft} from "../../types.js"
 import {Poster} from "../../../../../../lib/ui/views/poster/view.js"
 import {deriveIdentityFromIndex} from "../../utils/derive-identity-from-index.js"
 
-export const SelectorStep = shadow((options: {
+export const SelectorStep = shadowView((options: {
 		draft: CreateDraft
 		next: () => void
 		back?: () => void

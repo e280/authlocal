@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {shadow, useCss, useName, useSignal} from "@e280/sly"
+import {shadowView, useCss, useName, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {theme} from "../../../../../theme.js"
@@ -10,7 +10,7 @@ import {TextInput} from "../../../../../views/text-input/view.js"
 import {validateAlias} from "../../../../../../../lib/core/alco/validation/validate-alias.js"
 import {allowEmptyString} from "../../../../../../../lib/core/alco/validation/allow-empty-string.js"
 
-export const EditSubpanel = shadow((options: {
+export const EditSubpanel = shadowView((options: {
 		identity: Identity
 		close: () => void
 		updateIdentity: (identity: Identity) => void

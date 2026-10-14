@@ -2,7 +2,7 @@
 import {html} from "lit"
 import {ShinyCopy} from "@e280/shiny"
 import {when} from "lit/directives/when.js"
-import {dom, shadow, useCss, useName, useShadow} from "@e280/sly"
+import {dom, shadowView, useCss, useName, useShadow} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {theme} from "../../../theme.js"
@@ -14,7 +14,7 @@ import {addressColor} from "../../../../../lib/core/ergo/address/color.js"
 import {addressEmoji} from "../../../../../lib/core/ergo/address/emoji.js"
 import {addressMoniker} from "../../../../../lib/core/ergo/address/moniker.js"
 
-export const Ident = shadow((options: {
+export const Ident = shadowView((options: {
 		identity: Identity
 		onClickCard?: () => void
 		onClickDots?: () => void

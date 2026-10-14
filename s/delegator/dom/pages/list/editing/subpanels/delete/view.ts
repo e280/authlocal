@@ -1,5 +1,5 @@
 import {html} from "lit"
-import {shadow, useCss, useName, useSignal} from "@e280/sly"
+import {shadowView, useCss, useName, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {theme} from "../../../../../theme.js"
@@ -7,7 +7,7 @@ import {Identity} from "../../../../../../types.js"
 import {deriveId} from "../../../../../../../lib/core/cryp/derive-id.js"
 import {addressMoniker} from "../../../../../../../lib/core/ergo/address/moniker.js"
 
-export const DeleteSubpanel = shadow((options: {
+export const DeleteSubpanel = shadowView((options: {
 		identity: Identity
 		close: () => void
 		deleteIdentity: (identity: Identity) => void

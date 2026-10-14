@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {shadow, shadowElement, useCss, useName} from "@e280/sly"
+import {shadowView, shadowElement, useCss, useName} from "@e280/sly"
 
 import {Card} from "../card/view.js"
 import styleCss from "./style.css.js"
@@ -47,6 +47,6 @@ const renderWidget = (auth: AuthLike, options?: Partial<SessionOptions>) => {
 	`
 }
 
-export const Widget = shadow(renderWidget)
+export const Widget = shadowView(renderWidget)
 export const makeAuthWidget = (auth: AuthLike, options?: Partial<SessionOptions>) => shadowElement(() => renderWidget(auth, options))
 

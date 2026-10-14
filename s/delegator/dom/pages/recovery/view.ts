@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {shadow, useCss, useDerived, useName, useSignal} from "@e280/sly"
+import {shadowView, useCss, useDerived, useName, useSignal} from "@e280/sly"
 
 import {theme} from "../../theme.js"
 import styleCss from "./style.css.js"
@@ -14,7 +14,7 @@ import {addressMoniker} from "../../../../lib/core/ergo/address/moniker.js"
 import {validateAlias} from "../../../../lib/core/alco/validation/validate-alias.js"
 import {allowEmptyString} from "../../../../lib/core/alco/validation/allow-empty-string.js"
 
-export const RecoveryPage = shadow((options: {
+export const RecoveryPage = shadowView((options: {
 		back: () => void
 		done: (identity: Identity) => void
 	}) => {

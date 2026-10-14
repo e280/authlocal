@@ -1,7 +1,7 @@
 
 import {html} from "lit"
 import {when} from "lit/directives/when.js"
-import {shadow, useCss, useName, useSignal} from "@e280/sly"
+import {shadowView, useCss, useName, useSignal} from "@e280/sly"
 
 import {theme} from "../../theme.js"
 import styleCss from "./style.css.js"
@@ -11,7 +11,7 @@ import {Editing} from "./editing/view.js"
 import {Id} from "../../../../lib/core/cryp/types.js"
 import {deriveId} from "../../../../lib/core/cryp/derive-id.js"
 
-export const ListPage = shadow((options: {
+export const ListPage = shadowView((options: {
 		loginRequest?: {
 			appOrigin: string
 			login: (identity: Identity) => void

@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {shadow, useCss, useDerived, useSignal} from "@e280/sly"
+import {shadowView, useCss, useDerived, useSignal} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {theme} from "../../../../theme.js"
@@ -10,7 +10,7 @@ import {RecoverySeed} from "../../../../views/recovery-seed/view.js"
 import {deriveId} from "../../../../../../lib/core/cryp/derive-id.js"
 import {addressMoniker} from "../../../../../../lib/core/ergo/address/moniker.js"
 
-export const SeedStep = shadow((options: {
+export const SeedStep = shadowView((options: {
 		draft: CreateDraft
 		next: () => void
 		back: () => void

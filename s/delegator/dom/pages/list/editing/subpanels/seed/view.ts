@@ -1,5 +1,5 @@
 import {html} from "lit"
-import {shadow, useCss, useName} from "@e280/sly"
+import {shadowView, useCss, useName} from "@e280/sly"
 
 import styleCss from "./style.css.js"
 import {theme} from "../../../../../theme.js"
@@ -9,7 +9,7 @@ import {RecoverySeed} from "../../../../../views/recovery-seed/view.js"
 import {deriveId} from "../../../../../../../lib/core/cryp/derive-id.js"
 import {addressMoniker} from "../../../../../../../lib/core/ergo/address/moniker.js"
 
-export const SeedSubpanel = shadow((options: {
+export const SeedSubpanel = shadowView((options: {
 		identity: Identity
 	}) => {
 

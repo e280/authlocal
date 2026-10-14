@@ -1,7 +1,7 @@
 
 import {html} from "lit"
 import {ShinyCopy} from "@e280/shiny"
-import {shadow, useCss, useName} from "@e280/sly"
+import {shadowView, useCss, useName} from "@e280/sly"
 import styleCss from "./style.css.js"
 import uitheme from "../../uitheme.js"
 import {address} from "../../../core/ergo/address/address.js"
@@ -9,7 +9,7 @@ import {addressColor} from "../../../core/ergo/address/color.js"
 import {addressEmoji} from "../../../core/ergo/address/emoji.js"
 import {addressMoniker} from "../../../core/ergo/address/moniker.js"
 
-export const Card = shadow((user: {id: string, alias?: string}) => {
+export const Card = shadowView((user: {id: string, alias?: string}) => {
 	useName("card")
 	useCss(uitheme, styleCss)
 
