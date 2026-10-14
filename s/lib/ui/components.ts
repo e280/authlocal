@@ -7,11 +7,11 @@ import {Poster} from "./views/poster/view.js"
 
 export class AuthPoster extends shadowElement(() => {
 	const {uid, alias} = useAttrs({uid: String, alias: String})
-	return Poster({id: got(uid, ""), alias})
+	return Poster({id: got(uid, "AuthPoster requires uid"), alias})
 }) {}
 
 export class AuthCard extends shadowElement(() => {
 	const {uid, alias} = useAttrs({uid: String, alias: String})
-	return Card({id: got(uid, ""), alias})
+	return Card({id: got(uid, "AuthCard requires uid"), alias})
 }) {}
 

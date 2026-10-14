@@ -72,9 +72,9 @@ when you sign-in, they only see crypto-proof of your selected identity.
     > *it's the widget you see at https://authlocal.org/demo/*  
     > *[@e280/sly](https://github.com/e280/sly) view exported as `Widget`.*  
     ```ts
-    import {makeAuthWidget} from "@e280/authlocal"
+    import {makeWidgetElement} from "@e280/authlocal"
 
-    customElements.define("auth-widget", makeAuthWidget(auth))
+    customElements.define("auth-widget", makeWidgetElement(auth))
     ```
     then you put this html on your page:
     ```html

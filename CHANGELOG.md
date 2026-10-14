@@ -10,6 +10,11 @@
 
 ## v0.3
 
+### v0.3.9
+- 🔶 rename `makeAuthWidget` to `makeWidgetElement`.
+- 🍏 improve `Card` styles.
+- 🍏 improve error handling in `AuthPoster` and `AuthCard`.
+
 ### v0.3.8
 - 🍏 `verifyClaim` now provides `proofToken` (in addition to `proof`).
 - 🍏 update dependencies and stz usage.
