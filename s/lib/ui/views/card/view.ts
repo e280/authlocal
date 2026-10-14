@@ -17,17 +17,14 @@ export const Card = shadowView((user: {id: string, alias?: string}) => {
 	const color = `--color: ${addressColor(user.id)};`
 
 	return html`
-		<div part=card style="${color}">
+		<div part=card style="${color}" title="${addr}">
 			<div part=icon>${addressEmoji(user.id)}</div>
 
 			<div part=alias>${user.alias || addressMoniker(user.id)}</div>
 
 			${ShinyCopy.with({
 				props: [addr],
-				attrs: {
-					part: "copy",
-					title: `copy address "${addr.slice(0, 20)}..."`,
-				},
+				attrs: {part: "copy"},
 			})}
 		</div>
 	`

@@ -9,8 +9,11 @@ export default css`
 	align-items: center;
 	flex-direction: row;
 
+	cursor: default;
+	user-select: none;
+
 	gap: var(--pad);
-	padding: var(--pad);
+	padding: calc(var(--pad) / 2);
 	border-radius: var(--round);
 
 	color: var(--fg);
