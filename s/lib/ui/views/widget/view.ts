@@ -1,6 +1,6 @@
 
 import {html} from "lit"
-import {useCss, useName, shadowDuplex} from "@e280/sly"
+import {useCss, useName, shadowDuplex, useAttrs} from "@e280/sly"
 
 import {Card} from "../card/view.js"
 import styleCss from "./style.css.js"
@@ -22,6 +22,7 @@ export const [Widget, makeWidgetElement] = shadowDuplex((
 
 	const {user} = auth
 	const color = user ? `--color: ${addressColor(user.id)};` : ``
+	const attrs = useAttrs({"no-alias": Boolean})
 
 	const renderSignIn = () => html`
 		<button
@@ -33,7 +34,11 @@ export const [Widget, makeWidgetElement] = shadowDuplex((
 	`
 
 	const renderUser = (user: User) => html`
-		${Card(user)}
+		${Card(
+			attrs["no-alias"]
+				? {id: user.id}
+				: user
+		)}
 		<button
 			class=sign-out
 			@click="${() => auth.logout()}"
