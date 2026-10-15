@@ -13,6 +13,7 @@
 ### v0.3.9
 - 🔶 rename `makeAuthWidget` to `makeWidgetElement`.
 - 🍏 improve `Card` styles.
+- 🍏 add `widget` optional attr `no-alias`.
 - 🍏 improve error handling in `AuthPoster` and `AuthCard`.
 
 ### v0.3.8
