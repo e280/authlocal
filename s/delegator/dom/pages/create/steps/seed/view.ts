@@ -6,10 +6,9 @@ import styleCss from "./style.css.js"
 import {theme} from "../../../../theme.js"
 import {CreateDraft} from "../../types.js"
 import {RecoverySeed} from "../../../../views/recovery-seed/view.js"
-import {deriveId} from "../../../../../../lib/core/cryp/derive-id.js"
+import {seedId} from "../../../../../../lib/core/ergo/seed/seed-id.js"
 import {seedphrase} from "../../../../../../lib/core/ergo/seed/seedphrase.js"
 import {addressMoniker} from "../../../../../../lib/core/ergo/address/moniker.js"
-import {secretize} from "../../../../../../lib/core/ergo/seed/secretize.js"
 
 export const SeedStep = shadowView((options: {
 		draft: CreateDraft
@@ -20,10 +19,10 @@ export const SeedStep = shadowView((options: {
 	useCss(theme(), styleCss)
 
 	const secret = options.draft.$seed()
-	const $id = useDerived(() => deriveId(secretize(options.draft.$seed())))
+	const $id = useDerived(() => seedId(options.draft.$seed()))
 	const $short = useDerived(() => addressMoniker($id()))
 
-	const seedText = seedphrase(secret)
+	const phrase = seedphrase(secret)
 	const $checked = useSignal(false)
 
 	const onCheck = (e: Event) => $checked((e.currentTarget as HTMLInputElement).checked)
@@ -38,7 +37,7 @@ export const SeedStep = shadowView((options: {
 			<div class=container>
 				<p>if you lose it, "${$short()}" is gone <em>forever</em></p>
 
-				${RecoverySeed({seedText})}
+				${RecoverySeed({phrase})}
 
 				<label class=checkbox>
 					<input type=checkbox @change="${onCheck}"/>

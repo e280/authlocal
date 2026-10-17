@@ -5,10 +5,9 @@ import {Go} from "./go.js"
 import {Context} from "../context.js"
 import {ListPage} from "../dom/pages/list/view.js"
 import {CreatePage} from "../dom/pages/create/view.js"
-import {deriveId} from "../../lib/core/cryp/derive-id.js"
+import {seedId} from "../../lib/core/ergo/seed/seed-id.js"
 import {RecoveryPage} from "../dom/pages/recovery/view.js"
 import {addressMoniker} from "../../lib/core/ergo/address/moniker.js"
-import { secretize } from "../../lib/core/ergo/seed/secretize.js"
 
 export type Page = {
 	zone: string
@@ -35,7 +34,7 @@ export const routes = (context: Context, go: Go) => router({
 			goCreate: go.create,
 			goRecovery: go.recovery,
 			updateIdentity: identity => context.bank.setIdentity(identity),
-			deleteIdentity: identity => context.bank.deleteIdentity(deriveId(secretize(identity.secret))),
+			deleteIdentity: identity => context.bank.deleteIdentity(seedId(identity.seed)),
 		})
 	},
 
@@ -43,8 +42,8 @@ export const routes = (context: Context, go: Go) => router({
 		return CreatePage({
 			done: async draft => {
 				const seed = draft.$seed()
-				const alias = draft.$alias() || addressMoniker(deriveId(secretize(seed)))
-				await context.bank.setIdentity({secret: seed, alias})
+				const alias = draft.$alias() || addressMoniker(seedId(seed))
+				await context.bank.setIdentity({seed, alias})
 				go.list()
 			},
 			recovery: go.recovery,

@@ -4,7 +4,7 @@ import {Identity} from "../types.js"
 import {Context} from "../context.js"
 import {Payload} from "../../lib/core/tok/types.js"
 import {Proof} from "../../lib/core/alco/proof/types.js"
-import {deriveId} from "../../lib/core/cryp/derive-id.js"
+import {seedId} from "../../lib/core/ergo/seed/seed-id.js"
 import {DelegatorApi} from "../../lib/protocol/parts/types.js"
 import {decodeToken} from "../../lib/core/tok/decode-token.js"
 import {signDelegate} from "../../lib/core/alco/delegate/sign.js"
@@ -24,7 +24,7 @@ export const delegatorApi = (context: Context, delegatorOrigin: string) => (
 			const atTime = Date.now()
 
 			const delegates = petitions.map(petition =>
-				signDelegate(identity.secret, {
+				signDelegate(identity.seed, {
 					alias: identity.alias,
 					petition,
 					issuer: delegatorOrigin,
@@ -34,7 +34,7 @@ export const delegatorApi = (context: Context, delegatorOrigin: string) => (
 			)
 
 			await context.bank.recordDelegationEvent({
-				id: deriveId(identity.secret),
+				id: seedId(identity.seed),
 				alias: identity.alias,
 				app: appOrigin,
 				time: atTime,
