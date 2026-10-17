@@ -18,11 +18,11 @@ export const SeedStep = shadowView((options: {
 
 	useCss(theme(), styleCss)
 
-	const secret = options.draft.$seed()
+	const seed = options.draft.$seed()
 	const $id = useDerived(() => seedId(options.draft.$seed()))
 	const $short = useDerived(() => addressMoniker($id()))
 
-	const phrase = seedphrase(secret)
+	const phrase = seedphrase(seed)
 	const $checked = useSignal(false)
 
 	const onCheck = (e: Event) => $checked((e.currentTarget as HTMLInputElement).checked)

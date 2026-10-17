@@ -11,5 +11,6 @@ export const consts = deepFreeze({
 	maxAliasLength: 32,
 	enableDelegationLog: false,
 	broadcastReloadDelay: 100,
+	smallSeeds: true,
 })
 
