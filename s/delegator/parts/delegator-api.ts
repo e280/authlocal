@@ -7,6 +7,7 @@ import {Proof} from "../../lib/core/alco/proof/types.js"
 import {seedId} from "../../lib/core/ergo/seed/seed-id.js"
 import {DelegatorApi} from "../../lib/protocol/parts/types.js"
 import {decodeToken} from "../../lib/core/tok/decode-token.js"
+import {secretize} from "../../lib/core/ergo/seed/secretize.js"
 import {signDelegate} from "../../lib/core/alco/delegate/sign.js"
 
 export const delegatorApi = (context: Context, delegatorOrigin: string) => (
@@ -24,7 +25,7 @@ export const delegatorApi = (context: Context, delegatorOrigin: string) => (
 			const atTime = Date.now()
 
 			const delegates = petitions.map(petition =>
-				signDelegate(identity.seed, {
+				signDelegate(secretize(identity.seed), {
 					alias: identity.alias,
 					petition,
 					issuer: delegatorOrigin,
