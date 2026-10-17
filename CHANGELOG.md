@@ -10,6 +10,10 @@
 
 ## v0.3
 
+### v0.3.10
+- 🍏 delegator app (authlocal.org) adds support for shorter 128-bit seed phrases. this is now the default for new identities. older 256-bit seed phrases are still supported.
+- 🔶 introduced delegator app kv storage schema migrations, renamed identity "secret" to "seed".
+
 ### v0.3.9
 - 🔶 rename `makeAuthWidget` to `makeWidgetElement`.
 - 🍏 improve `Card` styles.

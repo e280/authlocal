@@ -31,7 +31,9 @@ export default css`
 		}
 
 		button {
-			padding: 0;
+			padding: 0.1em 0.2em;
+			border-radius: 0.5em;
+			border-color: color-mix(in oklch, transparent, currentColor 50%);
 		}
 
 		[view="shiny-copy"] {
@@ -45,7 +47,7 @@ export default css`
 		display: flex;
 		font-size: 1em;
 		width: 100%;
-		min-height: 9em;
+		min-height: 7em;
 		border: none;
 		font-family: monospace;
 		color: color-mix(in oklch, currentColor, white);

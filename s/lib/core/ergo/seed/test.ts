@@ -1,32 +1,44 @@
 
 import {suite, test, expect} from "@e280/science"
-import {seed} from "./seed.js"
 import {demo} from "../demo.js"
-import {seedSecret} from "./secret.js"
+import {secretize} from "./secretize.js"
+import {seedphrase} from "./seedphrase.js"
+import {phraseToSeed} from "./phrase-to-seed.js"
 
 export default suite({
 	"secret->seed->secret": test(async() => {
-		expect(seedSecret(seed(demo.secret))).is(demo.secret)
+		expect(phraseToSeed(seedphrase(demo.secret))).is(demo.secret)
+	}),
+
+	"secret->seed->secret 128": test(async() => {
+		const seed = "5566ff64bc2bc5064764471d444dbfde"
+		expect(phraseToSeed(seedphrase(seed))).is(seed)
+	}),
+
+	"secretize": test(async() => {
+		const secret = "8f32eb8cb2631216d97baf43005c293d3a84adab78e40a48873b7c501ee2ec14"
+		expect(secretize("5566ff64bc2bc5064764471d444dbfde").length).is(64)
+		expect(secretize(secret)).is(secret)
 	}),
 
 	"seed matches demo": test(async() => {
-		expect(seed(demo.secret)).is(demo.seed)
+		expect(seedphrase(demo.secret)).is(demo.seed)
 	}),
 
 	"tolerate whitespace": test(async() => {
-		expect(seedSecret(`\n\t ${demo.seed} \t\n`)).is(demo.secret)
+		expect(phraseToSeed(`\n\t ${demo.seed} \t\n`)).is(demo.secret)
 	}),
 
 	"tolerate lettercase": test(async() => {
-		expect(seedSecret(demo.seed.toUpperCase())).is(demo.secret)
+		expect(phraseToSeed(demo.seed.toUpperCase())).is(demo.secret)
 	}),
 
 	"throw on empty": test(async() => {
-		expect(() => seedSecret("")).throws()
+		expect(() => phraseToSeed("")).throws()
 	}),
 
 	"throw when leading addr is missing": test(async() => {
-		expect(() => seedSecret(`
+		expect(() => phraseToSeed(`
 			janvuz yidgyx normok delsek
 			yarbek kemlyx wordak nurgex
 			calryz gelhet kabdak wobyok
@@ -35,7 +47,7 @@ export default suite({
 	}),
 
 	"throw on corrupted addr": test(async() => {
-		expect(() => seedSecret(`
+		expect(() => phraseToSeed(`
 			NOPkon bodwyx
 			janvuz yidgyx normok delsek
 			yarbek kemlyx wordak nurgex
@@ -45,7 +57,7 @@ export default suite({
 	}),
 
 	"throw on corrupted secret": test(async() => {
-		expect(() => seedSecret(`
+		expect(() => phraseToSeed(`
 			gurkon bodwyx
 			NOPvuz yidgyx normok delsek
 			yarbek kemlyx wordak nurgex

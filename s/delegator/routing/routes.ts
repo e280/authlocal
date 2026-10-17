@@ -5,7 +5,7 @@ import {Go} from "./go.js"
 import {Context} from "../context.js"
 import {ListPage} from "../dom/pages/list/view.js"
 import {CreatePage} from "../dom/pages/create/view.js"
-import {deriveId} from "../../lib/core/cryp/derive-id.js"
+import {seedId} from "../../lib/core/ergo/seed/seed-id.js"
 import {RecoveryPage} from "../dom/pages/recovery/view.js"
 import {addressMoniker} from "../../lib/core/ergo/address/moniker.js"
 
@@ -34,16 +34,16 @@ export const routes = (context: Context, go: Go) => router({
 			goCreate: go.create,
 			goRecovery: go.recovery,
 			updateIdentity: identity => context.bank.setIdentity(identity),
-			deleteIdentity: identity => context.bank.deleteIdentity(deriveId(identity.secret)),
+			deleteIdentity: identity => context.bank.deleteIdentity(seedId(identity.seed)),
 		})
 	},
 
 	"create": () => {
 		return CreatePage({
 			done: async draft => {
-				const secret = draft.$secret()
-				const alias = draft.$alias() || addressMoniker(deriveId(secret))
-				await context.bank.setIdentity({secret, alias})
+				const seed = draft.$seed()
+				const alias = draft.$alias() || addressMoniker(seedId(seed))
+				await context.bank.setIdentity({seed, alias})
 				go.list()
 			},
 			recovery: go.recovery,

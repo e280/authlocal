@@ -29,7 +29,7 @@ when you sign-in, they only see crypto-proof of your selected identity.
 ## 🔐 installation for web developers
 > *see the https://authlocal.org/demo/*
 
-### 🍋‍🟩 basic logins for your website
+### 🔑 basic logins for your website
 1. **install and import `@e280/authlocal`.**
     ```bash
     npm install @e280/authlocal
@@ -67,7 +67,7 @@ when you sign-in, they only see crypto-proof of your selected identity.
     await auth.logout()
     ```
 
-### 🍋‍🟩 web components
+### 🔑 web components
 - **the widget has a little login/logout ux, if you like.**
     > *it's the widget you see at https://authlocal.org/demo/*  
     > *[@e280/sly](https://github.com/e280/sly) view exported as `Widget`.*  
@@ -81,7 +81,7 @@ when you sign-in, they only see crypto-proof of your selected identity.
     <auth-widget>Sign in</auth-widget>
     ```
 
-### 🍋‍🟩 end-to-end encryption for the user
+### 🔑 end-to-end encryption for the user
 - **[encrypt.ts](./s/lib/core/cryp/encrypt.ts)**
     ```ts
     const original = new Uint8Array([0xDE, 0xAD, 0xBE, 0xEF])
@@ -94,7 +94,7 @@ when you sign-in, they only see crypto-proof of your selected identity.
     const cleartext = user.decrypt(ciphertext)
     ```
 
-### 🍋‍🟩 sign and verify claims for the user
+### 🔑 sign and verify claims for the user
 - **sign a claim token, containing any data you like.**
     > *see [options.ts](./s/lib/core/alco/claim/types/options.ts).*
     ```ts
@@ -119,7 +119,7 @@ when you sign-in, they only see crypto-proof of your selected identity.
       // "efe064a4ed1ec1763293612627424c0721b82acd009fc666e6915d8edcfe89e6"
     ```
 
-### 🍋‍🟩 `address` for friendly names
+### 🔑 `address` for friendly names
 - **`address(id)`** -- encode a user id hex into a friendly format.
     ```ts
     import {address} from "@e280/authlocal"
@@ -133,17 +133,18 @@ when you sign-in, they only see crypto-proof of your selected identity.
 - **`addressColor(id)`** -- derive a css color string from a user id.
 - **`addressMoniker(id)`** -- get the first part of the address.
 
-### 🍋‍🟩 mocks for testing
+### 🔑 mocks for testing
 - **produce a mock auth facility that generates a random fake user.**
     ```ts
     import {MockAuth, mockUser, mockOrigin} from "@e280/authlocal"
     ```
     ```ts
     const auth = new MockAuth()
-    await auth.loginViaPopup()
+
+    const user = await auth.loginViaPopup()
     ```
     - `MockAuth` doesn't touch localstorage etc.
-    - `mockUser` generates a fake user.
+    - `mockUser()` generates a fake user.
     - `mockOrigin` is the string `"https://e280.org"`.
 
 
@@ -159,6 +160,7 @@ when you sign-in, they only see crypto-proof of your selected identity.
 ### 🫐 what's really going on, cryptographically?
 - authlocal depends on paul miller's [noble cryptography libraries](https://paulmillr.com/noble/).
 - every authlocal identity is an ed25519 keypair. we call the private key a `secret`, and the public key an `id`.
+- identities secrets are derived from a 128-bit seed which displayed to users as a 10-word recovery seed-phrase.
 - third-party websites open a popup to authlocal and ask for "delegates", which are ed25519 keypairs derived from the user's secret key (and also bound to the app origin and provided purpose and scope).
 - a delegate comes with a "proof" token signed by the user secret, which includes the user id and proves that the delegate is legitimate.
 - a delegate can sign new "claim" tokens on behalf of the user, which include the proof token, and thus have a verifiable chain-of-custody back to the user. claims can contain any arbitrary data *(such as a request like "read my private profile"),* which a third-party server can verify.

@@ -8,8 +8,8 @@ import {Identity} from "../../../types.js"
 import {consts} from "../../../../consts.js"
 import {TextInput} from "../../views/text-input/view.js"
 import {Poster} from "../../../../lib/ui/views/poster/view.js"
-import {deriveId} from "../../../../lib/core/cryp/derive-id.js"
-import {seedParse} from "../../../../lib/core/ergo/seed/parse.js"
+import {seedId} from "../../../../lib/core/ergo/seed/seed-id.js"
+import {parseSeedphrase} from "../../../../lib/core/ergo/seed/parse-seedphrase.js"
 import {addressMoniker} from "../../../../lib/core/ergo/address/moniker.js"
 import {validateAlias} from "../../../../lib/core/alco/validation/validate-alias.js"
 import {allowEmptyString} from "../../../../lib/core/alco/validation/allow-empty-string.js"
@@ -23,20 +23,20 @@ export const RecoveryPage = shadowView((options: {
 	useCss(theme(), styleCss)
 
 	const $alias = useSignal("")
-	const $secret = useSignal("")
+	const $seed = useSignal("")
 	const $identity = useDerived<Identity | null>(() => {
-		const secret = $secret()
-		if (secret === "") return null
-		const alias = $alias() || addressMoniker(deriveId(secret))
-		return {secret, alias}
+		const seed = $seed()
+		if (seed === "") return null
+		const alias = $alias() || addressMoniker(seedId(seed))
+		return {seed, alias}
 	})
 
 	const identity = $identity()
 
 	function done() {
-		const secret = $secret()
-		const alias = $alias() || addressMoniker(deriveId(secret))
-		options.done({secret, alias})
+		const seed = $seed()
+		const alias = $alias() || addressMoniker(seedId(seed))
+		options.done({seed, alias})
 	}
 
 	return html`
@@ -57,13 +57,13 @@ export const RecoveryPage = shadowView((options: {
 				${TextInput({
 					textarea: true,
 					placeholder: "recovery seed",
-					validator: allowEmptyString(seedParse),
-					on: secret => $secret(secret.yay ? secret.value : ""),
+					validator: allowEmptyString(parseSeedphrase),
+					on: secret => $seed(secret.yay ? secret.value : ""),
 				})}
 			</div>
 
 			${identity
-				? Poster({id: deriveId(identity.secret), alias: identity.alias})
+				? Poster({id: seedId(identity.seed), alias: identity.alias})
 				: null}
 
 			<nav x-nav>
@@ -75,7 +75,7 @@ export const RecoveryPage = shadowView((options: {
 				or
 				<button
 					x-linky
-					?disabled="${!$secret()}"
+					?disabled="${!$seed()}"
 					@click="${done}">
 						claim the identity
 				</button>

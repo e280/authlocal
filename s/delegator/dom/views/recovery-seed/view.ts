@@ -9,19 +9,17 @@ const fakeSeed = `
 fakely fakers
 dedyak befbef gidvyx mamryd
 burdyb pidmyn lentak kemlex
-demkex purzen sallak lidmac
-nidwyn yabmer vemfek wursyr
 `.trim()
 
 export const RecoverySeed = shadowView((options: {
-		seedText: string
+		phrase: string
 	}) => {
 
 	useName("recovery-seed")
 	useCss(theme(), styleCss)
 
 	const $concealed = useSignal(true)
-	const displayText = $concealed() ? fakeSeed : options.seedText
+	const displayText = $concealed() ? fakeSeed : options.phrase
 
 	const onClick = (e: Event) => (e.currentTarget as HTMLTextAreaElement).select()
 	const toggleConceal = () => $concealed(!$concealed())
@@ -30,10 +28,10 @@ export const RecoverySeed = shadowView((options: {
 		<div class=concealer>
 			<div class=codebox ?data-concealed="${$concealed()}">
 				<header>
-					<button x-vibe=naked @click="${toggleConceal}">
+					<button @click="${toggleConceal}">
 						${$concealed() ? "reveal" : "conceal"}
 					</button>
-					${ShinyCopy(options.seedText)}
+					${ShinyCopy(options.phrase)}
 				</header>
 				<textarea readonly .value="${displayText}" @click="${onClick}"></textarea>
 				<div class=blanket></div>

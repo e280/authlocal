@@ -23,14 +23,14 @@
 		"dev": "octo 'node --watch x/test.js' 'tsc -w' 'scute -vw' 'node --watch x/lib/core/examples.js' 'hottie x'",
 		"test": "node x/test.js",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
-		"examples": "node x/lib/examples.js"
+		"examples": "node x/lib/core/examples.js"
 	},
 	"allowScripts": {
 		"esbuild@0.28.2": true
 	},
 	"dependencies": {
 		"@awasm/noble": "^0.1.4",
-		"@e280/kv": "0.2.3",
+		"@e280/kv": "0.2.4",
 		"@e280/renraku": "0.6.0-6",
 		"@e280/shiny": "0.1.0",
 		"@e280/sly": "^0.4.11",
