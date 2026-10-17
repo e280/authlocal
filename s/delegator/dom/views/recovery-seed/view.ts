@@ -9,8 +9,6 @@ const fakeSeed = `
 fakely fakers
 dedyak befbef gidvyx mamryd
 burdyb pidmyn lentak kemlex
-demkex purzen sallak lidmac
-nidwyn yabmer vemfek wursyr
 `.trim()
 
 export const RecoverySeed = shadowView((options: {
@@ -30,7 +28,7 @@ export const RecoverySeed = shadowView((options: {
 		<div class=concealer>
 			<div class=codebox ?data-concealed="${$concealed()}">
 				<header>
-					<button x-vibe=naked @click="${toggleConceal}">
+					<button @click="${toggleConceal}">
 						${$concealed() ? "reveal" : "conceal"}
 					</button>
 					${ShinyCopy(options.seedText)}

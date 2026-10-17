@@ -13,6 +13,7 @@ import {address} from "../../../../../lib/core/ergo/address/address.js"
 import {addressColor} from "../../../../../lib/core/ergo/address/color.js"
 import {addressEmoji} from "../../../../../lib/core/ergo/address/emoji.js"
 import {addressMoniker} from "../../../../../lib/core/ergo/address/moniker.js"
+import {secretize} from "../../../../../lib/core/ergo/seed/secretize.js"
 
 export const Ident = shadowView((options: {
 		identity: Identity
@@ -25,7 +26,7 @@ export const Ident = shadowView((options: {
 
 	const {onClickCard} = options
 	const {alias} = options.identity
-	const id = deriveId(options.identity.secret)
+	const id = deriveId(secretize(options.identity.secret))
 	const addr = address(id)
 	const short = addressMoniker(id)
 	const color = `--color: ${addressColor(id)};`

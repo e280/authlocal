@@ -9,6 +9,7 @@ import {RecoverySeed} from "../../../../views/recovery-seed/view.js"
 import {deriveId} from "../../../../../../lib/core/cryp/derive-id.js"
 import {seedphrase} from "../../../../../../lib/core/ergo/seed/seedphrase.js"
 import {addressMoniker} from "../../../../../../lib/core/ergo/address/moniker.js"
+import {secretize} from "../../../../../../lib/core/ergo/seed/secretize.js"
 
 export const SeedStep = shadowView((options: {
 		draft: CreateDraft
@@ -18,8 +19,8 @@ export const SeedStep = shadowView((options: {
 
 	useCss(theme(), styleCss)
 
-	const secret = options.draft.$secret()
-	const $id = useDerived(() => deriveId(options.draft.$secret()))
+	const secret = options.draft.$seed()
+	const $id = useDerived(() => deriveId(secretize(options.draft.$seed())))
 	const $short = useDerived(() => addressMoniker($id()))
 
 	const seedText = seedphrase(secret)

@@ -17,13 +17,13 @@ export const SelectorStep = shadowView((options: {
 
 	useCss(theme(), styleCss)
 
-	const {$baseSecret, $secret, $index, $alias} = options.draft
+	const {$baseSecret, $seed, $index, $alias} = options.draft
 	const selected = deriveIdentityFromIndex($baseSecret(), $index())
 
 	const shimmyRight = () => $index($index() + 1)
 	const shimmyLeft = () => $index($index() - 1)
 	const clickChoose = () => {
-		$secret(selected.secret)
+		$seed(selected.seed)
 		options.next()
 	}
 

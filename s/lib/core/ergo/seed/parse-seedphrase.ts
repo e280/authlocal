@@ -1,12 +1,12 @@
 
 import {hex, yay, nay, Maybe} from "@e280/stz"
-import {seedToSecret} from "./seed-to-secret.js"
+import {secretize} from "./secretize.js"
 import {deriveId} from "../../cryp/derive-id.js"
 import {wordsToBytes} from "../phonemes/words.js"
 import {addressMoniker} from "../address/moniker.js"
 
 /** convert phrase into seed hex. */
-export function parsePhrase(seedphrase: string): Maybe<string> {
+export function parseSeedphrase(seedphrase: string): Maybe<string> {
 	const words = seedphrase
 		.trim()
 		.split(/\s+/)
@@ -22,7 +22,7 @@ export function parsePhrase(seedphrase: string): Maybe<string> {
 		const secretBytes = new Uint8Array(wordsToBytes(secretWords))
 		const seed = hex(secretBytes)
 
-		const secret256 = seedToSecret(seed)
+		const secret256 = secretize(seed)
 		const id = deriveId(secret256)
 		const actualMoniker = addressMoniker(id)
 

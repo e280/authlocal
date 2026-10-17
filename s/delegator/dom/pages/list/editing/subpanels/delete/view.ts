@@ -6,6 +6,7 @@ import {theme} from "../../../../../theme.js"
 import {Identity} from "../../../../../../types.js"
 import {deriveId} from "../../../../../../../lib/core/cryp/derive-id.js"
 import {addressMoniker} from "../../../../../../../lib/core/ergo/address/moniker.js"
+import {secretize} from "../../../../../../../lib/core/ergo/seed/secretize.js"
 
 export const DeleteSubpanel = shadowView((options: {
 		identity: Identity
@@ -16,7 +17,7 @@ export const DeleteSubpanel = shadowView((options: {
 	useName("delete subpanel")
 	useCss(theme(), styleCss)
 
-	const id = deriveId(options.identity.secret)
+	const id = deriveId(secretize(options.identity.secret))
 	const moniker = addressMoniker(id)
 	const $confirmation = useSignal("")
 	const canDelete = $confirmation() === moniker

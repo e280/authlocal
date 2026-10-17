@@ -1,14 +1,14 @@
 
 import {hex} from "@e280/stz"
 import {Seed} from "../types.js"
-import {seedToSecret} from "./seed-to-secret.js"
+import {secretize} from "./secretize.js"
 import {deriveId} from "../../cryp/derive-id.js"
 import {wordsFromBytes} from "../phonemes/words.js"
 import {addressMoniker} from "../address/moniker.js"
 
 /** convert seed hex to seedphrase words text. */
 export function seedphrase(seed: Seed) {
-	const secret = seedToSecret(seed)
+	const secret = secretize(seed)
 	const id = deriveId(secret)
 	const moniker = addressMoniker(id)
 

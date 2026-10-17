@@ -5,7 +5,8 @@ import {blake3} from "@awasm/noble"
 const dkLen = 32
 const context = txt.toBytes("authlocal/seed128/v1")
 
-export function seedToSecret(seed: string) {
+/** convert a seed hex (32 or 64 chars) into a full secret hex (64 chars). */
+export function secretize(seed: string) {
 	const bytes = hex.toBytes(seed)
 
 	// seed is already 256-bit secret.
@@ -18,6 +19,6 @@ export function seedToSecret(seed: string) {
 
 	// throw error for any unexpected sized seed.
 	else
-		throw new Error("expected 128-bit secret")
+		throw new Error(`expected 128-bit secret`)
 }
 

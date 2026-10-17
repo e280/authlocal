@@ -20,7 +20,7 @@ export default css`
 	gap: var(--pad);
 
 	::part(textarea) {
-		min-height: 8em;
+		min-height: 7em;
 	}
 }
 

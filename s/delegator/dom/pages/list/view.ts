@@ -10,6 +10,7 @@ import {Identity} from "../../../types.js"
 import {Editing} from "./editing/view.js"
 import {Id} from "../../../../lib/core/cryp/types.js"
 import {deriveId} from "../../../../lib/core/cryp/derive-id.js"
+import { secretize } from "../../../../lib/core/ergo/seed/secretize.js"
 
 export const ListPage = shadowView((options: {
 		loginRequest?: {
@@ -28,7 +29,7 @@ export const ListPage = shadowView((options: {
 	const $editing = useSignal<Id | null>(null)
 
 	function renderIdentity(identity: Identity) {
-		const id = deriveId(identity.secret)
+		const id = deriveId(secretize(identity.secret))
 
 		const toggleEditing = () => $editing(
 			$editing() === id

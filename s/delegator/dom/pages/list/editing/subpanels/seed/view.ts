@@ -8,6 +8,7 @@ import {RecoverySeed} from "../../../../../views/recovery-seed/view.js"
 import {deriveId} from "../../../../../../../lib/core/cryp/derive-id.js"
 import {seedphrase} from "../../../../../../../lib/core/ergo/seed/seedphrase.js"
 import {addressMoniker} from "../../../../../../../lib/core/ergo/address/moniker.js"
+import {secretize} from "../../../../../../../lib/core/ergo/seed/secretize.js"
 
 export const SeedSubpanel = shadowView((options: {
 		identity: Identity
@@ -16,7 +17,7 @@ export const SeedSubpanel = shadowView((options: {
 	useName("seed subpanel")
 	useCss(theme(), styleCss)
 
-	const id = deriveId(options.identity.secret)
+	const id = deriveId(secretize(options.identity.secret))
 	const moniker = addressMoniker(id)
 	const seedText = seedphrase(options.identity.secret)
 
