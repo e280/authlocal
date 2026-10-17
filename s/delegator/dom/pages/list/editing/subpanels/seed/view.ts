@@ -4,9 +4,9 @@ import {shadowView, useCss, useName} from "@e280/sly"
 import styleCss from "./style.css.js"
 import {theme} from "../../../../../theme.js"
 import {Identity} from "../../../../../../types.js"
-import {seed} from "../../../../../../../lib/core/ergo/seed/seed.js"
 import {RecoverySeed} from "../../../../../views/recovery-seed/view.js"
 import {deriveId} from "../../../../../../../lib/core/cryp/derive-id.js"
+import {seedphrase} from "../../../../../../../lib/core/ergo/seed/seedphrase.js"
 import {addressMoniker} from "../../../../../../../lib/core/ergo/address/moniker.js"
 
 export const SeedSubpanel = shadowView((options: {
@@ -18,7 +18,7 @@ export const SeedSubpanel = shadowView((options: {
 
 	const id = deriveId(options.identity.secret)
 	const moniker = addressMoniker(id)
-	const seedText = seed(options.identity.secret)
+	const seedText = seedphrase(options.identity.secret)
 
 	return html`
 		<section class=section>
