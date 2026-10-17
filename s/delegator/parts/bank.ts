@@ -4,16 +4,18 @@ import {collect, hex, nap, need} from "@e280/stz"
 import {Kv, IdbMagazine, idbOpen} from "@e280/kv"
 
 import {consts} from "../../consts.js"
+import {bankMigrations} from "./bank-migrations.js"
 import {Id} from "../../lib/core/cryp/types.js"
-import {deriveId} from "../../lib/core/cryp/derive-id.js"
+import {seedId} from "../../lib/core/ergo/seed/seed-id.js"
 import {Identity, DelegationRecord, IdentityTiming} from "../types.js"
 
 export class Bank {
 	static async init() {
-		const channel = new BroadcastChannel(`${consts.namespace}.bank`)
 		const idb = await idbOpen(consts.namespace)
 		const magazine = new IdbMagazine(idb)
 		const kv = new Kv(magazine)
+		await bankMigrations(kv)
+		const channel = new BroadcastChannel(`${consts.namespace}.bank`)
 		const bank = new Bank(kv, () => channel.postMessage(Date.now()))
 		await bank.load()
 		channel.onmessage = () => nap(consts.broadcastReloadDelay).then(() => bank.load())
@@ -60,7 +62,7 @@ export class Bank {
 	}
 
 	async setIdentity(identity: Identity) {
-		const id = deriveId(identity.secret)
+		const id = seedId(identity.seed)
 		const newTiming = await this.#touchIdentity(id)
 		await this.#tables.kv.commit([
 			this.#tables.identities.op.set(id, identity),
