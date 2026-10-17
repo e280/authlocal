@@ -8,6 +8,7 @@ import {addressEmoji} from "./ergo/address/emoji.js"
 import {addressColor} from "./ergo/address/color.js"
 import {seedphrase} from "./ergo/seed/seedphrase.js"
 import {generateSecret} from "./cryp/generate-secret.js"
+import { secretize } from "./ergo/seed/secretize.js"
 
 const seed = "5566ff64bc2bc5064764471d444dbfde"
 const id = seedId(seed)
@@ -32,10 +33,12 @@ console.log("==color==")
 console.log(addressColor(id))
 console.log()
 
-
-
 console.log("==seedphrase==")
 console.log(seedphrase(seed))
+console.log()
+
+console.log("==seedphrase long==")
+console.log(seedphrase(secretize(seed)))
 console.log()
 
 console.log("--------")
