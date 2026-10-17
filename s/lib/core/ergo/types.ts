@@ -1,6 +1,9 @@
 
 import {Hex} from "../cryp/types.js"
 
-export type Seed = Hex // 16-char hex, or 32-char hex.
-export type Seedphrase = string // human-friendly 10-word or 18-word representation of a seed.
+/** either a 128-bit seed that can be expanded into a secret, or directly 256-bit secret key. */
+export type Seed = Hex
+
+/** human-friendly 10-word representation of a 128-bit seed, or might be an 18-word representation of a secret key. */
+export type Seedphrase = string
 
