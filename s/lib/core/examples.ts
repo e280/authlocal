@@ -1,20 +1,19 @@
 
 import {count, futureHours, hex} from "@e280/stz"
 import {demo} from "./ergo/demo.js"
-import {deriveId} from "./cryp/derive-id.js"
+import {seedId} from "./ergo/seed/seed-id.js"
 import {address} from "./ergo/address/address.js"
 import {signDelegate} from "./alco/delegate/sign.js"
 import {addressEmoji} from "./ergo/address/emoji.js"
 import {addressColor} from "./ergo/address/color.js"
+import {seedphrase} from "./ergo/seed/seedphrase.js"
 import {generateSecret} from "./cryp/generate-secret.js"
-import { seedphrase } from "./ergo/seed/seedphrase.js"
 
-// const secret = generateSecret()
-const secret = "da508927fa7a7c26b4abfcd7ecf63315ac21f3ded74539c496ede9b944fe7af3"
-const id = deriveId(secret)
+const seed = "5566ff64bc2bc5064764471d444dbfde"
+const id = seedId(seed)
 
-console.log("==secret==")
-console.log(secret)
+console.log("==seed==")
+console.log(seed)
 console.log()
 
 console.log("==id==")
@@ -35,10 +34,8 @@ console.log()
 
 
 
-
-
-console.log("==seed==")
-console.log(seedphrase(secret))
+console.log("==seedphrase==")
+console.log(seedphrase(seed))
 console.log()
 
 console.log("--------")
@@ -49,7 +46,7 @@ for (const _ of count(10))
 
 for (const _ of count(2)) {
 	console.log()
-	console.log(seedphrase(hex.random(32)))
+	console.log(seedphrase(hex.random(16)))
 }
 console.log()
 
