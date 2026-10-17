@@ -27,7 +27,7 @@ export function parseSeedphrase(seedphrase: string): Maybe<string> {
 		const actualMoniker = addressMoniker(id)
 
 		if (reportedMoniker !== actualMoniker)
-			return nay(`corruption detected, expected "${reportedMoniker}" but got "${actualMoniker}"`)
+			return nay(`corruption detected`)
 
 		return yay(seed)
 	}
