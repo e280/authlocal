@@ -18,7 +18,7 @@ export default template(import.meta.url, async orb => html`
 		</head>
 		<body>
 			<h1>authlocal demo</h1>
-			<auth-widget>Sign in</auth-widget>
+			<auth-widget>sign in</auth-widget>
 		</body>
 	</html>
 `)

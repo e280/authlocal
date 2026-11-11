@@ -6,8 +6,8 @@ import {Card} from "../card/view.js"
 import styleCss from "./style.css.js"
 import uitheme from "../../uitheme.js"
 import {User} from "../../../protocol/user.js"
+import xIcon from "../../icons/tabler/x.icon.js"
 import lockIcon from "../../icons/tabler/lock.icon.js"
-import logoutIcon from "../../icons/tabler/logout.icon.js"
 import {AuthLike} from "../../../protocol/types/auth-like.js"
 import {addressColor} from "../../../core/ergo/address/color.js"
 import {SessionOptions} from "../../../protocol/types/session-options.js"
@@ -19,33 +19,37 @@ export const [Widget, makeWidgetElement] = shadowDuplex((
 
 	useName("widget")
 	useCss(uitheme, styleCss)
+	const attrs = useAttrs({"no-alias": Boolean})
 
 	const {user} = auth
-	const color = user ? `--color: ${addressColor(user.id)};` : ``
-	const attrs = useAttrs({"no-alias": Boolean})
+	const color = user
+		? `--color: ${addressColor(user.id)};`
+		: ``
 
 	const renderSignIn = () => html`
 		<button
-			class=sign-in
+			class="sign-in"
 			@click="${() => auth.loginViaPopup(options)}">
 			${lockIcon}
 			<slot></slot>
 		</button>
 	`
 
-	const renderUser = (user: User) => html`
-		${Card(
+	const renderUser = (user: User) => Card.with({
+		props: [
 			attrs["no-alias"]
 				? {id: user.id}
-				: user
-		)}
-		<button
-			class=sign-out
-			@click="${() => auth.logout()}"
-			title="Sign-out">
-			${logoutIcon}
-		</button>
-	`
+				: user,
+		],
+		children: html`
+			<button
+				class="sign-out"
+				title="sign out"
+				@click="${() => auth.logout()}">
+				${xIcon}
+			</button>
+		`,
+	})
 
 	return html`
 		<div part=box style="${color}">

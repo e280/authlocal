@@ -68,11 +68,12 @@ button {
 	}
 
 	&.sign-out {
+		opacity: 0.5;
+		color: inherit;
 		flex: 0 0 auto;
-
-		&::before {
-			content: "\\200b";
-		}
+		padding: 0;
+		background: transparent;
+		border: none;
 	}
 }
 

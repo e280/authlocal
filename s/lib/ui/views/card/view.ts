@@ -1,6 +1,5 @@
 
 import {html} from "lit"
-import {ShinyCopy} from "@e280/shiny"
 import {shadowView, useCss, useName} from "@e280/sly"
 import styleCss from "./style.css.js"
 import uitheme from "../../uitheme.js"
@@ -19,13 +18,8 @@ export const Card = shadowView((user: {id: string, alias?: string}) => {
 	return html`
 		<div part=card style="${color}" title="${addr}">
 			<div part=icon>${addressEmoji(user.id)}</div>
-
 			<div part=alias>${user.alias || addressMoniker(user.id)}</div>
-
-			${ShinyCopy.with({
-				props: [addr],
-				attrs: {part: "copy"},
-			})}
+			<slot part=slot></slot>
 		</div>
 	`
 })

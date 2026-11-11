@@ -14,6 +14,7 @@ export default css`
 
 	gap: var(--pad);
 	padding: calc(var(--pad) / 2);
+	padding-right: var(--pad);
 	border-radius: var(--round);
 
 	color: var(--fg);
@@ -37,6 +38,10 @@ export default css`
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+	}
+
+	[part="slot"] {
+		display: contents;
 	}
 }
 
