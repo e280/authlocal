@@ -29,7 +29,7 @@ export const Card = shadowView((user: {id: string, alias?: string}) => {
 	})))
 
 	async function copy() {
-		await navigator.clipboard.writeText(user.id)
+		await navigator.clipboard.writeText(addr)
 			.then(() => $special({color: copyColor, note: "copied to clipboard"}))
 			.catch(() => $special({color: failColor, note: "copy failed"}))
 			.then(() => resetColor())
