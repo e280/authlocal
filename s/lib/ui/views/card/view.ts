@@ -1,7 +1,7 @@
 
 import {html} from "lit"
 import {debounce} from "@e280/stz"
-import {shadowView, useCss, useName, useOnce, useShadow, useSignal} from "@e280/sly"
+import {shadowView, useCss, useName, useOnce, useSignal} from "@e280/sly"
 import styleCss from "./style.css.js"
 import uitheme from "../../uitheme.js"
 import copyIcon from "../../icons/tabler/copy.icon.js"
@@ -13,7 +13,6 @@ import {addressMoniker} from "../../../core/ergo/address/moniker.js"
 export const Card = shadowView((user: {id: string, alias?: string}) => {
 	useName("card")
 	useCss(uitheme, styleCss)
-	const shadow = useShadow()
 	const addr = address(user.id)
 
 	const copyColor = `--fg: lime;`
@@ -37,8 +36,7 @@ export const Card = shadowView((user: {id: string, alias?: string}) => {
 	}
 
 	function click(event: Event) {
-		const slot = shadow.querySelector("slot")!
-		if (event.composedPath().includes(slot)) return
+		if (event.composedPath().some(x => x instanceof HTMLSlotElement)) return
 		copy()
 	}
 
