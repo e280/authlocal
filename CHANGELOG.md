@@ -10,6 +10,9 @@
 
 ## v0.3
 
+### v0.3.12
+- 🍏 fix bug with click-to-copy cards.
+
 ### v0.3.11
 - 🍏 auth widget has sleek new X button (instead of clunky sign-out button).
 - 🍏 click-to-copy user address by clicking Card view.

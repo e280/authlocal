@@ -36,7 +36,11 @@ export const Card = shadowView((user: {id: string, alias?: string}) => {
 	}
 
 	function click(event: Event) {
-		if (event.composedPath().some(x => x instanceof HTMLSlotElement)) return
+		const inClickZone = event.composedPath().some(x => {
+			if (x instanceof HTMLSlotElement)
+				return x.matches("[data-click-zone]")
+		})
+		if (inClickZone) return
 		copy()
 	}
 
@@ -52,7 +56,7 @@ export const Card = shadowView((user: {id: string, alias?: string}) => {
 						: addressEmoji(user.id)}
 				</div>
 				<div part=alias>${user.alias || addressMoniker(user.id)}</div>
-				<slot part=slot></slot>
+				<slot part=slot data-click-zone></slot>
 				<div part=note ?hidden="${!$special().note}">${$special().note}</div>
 		</div>
 	`
