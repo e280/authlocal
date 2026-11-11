@@ -11,8 +11,9 @@
 ## v0.3
 
 ### v0.3.11
+- 🍏 auth widget has sleek new X button (instead of clunky sign-out button).
+- 🍏 click-to-copy user address by clicking Card view.
 - 🍏 upgrade to latest renraku.
-- 🍏 improved `Card` view, replaced the clunky sign-out button with an inline X button.
 
 ### v0.3.10
 - 🍏 delegator app (authlocal.org) adds support for shorter 128-bit seed phrases. this is now the default for new identities. older 256-bit seed phrases are still supported.
