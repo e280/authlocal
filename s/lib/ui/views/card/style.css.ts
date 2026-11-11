@@ -39,6 +39,14 @@ export default css`
 		place-items: center;
 		margin: -0.3em;
 		margin-left: 0;
+
+		svg {
+			display: flex;
+			width: 100%;
+			height: 100%;
+			padding: 0.2em;
+			filter: drop-shadow(var(--shadow));
+		}
 	}
 
 	[part="alias"] {
@@ -50,17 +58,25 @@ export default css`
 
 	[part="slot"] {
 		display: contents;
+		cursor: default;
 	}
 
 	[part="note"] {
+		pointer-events: none;
 		position: absolute;
-		top: 95%;
+		top: 100%;
 		width: 100%;
+		font-size: 0.8em;
+
+		color: var(--fg);
 		text-align: center;
-		font-size: 1em;
-		font-style: italic;
-		color: color-mix(in oklch, transparent, var(--fg));
-		transition: color var(--anim) linear;
+
+		opacity: 0.5;
+		transition: opacity var(--anim) linear;
+
+		&:not([inert]) {
+			opacity: 1;
+		}
 	}
 }
 
