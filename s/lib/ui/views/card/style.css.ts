@@ -3,13 +3,18 @@ import {css} from "lit"
 export default css`
 
 [part="card"] {
-	--fg: var(--color);
+	--fg: #888;
+	transition:
+		color var(--anim) linear,
+		background var(--anim) linear,
+		border var(--anim) linear;
 
+	position: relative;
 	display: flex;
 	align-items: center;
 	flex-direction: row;
 
-	cursor: default;
+	cursor: copy;
 	user-select: none;
 
 	gap: var(--pad);
@@ -22,6 +27,9 @@ export default css`
 
 	background: color-mix(in oklch, transparent, var(--fg) 10%);
 	backdrop-filter: blur(0.4em);
+
+	&:is(:hover, :focus-visible) { filter: brightness(110%); }
+	&:active { filter: brightness(90%); }
 
 	[part="icon"] {
 		font-size: 2em;
@@ -42,6 +50,17 @@ export default css`
 
 	[part="slot"] {
 		display: contents;
+	}
+
+	[part="note"] {
+		position: absolute;
+		top: 95%;
+		width: 100%;
+		text-align: center;
+		font-size: 1em;
+		font-style: italic;
+		color: color-mix(in oklch, transparent, var(--fg));
+		transition: color var(--anim) linear;
 	}
 }
 

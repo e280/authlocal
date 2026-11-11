@@ -14,6 +14,7 @@ ${cssReset}
 	--round: 0.5em;
 	--lines: 0.1em;
 	--shadow: 0.02em 0.04em 0.08em #0008;
+	--anim: 200ms;
 
 	text-shadow: var(--shadow);
 }

@@ -44,13 +44,8 @@ button {
 		var(--color2)
 	);
 
-	&:is(:hover, :focus-visible) {
-		filter: brightness(120%);
-	}
-
-	&:active {
-		filter: brightness(90%);
-	}
+	&:is(:hover, :focus-visible) { filter: brightness(120%); }
+	&:active { filter: brightness(90%); }
 
 	svg {
 		width: 1em;
