@@ -1,20 +1,19 @@
 
-import {Portal} from "@e280/renraku"
-import {sendPort, webAutoTransfer} from "@e280/renraku/web"
+import {makeEndpoint, Messenger, wirePort} from "@e280/renraku"
+import {autoTransfer, offerWindowPort} from "@e280/renraku/web"
 import {DelegatorApi} from "./types.js"
 import {consts} from "../../../consts.js"
 
 export async function connectToApp(opener: Window, setupApi: (appOrigin: string) => DelegatorApi) {
-	const {port, origin: appOrigin} = await sendPort({
+	const {port, event: {origin: appOrigin}} = await offerWindowPort({
 		to: opener,
 		topic: consts.namespace,
 	})
 
-	return new Portal({
+	return wirePort({
 		port,
-		timeout: Infinity,
-		autoTransfer: webAutoTransfer,
-		fns: setupApi(appOrigin),
+		autoTransfer,
+		messenger: new Messenger(makeEndpoint(setupApi(appOrigin)), Infinity),
 	})
 }
 
